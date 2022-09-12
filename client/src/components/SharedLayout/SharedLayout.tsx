@@ -3,15 +3,29 @@ import styled from "styled-components";
 
 import logo from "../../assets/images/logo/logo.png";
 
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 const SNav = styled.nav`
-  height: 50px;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 65px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
+
+  & > img {
+    width: 160px;
+    height: 50px;
+  }
 `;
 
 const SSection = styled.section`
-  min-height: calc(
-    100vh - 350px
-  ); // 100vh - nav - footer 모든 디스플레이 height 대응
+  margin: 0 auto;
+  min-height: calc(100vh - 365px); // nav or footer height 변경
+  max-width: 1920px;
+  border: 1px solid red;
 `;
 
 const SFooter = styled.footer`
@@ -22,7 +36,7 @@ const SFooter = styled.footer`
 
 const SharedLayout = () => {
   return (
-    <>
+    <Container>
       <SNav>
         <img src={logo} alt="logo" />
       </SNav>
@@ -30,7 +44,7 @@ const SharedLayout = () => {
         <Outlet />
       </SSection>
       <SFooter>푸터</SFooter>
-    </>
+    </Container>
   );
 };
 
