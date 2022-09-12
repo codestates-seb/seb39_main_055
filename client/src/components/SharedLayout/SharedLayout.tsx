@@ -31,6 +31,7 @@ const SSection = styled.section`
 const SFooter = styled.footer`
   height: 300px;
   border: 1px solid black;
+  color: ${(props) => props.theme.colors.orange500};
   font-family: var(--font-noto);
 `;
 

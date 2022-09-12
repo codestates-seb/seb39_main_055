@@ -1,8 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
 
-import variables from "./GlobalVariables";
-
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
@@ -13,13 +11,14 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
 
+  // font-family: 'Noto Sans KR', sans-serif;
+
   * {
     box-sizing: border-box;
   }
 
   :root {
     --toastify-toast-width: 400px;
-    ${variables}
   }
 
   html,
