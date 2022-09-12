@@ -1,13 +1,17 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
+import logo from "../../assets/images/logo/logo.png";
+
 const SNav = styled.nav`
   height: 50px;
   border: 1px solid black;
 `;
 
 const SSection = styled.section`
-  height: calc(100vh - 350px);
+  min-height: calc(
+    100vh - 350px
+  ); // 100vh - nav - footer 모든 디스플레이 height 대응
 `;
 
 const SFooter = styled.footer`
@@ -19,11 +23,13 @@ const SFooter = styled.footer`
 const SharedLayout = () => {
   return (
     <>
-      <SNav>오늘의 추천 플레이스</SNav>
+      <SNav>
+        <img src={logo} alt="logo" />
+      </SNav>
       <SSection>
         <Outlet />
       </SSection>
-      <SFooter>나의 반려동물과 함께 잊지못할 추억을 쌓아보세요.</SFooter>
+      <SFooter>푸터</SFooter>
     </>
   );
 };
