@@ -13,16 +13,17 @@ const SSection = styled.section`
 const SFooter = styled.footer`
   height: 300px;
   border: 1px solid black;
+  font-family: var(--font-noto);
 `;
 
 const SharedLayout = () => {
   return (
     <>
-      <SNav>navbar</SNav>
+      <SNav>오늘의 추천 플레이스</SNav>
       <SSection>
         <Outlet />
       </SSection>
-      <SFooter>footer</SFooter>
+      <SFooter>나의 반려동물과 함께 잊지못할 추억을 쌓아보세요.</SFooter>
     </>
   );
 };
