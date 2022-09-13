@@ -1,5 +1,5 @@
-import R1 from "../../../assets/images/review/r1.png";
-import U1 from "../../../assets/images/review/u1.png";
+import R1 from "../../../assets/images/main-review/r1.png";
+import U1 from "../../../assets/images/main-review/u1.png";
 import ReviewCard from "./ReviewCard/ReviewCard";
 import {
   SCardBox,

@@ -1,9 +1,9 @@
-import room from "../../../assets/images/menu/1.png";
-import barber from "../../../assets/images/menu/2.png";
-import cafe from "../../../assets/images/menu/3.png";
-import restaurant from "../../../assets/images/menu/4.png";
-import playground from "../../../assets/images/menu/5.png";
-import hospital from "../../../assets/images/menu/6.png";
+import room from "../../../assets/images/main-menu/1.png";
+import barber from "../../../assets/images/main-menu/2.png";
+import cafe from "../../../assets/images/main-menu/3.png";
+import restaurant from "../../../assets/images/main-menu/4.png";
+import playground from "../../../assets/images/main-menu/5.png";
+import hospital from "../../../assets/images/main-menu/6.png";
 import MenuIcon from "./MenuIcon";
 import { SCategorySection } from "./style";
 
