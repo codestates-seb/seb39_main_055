@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import img from "../../../assets/images/carousel/1.png";
+import img2 from "../../../assets/images/main-review/r1.png";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import PlaceCard from "./PlaceCard/PlaceCard";
 
@@ -41,11 +42,23 @@ export const SSection = styled.section`
 
 export const SImgContainer = styled.div`
   flex-basis: 50%;
+  height: 600px;
 
   & > img {
     width: 100%;
     height: 100%;
     object-fit: fill;
+    animation: fadein 3s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
 
@@ -198,16 +211,29 @@ const DUMMY_BUTTON = [
   },
 ];
 
+const DUMMY_IMG_LIST = [img, img2, img, img2, img, img2];
+
 const HotPlace = () => {
   const [data, setData] = useState(DUMMY_DATA);
-  const [btnActive, setBtnActive] = useState<string | number>(0);
+  const [buttonIndex, setButtonIndex] = useState<string | number>(0);
+  const [imageIndex, setImageIndex] = useState(0);
   const isLoading = false;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setImageIndex((prev) =>
+        prev === DUMMY_IMG_LIST.length - 1 ? 0 : prev + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleBtnClick: React.MouseEventHandler<HTMLButtonElement> = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     console.log((event.target as HTMLButtonElement).value);
-    setBtnActive(Number((event.target as HTMLButtonElement).value));
+    setButtonIndex(Number((event.target as HTMLButtonElement).value));
   };
 
   return (
@@ -218,7 +244,7 @@ const HotPlace = () => {
       </header>
       <SSection>
         <SImgContainer>
-          <img src={img} alt="hotel" />
+          <img src={DUMMY_IMG_LIST[imageIndex]} alt="hotel" />
         </SImgContainer>
         <SMainContainer>
           <SButtonContainer>
@@ -227,7 +253,7 @@ const HotPlace = () => {
                 <button
                   type="button"
                   value={el.id}
-                  className={idx === btnActive ? "active" : ""}
+                  className={idx === buttonIndex ? "active" : ""}
                   onClick={handleBtnClick}
                 >
                   {el.name}
