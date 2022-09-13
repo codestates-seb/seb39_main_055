@@ -50,6 +50,7 @@ export const SImgContainer = styled.div`
     object-fit: fill;
     animation: fadein 3s;
     animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
   }
 
   @keyframes fadein {
