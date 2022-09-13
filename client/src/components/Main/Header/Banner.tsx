@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+import { mobile, tablet } from "../../../assets";
 import Img1 from "../../../assets/images/carousel/1.png";
 
 const SArticle = styled.article`
@@ -10,11 +11,11 @@ const SArticle = styled.article`
 const SImg = styled.img`
   width: 100vw;
   height: 500px;
+  object-fit: cover;
 `;
 
 const SHeader = styled.header`
   display: flex;
-  justify-content: center;
   padding: 20px 0px;
   height: 200px;
   background-color: white;
@@ -22,20 +23,42 @@ const SHeader = styled.header`
 
 const SHeaderBox = styled.div`
   height: 100%;
+  padding-left: 100px;
+  font-size: 42px;
+
+  ${tablet(
+    css`
+      padding-left: 50px;
+      font-size: 35px;
+    `
+  )}
+
+  ${mobile(
+    css`
+      padding-left: 15px;
+      font-size: 23px;
+    `
+  )}
 `;
 
 const SH1 = styled.h1`
-  font-size: 42px;
+  font-size: 1em;
   font-weight: normal;
 `;
 
 const SH2 = styled.h2`
-  font-size: 30px;
+  font-size: 0.7em;
   font-weight: lighter;
   line-height: 5rem;
 `;
 
-const Banner1 = () => {
+interface BannerProps {
+  img: string;
+  summary: string;
+  place: string;
+}
+
+const Banner = () => {
   return (
     <SArticle>
       <SImg src={Img1} />
@@ -49,4 +72,4 @@ const Banner1 = () => {
   );
 };
 
-export default Banner1;
+export default Banner;
