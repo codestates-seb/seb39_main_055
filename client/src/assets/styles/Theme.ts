@@ -9,6 +9,7 @@ export const theme: DefaultTheme = {
   colors: {
     black100: "#8d8d8d",
     black200: "#a5a5a5",
+    black250: "#797979",
     black300: "#434343",
     black400: "#707070",
     black500: "#161616",
