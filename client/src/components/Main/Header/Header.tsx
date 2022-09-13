@@ -1,12 +1,39 @@
 import styled from "styled-components";
 
-const Container = styled.div`
-  border: 1px solid black;
-  height: 300px;
+import Carousel from "../../Carousel/Carousel";
+import Banner1 from "./Banner1";
+
+const SHeader = styled.header`
+  width: 100vw;
+  height: 700px;
 `;
 
+const SImg = styled.img`
+  width: 100%;
+  height: 600px;
+`;
+
+const carouselItems = [
+  {
+    item: <Banner1 />,
+    id: 0,
+  },
+  {
+    item: <Banner1 />,
+    id: 1,
+  },
+  {
+    item: <Banner1 />,
+    id: 2,
+  },
+];
+
 const Header = () => {
-  return <Container>이미지 슬라이더</Container>;
+  return (
+    <SHeader>
+      <Carousel items={carouselItems} />
+    </SHeader>
+  );
 };
 
 export default Header;
