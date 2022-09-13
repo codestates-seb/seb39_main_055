@@ -5,6 +5,7 @@ import be.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import be.thread.entity.Thread;
 
 import javax.persistence.*;
 
@@ -23,7 +24,7 @@ public class Reply extends BaseEntity {
     @Column(nullable = false, name = "STATUS")
     private ReplyStatus replyStatus = ReplyStatus.REPLY_EXIST;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String body;
 
     @ManyToOne

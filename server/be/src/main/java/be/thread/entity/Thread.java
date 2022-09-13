@@ -23,7 +23,7 @@ public class Thread extends BaseEntity {
     @Column(nullable = false, name = "STATUS")
     private ThreadStatus threadStatus = ThreadStatus.THREAD_EXIST;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String body;
 
     @Column(nullable = false)

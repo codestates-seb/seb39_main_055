@@ -40,7 +40,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String userRole;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String image;
 
     public enum UserStatus {

@@ -22,7 +22,7 @@ public class ThreadImage extends BaseEntity {
     @Column(nullable = false, name = "STATUS")
     private ThreadImageStatus threadImageStatus = ThreadImageStatus.THREAD_IMAGE_EXIST;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String image;
 
     @ManyToOne

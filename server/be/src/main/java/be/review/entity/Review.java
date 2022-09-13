@@ -24,7 +24,7 @@ public class Review extends BaseEntity {
     @Column(nullable = false, name = "STATUS")
     private ReviewStatus reviewStatus = ReviewStatus.REVIEW_EXIST;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String body;
 
     @Column(nullable = false)
