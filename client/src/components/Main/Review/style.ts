@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SReviewSection = styled.section`
+  width: 100%;
   margin-bottom: 80px;
 `;
 
@@ -31,10 +32,10 @@ export const SCardSection = styled.section`
 
 export const SCardBox = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 0.7fr));
+  grid-template-columns: repeat(auto-fill, minmax(420px, 0.8fr));
   row-gap: 15px;
   column-gap: 15px;
-  justify-items: center;
+  justify-content: center;
   align-items: center;
   padding: 0px 20px;
 `;

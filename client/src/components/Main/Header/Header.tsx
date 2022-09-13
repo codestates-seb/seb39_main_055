@@ -1,29 +1,24 @@
 import styled from "styled-components";
 
 import Carousel from "../../Carousel/Carousel";
-import Banner1 from "./Banner1";
+import Banner from "./Banner";
 
 const SHeader = styled.header`
   width: 100%;
   height: 700px;
 `;
 
-const SImg = styled.img`
-  width: 100%;
-  height: 600px;
-`;
-
 const carouselItems = [
   {
-    item: <Banner1 />,
+    item: <Banner />,
     id: 0,
   },
   {
-    item: <Banner1 />,
+    item: <Banner />,
     id: 1,
   },
   {
-    item: <Banner1 />,
+    item: <Banner />,
     id: 2,
   },
 ];
