@@ -17,10 +17,10 @@ const Container = styled.div`
     flex-direction: column;
     gap: 50px;
     margin: 50px 0;
-    padding: 0 300px;
+    padding: 0 150px;
   }
 
-  @media screen and (max-width: ${(props) => props.theme.breakPoints.desktop}) {
+  @media screen and (max-width: 1400px) {
     & > section {
       padding: 0;
     }
