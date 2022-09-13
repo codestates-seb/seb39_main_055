@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import img from "../../../assets/images/carousel/1.png";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import PlaceCard from "./PlaceCard/PlaceCard";
 
 export const Container = styled.div`
@@ -89,6 +90,7 @@ export const SButtonContainer = styled.div`
 `;
 
 export const SListContainer = styled.ul`
+  position: relative;
   height: 520px;
   margin-top: 20px;
   padding: 5px;
@@ -97,6 +99,13 @@ export const SListContainer = styled.ul`
   & > li:last-child {
     margin-bottom: 0;
   }
+`;
+
+export const SLoading = styled(LoadingSpinner)`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const DUMMY_DATA = [
@@ -192,6 +201,7 @@ const DUMMY_BUTTON = [
 const HotPlace = () => {
   const [data, setData] = useState(DUMMY_DATA);
   const [btnActive, setBtnActive] = useState<string | number>(0);
+  const isLoading = false;
 
   const handleBtnClick: React.MouseEventHandler<HTMLButtonElement> = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -227,14 +237,18 @@ const HotPlace = () => {
             ))}
           </SButtonContainer>
           <SListContainer>
-            {data.map((el) => (
-              <PlaceCard
-                key={el.id}
-                img={el.img}
-                location={el.location}
-                name={el.name}
-              />
-            ))}
+            {isLoading ? (
+              <SLoading />
+            ) : (
+              data.map((el) => (
+                <PlaceCard
+                  key={el.id}
+                  img={el.img}
+                  location={el.location}
+                  name={el.name}
+                />
+              ))
+            )}
           </SListContainer>
         </SMainContainer>
       </SSection>
