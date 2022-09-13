@@ -1,12 +1,35 @@
-import styled from "styled-components";
+import room from "../../../assets/images/main-menu/1.png";
+import barber from "../../../assets/images/main-menu/2.png";
+import cafe from "../../../assets/images/main-menu/3.png";
+import restaurant from "../../../assets/images/main-menu/4.png";
+import playground from "../../../assets/images/main-menu/5.png";
+import hospital from "../../../assets/images/main-menu/6.png";
+import MenuIcon from "./MenuIcon";
+import { SCategorySection } from "./style";
 
-const Container = styled.div`
-  border: 1px solid black;
-  height: 100px;
-`;
+const MenuList = [
+  { img: room, alt: "숙소", menuText: "숙소", link: "/" },
+  { img: barber, alt: "미용", menuText: "미용", link: "/" },
+  { img: cafe, alt: "카페", menuText: "카페", link: "/" },
+  { img: restaurant, alt: "맛집", menuText: "맛집", link: "/" },
+  { img: playground, alt: "운동장", menuText: "운동장", link: "/" },
+  { img: hospital, alt: "동물병원", menuText: "동물병원", link: "/" },
+];
 
 const Category = () => {
-  return <Container>카테고리</Container>;
+  return (
+    <SCategorySection>
+      {MenuList.map((e) => (
+        <MenuIcon
+          menuText={e.menuText}
+          link={e.link}
+          img={e.img}
+          alt={e.alt}
+          key={e.menuText}
+        />
+      ))}
+    </SCategorySection>
+  );
 };
 
 export default Category;
