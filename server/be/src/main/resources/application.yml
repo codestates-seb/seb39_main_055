@@ -1,0 +1,21 @@
+server:
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pre055.cixzxikdlatt.ap-northeast-2.rds.amazonaws.com:3306/main055?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: psy411301
+  jpa:
+    hibernate:
+      ddl-auto: validate  # (1) ??? ?? ??
+    show-sql: true # (2) SQL ?? ??
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect

@@ -22,7 +22,7 @@ public class StoreImage extends BaseEntity {
     @Column(nullable = false, name ="STATUS")
     private StoreImageStatus storeImageStatus = StoreImageStatus.STORE_IMAGE_EXIST;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String image;
 
     @ManyToOne
