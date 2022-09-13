@@ -4,7 +4,7 @@ import Carousel from "../../Carousel/Carousel";
 import Banner1 from "./Banner1";
 
 const SHeader = styled.header`
-  width: 100vw;
+  width: 100%;
   height: 700px;
 `;
 

@@ -20,7 +20,7 @@ const Container = styled.div`
     padding: 0 150px;
   }
 
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     & > section {
       padding: 0;
     }
