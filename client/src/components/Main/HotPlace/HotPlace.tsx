@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import img from "../../../assets/images/carousel/1.png";
@@ -63,6 +63,10 @@ export const SButtonContainer = styled.div`
   align-items: center;
   /* border: 1px solid black; */
 
+  .active {
+    color: ${({ theme }) => theme.colors.black500};
+  }
+
   & > button {
     flex-grow: 1;
     padding: 0;
@@ -77,6 +81,10 @@ export const SButtonContainer = styled.div`
     height: 13px;
     margin: 0 10px 3px 10px;
     background-color: ${({ theme }) => theme.colors.black200};
+  }
+
+  & > div:last-child {
+    display: none;
   }
 `;
 
@@ -154,8 +162,44 @@ const DUMMY_DATA = [
   },
 ];
 
+const DUMMY_BUTTON = [
+  {
+    id: 0,
+    name: "숙소",
+  },
+  {
+    id: 1,
+    name: "미용",
+  },
+  {
+    id: 2,
+    name: "카페",
+  },
+  {
+    id: 3,
+    name: "맛집",
+  },
+  {
+    id: 4,
+    name: "운동장",
+  },
+  {
+    id: 5,
+    name: "동물병원",
+  },
+];
+
 const HotPlace = () => {
   const [data, setData] = useState(DUMMY_DATA);
+  const [btnActive, setBtnActive] = useState<string | number>(0);
+
+  const handleBtnClick: React.MouseEventHandler<HTMLButtonElement> = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    console.log((event.target as HTMLButtonElement).value);
+    setBtnActive(Number((event.target as HTMLButtonElement).value));
+  };
+
   return (
     <Container>
       <header>
@@ -168,17 +212,19 @@ const HotPlace = () => {
         </SImgContainer>
         <SMainContainer>
           <SButtonContainer>
-            <button type="button">숙소</button>
-            <div />
-            <button type="button">미용</button>
-            <div />
-            <button type="button">카페</button>
-            <div />
-            <button type="button">맛집</button>
-            <div />
-            <button type="button">운동장</button>
-            <div />
-            <button type="button">동물병원</button>
+            {DUMMY_BUTTON.map((el, idx) => (
+              <React.Fragment key={el.id}>
+                <button
+                  type="button"
+                  value={el.id}
+                  className={idx === btnActive ? "active" : ""}
+                  onClick={handleBtnClick}
+                >
+                  {el.name}
+                </button>
+                <div />
+              </React.Fragment>
+            ))}
           </SButtonContainer>
           <SListContainer>
             {data.map((el) => (
