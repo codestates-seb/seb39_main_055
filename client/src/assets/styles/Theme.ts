@@ -1,4 +1,8 @@
-import { DefaultTheme } from "styled-components";
+import {
+  css,
+  DefaultTheme,
+  FlattenSimpleInterpolation,
+} from "styled-components";
 
 export const theme: DefaultTheme = {
   breakPoints: {
@@ -17,3 +21,21 @@ export const theme: DefaultTheme = {
     orange500: "#ffc107",
   },
 };
+
+export const mobile = (styles: FlattenSimpleInterpolation) => css`
+  @media screen and (max-width: ${theme.breakPoints.mobile}) {
+    ${styles}
+  }
+`;
+
+export const tablet = (styles: FlattenSimpleInterpolation) => css`
+  @media screen and (max-width: ${theme.breakPoints.tablet}) {
+    ${styles}
+  }
+`;
+
+export const desktop = (styles: FlattenSimpleInterpolation) => css`
+  @media screen and (max-width: ${theme.breakPoints.desktop}) {
+    ${styles}
+  }
+`;
