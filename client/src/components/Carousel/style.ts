@@ -51,6 +51,10 @@ export const SPrev = styled(SNext)`
   transform: rotate(180deg) translateY(50%);
 `;
 
+interface ItemProps {
+  animationTime: number;
+}
+
 export const SItemBox = styled.div`
   flex: 0 0 100vw;
   position: absolute;
@@ -58,7 +62,7 @@ export const SItemBox = styled.div`
   right: -100%;
   z-index: -1;
   overflow: hidden;
-  transition: 0.8s all;
+  transition: ${({ animationTime }: ItemProps) => `${animationTime}ms`} all;
 
   &.main {
     right: 0%;
