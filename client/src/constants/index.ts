@@ -1,1 +1,1 @@
-export {};
+export { reviews } from "./mainReviews";
