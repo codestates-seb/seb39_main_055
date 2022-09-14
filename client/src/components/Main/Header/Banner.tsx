@@ -30,14 +30,14 @@ const SHeader = styled.header`
 
   ${tablet(
     css`
-      padding-left: 50px;
+      padding-left: 30px;
       font-size: 35px;
     `
   )}
 
   ${mobile(
     css`
-      padding-left: 15px;
+      padding-left: 12px;
       font-size: 23px;
     `
   )}
