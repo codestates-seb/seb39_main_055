@@ -45,13 +45,25 @@ const SHeader = styled.header`
 
 const SH1 = styled.h1`
   font-size: 1em;
-  font-weight: normal;
+  font-weight: bold;
 `;
 
 const SH2 = styled.h2`
   font-size: 0.7em;
   font-weight: lighter;
-  line-height: 5rem;
+  line-height: 4rem;
+
+  ${tablet(
+    css`
+      line-height: 3rem;
+    `
+  )}
+
+  ${mobile(
+    css`
+      line-height: 2.5rem;
+    `
+  )}
 `;
 
 const SMoreInfoBox = styled.div`
@@ -60,6 +72,14 @@ const SMoreInfoBox = styled.div`
   font-size: 0.45em;
   font-weight: lighter;
   color: #555555;
+  margin-top: 15px;
+
+  ${mobile(
+    css`
+      font-size: 0.65em;
+      margin-top: 10px;
+    `
+  )}
 `;
 
 const SP = styled.p`
