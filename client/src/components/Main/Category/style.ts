@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const SCategorySection = styled.section`
+import { mobile, tablet } from "../../../assets";
+
+export const SCategoryBox = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  column-gap: 20px;
-  row-gap: 20px;
-  padding: 15px;
-  margin-top: 10px;
+  gap: 20px 20px;
   margin-bottom: 20px;
+
+  ${mobile(css`
+    gap: 15px 10px;
+  `)}
 `;
 
 export const SIconBox = styled.div`
@@ -20,32 +23,57 @@ export const SIconBox = styled.div`
   row-gap: 18px;
   width: 130px;
   height: 100%;
-  transition: 0.5s all;
+  transition: 0.5s color;
   color: #a4a4a4;
 
   &:hover {
     color: #ffc107;
   }
+
+  ${tablet(css`
+    width: 100px;
+  `)}
+
+  ${mobile(css`
+    width: 80px;
+    row-gap: 7px;
+  `)}
 `;
 
 export const SImgLink = styled(Link)`
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 130px;
   border-radius: 100%;
   border: 2px solid #a4a4a4;
-  transition: 0.5s all;
+  transition: 0.5s border;
 
   &:hover {
     border: 2px solid #ffc107;
   }
+
+  ${tablet(css`
+    height: 100px;
+  `)}
+
+  ${mobile(css`
+    height: 80px;
+  `)}
 `;
 
 export const SIconImg = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 100%;
   padding: 25px;
+
+  ${mobile(css`
+    padding: 15px;
+  `)}
 `;
 
 export const SIconText = styled.span`
   font-size: 20px;
+
+  ${mobile(css`
+    font-size: 17px;
+  `)}
 `;

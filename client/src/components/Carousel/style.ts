@@ -59,23 +59,17 @@ export const SItemBox = styled.div`
   flex: 0 0 100vw;
   position: absolute;
   width: 100%;
-  right: -100%;
+  transform: translateX(100%);
+  will-change: transform;
   z-index: -1;
-  overflow: hidden;
   transition: ${({ animationTime }: ItemProps) => `${animationTime}ms`} all;
 
   &.main {
-    right: 0%;
+    transform: translateX(0%);
     z-index: 1;
   }
 
   &.left {
-    right: 100%;
-    z-index: -1;
-  }
-
-  &.right {
-    right: -100%;
-    z-index: -1;
+    transform: translateX(-100%);
   }
 `;
