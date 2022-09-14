@@ -1,9 +1,9 @@
-import { BsPersonCircle } from "react-icons/bs";
-import { HiOutlineHeart } from "react-icons/hi";
-import { RiSearchLine } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
+import like from "../../assets/icons/like.png";
+import search from "../../assets/icons/search.png";
+import profile from "../../assets/icons/user.png";
 import logo from "../../assets/images/logo/logo.png";
 import Footer from "./Footer/Footer";
 
@@ -38,23 +38,18 @@ const SNav = styled.nav`
 export const SMenu = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
   font-size: 25px;
 
-  & > svg:hover {
+  & > img:hover {
     cursor: pointer;
-  }
-
-  & > svg:nth-child(2) {
-    font-size: 28px;
   }
 `;
 
 const SSection = styled.section`
   margin: 0 auto;
   padding-top: 80px;
-  min-height: calc(100vh - 380px); // nav or footer height 변경
-  /* max-width: 1920px; */
+  min-height: calc(100vh - 300px); // nav or footer height 변경
   max-width: 1280px;
 `;
 
@@ -64,9 +59,9 @@ const SharedLayout = () => {
       <SNav>
         <img src={logo} alt="logo" />
         <SMenu>
-          <RiSearchLine />
-          <HiOutlineHeart />
-          <BsPersonCircle />
+          <img src={search} alt="search" />
+          <img src={like} alt="like" />
+          <img src={profile} alt="profile" />
         </SMenu>
       </SNav>
       <SSection>
