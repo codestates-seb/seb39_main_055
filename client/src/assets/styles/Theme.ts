@@ -11,6 +11,8 @@ export const theme: DefaultTheme = {
     desktop: "1281px",
   },
   colors: {
+    black010: "#F5F5F5",
+    black050: "#D6D6D6",
     black100: "#8d8d8d",
     black200: "#a5a5a5",
     black250: "#797979",
@@ -18,6 +20,9 @@ export const theme: DefaultTheme = {
     black400: "#707070",
     black500: "#161616",
 
+    orange010: "#FFF0C2",
+    orange025: "#FFE699",
+    orange075: "#FFDB70",
     orange500: "#ffc107",
   },
 };
@@ -39,3 +44,7 @@ export const desktop = (styles: FlattenSimpleInterpolation) => css`
     ${styles}
   }
 `;
+
+export const colors = (code: keyof typeof theme.colors) => {
+  return theme.colors[code];
+};
