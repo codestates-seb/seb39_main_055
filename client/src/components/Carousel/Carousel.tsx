@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
 import { SCarouselBox, SItemBox, SNext, SPrev } from "./style";
 
-const classNameMatcher = (itemId: number, indexArr: number[]) => {
+function classNameMatcher(itemId: number, indexArr: number[]) {
   const currentI = indexArr.findIndex((i) => i === itemId);
   const className = ["left", "main", "right"];
 
@@ -12,7 +13,7 @@ const classNameMatcher = (itemId: number, indexArr: number[]) => {
   }
 
   return "";
-};
+}
 
 interface CarouselItem {
   item: ReactNode;
@@ -40,25 +41,25 @@ const throttle = (() => {
 
 const Carousel = ({ items, animationTime = 800 }: CarouselProps) => {
   if (items.length < 3) {
-    const concatenation = items.map((e, i) => ({ ...e, id: i + items.length }));
+    const concatenation = [0, 0].map((_, i) => ({
+      ...items[i % items.length],
+      id: i + items.length,
+    }));
     items = items.concat(concatenation);
   }
   const N = items.length;
   const [index, setIndex] = useState([N - 1, 0, 1]); // [left, front, right]
 
-  const mainIndexer = useCallback(
-    (command: "next" | "prev") => {
-      const step = command === "next" ? 1 : -1;
-      const nextIndex: number[] = [];
+  const mainIndexer = (command: "next" | "prev") => {
+    const step = command === "next" ? 1 : -1;
+    const nextIndex: number[] = [];
 
-      for (let i = 0; i < index.length; i += 1) {
-        nextIndex[i] = (((index[i] + step) % N) + N) % N;
-      }
+    for (let i = 0; i < index.length; i += 1) {
+      nextIndex[i] = (((index[i] + step) % N) + N) % N;
+    }
 
-      setIndex(nextIndex);
-    },
-    [N, index]
-  );
+    setIndex(nextIndex);
+  };
 
   const throttledIndexer = useCallback(
     (command: "next" | "prev") => {
