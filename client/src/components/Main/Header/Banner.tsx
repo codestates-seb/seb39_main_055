@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
@@ -8,8 +9,13 @@ const SArticle = styled.article`
   height: 700px;
 `;
 
+const SLink = styled(Link)`
+  width: 100%;
+  height: 500px;
+`;
+
 const SImg = styled.img`
-  width: 100vw;
+  width: 100%;
   height: 500px;
   object-fit: cover;
 `;
@@ -61,7 +67,9 @@ interface BannerProps {
 const Banner = () => {
   return (
     <SArticle>
-      <SImg src={Img1} />
+      <SLink to="/">
+        <SImg src={Img1} />
+      </SLink>
       <SHeader>
         <SHeaderBox>
           <SH1>동양의 미를 가진 고즈넉한 숙소</SH1>
