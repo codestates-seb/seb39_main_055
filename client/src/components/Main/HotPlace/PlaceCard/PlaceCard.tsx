@@ -23,12 +23,12 @@ export const SContainer = styled.li`
 
     & > span {
       color: ${({ theme }) => theme.colors.black200};
-      font-size: 14px;
+      font-size: 12px;
     }
 
     & > p {
       color: ${({ theme }) => theme.colors.black500};
-      font-size: 18px;
+      font-size: 14px;
     }
   }
 `;
