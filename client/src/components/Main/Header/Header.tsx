@@ -6,6 +6,9 @@ import Banner from "./Banner";
 const SHeader = styled.header`
   width: 100%;
   height: 700px;
+  position: absolute;
+  top: 80px;
+  left: 0px;
 `;
 
 const carouselItems = [
