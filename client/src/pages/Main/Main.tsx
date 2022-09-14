@@ -11,18 +11,19 @@ import {
 
 const Container = styled.div`
   min-height: inherit;
+  padding-top: 700px;
 
   & > section {
     display: flex;
     flex-direction: column;
     gap: 50px;
     margin: 50px 0;
-    padding: 0 300px;
+    padding: 0 150px;
   }
 
-  @media screen and (max-width: ${(props) => props.theme.breakPoints.desktop}) {
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     & > section {
-      padding: 0;
+      padding: 0 20px;
     }
   }
 `;
