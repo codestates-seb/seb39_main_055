@@ -52,7 +52,7 @@ export const SMenu = styled.div`
 
 const SSection = styled.section`
   margin: 0 auto;
-  padding-top: 780px;
+  padding-top: 80px;
   min-height: calc(100vh - 380px); // nav or footer height 변경
   /* max-width: 1920px; */
   max-width: 1280px;

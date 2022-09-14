@@ -11,6 +11,7 @@ import {
 
 const Container = styled.div`
   min-height: inherit;
+  padding-top: 700px;
 
   & > section {
     display: flex;
