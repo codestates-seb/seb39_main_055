@@ -1,10 +1,13 @@
 import { AiFillStar } from "react-icons/ai";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+import { mobile } from "../../../../assets";
 
 export const SArticle = styled.article`
+  position: relative;
   display: grid;
   grid-template-columns: 140px 1fr;
-  grid-template-rows: 60px 115px 35px;
+  grid-template-rows: 2fr 4fr minmax(45px, 2fr);
   grid-template-areas:
     "img place"
     "img review"
@@ -18,21 +21,48 @@ export const SArticle = styled.article`
   font-size: 14px;
   line-height: 1.3rem;
   box-shadow: 0px 0px 5px grey;
-  overflow-y: hidden;
+  border-radius: 3px;
+  overflow: hidden;
+
+  ${mobile(css`
+    padding: 10px;
+    height: 219px;
+    grid-template-rows: 2fr 4fr 1fr;
+  `)}
 `;
 
 export const SReviewImg = styled.img`
   width: 140px;
   height: 100%;
   grid-area: img;
+
+  ${mobile(css`
+    position: absolute;
+    width: 120%;
+    height: auto;
+    object-fit: cover;
+    opacity: 0.08;
+    grid-area: 1/1/4/3;
+    z-index: -1;
+    left: -10px;
+    top: -60px;
+  `)}
 `;
 
 export const SPlaceHeader = styled.header`
   grid-area: place;
+
+  ${mobile(css`
+    grid-area: 1/1/2/3;
+  `)}
 `;
 
 export const SP = styled.p`
   margin-top: 13px;
+
+  ${mobile(css`
+    margin-top: 5px;
+  `)}
 `;
 
 export const SH3 = styled.h3`
@@ -42,6 +72,10 @@ export const SH3 = styled.h3`
 
 export const SReviewP = styled.p`
   grid-area: review;
+
+  ${mobile(css`
+    grid-area: 2/1/3/3;
+  `)}
 `;
 
 export const SFooter = styled.footer`
@@ -49,7 +83,11 @@ export const SFooter = styled.footer`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  padding-bottom: 15px;
+
+  ${mobile(css`
+    grid-area: 3/1/4/3;
+    align-items: end;
+  `)}
 `;
 
 export const SStarSVG = styled(AiFillStar)`
