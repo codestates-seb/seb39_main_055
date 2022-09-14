@@ -37,5 +37,4 @@ export const SCardBox = styled.div`
   column-gap: 15px;
   justify-content: center;
   align-items: center;
-  padding: 0px 20px;
 `;

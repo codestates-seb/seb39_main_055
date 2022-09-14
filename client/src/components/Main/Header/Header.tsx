@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
+import Img1 from "../../../assets/images/carousel/1.png";
 import Carousel from "../../Carousel/Carousel";
-import Banner from "./Banner";
+import Banner, { BannerProps } from "./Banner";
 
 const SHeader = styled.header`
   width: 100%;
@@ -13,23 +14,33 @@ const SHeader = styled.header`
 
 const carouselItems = [
   {
-    item: <Banner />,
-    id: 0,
-  },
-  {
-    item: <Banner />,
-    id: 1,
-  },
-  {
-    item: <Banner />,
-    id: 2,
+    image: Img1,
+    summary: "동양의 미를 가진 고즈넉한 숙소",
+    place: "청도 ‘스테이더담’",
+    link: "/",
   },
 ];
+
+function bannerGenerator(details: BannerProps[]) {
+  return details.map((e, i) => {
+    return {
+      item: (
+        <Banner
+          image={e.image}
+          summary={e.summary}
+          place={e.place}
+          link={e.link}
+        />
+      ),
+      id: i,
+    };
+  });
+}
 
 const Header = () => {
   return (
     <SHeader>
-      <Carousel items={carouselItems} />
+      <Carousel items={bannerGenerator(carouselItems)} />
     </SHeader>
   );
 };
