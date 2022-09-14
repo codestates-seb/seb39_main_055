@@ -1,6 +1,3 @@
-import { BsPersonCircle } from "react-icons/bs";
-import { HiOutlineHeart } from "react-icons/hi";
-import { RiSearchLine } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -52,8 +49,7 @@ export const SMenu = styled.div`
 const SSection = styled.section`
   margin: 0 auto;
   padding-top: 80px;
-  min-height: calc(100vh - 380px); // nav or footer height 변경
-  /* max-width: 1920px; */
+  min-height: calc(100vh - 300px); // nav or footer height 변경
   max-width: 1280px;
 `;
 
