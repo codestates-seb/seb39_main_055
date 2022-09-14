@@ -17,6 +17,7 @@ export const SCheckbox = styled.div`
   & > input {
     width: 20px;
     height: 20px;
+    margin: 0;
     cursor: pointer;
   }
 `;
