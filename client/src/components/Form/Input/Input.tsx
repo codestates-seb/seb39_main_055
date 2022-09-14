@@ -39,7 +39,7 @@ export const SInput = styled.div<{ isLabel: string | undefined }>`
     width: 100%;
 
     & > input {
-      padding: 0;
+      padding: 5px 0;
       width: 100%;
     }
   }
@@ -54,7 +54,10 @@ export const SError = styled.p<{ isError: boolean }>`
   font-size: 10px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    top: 25px;
+    left: 0;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
     left: 0;
   }
 `;
