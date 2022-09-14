@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+import { mobile, tablet } from "../../../assets";
 import Img1 from "../../../assets/images/carousel/1.png";
 import Carousel from "../../Carousel/Carousel";
 import Banner, { BannerProps } from "./Banner";
@@ -10,6 +11,14 @@ const SHeader = styled.header`
   position: absolute;
   top: 80px;
   left: 0px;
+
+  ${tablet(css`
+    height: 660px;
+  `)}
+
+  ${mobile(css`
+    height: 635px;
+  `)}
 `;
 
 const carouselItems = [

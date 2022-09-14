@@ -41,7 +41,7 @@ const throttle = (() => {
 
 const Carousel = ({ items, animationTime = 800 }: CarouselProps) => {
   if (items.length < 3) {
-    const concatenation = [0, 0].map((_, i) => ({
+    const concatenation = [null, null].map((_, i) => ({
       ...items[i % items.length],
       id: i + items.length,
     }));
@@ -68,11 +68,11 @@ const Carousel = ({ items, animationTime = 800 }: CarouselProps) => {
     [animationTime, mainIndexer]
   );
 
-  useEffect(() => {
+  /* useEffect(() => {
     const timer = setTimeout(() => mainIndexer("next"), 2500);
 
     return () => clearTimeout(timer);
-  }, [mainIndexer]);
+  }, [mainIndexer]); */
 
   return (
     <SCarouselBox>
