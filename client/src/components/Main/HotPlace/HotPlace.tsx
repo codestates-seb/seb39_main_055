@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import img from "../../../assets/images/carousel/1.png";
+import img1 from "../../../assets/images/carousel/1.png";
 import img2 from "../../../assets/images/main-review/r1.png";
+import img3 from "../../../assets/images/main-review/r2.png";
+import img4 from "../../../assets/images/main-review/r3.png";
+import img5 from "../../../assets/images/main-review/r4.png";
+import img6 from "../../../assets/images/main-review/r5.png";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import PlaceCard from "./PlaceCard/PlaceCard";
 
@@ -19,7 +23,7 @@ export const Container = styled.div`
 
     & > h3 {
       color: ${({ theme }) => theme.colors.black500};
-      font-size: 42px;
+      font-size: 38px;
     }
 
     & > p {
@@ -31,18 +35,18 @@ export const Container = styled.div`
 
 export const SSection = styled.section`
   display: flex;
-  height: 600px;
+  height: 500px;
 
   @media screen and (max-width: 1200px) {
     display: flex;
     flex-direction: column;
-    height: 1200px;
+    height: 1000px;
   }
 `;
 
 export const SImgContainer = styled.div`
   flex-basis: 50%;
-  height: 600px;
+  height: 500px;
 
   & > img {
     width: 100%;
@@ -66,7 +70,6 @@ export const SImgContainer = styled.div`
 export const SMainContainer = styled.main`
   flex-basis: 50%;
   padding: 20px;
-  /* border: 1px solid black; */
 
   @media screen and (max-width: 1200px) {
     padding: 20px 0 0 0;
@@ -76,7 +79,6 @@ export const SMainContainer = styled.main`
 export const SButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  /* border: 1px solid black; */
 
   .active {
     color: ${({ theme }) => theme.colors.black500};
@@ -88,7 +90,7 @@ export const SButtonContainer = styled.div`
     border: none;
     color: ${({ theme }) => theme.colors.black200};
     background-color: inherit;
-    font-size: 18px;
+    font-size: 14px;
   }
 
   & > div {
@@ -105,7 +107,7 @@ export const SButtonContainer = styled.div`
 
 export const SListContainer = styled.ul`
   position: relative;
-  height: 520px;
+  height: 420px;
   margin-top: 20px;
   padding: 5px;
   overflow-y: scroll;
@@ -125,61 +127,61 @@ export const SLoading = styled(LoadingSpinner)`
 const DUMMY_DATA = [
   {
     id: 1,
-    img,
+    img: img1,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 2,
-    img,
+    img: img2,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 3,
-    img,
+    img: img3,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 4,
-    img,
+    img: img4,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 5,
-    img,
+    img: img5,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 6,
-    img,
+    img: img6,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 7,
-    img,
+    img: img1,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 8,
-    img,
+    img: img2,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 9,
-    img,
+    img: img3,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
   {
     id: 10,
-    img,
+    img: img4,
     location: "경남 고성군",
     name: "고성 에세이더레지던스던펜션",
   },
@@ -212,7 +214,7 @@ const DUMMY_BUTTON = [
   },
 ];
 
-const DUMMY_IMG_LIST = [img, img2, img, img2, img, img2];
+const DUMMY_IMG_LIST = [img1, img2, img3, img4, img5, img6];
 
 const HotPlace = () => {
   const [data, setData] = useState(DUMMY_DATA);
