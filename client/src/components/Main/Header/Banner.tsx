@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
-import Img1 from "../../../assets/images/carousel/1.png";
 
 const SArticle = styled.article`
   width: 100vw;
@@ -22,13 +21,10 @@ const SImg = styled.img`
 
 const SHeader = styled.header`
   display: flex;
+  flex-flow: column nowrap;
   padding: 20px 0px;
   height: 200px;
   background-color: white;
-`;
-
-const SHeaderBox = styled.div`
-  height: 100%;
   padding-left: 100px;
   font-size: 42px;
 
@@ -58,23 +54,61 @@ const SH2 = styled.h2`
   line-height: 5rem;
 `;
 
-interface BannerProps {
-  img: string;
+const SMoreInfoBox = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.45em;
+  font-weight: lighter;
+  color: #555555;
+`;
+
+const SP = styled.p`
+  display: inline-block;
+  width: max-content;
+  margin-right: 10px;
+`;
+
+const SArrow = styled.span`
+  display: inline-block;
+  background-color: #555555;
+  width: 50px;
+  height: 2px;
+  border-radius: 10px;
+
+  &::before {
+    content: "";
+    display: block;
+    transform-origin: 0% 50%;
+    transform: translateX(50px) rotate(-150deg);
+    width: 15px;
+    height: 2px;
+    background-color: #555555;
+    border-radius: 10px;
+  }
+`;
+
+export interface BannerProps {
+  image: string;
   summary: string;
   place: string;
+  link: string;
 }
 
-const Banner = () => {
+const Banner = ({ image, summary, place, link }: BannerProps) => {
   return (
     <SArticle>
-      <SLink to="/">
-        <SImg src={Img1} />
+      <SLink to={link}>
+        <SImg src={image} />
       </SLink>
       <SHeader>
-        <SHeaderBox>
-          <SH1>동양의 미를 가진 고즈넉한 숙소</SH1>
-          <SH2>청도 ‘스테이더담’</SH2>
-        </SHeaderBox>
+        <SH1>{summary}</SH1>
+        <SH2>{place}</SH2>
+        <SMoreInfoBox>
+          <Link to={link}>
+            <SP>View More</SP>
+            <SArrow />
+          </Link>
+        </SMoreInfoBox>
       </SHeader>
     </SArticle>
   );
