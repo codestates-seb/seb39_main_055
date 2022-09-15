@@ -12,7 +12,7 @@ export const authHeader = (thunkAPI: any) => {
 };
 
 export const axiosInstance = axios.create({
-  baseURL: "http://soyoungp.shop", // 서버 url
+  baseURL: "https://soyoungp.shop", // 서버 url
   timeout: 5000,
   transformRequest: [
     ...(axios.defaults.transformRequest as AxiosRequestTransformer[]),
