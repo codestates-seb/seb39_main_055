@@ -2,12 +2,12 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
 
 const SButton = styled.button`
-  width: 70px;
-  height: 30px;
+  padding: 7px 10px;
   color: white;
   border: none;
   border-radius: 3px;
   background-color: ${({ theme }) => theme.colors.orange500};
+  font-size: 12px;
   transition: 0.4s all;
 
   &:hover {
@@ -18,9 +18,10 @@ const SButton = styled.button`
 
 interface Prop {
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchAddress = ({ setValue }: Prop) => {
+const SearchAddress = ({ setValue, setError }: Prop) => {
   const open = useDaumPostcodePopup();
 
   const handleComplete = (data: any) => {
@@ -38,15 +39,26 @@ const SearchAddress = ({ setValue }: Prop) => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     setValue(fullAddress);
+    setError(false);
   };
+
+  const popupX = document.body.offsetWidth / 2;
+  const popupY = window.screen.height / 2;
 
   const handleClick = () => {
-    open({ onComplete: handleComplete });
+    open({
+      onComplete: handleComplete,
+      top: popupX,
+      left: popupY,
+    });
   };
 
-  return <SButton onClick={handleClick}>주소 검색</SButton>;
+  return (
+    <SButton onClick={handleClick} type="button">
+      주소 검색
+    </SButton>
+  );
 };
 
 export default SearchAddress;

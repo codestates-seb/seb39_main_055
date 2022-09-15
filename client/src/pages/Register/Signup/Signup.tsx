@@ -29,6 +29,7 @@ const Signup = () => {
     handleAddress,
     checkAddress,
     setAddressValue,
+    setAddressError,
   ] = useValidate(notBlank);
   const [passwordValue, passwordError, handlePassword, checkPassword] =
     useValidate(passwordValidation);
@@ -134,7 +135,12 @@ const Signup = () => {
           isError={addressError}
           errorMsg="주소를 입력해주세요."
           placeholder="주소를 입력해주세요."
-          sideButton={<SearchAddress setValue={setAddressValue} />}
+          sideButton={
+            <SearchAddress
+              setValue={setAddressValue}
+              setError={setAddressError}
+            />
+          }
           readOnly
           onChange={(e) => handleAddress(e)}
         />
