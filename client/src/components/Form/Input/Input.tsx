@@ -85,6 +85,7 @@ interface Prop {
   errorMsg: string;
   comment?: string;
   placeholder: string;
+  className?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void | React.Dispatch<React.SetStateAction<string>>;
@@ -99,10 +100,11 @@ const Input = ({
   errorMsg,
   comment,
   placeholder,
+  className,
   onChange,
 }: Prop) => {
   return (
-    <SInputContainer>
+    <SInputContainer className={className}>
       {label && <label htmlFor={id}>{label}</label>}
       <SInput isLabel={label}>
         <input
