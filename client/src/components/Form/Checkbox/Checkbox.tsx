@@ -26,14 +26,22 @@ interface Prop {
   labelName: string;
   value: string;
   defaultChecked: boolean;
+  className?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void | React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Checkbox = ({ id, labelName, value, onChange, defaultChecked }: Prop) => {
+const Checkbox = ({
+  id,
+  labelName,
+  value,
+  className,
+  onChange,
+  defaultChecked,
+}: Prop) => {
   return (
-    <SCheckbox>
+    <SCheckbox className={className}>
       <input
         type="checkbox"
         id={id}
