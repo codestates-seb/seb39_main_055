@@ -10,11 +10,12 @@ import { GlobalStyle, theme } from "./assets";
 import { setupStore } from "./redux";
 
 const queryClient = new QueryClient();
+export const store = setupStore();
 
 ReactDOM.render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-      <Provider store={setupStore()}>
+      <Provider store={store}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <App />

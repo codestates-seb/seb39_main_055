@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useLogin } from "../../../apis";
 import SocialLogin from "./SocialLogin";
@@ -23,12 +24,19 @@ const LoginForm = () => {
   const [isHidden, setIsHidden] = useState(true);
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate, isLoading, isSuccess, isError } = useLogin();
+  const navigate = useNavigate();
+  const { mutate, isLoading, isSuccess, isError, errMsg } = useLogin();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     mutate({ email: userID, password });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/", { replace: true });
+    }
+  }, [isSuccess, navigate]);
 
   return (
     <SForm onSubmit={handleSubmit}>
@@ -37,7 +45,7 @@ const LoginForm = () => {
         value={userID}
         placeholder="아이디를 입력하세요"
         isError={false}
-        errorMsg="아이디를 다시 확인해주세요."
+        errorMsg=""
         onChange={(e) => setUserID(e.target.value)}
       />
       <SPWBox>
@@ -47,7 +55,7 @@ const LoginForm = () => {
           value={password}
           placeholder="비밀번호를 입력하세요"
           isError={isError}
-          errorMsg="비밀번호를 다시 확인해주세요."
+          errorMsg={errMsg}
           onChange={(e) => setPassword(e.target.value)}
         />
         <SButton onClick={() => setIsHidden(!isHidden)}>

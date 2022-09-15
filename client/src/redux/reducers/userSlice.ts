@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 
+import { RootState } from "../store";
+
 interface UserInfos {
   nickname: string;
   userStatus: string;
@@ -39,6 +41,8 @@ const userSlice = createSlice({
     },
   },
 });
+
+export const selectUserToken = (state: RootState) => state.user.token;
 
 export const { setToken, setUserInfos } = userSlice.actions;
 export const userReducer: Reducer<typeof initialState> = userSlice.reducer;
