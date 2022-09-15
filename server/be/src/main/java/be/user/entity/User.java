@@ -47,7 +47,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private double latitude;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String userRole;
 
     @Column(nullable = false,columnDefinition = "TEXT")
