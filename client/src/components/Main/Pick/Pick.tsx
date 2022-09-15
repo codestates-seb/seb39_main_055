@@ -3,7 +3,7 @@ import { CgChevronRight } from "react-icons/cg";
 import styled from "styled-components";
 
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
-import { images, linkAdress1 } from "./pickPageAssets";
+import { images, linkAdress1 } from "./Data";
 import SideText from "./SideText";
 
 const Container = styled.div`
