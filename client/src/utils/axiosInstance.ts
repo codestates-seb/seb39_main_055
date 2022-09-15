@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
   baseURL: "https://soyoungp.shop", // 서버 url
   timeout: 5000,
   transformRequest: [
-    // 요청 보내기 전에 token 설정
+    // 요청 보내기 전에 token 설정 - "tokenNeeded: true" 헤더 이용
     (data, headers) => {
       if (!headers?.tokenNeeded) return data;
 
