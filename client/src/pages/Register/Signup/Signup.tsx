@@ -2,7 +2,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from "react";
-import DaumPostcodeEmbed, { useDaumPostcodePopup } from "react-daum-postcode";
 
 import { Checkbox, Input, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
@@ -135,6 +134,8 @@ const Signup = () => {
           isError={addressError}
           errorMsg="주소를 입력해주세요."
           placeholder="주소를 입력해주세요."
+          sideButton={<SearchAddress setValue={setAddressValue} />}
+          readOnly
           onChange={(e) => handleAddress(e)}
         />
         <SCheckboxContainer>
