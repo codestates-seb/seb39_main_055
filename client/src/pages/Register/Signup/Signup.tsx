@@ -2,8 +2,9 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from "react";
+import DaumPostcodeEmbed, { useDaumPostcodePopup } from "react-daum-postcode";
 
-import { Checkbox, Input } from "../../../components";
+import { Checkbox, Input, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
 import {
   idValidation,
@@ -23,8 +24,13 @@ const Signup = () => {
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [idValue, idError, handleId, checkId] = useValidate(idValidation);
-  const [addressValue, addressError, handleAddress, checkAddress] =
-    useValidate(notBlank);
+  const [
+    addressValue,
+    addressError,
+    handleAddress,
+    checkAddress,
+    setAddressValue,
+  ] = useValidate(notBlank);
   const [passwordValue, passwordError, handlePassword, checkPassword] =
     useValidate(passwordValidation);
   const [
@@ -50,6 +56,7 @@ const Signup = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     checkName();
     checkId();
     checkPassword();
@@ -70,6 +77,7 @@ const Signup = () => {
       nickname: nameValue,
       email: idValue,
       password: passwordValue,
+      address: setAddressValue,
       longitude: 111,
       latitude: 111,
       isGuest,
