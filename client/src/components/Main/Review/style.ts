@@ -7,7 +7,7 @@ export const SReviewSection = styled.section`
   margin-bottom: 80px;
 `;
 
-export const SHgroup = styled.hgroup`
+export const SHeader = styled.header`
   display: flex;
   flex-flow: column wrap;
   row-gap: 10px;

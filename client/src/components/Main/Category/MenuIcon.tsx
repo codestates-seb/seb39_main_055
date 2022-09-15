@@ -1,4 +1,4 @@
-import { SIconBox, SIconImg, SIconText, SImgLink } from "./style";
+import { SIconImg, SIconList, SIconText, SImgLink } from "./style";
 
 interface MenuIconProps {
   img: string;
@@ -9,13 +9,13 @@ interface MenuIconProps {
 
 const MenuIcon = ({ img, alt, menuText, link }: MenuIconProps) => {
   return (
-    <SIconBox>
+    <SIconList>
       <SImgLink to={link}>
         <SIconImg src={img} alt={alt} />
       </SImgLink>
 
       <SIconText>{menuText}</SIconText>
-    </SIconBox>
+    </SIconList>
   );
 };
 

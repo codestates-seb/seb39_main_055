@@ -19,7 +19,7 @@ export const SImg = styled.img`
   object-fit: cover;
 `;
 
-export const SHeader = styled.header`
+export const SSection = styled.section`
   display: flex;
   flex-flow: column nowrap;
   padding: 20px 0px;

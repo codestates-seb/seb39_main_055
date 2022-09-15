@@ -5,7 +5,7 @@ import restaurant from "../../../assets/images/main-menu/4.png";
 import playground from "../../../assets/images/main-menu/5.png";
 import hospital from "../../../assets/images/main-menu/6.png";
 import MenuIcon from "./MenuIcon";
-import { SCategoryBox } from "./style";
+import { SCategoryMenu } from "./style";
 
 const MenuList = [
   { img: room, alt: "숙소", menuText: "숙소", link: "/" },
@@ -18,7 +18,7 @@ const MenuList = [
 
 const Category = () => {
   return (
-    <SCategoryBox>
+    <SCategoryMenu>
       {MenuList.map((e) => (
         <MenuIcon
           menuText={e.menuText}
@@ -28,7 +28,7 @@ const Category = () => {
           key={e.menuText}
         />
       ))}
-    </SCategoryBox>
+    </SCategoryMenu>
   );
 };
 

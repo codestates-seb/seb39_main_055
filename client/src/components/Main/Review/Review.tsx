@@ -5,17 +5,17 @@ import {
   SCardSection,
   SH1,
   SH2,
-  SHgroup,
+  SHeader,
   SReviewSection,
 } from "./style";
 
 const Review = () => {
   return (
     <SReviewSection>
-      <SHgroup>
+      <SHeader>
         <SH1>제가 가봤는데요!</SH1>
         <SH2>직접 경험한 사람들의 생생한 경험담을 확인해보세요.</SH2>
-      </SHgroup>
+      </SHeader>
       <SCardSection>
         <SCardBox>
           {reviews.map((e) => (
