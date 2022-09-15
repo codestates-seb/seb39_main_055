@@ -9,8 +9,8 @@ interface UserInfos {
   image: string;
   latitude: number;
   longitude: number;
-  hearts: unknown[];
-  threads: unknown[];
+  hearts?: unknown[];
+  threads?: unknown[];
 }
 
 interface User {
@@ -33,10 +33,7 @@ const userSlice = createSlice({
       state.token = payload;
       state.loginStatus = true;
     },
-    setUserInfos: (
-      state,
-      { payload }: PayloadAction<Omit<UserInfos, "hearts" | "threads">>
-    ) => {
+    setUserInfos: (state, { payload }: PayloadAction<UserInfos>) => {
       state.userInfos = { ...payload, hearts: [], threads: [] };
     },
   },
