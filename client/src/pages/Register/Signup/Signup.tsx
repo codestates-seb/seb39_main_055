@@ -1,8 +1,11 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
+import { getCoordinate } from "../../../apis";
 import { Checkbox, Input, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
 import {
@@ -42,6 +45,7 @@ const Signup = () => {
     passwordCheckValidation as (value: string, password?: string) => boolean
   );
   const [isGuest, setIsGuest] = useState(true);
+  const [coordinate, setCoordinate] = useState({ x: "", y: "" });
 
   const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     document
@@ -77,12 +81,18 @@ const Signup = () => {
       nickname: nameValue,
       email: idValue,
       password: passwordValue,
-      address: setAddressValue,
+      address: addressValue,
       longitude: 111,
       latitude: 111,
       isGuest,
     });
   };
+
+  const { data } = useQuery(["coordinate"], () =>
+    getCoordinate("경기도 수원시 영통구")
+  );
+
+  console.log(data);
 
   return (
     <SContainer>
