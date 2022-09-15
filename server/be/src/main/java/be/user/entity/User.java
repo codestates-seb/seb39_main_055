@@ -1,11 +1,15 @@
 package be.user.entity;
 
 import be.audit.BaseEntity;
+import be.heart.entity.Heart;
+import be.thread.entity.Thread;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -21,6 +25,12 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "STATUS")
     private UserStatus userStatus = UserStatus.USER_EXIST;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
+    private List<Heart> hearts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST)
+    private List<Thread> threads = new ArrayList<>();
 
     @Column(nullable = false)
     private String nickname;
