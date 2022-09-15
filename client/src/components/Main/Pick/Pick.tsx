@@ -3,52 +3,49 @@ import { CgChevronRight } from "react-icons/cg";
 import styled from "styled-components";
 
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
-import { theme } from "../../../assets/styles/Theme";
 import { images, linkAdress1 } from "./pickPageAssets";
 import SideText from "./SideText";
-
-// interface PickProps {
-//   img: string;
-//   src: string;
-//   alt: string;
-//   textTitle: string;
-//   textContent: string;
-//   date: string;
-//   link: string;
-// }
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-
-  @media screen and (max-width: ${theme.breakPoints.mobile}) {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 
 const Contents = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  width: 810px;
-  height: 600px;
+  width: 780px;
+  height: 570px;
   gap: 20px;
+
+  @media screen and (max-width: 1200px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-flow: row wrap;
+  }
 `;
 
 const SideContents = styled.span`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 20px;
-  width: 160px;
-  height: 500px;
+  height: 440px;
+  width: 110px;
 `;
 
 const UserPickContents = styled.span`
-  width: 640px;
-  height: 600px;
+  width: 480px;
+  height: 440px;
   position: relative;
+  align-items: center;
+
+  & > img {
+    widht: 480px;
+    height: 440px;
+    object-fit: contain;
 `;
 
 const ContentsInfo = styled.div`
@@ -74,10 +71,6 @@ const Pick = () => {
   const handleOnClick = (e: any) => {
     setCrrImg(e.target.value);
   };
-  // const handleChange = ({ crrImg }) => {
-  //   return <img>{crrImg}</img>;
-  // };
-
   return (
     <Container>
       <SideText />

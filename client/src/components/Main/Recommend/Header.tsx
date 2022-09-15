@@ -7,15 +7,15 @@ const Container = styled.div`
   align-items: center;
   gap: 20px;
   padding: 50px 10px;
-`;
-
-const HeadTitle = styled.div`
   font-family: "ONE Mobile";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 42px;
-  text-align: center;
-  color: #161616;
+
+  & > h1 {
+    color: ${({ theme }) => theme.colors.black500};
+    font-size: 38px;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -31,7 +31,7 @@ const SubTitle = styled.div`
 const Header = () => {
   return (
     <Container>
-      <HeadTitle>오늘의 추천 플레이스</HeadTitle>
+      <h1>오늘의 추천 플레이스</h1>
       <SubTitle>반려동물과 함께 가볍게 떠나봐요.</SubTitle>
     </Container>
   );

@@ -5,15 +5,26 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: start-end;
+
+  width: 300px;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 1px;
   gap: 20px;
-  padding: 50px 10px;
-  // font-family: ONE Mobile;
+  font-family: ONE Mobile;
   font-weight: 400;
-  font-size: 50px;
-  color: #161616;
+  font-size: 2.5rem;
+  color: ${({ theme }) => theme.colors.black500};
+
+  & > div {
+    @media screen and (max-width: 1200px) {
+      display: block;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+  }
 `;
 
 const SideText = () => {
