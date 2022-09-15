@@ -5,11 +5,11 @@ import {
   SArticle,
   SH1,
   SH2,
-  SHeader,
   SImg,
   SLink,
   SMoreInfoBox,
   SP,
+  SSection,
 } from "./style";
 
 export interface BannerProps {
@@ -25,7 +25,7 @@ const Banner = ({ image, summary, place, link }: BannerProps) => {
       <SLink to={link}>
         <SImg src={image} />
       </SLink>
-      <SHeader>
+      <SSection>
         <SH1>{summary}</SH1>
         <SH2>{place}</SH2>
         <SMoreInfoBox>
@@ -34,7 +34,7 @@ const Banner = ({ image, summary, place, link }: BannerProps) => {
             <SArrow />
           </Link>
         </SMoreInfoBox>
-      </SHeader>
+      </SSection>
     </SArticle>
   );
 };

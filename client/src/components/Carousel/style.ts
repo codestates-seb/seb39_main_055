@@ -55,7 +55,7 @@ interface ItemProps {
   animationTime: number;
 }
 
-export const SItemBox = styled.div`
+export const SItemList = styled.li`
   flex: 0 0 100vw;
   position: absolute;
   width: 100%;
