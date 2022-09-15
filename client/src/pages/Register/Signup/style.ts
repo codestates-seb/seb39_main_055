@@ -62,7 +62,7 @@ export const SCheckboxContainer = styled.div`
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 15px;
 
     & > section {
       width: 100%;

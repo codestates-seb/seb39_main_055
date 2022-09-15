@@ -15,7 +15,7 @@ export const SInputContainer = styled.div`
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 15px;
   }
 `;
 
@@ -56,10 +56,6 @@ export const SError = styled.p<{ isError: boolean }>`
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     left: 0;
   }
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
-    left: 0;
-  }
 `;
 
 export const SComment = styled.p<{ isError: boolean }>`
@@ -71,7 +67,6 @@ export const SComment = styled.p<{ isError: boolean }>`
   font-size: 10px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    top: 25px;
     left: 0;
   }
 `;
@@ -85,6 +80,7 @@ interface Prop {
   errorMsg: string;
   comment?: string;
   placeholder: string;
+  className?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void | React.Dispatch<React.SetStateAction<string>>;
@@ -99,10 +95,11 @@ const Input = ({
   errorMsg,
   comment,
   placeholder,
+  className,
   onChange,
 }: Prop) => {
   return (
-    <SInputContainer>
+    <SInputContainer className={className}>
       {label && <label htmlFor={id}>{label}</label>}
       <SInput isLabel={label}>
         <input
