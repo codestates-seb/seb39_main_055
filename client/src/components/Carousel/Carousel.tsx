@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
-import { SCarouselBox, SItemBox, SNext, SPrev } from "./style";
+import { SCarouselBox, SItemList, SNext, SPrev } from "./style";
 
 function classNameMatcher(itemId: number, indexArr: number[]) {
   const currentI = indexArr.findIndex((i) => i === itemId);
@@ -28,7 +28,7 @@ interface CarouselProps {
 const throttle = (() => {
   let throttled = false;
 
-  return (fn: (...args: any[]) => void, timeout: number, ...args: any[]) => {
+  return <T,>(fn: (...args: T[]) => void, timeout: number, ...args: T[]) => {
     if (!throttled) {
       throttled = true;
       fn(...args);
@@ -68,24 +68,27 @@ const Carousel = ({ items, animationTime = 800 }: CarouselProps) => {
     [animationTime, mainIndexer]
   );
 
-  /* useEffect(() => {
-    const timer = setTimeout(() => mainIndexer("next"), 2500);
+  useEffect(() => {
+    const timer = setTimeout(() => mainIndexer("next"), 3000);
 
     return () => clearTimeout(timer);
-  }, [mainIndexer]); */
+  }, [mainIndexer]);
 
   return (
     <SCarouselBox>
       <SPrev onClick={() => throttledIndexer("prev")} />
-      {items.map((e) => (
-        <SItemBox
-          animationTime={animationTime}
-          className={`${classNameMatcher(e.id, index)}`}
-          key={e.id}
-        >
-          {e.item}
-        </SItemBox>
-      ))}
+      <ul>
+        {items.map((e) => (
+          <SItemList
+            animationTime={animationTime}
+            className={`${classNameMatcher(e.id, index)}`}
+            key={e.id}
+          >
+            {e.item}
+          </SItemList>
+        ))}
+      </ul>
+
       <SNext onClick={() => throttledIndexer("next")} />
     </SCarouselBox>
   );
