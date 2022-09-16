@@ -54,13 +54,27 @@ export async function signupUser(form: SignupForm): Promise<SignupResponse> {
 export function useSignup(address: string) {
   const [coordinate, setCoordinate] = useState({ x: "", y: "" });
 
-  const { refetch } = useQuery<CoordinateResponse>(
+  const { refetch } = useQuery<CoordinateResponse, AxiosError<ErrorResponse>>(
     ["coordinate", address],
     () => getCoordinate(address),
     {
       enabled: false,
       onSuccess: (data) => {
+        if (!data.documents.length) {
+          toast.error("주소를 상세하게 입력해주세요.");
+          return;
+        }
         setCoordinate({ x: data.documents[0].x, y: data.documents[0].y });
+      },
+      onError: (data) => {
+        const { response } = data;
+
+        if (!response) {
+          toast.error(data.message);
+          return;
+        }
+
+        toast.error(response.data.error);
       },
     }
   );
@@ -71,7 +85,6 @@ export function useSignup(address: string) {
     SignupForm
   >((form) => signupUser(form), {
     onError: (data) => {
-      console.log(data);
       const { response } = data;
 
       if (!response) {

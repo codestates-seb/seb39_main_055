@@ -7,7 +7,7 @@ import { useSignup } from "../../../apis";
 import { Checkbox, Input, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
 import {
-  idValidation,
+  emailValidation,
   nickNameValidation,
   notBlank,
   passwordCheckValidation,
@@ -24,7 +24,7 @@ const Signup = () => {
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =
-    useValidate(idValidation);
+    useValidate(emailValidation);
   const [
     addressValue,
     addressError,
@@ -66,7 +66,7 @@ const Signup = () => {
 
     if (
       !nickNameValidation(nameValue) ||
-      !idValidation(emailValue) ||
+      !emailValidation(emailValue) ||
       !passwordValidation(passwordValue) ||
       !passwordCheckValidation(passwordCheckValue, passwordValue) ||
       !notBlank(addressValue)
@@ -75,6 +75,10 @@ const Signup = () => {
     }
 
     refetch();
+
+    if (coordinate.x === "" || coordinate.y === "") {
+      return;
+    }
 
     console.log({
       nickname: nameValue,
