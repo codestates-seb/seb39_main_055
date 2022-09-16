@@ -30,18 +30,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: "ONE-Mobile-Regular";
   }
 
-  /* body::-webkit-scrollbar {
-    width: 5px;
-    background-color: lightgray;
-  }
-
-  body::-webkit-scrollbar-thumb {
-    background-color: black;
-  } */
-
   h1, h2, h3, h4, h5, h6 {
     font-size: revert;
-    /* font-weight: revert; */
   }
 
   ol, ul, li {
@@ -50,10 +40,6 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    &:link,
-    &:visited {
-      color: inherit;
-    }
   }
 
   button {

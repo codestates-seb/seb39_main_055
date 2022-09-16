@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
 
-export const SCategoryBox = styled.div`
+export const SCategoryMenu = styled.menu`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
@@ -15,7 +15,7 @@ export const SCategoryBox = styled.div`
   `)}
 `;
 
-export const SIconBox = styled.div`
+export const SIconList = styled.li`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
