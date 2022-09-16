@@ -1,6 +1,6 @@
 import { PreloadedState } from "@reduxjs/toolkit";
 import ReactDOM from "react-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -9,8 +9,8 @@ import { ThemeProvider } from "styled-components";
 import App from "./App";
 import { GlobalStyle, theme } from "./assets";
 import { RootState, setupStore } from "./redux";
+import { queryClient } from "./utils";
 
-const queryClient = new QueryClient();
 const currentUserToken = JSON.parse(
   localStorage.getItem("currentUser") || "null"
 );

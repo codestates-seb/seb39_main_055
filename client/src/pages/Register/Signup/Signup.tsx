@@ -1,12 +1,16 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState } from "react";
 
-import { Checkbox, Input } from "../../../components";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import { useSignup } from "../../../apis";
+import { Checkbox, Input, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
 import {
-  idValidation,
+  emailValidation,
   nickNameValidation,
   notBlank,
   passwordCheckValidation,
@@ -20,11 +24,20 @@ import {
 } from "./style";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [isGuest, setIsGuest] = useState(true);
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
-  const [idValue, idError, handleId, checkId] = useValidate(idValidation);
-  const [addressValue, addressError, handleAddress, checkAddress] =
-    useValidate(notBlank);
+  const [emailValue, emailError, handleEmail, checkEmail] =
+    useValidate(emailValidation);
+  const [
+    addressValue,
+    addressError,
+    handleAddress,
+    checkAddress,
+    setAddressValue,
+    setAddressError,
+  ] = useValidate(notBlank);
   const [passwordValue, passwordError, handlePassword, checkPassword] =
     useValidate(passwordValidation);
   const [
@@ -35,7 +48,11 @@ const Signup = () => {
   ] = useValidate(
     passwordCheckValidation as (value: string, password?: string) => boolean
   );
-  const [isGuest, setIsGuest] = useState(true);
+  const { refetch, isSuccess } = useSignup(addressValue, {
+    email: emailValue,
+    password: passwordValue,
+    nickname: nameValue,
+  });
 
   const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     document
@@ -51,14 +68,14 @@ const Signup = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     checkName();
-    checkId();
+    checkEmail();
     checkPassword();
     checkPasswordCheck(passwordValue);
     checkAddress();
 
     if (
       !nickNameValidation(nameValue) ||
-      !idValidation(idValue) ||
+      !emailValidation(emailValue) ||
       !passwordValidation(passwordValue) ||
       !passwordCheckValidation(passwordCheckValue, passwordValue) ||
       !notBlank(addressValue)
@@ -66,15 +83,15 @@ const Signup = () => {
       return;
     }
 
-    console.log({
-      nickname: nameValue,
-      email: idValue,
-      password: passwordValue,
-      longitude: 111,
-      latitude: 111,
-      isGuest,
-    });
+    refetch();
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+      toast.success("회원가입을 축하드립니다 ! 로그인 해주세요.");
+    }
+  }, [isSuccess, navigate]);
 
   return (
     <SContainer>
@@ -90,14 +107,13 @@ const Signup = () => {
           onChange={(e) => handleName(e)}
         />
         <Input
-          label="아이디"
-          id="아이디"
-          value={idValue}
-          isError={idError}
-          errorMsg="공백없는 영문,숫자 6~20자"
-          comment="공백없는 영문,숫자 6~20자"
-          placeholder="아이디를 입력해주세요."
-          onChange={(e) => handleId(e)}
+          label="이메일"
+          id="이메일"
+          value={emailValue}
+          isError={emailError}
+          errorMsg="이메일 형식을 확인해주세요."
+          placeholder="이메일을 입력해주세요."
+          onChange={(e) => handleEmail(e)}
         />
         <Input
           type="password"
@@ -127,6 +143,13 @@ const Signup = () => {
           isError={addressError}
           errorMsg="주소를 입력해주세요."
           placeholder="주소를 입력해주세요."
+          sideButton={
+            <SearchAddress
+              setValue={setAddressValue}
+              setError={setAddressError}
+            />
+          }
+          readOnly
           onChange={(e) => handleAddress(e)}
         />
         <SCheckboxContainer>
