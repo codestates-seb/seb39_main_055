@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { CgChevronRight } from "react-icons/cg";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+import { mobile } from "../../../assets";
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
-import { images, linkAdress1 } from "./Data";
+import { images, linkAdress1 } from "./PickData";
 import SideText from "./SideText";
 
 const Container = styled.div`
@@ -18,13 +19,6 @@ const Contents = styled.div`
   width: 780px;
   height: 570px;
   gap: 20px;
-
-  @media screen and (max-width: 1200px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-flow: row wrap;
-  }
 `;
 
 const SideContents = styled.span`
@@ -34,6 +28,11 @@ const SideContents = styled.span`
   gap: 20px;
   height: 440px;
   width: 110px;
+
+  ${mobile(css`
+    flex-wrap: wrap;
+  `)}
+}
 `;
 
 const UserPickContents = styled.span`
@@ -49,15 +48,19 @@ const UserPickContents = styled.span`
 `;
 
 const ContentsInfo = styled.div`
-  color: #ffff;
   font-size: 32px;
   line-height: 42px;
   position: absolute;
-  top: 80%;
+  top: 75%;
   left: 7%;
+
+  & > a {
+    color: #ffff;
+  }
 `;
 
 const SecondTextLine = styled.a`
+  color: #ffff;
   display: flex;
   align-items: center;
 `;
