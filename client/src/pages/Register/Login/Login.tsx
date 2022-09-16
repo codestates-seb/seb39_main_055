@@ -85,8 +85,8 @@ const Login = () => {
       <SH1>로그인</SH1>
       <SLoginSection>
         <LoginForm />
-        <SSignupButton>회원가입</SSignupButton>
         <SocialLogin />
+        <SSignupButton>회원가입</SSignupButton>
       </SLoginSection>
     </SBox>
   );
