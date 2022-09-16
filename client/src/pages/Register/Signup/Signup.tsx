@@ -89,7 +89,7 @@ const Signup = () => {
   useEffect(() => {
     if (isSuccess) {
       navigate("/login");
-      toast.success("회원가입을 축하드립니다 ! 로그인을 해주세요.");
+      toast.success("회원가입을 축하드립니다 ! 로그인 해주세요.");
     }
   }, [isSuccess, navigate]);
 
