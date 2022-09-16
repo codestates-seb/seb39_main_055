@@ -32,7 +32,7 @@ const Navbar = () => {
     setTabIsOpen((prev) => !prev);
   };
 
-  const isLogin = false;
+  const isLogin = true;
 
   return (
     <SNav>

@@ -82,6 +82,9 @@ export const STab = styled.aside<{ isOpen: boolean }>`
   color: ${({ theme }) => theme.colors.black300};
   background-color: white;
   font-size: 14px;
+  animation-name: dropdown;
+  animation-duration: 500ms;
+  animation-direction: normal;
 
   & > div {
     display: flex;
@@ -100,5 +103,15 @@ export const STab = styled.aside<{ isOpen: boolean }>`
 
   & > div:last-child {
     border-radius: 0 0 10px 10px;
+  }
+
+  @keyframes dropdown {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
