@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import ham from "../../assets/icons/ham.png";
 import like from "../../assets/icons/like.png";
 import search from "../../assets/icons/search.png";
 import profile from "../../assets/icons/user.png";
@@ -38,16 +39,46 @@ const SNav = styled.nav`
 export const SMenu = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
   font-size: 25px;
 
   & > img {
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.4s all;
   }
 
   & > img:hover {
+    background-color: ${({ theme }) => theme.colors.black010};
     cursor: pointer;
+  }
+`;
+
+export const SHamberger = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+  border-radius: 25px;
+  box-shadow: rgb(0 0 0 / 40%) 0px 0px 4px 0px;
+  transition: 0.4s all;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.black010};
+    cursor: pointer;
+  }
+
+  & > img:first-child {
+    width: 15px;
+    height: 15px;
+  }
+
+  & > img:last-child {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -68,7 +99,10 @@ const SharedLayout = () => {
         <SMenu>
           <img src={search} alt="search" />
           <img src={like} alt="like" />
-          <img src={profile} alt="profile" />
+          <SHamberger>
+            <img src={ham} alt="hamberger" />
+            <img src={profile} alt="profile" />
+          </SHamberger>
         </SMenu>
       </SNav>
       <SSection>
