@@ -22,14 +22,15 @@ import {
 
 const LoginForm = () => {
   const [isHidden, setIsHidden] = useState(true);
-  const [userID, setUserID] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
   const navigate = useNavigate();
   const { mutate, isLoading, isSuccess, isError, errMsg } = useLogin();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    mutate({ email: userID, password });
+    mutate({ email, password, keepLoggedIn });
   };
 
   useEffect(() => {
@@ -42,11 +43,11 @@ const LoginForm = () => {
     <SForm onSubmit={handleSubmit}>
       <SInput
         id="username"
-        value={userID}
+        value={email}
         placeholder="아이디를 입력하세요"
         isError={false}
         errorMsg=""
-        onChange={(e) => setUserID(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <SPWBox>
         <SInput
@@ -66,9 +67,9 @@ const LoginForm = () => {
         <SCheckbox
           labelName="로그인 상태 유지"
           value=""
-          defaultChecked={false}
+          defaultChecked={keepLoggedIn}
           id="preserve-Login"
-          onChange={() => console.log("g")}
+          onChange={() => setKeepLoggedIn((prev) => !prev)}
         />
         <SLink to="/">아이디/비밀번호찾기</SLink>
       </SMiscBox>
@@ -84,8 +85,8 @@ const Login = () => {
       <SH1>로그인</SH1>
       <SLoginSection>
         <LoginForm />
-        <SSignupButton>회원가입</SSignupButton>
         <SocialLogin />
+        <SSignupButton>회원가입</SSignupButton>
       </SLoginSection>
     </SBox>
   );
