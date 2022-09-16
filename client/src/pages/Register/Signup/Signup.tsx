@@ -23,7 +23,8 @@ import {
 const Signup = () => {
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
-  const [idValue, idError, handleId, checkId] = useValidate(idValidation);
+  const [emailValue, emailError, handleEmail, checkEmail] =
+    useValidate(idValidation);
   const [
     addressValue,
     addressError,
@@ -58,14 +59,14 @@ const Signup = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     checkName();
-    checkId();
+    checkEmail();
     checkPassword();
     checkPasswordCheck(passwordValue);
     checkAddress();
 
     if (
       !nickNameValidation(nameValue) ||
-      !idValidation(idValue) ||
+      !idValidation(emailValue) ||
       !passwordValidation(passwordValue) ||
       !passwordCheckValidation(passwordCheckValue, passwordValue) ||
       !notBlank(addressValue)
@@ -77,7 +78,7 @@ const Signup = () => {
 
     console.log({
       nickname: nameValue,
-      email: idValue,
+      email: emailValue,
       password: passwordValue,
       longitude: coordinate.x,
       latitude: coordinate.y,
@@ -85,7 +86,7 @@ const Signup = () => {
 
     mutate({
       nickname: nameValue,
-      email: idValue,
+      email: emailValue,
       password: passwordValue,
       longitude: coordinate.x,
       latitude: coordinate.y,
@@ -106,14 +107,13 @@ const Signup = () => {
           onChange={(e) => handleName(e)}
         />
         <Input
-          label="아이디"
-          id="아이디"
-          value={idValue}
-          isError={idError}
-          errorMsg="공백없는 영문,숫자 6~20자"
-          comment="공백없는 영문,숫자 6~20자"
-          placeholder="아이디를 입력해주세요."
-          onChange={(e) => handleId(e)}
+          label="이메일"
+          id="이메일"
+          value={emailValue}
+          isError={emailError}
+          errorMsg="이메일 형식을 확인해주세요."
+          placeholder="이메일을 입력해주세요."
+          onChange={(e) => handleEmail(e)}
         />
         <Input
           type="password"
