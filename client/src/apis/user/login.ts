@@ -3,12 +3,13 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
-import { setToken, setUserInfos, useAppDispatch } from "../../redux";
+import { logInUser, setUserInfos, useAppDispatch } from "../../redux";
 import { axiosInstance, isKeyOf } from "../../utils";
 
 interface LoginForm {
   email: string;
   password: string;
+  keepLoggedIn: boolean;
 }
 
 interface UserInfosResponse {
@@ -29,11 +30,16 @@ interface ErrorResponse {
   timestamp: string;
 }
 
-const handleLogin = async (form: LoginForm) => {
-  const { headers } = await axiosInstance.post("/login", form);
-  const { authorization } = headers;
+type LoginResult = Pick<LoginForm, "keepLoggedIn"> & {
+  token: string;
+};
 
-  return authorization;
+const handleLogin = async (form: LoginForm) => {
+  const { email, password, keepLoggedIn } = form;
+  const { headers } = await axiosInstance.post("/login", { email, password });
+  const { authorization: token } = headers;
+
+  return { token, keepLoggedIn };
 };
 
 const fetchUserInfos = async () => {
@@ -55,12 +61,12 @@ export default function useLogin() {
   const dispatch = useAppDispatch();
   const [errMsg, setErrMsg] = useState("");
   const { mutate, isLoading, isSuccess, isError } = useMutation<
-    string,
+    LoginResult,
     AxiosError<ErrorResponse>,
     LoginForm
   >((form) => handleLogin(form), {
-    onSuccess: async (token) => {
-      dispatch(setToken(token));
+    onSuccess: async (payload) => {
+      dispatch(logInUser(payload));
 
       const userInfos = await fetchUserInfos();
 
