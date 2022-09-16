@@ -7,7 +7,7 @@ export const SContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
   min-height: calc(100vh - 380px);
 
   & > h1 {
@@ -20,7 +20,8 @@ export const SContainer = styled.div`
     gap: 60px;
     width: 50%;
     padding: 60px;
-    box-shadow: 0px 0px 5px grey;
+    border: 1px solid lightgray;
+    /* box-shadow: 0px 0px 5px grey; */
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
