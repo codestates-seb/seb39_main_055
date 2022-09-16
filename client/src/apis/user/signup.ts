@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "react-toastify";
 
@@ -17,10 +16,13 @@ interface SignupResponse {
   latitude: string;
 }
 
-interface SignupForm {
+interface SignupBody {
   nickname: string;
   email: string;
   password: string;
+}
+
+interface SignupForm extends SignupBody {
   longitude: string;
   latitude: string;
 }
@@ -51,8 +53,20 @@ export async function signupUser(form: SignupForm): Promise<SignupResponse> {
   return data;
 }
 
-export function useSignup(address: string) {
-  const [coordinate, setCoordinate] = useState({ x: "", y: "" });
+export function useSignup(address: string, form: SignupBody) {
+  const { mutate, isSuccess } = useMutation<
+    SignupResponse,
+    AxiosError<ErrorResponse>,
+    SignupForm
+  >((form) => signupUser(form), {
+    onError: (data) => {
+      const { response } = data;
+
+      if (response?.status === 500) {
+        toast.error("중복된 이메일입니다.");
+      }
+    },
+  });
 
   const { refetch } = useQuery<CoordinateResponse, AxiosError<ErrorResponse>>(
     ["coordinate", address],
@@ -64,37 +78,14 @@ export function useSignup(address: string) {
           toast.error("주소를 상세하게 입력해주세요.");
           return;
         }
-        setCoordinate({ x: data.documents[0].x, y: data.documents[0].y });
-      },
-      onError: (data) => {
-        const { response } = data;
-
-        if (!response) {
-          toast.error(data.message);
-          return;
-        }
-
-        toast.error(response.data.error);
+        mutate({
+          ...form,
+          longitude: data.documents[0].x,
+          latitude: data.documents[0].y,
+        });
       },
     }
   );
 
-  const { mutate, isSuccess } = useMutation<
-    SignupResponse,
-    AxiosError<ErrorResponse>,
-    SignupForm
-  >((form) => signupUser(form), {
-    onError: (data) => {
-      const { response } = data;
-
-      if (!response) {
-        toast.error(data.message);
-        return;
-      }
-
-      toast.error(response.data.error);
-    },
-  });
-
-  return { refetch, coordinate, mutate, isSuccess };
+  return { refetch, isSuccess };
 }

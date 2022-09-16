@@ -1,7 +1,10 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { useSignup } from "../../../apis";
 import { Checkbox, Input, SearchAddress } from "../../../components";
@@ -21,6 +24,8 @@ import {
 } from "./style";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [isGuest, setIsGuest] = useState(true);
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =
@@ -43,8 +48,12 @@ const Signup = () => {
   ] = useValidate(
     passwordCheckValidation as (value: string, password?: string) => boolean
   );
-  const [isGuest, setIsGuest] = useState(true);
-  const { refetch, coordinate, mutate } = useSignup(addressValue);
+  const { refetch, isSuccess } = useSignup(addressValue, {
+    email: emailValue,
+    password: passwordValue,
+    nickname: nameValue,
+  });
+
   const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     document
       .querySelectorAll(`input[type=checkbox]`)
@@ -75,27 +84,14 @@ const Signup = () => {
     }
 
     refetch();
-
-    if (coordinate.x === "" || coordinate.y === "") {
-      return;
-    }
-
-    console.log({
-      nickname: nameValue,
-      email: emailValue,
-      password: passwordValue,
-      longitude: coordinate.x,
-      latitude: coordinate.y,
-    });
-
-    mutate({
-      nickname: nameValue,
-      email: emailValue,
-      password: passwordValue,
-      longitude: coordinate.x,
-      latitude: coordinate.y,
-    });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+      toast.success("회원가입을 축하드립니다 ! 로그인을 해주세요.");
+    }
+  }, [isSuccess, navigate]);
 
   return (
     <SContainer>
