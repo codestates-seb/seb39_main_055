@@ -13,14 +13,16 @@ interface UserInfos {
   threads?: unknown[];
 }
 
-interface User {
+export interface User {
   loginStatus: boolean;
   userInfos: UserInfos | null;
+  keepLoggedIn: boolean;
   token: string;
 }
 
 const initialState: User = {
   loginStatus: false,
+  keepLoggedIn: false,
   userInfos: null,
   token: "",
 };

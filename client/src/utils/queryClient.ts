@@ -9,7 +9,7 @@ interface ErrorResponse {
   timestamp: string;
 }
 
-type ErrorHandler = (data: unknown) => void;
+type ErrorHandler = (error: unknown) => void;
 
 export const errorHandler: ErrorHandler = (error) => {
   if (error instanceof AxiosError<ErrorResponse>) {
