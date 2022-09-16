@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import like from "../../assets/icons/like.png";
@@ -25,8 +25,8 @@ const SNav = styled.nav`
   z-index: 100;
 
   & > img {
-    width: 160px;
-    height: 45px;
+    width: 140px;
+    height: 40px;
     cursor: pointer;
   }
 
@@ -41,6 +41,11 @@ export const SMenu = styled.div`
   gap: 30px;
   font-size: 25px;
 
+  & > img {
+    width: 25px;
+    height: 25px;
+  }
+
   & > img:hover {
     cursor: pointer;
   }
@@ -54,10 +59,12 @@ const SSection = styled.section`
 `;
 
 const SharedLayout = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <SNav>
-        <img src={logo} alt="logo" />
+        <img src={logo} alt="logo" onClick={() => navigate("/")} />
         <SMenu>
           <img src={search} alt="search" />
           <img src={like} alt="like" />
