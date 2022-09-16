@@ -44,7 +44,11 @@ const Navbar = () => {
           <img src={ham} alt="hamberger" />
           <img src={profile} alt="profile" />
         </SHamberger>
-        <STab isOpen={tabIsOpen} ref={tabRef}>
+        <STab
+          isOpen={tabIsOpen}
+          ref={tabRef}
+          onClick={() => setTabIsOpen(false)}
+        >
           {isLogin ? <DefaultTab /> : <UserTab />}
         </STab>
       </SMenu>
