@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 
 import { axiosInstance } from "../../utils";
 
+const KAKAO_KEY = process.env.REACT_APP_KAKAO_KEY;
+
 interface CoordinateResponse {
   documents: { x: string; y: string }[];
 }
@@ -34,6 +36,8 @@ interface ErrorResponse {
   timestamp: string;
 }
 
+console.log(KAKAO_KEY);
+
 export async function getCoordinate(
   address: string
 ): Promise<CoordinateResponse> {
@@ -41,7 +45,7 @@ export async function getCoordinate(
     `https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,
     {
       headers: {
-        Authorization: "KakaoAK f32ac6d09221878e89d289343ad18ba8",
+        Authorization: `KakaoAK ${KAKAO_KEY}`,
       },
     }
   );
