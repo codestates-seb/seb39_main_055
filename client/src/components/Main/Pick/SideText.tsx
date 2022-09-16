@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+import { mobile } from "../../../assets";
 
 const Container = styled.div`
   display: flex;
@@ -16,14 +18,9 @@ const Container = styled.div`
   font-size: 2.5rem;
   color: ${({ theme }) => theme.colors.black500};
 
-  & > div {
-    @media screen and (max-width: 1200px) {
-      display: block;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
+  ${mobile(css`
+    flex-wrap: wrap;
+  `)}
   }
 `;
 
