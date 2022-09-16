@@ -19,20 +19,31 @@ export const SInputContainer = styled.div`
   }
 `;
 
-export const SInput = styled.div<{ isLabel: string | undefined }>`
+export const SInput = styled.div<{
+  isLabel: string | undefined;
+  isSideButton: JSX.Element | undefined;
+}>`
   position: relative;
   flex-basis: ${({ isLabel }) => (isLabel ? "70%" : "100%")};
   border-bottom: 1px solid #dbdbdb;
 
   & > input {
-    width: 100%;
+    width: ${({ isSideButton }) => (isSideButton ? "70%" : "100%")};
+    /* width: 100%; */
     padding: 5px;
     border: none;
     outline: none;
+    overflow: auto;
   }
 
   & > input::placeholder {
     color: #767676;
+  }
+
+  & > button {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
@@ -40,7 +51,7 @@ export const SInput = styled.div<{ isLabel: string | undefined }>`
 
     & > input {
       padding: 5px 0;
-      width: 100%;
+      width: ${({ isSideButton }) => (isSideButton ? "70%" : "100%")};
     }
   }
 `;
@@ -81,6 +92,8 @@ interface Prop {
   comment?: string;
   placeholder: string;
   className?: string;
+  sideButton?: JSX.Element;
+  readOnly?: boolean;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void | React.Dispatch<React.SetStateAction<string>>;
@@ -96,23 +109,27 @@ const Input = ({
   comment,
   placeholder,
   className,
+  sideButton,
+  readOnly,
   onChange,
 }: Prop) => {
   return (
     <SInputContainer className={className}>
       {label && <label htmlFor={id}>{label}</label>}
-      <SInput isLabel={label}>
+      <SInput isLabel={label} isSideButton={sideButton}>
         <input
           type={type}
           id={id}
           placeholder={placeholder}
           value={value}
+          readOnly={readOnly}
           onChange={(e) => onChange(e)}
         />
         {isError && <SError isError={isError}>{errorMsg}</SError>}
         {!isError && comment && (
           <SComment isError={isError}>{comment}</SComment>
         )}
+        {sideButton}
       </SInput>
     </SInputContainer>
   );
