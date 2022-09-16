@@ -36,8 +36,6 @@ interface ErrorResponse {
   timestamp: string;
 }
 
-console.log(KAKAO_KEY);
-
 export async function getCoordinate(
   address: string
 ): Promise<CoordinateResponse> {
