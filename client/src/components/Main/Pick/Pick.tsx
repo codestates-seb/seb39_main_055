@@ -13,13 +13,15 @@ const Container = styled.div`
   ${mobile(css`
     flex-direction: column;
     align-items: center;
-    height: 660px;
+    height: 610px;
   `)}
 `;
 
 const TextContainer = styled.div`
+  margin-top: 185px;
   ${mobile(css`
     flex-wrap: wrap;
+    margin-top: 0px;
   `)}
 `;
 
@@ -27,9 +29,8 @@ const Contents = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 780px;
   height: 570px;
-  gap: 20px;
+  gap: 15px;
 
   ${mobile(css`
     flex-direction: column;
@@ -59,20 +60,20 @@ const SideContents = styled.span`
 `;
 
 const UserPickContents = styled.span`
-  width: 480px;
-  height: 440px;
+  width: 440px;
+  height: 400px;
   position: relative;
   align-items: center;
 
   & > img {
-    widht: 480px;
-    height: 440px;
+    widht: 440px;
+    height: 400px;
     object-fit: contain;
     
     ${mobile(css`
       widht: 380px;
       height: 340px;
-      margin: 0% 12.4%;
+      margin: 0% 8.7%;
     `)}
     `;
 

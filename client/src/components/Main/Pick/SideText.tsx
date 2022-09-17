@@ -6,24 +6,25 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
 
-  width: 300px;
+  width: 200px;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 1px;
-  gap: 20px;
+  gap: 30px;
   font-family: ONE Mobile;
   font-weight: 400;
-  font-size: 2.5rem;
+  font-size: 30px;
   color: ${({ theme }) => theme.colors.black500};
 
   ${mobile(css`
+    width: 400px;
     flex-direction: row;
     flex-wrap: wrap;
-    font-size: 30px;
+    font-size: 34px;
     text-decoration: none;
-    gap: 5px;
+    gap: 10px;
   `)}
 `;
 
