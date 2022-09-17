@@ -5,7 +5,7 @@ export const SContainer = styled.li`
   height: 100px;
   width: 99%;
   margin-bottom: 10px;
-  box-shadow: 0px 0px 5px grey;
+  box-shadow: 0px 0px 1px grey;
 
   & > img {
     width: 40%;

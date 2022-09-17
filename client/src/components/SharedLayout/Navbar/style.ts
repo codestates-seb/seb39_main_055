@@ -67,6 +67,7 @@ export const SHamberger = styled.div`
   & > img:last-child {
     width: 20px;
     height: 20px;
+    border-radius: 50%;
   }
 `;
 

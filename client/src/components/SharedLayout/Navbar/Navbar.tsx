@@ -6,13 +6,15 @@ import like from "../../../assets/icons/like.png";
 import search from "../../../assets/icons/search.png";
 import profile from "../../../assets/icons/user.png";
 import logo from "../../../assets/images/logo/logo.png";
+import { useAppSelector } from "../../../redux";
 import { SHamberger, SMenu, SNav, STab } from "./style";
 import { DefaultTab, UserTab } from "./Tabs";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [tabIsOpen, setTabIsOpen] = useState(false);
   const tabRef = useRef<HTMLElement>(null);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
+  const [tabIsOpen, setTabIsOpen] = useState(false);
 
   const handleTabClick = () => {
     setTabIsOpen((prev) => !prev);
@@ -32,8 +34,6 @@ const Navbar = () => {
     };
   }, [handleClickOutside]);
 
-  const isLogin = true;
-
   return (
     <SNav>
       <img src={logo} alt="logo" onClick={() => navigate("/")} />
@@ -42,14 +42,14 @@ const Navbar = () => {
         <img src={like} alt="like" />
         <SHamberger onClick={() => handleTabClick()}>
           <img src={ham} alt="hamberger" />
-          <img src={profile} alt="profile" />
+          <img src={userInfos ? userInfos?.image : profile} alt="profile" />
         </SHamberger>
         <STab
           isOpen={tabIsOpen}
           ref={tabRef}
           onClick={() => setTabIsOpen(false)}
         >
-          {isLogin ? <DefaultTab /> : <UserTab />}
+          {loginStatus ? <UserTab /> : <DefaultTab />}
         </STab>
       </SMenu>
     </SNav>

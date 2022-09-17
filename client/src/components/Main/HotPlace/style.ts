@@ -49,11 +49,14 @@ export const SImgContainer = styled.div`
   }
 
   @keyframes fadein {
-    from {
+    0% {
       opacity: 0;
     }
-    to {
+    50% {
       opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 `;
@@ -98,7 +101,7 @@ export const SButtonContainer = styled.div`
 
 export const SListContainer = styled.ul`
   position: relative;
-  height: 420px;
+  height: 445px;
   margin-top: 20px;
   padding: 5px;
   overflow-y: scroll;
