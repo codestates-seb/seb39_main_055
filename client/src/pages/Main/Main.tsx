@@ -16,7 +16,7 @@ const Container = styled.div`
   & > section {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 150px;
     margin: 50px 0;
     padding: 0 150px;
   }

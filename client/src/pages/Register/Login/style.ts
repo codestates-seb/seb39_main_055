@@ -50,7 +50,7 @@ export const SForm = styled.form`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  height: 300px;
+  height: 240px;
   width: 100%;
   row-gap: 35px;
 
