@@ -60,7 +60,7 @@ const TextLine2 = styled.div`
 
 const Date = styled.div`
   color: ${({ theme }) => theme.colors.black100};
-  margin-top: 10px;
+  margin: 10px 0px 15px 0px;
   font-size: 12px;
 `;
 
