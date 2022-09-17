@@ -46,7 +46,7 @@ const Checkbox = ({
       <input
         type="checkbox"
         id={id}
-        value={labelName}
+        value={value}
         defaultChecked={defaultChecked}
         onChange={(e) => onChange(e)}
       />
