@@ -14,6 +14,10 @@ const Navbar = () => {
   const [tabIsOpen, setTabIsOpen] = useState(false);
   const tabRef = useRef<HTMLElement>(null);
 
+  const handleTabClick = () => {
+    setTabIsOpen((prev) => !prev);
+  };
+
   const handleClickOutside = useCallback(
     ({ target }) => {
       if (tabIsOpen && !tabRef.current?.contains(target)) setTabIsOpen(false);
@@ -27,10 +31,6 @@ const Navbar = () => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, [handleClickOutside]);
-
-  const handleTabClick = () => {
-    setTabIsOpen((prev) => !prev);
-  };
 
   const isLogin = true;
 
