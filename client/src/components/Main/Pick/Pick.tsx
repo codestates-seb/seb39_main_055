@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CgChevronRight } from "react-icons/cg";
 import styled, { css } from "styled-components";
 
-import { mobile } from "../../../assets";
+import { mobile, tablet } from "../../../assets";
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
 import { images, linkAdress1 } from "./PickData";
 import SideText from "./SideText";
@@ -10,15 +10,23 @@ import SideText from "./SideText";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+
   ${mobile(css`
     flex-direction: column;
     align-items: center;
     height: 610px;
   `)}
+
+  @media (max-width: 1110px) {
+    flex-direction: column;
+    align-items: center;
+    height: 610px;
+  }
 `;
 
 const TextContainer = styled.div`
   margin-top: 185px;
+
   ${mobile(css`
     flex-wrap: wrap;
     margin-top: 0px;
