@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start-end;
+  align-items: flex-end;
 
   width: 300px;
   text-decoration: underline;
@@ -19,9 +19,12 @@ const Container = styled.div`
   color: ${({ theme }) => theme.colors.black500};
 
   ${mobile(css`
+    flex-direction: row;
     flex-wrap: wrap;
+    font-size: 30px;
+    text-decoration: none;
+    gap: 5px;
   `)}
-  }
 `;
 
 const SideText = () => {
