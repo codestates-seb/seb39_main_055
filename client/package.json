@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.4",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -13,6 +14,7 @@
     "@types/react-dom": "^17.0.17",
     "axios": "^0.27.2",
     "react": "^17.0.2",
+    "react-awesome-reveal": "^4.0.1",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
