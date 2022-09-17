@@ -1,27 +1,44 @@
-import { Middleware } from "@reduxjs/toolkit";
+/* eslint-disable consistent-return */
+import {
+  AnyAction,
+  Dispatch,
+  Middleware,
+  MiddlewareAPI,
+} from "@reduxjs/toolkit";
 
+import { isKeyOf } from "../../utils";
 import { RootState } from ".";
+
+interface CaseHandler {
+  [x: string]: (
+    storeAPI: MiddlewareAPI<Dispatch<AnyAction>, RootState>,
+    next: Dispatch<AnyAction>,
+    action: AnyAction
+  ) => AnyAction | void;
+}
 
 const middlewares: Middleware[] = [];
 
-/* const handleCase = {
-  "user/setUserInfos": () => {
+const localStorageHandler: CaseHandler = {
+  "user/setUserInfos": (storeAPI, next, action) => {
+    const { keepLoggedIn, token } = storeAPI.getState().user;
 
+    if (!keepLoggedIn) return next(action);
+    localStorage.setItem("currentUser", JSON.stringify(token));
   },
-  "user/logOutUser": () => {
+  "user/logOutUser": (storeAPI, next, action) => {
     localStorage.removeItem("currentUser");
   },
-}; */
+};
+
 const localStorageMW: Middleware<undefined, RootState> =
   (storeAPI) => (next) => (action) => {
-    if (action.type === "user/setUserInfos") {
-      const { keepLoggedIn, token } = storeAPI.getState().user;
+    const { type } = action;
 
-      if (!keepLoggedIn) return next(action);
-      localStorage.setItem("currentUser", JSON.stringify(token));
-    } else if (action.type === "user/logOutUser") {
-      localStorage.removeItem("currentUser");
+    if (isKeyOf(type, localStorageHandler)) {
+      localStorageHandler[type](storeAPI, next, action);
     }
+
     return next(action);
   };
 
