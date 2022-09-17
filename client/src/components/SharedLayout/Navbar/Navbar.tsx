@@ -13,7 +13,7 @@ import { DefaultTab, UserTab } from "./Tabs";
 const Navbar = () => {
   const navigate = useNavigate();
   const tabRef = useRef<HTMLElement>(null);
-  const { loginStatus } = useAppSelector((state) => state.user);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
   const [tabIsOpen, setTabIsOpen] = useState(false);
 
   const handleTabClick = () => {
@@ -42,7 +42,7 @@ const Navbar = () => {
         <img src={like} alt="like" />
         <SHamberger onClick={() => handleTabClick()}>
           <img src={ham} alt="hamberger" />
-          <img src={profile} alt="profile" />
+          <img src={userInfos ? userInfos?.image : profile} alt="profile" />
         </SHamberger>
         <STab
           isOpen={tabIsOpen}
