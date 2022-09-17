@@ -39,7 +39,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
+    color: black;
     text-decoration: none;
+
+    &:hover, &:active {
+      color: black;
+      text-decoration: none;
+    }
   }
 
   button {
