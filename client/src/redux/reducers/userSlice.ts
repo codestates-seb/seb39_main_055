@@ -51,7 +51,7 @@ const userSlice = createSlice({
   },
 });
 
-export const selectUserToken = (state: RootState) => state.user.token;
+export const selectUser = (state: RootState) => state.user;
 
 export const { logInUser, setUserInfos, logOutUser } = userSlice.actions;
 export const userReducer: Reducer<typeof initialState> = userSlice.reducer;

@@ -1,3 +1,4 @@
+import { Fade } from "react-awesome-reveal";
 import styled from "styled-components";
 
 import {
@@ -16,7 +17,7 @@ const Container = styled.div`
   & > section {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 200px;
     margin: 50px 0;
     padding: 0 150px;
   }
@@ -34,10 +35,18 @@ const Main = () => {
       <Header />
       <section>
         <Category />
-        <Recommend />
-        <HotPlace />
-        <Pick />
-        <Review />
+        <Fade direction="left">
+          <Recommend />
+        </Fade>
+        <Fade direction="left">
+          <HotPlace />
+        </Fade>
+        <Fade direction="left">
+          <Pick />
+        </Fade>
+        <Fade direction="left">
+          <Review />
+        </Fade>
       </section>
     </Container>
   );

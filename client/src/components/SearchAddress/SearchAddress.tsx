@@ -43,14 +43,14 @@ const SearchAddress = ({ setValue, setError }: Prop) => {
     setError(false);
   };
 
-  const popupX = document.body.offsetWidth / 2;
-  const popupY = window.screen.height / 2;
+  const popupX = window.screen.width / 2 - 250;
+  const popupY = window.screen.height / 2 - 300;
 
   const handleClick = () => {
     open({
       onComplete: handleComplete,
-      top: popupX,
-      left: popupY,
+      top: popupY,
+      left: popupX,
     });
   };
 

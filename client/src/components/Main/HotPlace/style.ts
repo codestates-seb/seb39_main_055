@@ -3,7 +3,6 @@ import styled from "styled-components";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 export const Container = styled.div`
-  box-shadow: 0px 0px 5px grey;
   & > header {
     display: flex;
     flex-direction: column;
@@ -43,18 +42,21 @@ export const SImgContainer = styled.div`
   & > img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     animation: fadein 3s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
   }
 
   @keyframes fadein {
-    from {
+    0% {
       opacity: 0;
     }
-    to {
+    50% {
       opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 `;
@@ -99,7 +101,7 @@ export const SButtonContainer = styled.div`
 
 export const SListContainer = styled.ul`
   position: relative;
-  height: 420px;
+  height: 445px;
   margin-top: 20px;
   padding: 5px;
   overflow-y: scroll;
