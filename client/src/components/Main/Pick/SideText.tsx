@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { mobile } from "../../../assets";
+import { mobile, tablet } from "../../../assets";
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +25,15 @@ const Container = styled.div`
     text-decoration: none;
     gap: 10px;
   `)}
+
+  @media (max-width: 1110px) {
+    width: 400px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 34px;
+    text-decoration: none;
+    gap: 10px;
+  }
 `;
 
 const SideText = () => {
