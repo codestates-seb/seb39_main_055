@@ -8,14 +8,13 @@ const Container = styled.div`
   justify-content: center;
   align-items: flex-start;
 
-  width: 200px;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 1px;
-  gap: 30px;
+  gap: 20px;
   font-family: ONE Mobile;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 38px;
   color: ${({ theme }) => theme.colors.black500};
 
   ${mobile(css`
