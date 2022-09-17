@@ -10,6 +10,17 @@ import SideText from "./SideText";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  ${mobile(css`
+    flex-direction: column;
+    align-items: center;
+    height: 660px;
+  `)}
+`;
+
+const TextContainer = styled.div`
+  ${mobile(css`
+    flex-wrap: wrap;
+  `)}
 `;
 
 const Contents = styled.div`
@@ -19,6 +30,11 @@ const Contents = styled.div`
   width: 780px;
   height: 570px;
   gap: 20px;
+
+  ${mobile(css`
+    flex-direction: column;
+    align-items: center;
+  `)}
 `;
 
 const SideContents = styled.span`
@@ -30,9 +46,16 @@ const SideContents = styled.span`
   width: 110px;
 
   ${mobile(css`
-    flex-wrap: wrap;
+    flex-direction: row;
+    height: 100px;
   `)}
-}
+
+  & > img {
+    ${mobile(css`
+      widht: 100px;
+      height: 100px;
+    `)}
+  }
 `;
 
 const UserPickContents = styled.span`
@@ -45,7 +68,13 @@ const UserPickContents = styled.span`
     widht: 480px;
     height: 440px;
     object-fit: contain;
-`;
+    
+    ${mobile(css`
+      widht: 380px;
+      height: 340px;
+      margin: 0% 12.4%;
+    `)}
+    `;
 
 const ContentsInfo = styled.div`
   font-size: 32px;
@@ -53,10 +82,21 @@ const ContentsInfo = styled.div`
   position: absolute;
   top: 75%;
   left: 7%;
+  opacity: 0.7;
 
+  :hover {
+    opacity: 0.8;
+  }
   & > a {
     color: #ffff;
   }
+
+  ${mobile(css`
+    top: 58%;
+    left: 15%;
+    font-size: 20px;
+    line-height: 30px;
+  `)}
 `;
 
 const SecondTextLine = styled.a`
@@ -76,7 +116,9 @@ const Pick = () => {
   };
   return (
     <Container>
-      <SideText />
+      <TextContainer>
+        <SideText />
+      </TextContainer>
       <Contents>
         <SideContents>
           {/* onClick={handleOnClick} crrImg={crrImg} images={images} /> */}
