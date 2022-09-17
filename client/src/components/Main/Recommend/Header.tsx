@@ -11,10 +11,9 @@ const Container = styled.div`
   padding: 0px 10px 20px 10px;
   font-family: "ONE Mobile";
 
-  // ${mobile(css`
-    //   width: 400px;
-    //   padding-right: 20px;
-    //
+  ${mobile(css`
+    width: 400px;
+    align-items: flex-start;
   `)}
 
   & > h1 {
@@ -34,6 +33,9 @@ const SubTitle = styled.div`
   line-height: 22px;
   color: #8d8d8d;
   text-align: center;
+  ${mobile(css`
+    align-items: center;
+  `)}
 `;
 
 const Header = () => {
