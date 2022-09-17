@@ -10,7 +10,7 @@ export const SContainer = styled.li`
   & > img {
     width: 40%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
   }
 
   & > div {
