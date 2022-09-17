@@ -101,7 +101,7 @@ export const SButtonContainer = styled.div`
 
 export const SListContainer = styled.ul`
   position: relative;
-  height: 420px;
+  height: 445px;
   margin-top: 20px;
   padding: 5px;
   overflow-y: scroll;
