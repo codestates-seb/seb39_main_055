@@ -21,6 +21,16 @@ export const Container = styled.div`
       color: ${({ theme }) => theme.colors.black100};
       font-size: 20px;
     }
+
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
+      & > h3 {
+        font-size: 24px;
+      }
+
+      & > p {
+        font-size: 14px;
+      }
+    }
   }
 `;
 
