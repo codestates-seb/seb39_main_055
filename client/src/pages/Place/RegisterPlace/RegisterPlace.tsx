@@ -4,6 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import {
+  ButtonOrange,
   Checkbox,
   FileInput,
   ImgPreview,
@@ -80,6 +81,17 @@ export const SCheckboxContainer = styled.div`
       flex-basis: 40%;
       flex-grow: 1;
     }
+  }
+`;
+
+export const SButton = styled(ButtonOrange)`
+  width: 150px;
+  border-radius: 25px;
+  margin-left: 130px;
+  padding: 0 30px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    margin: 0 auto;
   }
 `;
 
@@ -193,11 +205,15 @@ const RegisterPlace = () => {
           />
           <STextAreaContainer>
             <label htmlFor="매장 상세설명">매장 상세설명</label>
-            <STextArea
-              id="매장 상세설명"
-              placeholder="매장에 대한 설명을 입력해주세요."
-            />
+            <STextArea>
+              <textarea
+                id="매장 상세설명"
+                placeholder="매장에 대한 설명을 입력해주세요."
+              />
+              <p>상세 설명을 30자 이상 입력해주세요.</p>
+            </STextArea>
           </STextAreaContainer>
+          <SButton>등록하기</SButton>
         </section>
       </SForm>
     </SContainer>
@@ -219,30 +235,42 @@ export const STextAreaContainer = styled.div`
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
-    height: 300px;
+    gap: 25px;
 
-    & > label {
+    & > section > label {
       flex-basis: 5%;
     }
   }
 `;
 
-export const STextArea = styled.textarea`
-  flex-basis: 70%;
-  position: relative;
+export const STextArea = styled.section`
   width: 100%;
-  height: 300px;
-  padding: 10px;
-  outline: none;
-  border: 1px solid #dbdbdb;
-  resize: none;
+  height: auto;
+  flex-basis: 70%;
 
-  &::placeholder {
-    color: #767676;
+  & > textarea {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #dbdbdb;
+    resize: none;
+
+    &::placeholder {
+      color: #767676;
+    }
+  }
+
+  & > p {
+    margin-top: 5px;
+    color: red;
+    font-size: 10px;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    flex-basis: 95%;
+    & > textarea {
+      flex-basis: 95%;
+    }
   }
 `;
