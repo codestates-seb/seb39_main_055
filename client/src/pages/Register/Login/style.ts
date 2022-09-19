@@ -42,7 +42,7 @@ export const SLoginSection = styled.section`
     width: 80%;
     min-width: 280px;
     padding: 30px;
-    height: 460px;
+    height: 550px;
   `)}
 `;
 
@@ -56,6 +56,7 @@ export const SForm = styled.form`
 
   ${mobile(css`
     row-gap: 25px;
+    height: 260px;
   `)}
 `;
 

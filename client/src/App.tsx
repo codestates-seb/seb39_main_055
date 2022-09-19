@@ -6,8 +6,9 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
-import { Login, Main, Signup } from "./pages";
+import { AddNewPost, Login, Main, Signup } from "./pages";
 import {
+  logOutUser,
   selectUser,
   setUserInfos,
   useAppDispatch,
@@ -22,7 +23,9 @@ const App = () => {
     onSuccess: (data) => {
       dispatch(setUserInfos(data));
     },
-    /* onError: (err) => {}, */
+    onError: (err) => {
+      dispatch(logOutUser());
+    },
   });
 
   return (
@@ -32,6 +35,7 @@ const App = () => {
           <Route index element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/new-post" element={<AddNewPost />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
