@@ -41,7 +41,7 @@ export const SSection = styled.section`
   @media screen and (max-width: 1000px) {
     display: flex;
     flex-direction: column;
-    height: 1000px;
+    height: 700px;
   }
 `;
 
@@ -68,6 +68,10 @@ export const SImgContainer = styled.div`
     100% {
       opacity: 0;
     }
+  }
+
+  @media screen and (max-width: 1000px) {
+    height: 350px;
   }
 `;
 
@@ -118,6 +122,10 @@ export const SListContainer = styled.ul`
 
   & > li:last-child {
     margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 1000px) {
+    height: 350px;
   }
 `;
 
