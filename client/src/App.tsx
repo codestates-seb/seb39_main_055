@@ -17,7 +17,7 @@ import {
 const App = () => {
   const dispatch = useAppDispatch();
   const { loginStatus } = useAppSelector(selectUser);
-  const InitializeQuery = useQuery(["authUser", loginStatus], fetchUserInfos, {
+  const InitQuery = useQuery(["authUser", loginStatus], fetchUserInfos, {
     enabled: loginStatus,
     onSuccess: (data) => {
       dispatch(setUserInfos(data));
