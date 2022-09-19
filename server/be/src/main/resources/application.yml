@@ -6,6 +6,22 @@ server:
       enabled: true
       force: true
 
+# AWS Account Credentials (AWS 접근 키)
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIASXSSFL6PEGXXX27F    # AWS IAM AccessKey 적기
+      secretKey: bYB9cDfhttvDTeXA8kbqyNb39n2ZdETBl3npbXtz  # AWS IAM SecretKey 적기
+    # AWS S3 bucket Info (S3 버킷정보)
+    s3:
+      bucket: main055
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,3 +35,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  # file upload max size (파일 업로드 크기 설정)
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+

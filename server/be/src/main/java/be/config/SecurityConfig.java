@@ -35,7 +35,9 @@ public class SecurityConfig{
                 .apply(new MyCustomDsl()) // 커스텀 필터 등록
                 .and()
                 .authorizeRequests(authroize -> authroize.antMatchers("/v1/user/**")
-                        .access("hasRole('ROLE_USER')")
+                        .access("hasRole('ROLE_USER') or hasRole('ROLE_OWNER')")
+                        .antMatchers("/v1/owner/**")
+                        .access("hasRole('ROLE_OWNER')")
                         .anyRequest().permitAll())
                 .build();
 
