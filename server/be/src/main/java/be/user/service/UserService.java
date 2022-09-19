@@ -8,6 +8,7 @@ import be.user.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,9 +29,11 @@ public class UserService {
         return findUser(getUserByToken());
     }
 
+
     private User findUser(User user){// 아래 getUserByToken 쓸거임
         return findVerifiedUser(user.getUserId());
     }
+
 
     public User findVerifiedUser(long userId){
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -44,6 +47,7 @@ public class UserService {
         return findUser;
     }
 
+    @Transactional
     public User createUser(User user) {
         // 이미 등록된 이메일인지 확인
         verifyExistsEmail(user.getEmail());
@@ -67,5 +71,29 @@ public class UserService {
         PrincipalDetails principalDetails = (PrincipalDetails)principal;
 
         return principalDetails.getUser();
+    }
+
+    @Transactional
+    public User updateUser(User user){
+        User findUser = findVerifiedUser(user.getUserId());
+        Optional.ofNullable(user.getUpdatedAt())//업데이트 날짜 수정
+                .ifPresent(userUpdatedAt ->findUser.setUpdatedAt(userUpdatedAt));
+
+        Optional.ofNullable(user.getImage())//유저 프로필이미지 수정
+                .ifPresent(userImage ->findUser.setImage(userImage));
+
+        Optional.ofNullable(user.getNickname())//유저 닉네임 수정
+                .ifPresent(userNickname ->findUser.setNickname(userNickname));
+
+        Optional.ofNullable(user.getEmail())//유저 이메일 수정
+                .ifPresent(userEmail ->findUser.setEmail(userEmail));
+
+        Optional.ofNullable(user.getLongitude())//유저 longitude 수정
+                .ifPresent(userLongitude ->findUser.setLongitude(userLongitude));
+
+        Optional.ofNullable(user.getLatitude())//유저 latitude 수정
+                .ifPresent(userLatitude ->findUser.setLatitude(userLatitude));
+
+        return findUser;
     }
 }

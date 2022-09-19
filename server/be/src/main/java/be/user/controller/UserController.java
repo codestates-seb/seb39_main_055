@@ -1,6 +1,7 @@
 package be.user.controller;
 
 import be.response.SingleResponseDto;
+import be.user.dto.UserPatchDto;
 import be.user.dto.UserPostDto;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
@@ -48,6 +49,20 @@ public class UserController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.userToUserResponseDto(user)),
+                HttpStatus.OK);
+    }
+
+    /**
+     * 회원정보 수정 API
+     * **/
+    @PatchMapping("user/update")
+    public ResponseEntity patchUser(@Valid @RequestBody UserPatchDto userPatchDto){
+
+        User user = mapper.userPatchDtoToUser(userService,userPatchDto);
+        User updatedUser = userService.updateUser(user);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.userToUserResponseDto(updatedUser)),
                 HttpStatus.OK);
     }
 
