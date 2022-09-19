@@ -18,6 +18,7 @@ public class UserResponseDto {
     private User.UserStatus userStatus;
     private Double longitude;
     private Double latitude;
+    private String userRole;
 
 }
 
