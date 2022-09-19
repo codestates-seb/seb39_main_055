@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -31,4 +32,8 @@ public class UserPostDto {
 
     @NotNull(message = "위도를 입력해주세요")
     private Double latitude;
+
+    @NotBlank(message = "유저의 권한을 입력해주세요[ROLE_USER/ROLE_OWNER]")
+    @Pattern(regexp = "(^ROLE_USER)|(^ROLE_OWNER)",message = "ROLE_USER or ROLE_OWNER중에 선택해주세요")
+    private String userRole;
 }

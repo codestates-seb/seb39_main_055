@@ -16,6 +16,7 @@ public interface UserMapper {
         user.setPassword(userPostDto.getPassword());
         user.setLongitude(userPostDto.getLongitude());
         user.setLatitude(userPostDto.getLatitude());
+        user.setUserRole(userPostDto.getUserRole());
 
         return user;
     }
@@ -32,6 +33,7 @@ public interface UserMapper {
         userResponseDto.setUserStatus(user.getUserStatus());
         userResponseDto.setLongitude(user.getLongitude());
         userResponseDto.setLatitude(user.getLatitude());
+        userResponseDto.setUserRole(user.getUserRole());
 
         return userResponseDto;
     }
