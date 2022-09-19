@@ -16,6 +16,9 @@ public enum ExceptionCode {
     REVIEW_EXISTS(409, "Review exists"),
     ACCESS_DENIED_USER(403,"Access Denied User"),
 //    CANNOT_CHANGE_ORDER(403, "Order can not change"),
+    PHOTO_NOT_FOUND(404, "photo not found"),
+    FILE_UPLOAD_FAILED(417, "file upload fail"),
+    FILE_SIZE_EXCEED(431,"file size exceed"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status");  // TO 추가된 부분
 
