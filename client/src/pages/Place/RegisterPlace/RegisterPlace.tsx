@@ -10,6 +10,7 @@ import {
   ImgPreview,
   Input,
   SearchAddress,
+  TextArea,
 } from "../../../components";
 import { useValidate } from "../../../hooks";
 import { notBlank } from "../../../utils";
@@ -203,16 +204,15 @@ const RegisterPlace = () => {
             placeholder="매장 홈페이지 주소를 입력해주세요."
             onChange={() => console.log("!")}
           />
-          <STextAreaContainer>
-            <label htmlFor="매장 상세설명">매장 상세설명</label>
-            <STextArea>
-              <textarea
-                id="매장 상세설명"
-                placeholder="매장에 대한 설명을 입력해주세요."
-              />
-              <p>상세 설명을 30자 이상 입력해주세요.</p>
-            </STextArea>
-          </STextAreaContainer>
+          <TextArea
+            id="매장 상세설명"
+            label="매장 상세설명"
+            value="1"
+            isError
+            errorMsg="매장 상세 설명을 20자 이상 입력해주세요."
+            placeholder="매장에 대한 설명을 입력해주세요."
+            onChange={(e) => console.log(e.target.value)}
+          />
           <SButton>등록하기</SButton>
         </section>
       </SForm>
@@ -239,38 +239,6 @@ export const STextAreaContainer = styled.div`
 
     & > section > label {
       flex-basis: 5%;
-    }
-  }
-`;
-
-export const STextArea = styled.section`
-  width: 100%;
-  height: auto;
-  flex-basis: 70%;
-
-  & > textarea {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    padding: 10px;
-    outline: none;
-    border: 1px solid #dbdbdb;
-    resize: none;
-
-    &::placeholder {
-      color: #767676;
-    }
-  }
-
-  & > p {
-    margin-top: 5px;
-    color: red;
-    font-size: 10px;
-  }
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    & > textarea {
-      flex-basis: 95%;
     }
   }
 `;
