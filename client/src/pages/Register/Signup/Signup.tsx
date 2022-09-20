@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -25,7 +25,7 @@ import {
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [isGuest, setIsGuest] = useState(true);
+  const { checkboxValue, handleCheckboxClick } = useCheckbox();
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =
@@ -52,9 +52,8 @@ const Signup = () => {
     email: emailValue,
     password: passwordValue,
     nickname: nameValue,
+    userRole: checkboxValue,
   });
-
-  const { checkboxValue, handleCheckboxClick } = useCheckbox();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

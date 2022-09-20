@@ -16,12 +16,14 @@ interface SignupResponse {
   userStatus: string;
   longitude: string;
   latitude: string;
+  userRole: string;
 }
 
 interface SignupBody {
   nickname: string;
   email: string;
   password: string;
+  userRole: string;
 }
 
 interface SignupForm extends SignupBody {
@@ -35,6 +37,8 @@ interface ErrorResponse {
   status: number;
   timestamp: string;
 }
+
+console.log(process.env.REACT_APP_KAKAO_REST_API_KEY);
 
 export async function getCoordinate(
   address: string
