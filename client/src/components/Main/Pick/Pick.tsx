@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
-import { images, linkAdress1 } from "./PickData";
+import { data, linkAdress1 } from "./PickData";
 import SideText from "./SideText";
 
 const Container = styled.div`
@@ -15,6 +15,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     height: 610px;
+    overflow-x: hidden;
   `)}
 
   @media (max-width: 1110px) {
@@ -25,11 +26,12 @@ const Container = styled.div`
 `;
 
 const TextContainer = styled.div`
-  margin-top: 185px;
+  width: 40%;
 
   ${mobile(css`
     flex-wrap: wrap;
-    margin-top: 0px;
+    width: auto;
+    height: 10%;
   `)}
 `;
 
@@ -37,7 +39,8 @@ const Contents = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: 570px;
+  height: auto;
+  width: 50%;
   gap: 15px;
 
   ${mobile(css`
@@ -52,7 +55,7 @@ const SideContents = styled.span`
   justify-content: center;
   gap: 20px;
   height: 440px;
-  width: 110px;
+  width: 20%;
 
   ${mobile(css`
     flex-direction: row;
@@ -61,7 +64,7 @@ const SideContents = styled.span`
 
   & > img {
     ${mobile(css`
-      widht: 100px;
+      widht: 100%;
       height: 100px;
     `)}
   }
@@ -79,8 +82,8 @@ const UserPickContents = styled.span`
     object-fit: contain;
     
     ${mobile(css`
-      widht: 380px;
-      height: 340px;
+      widht: 100%;
+      height: 100%;
       margin: 0% 8.7%;
     `)}
     `;
@@ -119,7 +122,7 @@ const Pick = () => {
   // const [crrImg, setCrrImg] = useState(images[0]);
   // const handleOnClick = (id: number) => {
   //   setCrrImg(images.find((i) => i.id === id));  };
-  const [crrImg, setCrrImg] = useState(images[0]);
+  const [crrImg, setCrrImg] = useState(data[0]);
   const handleOnClick = (e: any) => {
     setCrrImg(e.target.value);
   };
