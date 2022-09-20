@@ -151,7 +151,7 @@ const RegisterPlace = () => {
                     id={el}
                     value={el}
                     labelName={el}
-                    defaultChecked={idx === 1}
+                    defaultChecked={idx === 0}
                     onChange={(e) => handleCheckboxClick(e)}
                   />
                 )
