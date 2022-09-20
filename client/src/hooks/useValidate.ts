@@ -22,9 +22,10 @@ export const useValidate: UseValidate = (validateCallback) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>, password?: string) => {
       const { value } = e.target;
-      const { name } = (e.target.files as FileList)[0];
 
-      if (name) {
+      if (e.target.files) {
+        const { name } = e.target.files[0];
+
         setValue(name);
 
         if (validateCallback(name)) setError(false);
