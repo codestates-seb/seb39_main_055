@@ -28,8 +28,8 @@ public class HeartService {
 
     private void verifyExistHeart(User user, Store store){//이미 등록된 하트인지 확인
 
-        Optional<Heart> heart = heartRepository.findByUserAndStore(user,store);
-        if(heart.isPresent())
+        Optional<Heart> heart = heartRepository.findByUserAndStoreAndHeartStatus(user,store, Heart.HeartStatus.HEART_EXIST);
+        if(heart.isPresent()) //이미 등록된 하트면 에러!
             throw new BusinessLogicException(ExceptionCode.HEART_EXIST);
 
     }

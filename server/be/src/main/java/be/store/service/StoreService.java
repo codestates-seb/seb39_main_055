@@ -7,6 +7,7 @@ import be.store.repository.StoreRepository;
 import be.user.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +16,22 @@ import java.util.Optional;
 public class StoreService {
 
     private final StoreRepository storeRepository;
+
+    @Transactional
+    public Store createStore(Store store){
+        //이미 등록된 스토어인지 확인
+        verifyExistStore(store.getUser(),store.getLatitude(),store.getLongitude(),store.getName());//이미 등록된 가게인지 확인
+
+        return storeRepository.save(store);
+    }
+
+    public void verifyExistStore(User user,Double latitude,Double longitude,String storeName){//이미 등록된 가게인지 확인
+        Optional<Store> store = storeRepository.findByUserAndLatitudeAndLongitudeAndNameAndStoreStatus(
+                user,latitude,longitude,storeName,Store.StoreStatus.STORE_EXIST
+        );
+        if(store.isPresent()) //이미 등록된 가게면 에러!
+            throw new BusinessLogicException(ExceptionCode.STORE_EXISTS);
+    }
 
     public Store findVerifiedStore(long storeId){
         Optional<Store> optionalStore = storeRepository.findById(storeId);
