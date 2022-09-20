@@ -22,11 +22,11 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST)
-    private List<StoreImage> storeImages = new ArrayList<>();
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<StoreImage> storeImages;
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST)
-    private List<Heart> hearts = new ArrayList<>();
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<Heart> hearts;
 
 
     @Enumerated(EnumType.STRING)
@@ -54,10 +54,10 @@ public class Store extends BaseEntity {
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String homepage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 

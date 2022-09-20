@@ -34,6 +34,6 @@ public class UserPostDto {
     private Double latitude;
 
     @NotBlank(message = "유저의 권한을 입력해주세요[ROLE_USER/ROLE_OWNER]")
-    @Pattern(regexp = "(^ROLE_USER)|(^ROLE_OWNER)",message = "ROLE_USER or ROLE_OWNER중에 선택해주세요")
+    @Pattern(regexp = "(^ROLE_USER$)|(^ROLE_OWNER$)",message = "ROLE_USER or ROLE_OWNER중에 선택해주세요")
     private String userRole;
 }
