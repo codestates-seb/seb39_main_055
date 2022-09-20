@@ -6,15 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
-import PlaceCard from "./components/Main/HotPlace/PlaceCard/PlaceCard";
-import {
-  AddNewPost,
-  Login,
-  Main,
-  Mypage,
-  RegisterPlace,
-  Signup,
-} from "./pages";
+import { AddNewPost, Login, Main, Mypage, NewPlace, Signup } from "./pages";
 import {
   logOutUser,
   selectUser,
@@ -44,7 +36,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage" element={<Mypage />} />
-          <Route path="/place/new" element={<RegisterPlace />} />
+          <Route path="/place/new" element={<NewPlace />} />
           <Route path="/post/new" element={<AddNewPost />} />
         </Route>
       </Routes>
