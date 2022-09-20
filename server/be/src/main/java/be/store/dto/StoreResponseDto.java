@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +24,6 @@ public class StoreResponseDto {
     private String phone;
     private String homepage;
     private UserResponseDto user;
+    private List<StoreImageResponseDto> storeImages;
 
 }

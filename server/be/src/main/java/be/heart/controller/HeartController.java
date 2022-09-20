@@ -6,6 +6,7 @@ import be.heart.mapper.HeartMapper;
 import be.heart.service.HeartService;
 import be.response.SingleResponseDto;
 import be.store.mapper.StoreMapper;
+import be.store.service.StoreImageService;
 import be.store.service.StoreService;
 import be.user.mapper.UserMapper;
 import be.user.service.UserService;
@@ -33,6 +34,7 @@ public class HeartController {
     private final StoreService storeService;
     private final StoreMapper storeMapper;
     private final UserMapper userMapper;
+    private final StoreImageService storeImageService;
 
     /**
      * 가게 하트등록 API
@@ -42,7 +44,7 @@ public class HeartController {
         Heart heart = mapper.heartPostDtoToHeart(storeService,userService,heartPostDto);
         Heart createdHeart = heartService.createHeart(heart);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.heartToHeartResponseDto(storeMapper,userMapper,createdHeart)),
+                new SingleResponseDto<>(mapper.heartToHeartResponseDto(storeMapper,userMapper,storeImageService,createdHeart)),
                 HttpStatus.CREATED
         );
     }

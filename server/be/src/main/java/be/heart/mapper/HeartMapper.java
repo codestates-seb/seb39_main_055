@@ -6,6 +6,7 @@ import be.heart.entity.Heart;
 import be.store.dto.StoreResponseDto;
 import be.store.entity.Store;
 import be.store.mapper.StoreMapper;
+import be.store.service.StoreImageService;
 import be.store.service.StoreService;
 import be.user.dto.UserResponseDto;
 import be.user.entity.User;
@@ -29,14 +30,14 @@ public interface HeartMapper {
 
     }
 
-    default HeartResponseDto heartToHeartResponseDto(StoreMapper storeMapper, UserMapper userMapper, Heart heart){
+    default HeartResponseDto heartToHeartResponseDto(StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,Heart heart){
         HeartResponseDto heartResponseDto = new HeartResponseDto();
         heartResponseDto.setHeartId(heart.getHeartId());
         heartResponseDto.setHeartStatus(heart.getHeartStatus());
         heartResponseDto.setUpdatedAt(heart.getUpdatedAt());
         heartResponseDto.setCreatedAt(heart.getCreatedAt());
 
-        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponse(userMapper,heart.getStore());
+        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponse(userMapper,storeImageService,heart.getStore());
         heartResponseDto.setStore(storeResponseDto);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(heart.getUser());
