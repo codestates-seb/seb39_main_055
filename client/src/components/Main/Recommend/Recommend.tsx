@@ -12,8 +12,8 @@ const Container = styled.div`
   position: relative;
 
   ${mobile(css`
-    width: 400px;
-    padding-right: 30px;
+    width: 100%;
+    overflow-x: hidden;
   `)}
 `;
 
@@ -23,19 +23,13 @@ const SContainer = styled.div`
   flex-wrap: no-wrap;
   overflow-x: scroll;
   overflow-y: hidden;
-  // filter: brightness(1);
-  // transition: 0.5s;
-
-  // :hover {
-  //   filter: brightness(0.5);
-  // }
 `;
 
 const ArrowIcon = styled.div`
   display: none;
   position: absolute;
   top: 5.8%;
-  right: 18.4%;
+  right: 10%;
   opacity: 0.2;
   color: black;
 
