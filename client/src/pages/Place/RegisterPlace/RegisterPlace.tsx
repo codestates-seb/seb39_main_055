@@ -116,14 +116,32 @@ const RegisterPlace = () => {
     handleRegistration,
     checkRegistration,
   ] = useValidate(notBlank);
+  const [
+    phoneNumberValue,
+    phoneNumberError,
+    handlePhoneNumber,
+    checkPhoneNumber,
+  ] = useValidate(notBlank);
+  const [homePageValue, homePageError, handleHomePage, checkHomePage] =
+    useValidate(notBlank);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(
     noImageUrl
   );
+  const [
+    descriptionValue,
+    descriptionError,
+    handleDescription,
+    checkDescription,
+  ] = useValidate(notBlank);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   return (
     <SContainer>
       <h1>매장 등록</h1>
-      <SForm>
+      <SForm onSubmit={handleSubmit}>
         <section>
           <ImgPreview
             id="대표사진"
@@ -180,7 +198,7 @@ const RegisterPlace = () => {
             label="주소"
             id="주소"
             value={addressValue}
-            isError
+            isError={addressError}
             errorMsg="주소를 입력해주세요."
             placeholder="주소를 입력해주세요."
             sideButton={
@@ -190,34 +208,34 @@ const RegisterPlace = () => {
               />
             }
             readOnly
-            onChange={() => console.log("!")}
+            onChange={(e) => handleAddress(e)}
           />
           <Input
             label="전화번호"
             id="전화번호"
-            value=""
-            isError
+            value={phoneNumberValue}
+            isError={phoneNumberError}
             errorMsg="매장 전화번호를 입력해주세요."
             placeholder="매장 전화번호를 입력해주세요."
-            onChange={() => console.log("!")}
+            onChange={(e) => handlePhoneNumber(e)}
           />
           <Input
             label="홈페이지 주소"
             id="홈페이지 주소"
-            value=""
-            isError
+            value={homePageValue}
+            isError={homePageError}
             errorMsg="매장 홈페이지 주소를 입력해주세요."
             placeholder="매장 홈페이지 주소를 입력해주세요."
-            onChange={() => console.log("!")}
+            onChange={(e) => handleHomePage(e)}
           />
           <TextArea
             id="매장 상세설명"
             label="매장 상세설명"
-            value="1"
-            isError
+            value={descriptionValue}
+            isError={descriptionError}
             errorMsg="매장 상세 설명을 20자 이상 입력해주세요."
             placeholder="매장에 대한 설명을 입력해주세요."
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => handleDescription(e)}
           />
           <SButton>등록하기</SButton>
         </section>
