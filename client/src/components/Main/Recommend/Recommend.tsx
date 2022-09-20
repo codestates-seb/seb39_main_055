@@ -13,6 +13,7 @@ const Container = styled.div`
 
   ${mobile(css`
     width: 100%;
+    height: auto;
     overflow-x: hidden;
   `)}
 `;
