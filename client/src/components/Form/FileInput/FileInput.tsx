@@ -30,21 +30,16 @@ const SContainer = styled.div`
 interface Prop {
   id: string;
   label: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => void | React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FileInput = ({ id, label }: Prop) => {
+const FileInput = ({ id, label, onChange }: Prop) => {
   return (
     <SContainer>
       <label htmlFor={id}>{label}</label>
-      <input
-        type="file"
-        id={id}
-        onChange={(e) => {
-          if (e.target.files) {
-            console.log(e.target.files[0]);
-          }
-        }}
-      />
+      <input type="file" id={id} onChange={(e) => onChange(e)} />
     </SContainer>
   );
 };
