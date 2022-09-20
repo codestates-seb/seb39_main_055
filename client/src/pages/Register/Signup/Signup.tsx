@@ -25,7 +25,7 @@ import {
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { checkboxValue, handleCheckboxClick } = useCheckbox();
+  const { checkboxValue, handleCheckboxClick } = useCheckbox("ROLE_OWNER");
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =

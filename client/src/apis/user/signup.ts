@@ -38,7 +38,7 @@ interface ErrorResponse {
   timestamp: string;
 }
 
-console.log(process.env.REACT_APP_KAKAO_REST_API_KEY);
+console.log(KAKAO_KEY);
 
 export async function getCoordinate(
   address: string
