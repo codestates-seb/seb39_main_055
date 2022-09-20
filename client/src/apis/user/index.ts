@@ -1,2 +1,2 @@
-export { default as useLogin } from "./login";
+export * from "./login";
 export * from "./signup";

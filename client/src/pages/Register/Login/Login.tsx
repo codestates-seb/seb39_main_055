@@ -1,7 +1,7 @@
-import { FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
 
-import { useLogin } from "../../../apis";
+import useLogin from "../../../apis/user/login";
+import { useRedirect } from "../../../hooks";
 import SocialLogin from "./SocialLogin";
 import {
   HideSVG,
@@ -25,19 +25,14 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
-  const navigate = useNavigate();
   const { mutate, isLoading, isSuccess, isError, errMsg } = useLogin();
+
+  useRedirect({ redirect: isSuccess, replace: true });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     mutate({ email, password, keepLoggedIn });
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/", { replace: true });
-    }
-  }, [isSuccess, navigate]);
 
   return (
     <SForm onSubmit={handleSubmit}>

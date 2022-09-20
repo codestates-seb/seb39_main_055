@@ -59,6 +59,7 @@ export const SItemList = styled.li`
   flex: 0 0 100vw;
   position: absolute;
   width: 100%;
+  height: 100%;
   transform: translateX(100%);
   will-change: transform;
   z-index: -1;
