@@ -136,6 +136,14 @@ const RegisterPlace = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    checkName();
+    checkRegistration();
+    checkAddress();
+    checkPhoneNumber();
+    checkHomePage();
+    checkHomePage();
+    checkDescription();
   };
 
   return (
@@ -184,7 +192,7 @@ const RegisterPlace = () => {
             isError={registrationError}
             errorMsg="사업자 등록증을 첨부해주세요."
             placeholder="사업자 등록증을 첨부해주세요."
-            onChange={() => console.log("!")}
+            onChange={(e) => handleRegistration(e)}
             readOnly
             sideButton={
               <FileInput
