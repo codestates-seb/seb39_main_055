@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useLogin } from "../../../apis";
+import useLogin from "../../../apis/user/login";
 import SocialLogin from "./SocialLogin";
 import {
   HideSVG,
