@@ -1,13 +1,31 @@
-/* eslint-disable no-plusplus */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-export function base64Converter(innerHTML: string): Blob[] {
-  const image = innerHTML.match(/data:image(.*?)(?=")/g);
+import { md5 as md5Hash } from "hash-wasm";
+
+export async function extractImageInfos(innerHTML: string) {
+  const encoded = innerHTML.match(/data:image(.*?)(?=")/g)?.at(-1);
+
+  if (!encoded) return [];
+
+  const blob = base64ToBlob(encoded)[0];
+  const md5 = await md5Hash(encoded);
+
+  return [
+    {
+      uri: URL.createObjectURL(blob),
+      blob,
+      md5,
+    },
+  ];
+}
+
+export function base64ToBlob(encoded: string): Blob[] {
+  const image = encoded.match(/data:image/g);
 
   if (!image) {
     throw new Error('No base64 encoded string found in "innerHTML"');
   }
-  const base64 = image.map((str) => ({
+  const base64 = [encoded].map((str) => ({
     mime: str.match(/:(.*?);/)![1],
     base64: window.atob(str.split(",")[1]),
   }));
@@ -20,9 +38,9 @@ export function base64Converter(innerHTML: string): Blob[] {
   });
 }
 
-export function fileToBase64(files: File[]) {
+export function blobToBase64(blobs: Blob[]) {
   return Promise.all<Promise<string | ArrayBuffer>[]>(
-    files.map((f) => {
+    blobs.map((b) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
@@ -38,7 +56,8 @@ export function fileToBase64(files: File[]) {
         reader.addEventListener("error", (err) => {
           reject(err);
         });
-        reader.readAsDataURL(f);
+
+        reader.readAsDataURL(b);
       });
     })
   );
