@@ -6,6 +6,7 @@ import { mobile, tablet } from "../../../assets";
 export const SArticle = styled.article`
   width: 100vw;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const SLink = styled(Link)`
