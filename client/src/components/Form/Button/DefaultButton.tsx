@@ -8,7 +8,7 @@ export interface ButtonProps {
   bgColor?: string;
   hoverColor?: string;
   textColor?: string;
-  onClick?: () => void;
+  onClick?: () => void | Promise<void>;
   polymorphic?: "li" | "div" | "a";
   isPending?: boolean;
   isError?: boolean;
