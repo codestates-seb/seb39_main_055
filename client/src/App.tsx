@@ -7,14 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
 import PlaceCard from "./components/Main/HotPlace/PlaceCard/PlaceCard";
-import {
-  AddNewPost,
-  Login,
-  Main,
-  Mypage,
-  RegisterPlace,
-  Signup,
-} from "./pages";
+import { Login, Main, Mypage, NewPost, RegisterPlace, Signup } from "./pages";
 import {
   logOutUser,
   selectUser,
@@ -31,7 +24,7 @@ const App = () => {
     onSuccess: (data) => {
       dispatch(setUserInfos(data));
     },
-    onError: (err) => {
+    onError: () => {
       dispatch(logOutUser());
     },
   });
@@ -45,7 +38,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/place/new" element={<RegisterPlace />} />
-          <Route path="/post/new" element={<AddNewPost />} />
+          <Route path="/post/new" element={<NewPost />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
