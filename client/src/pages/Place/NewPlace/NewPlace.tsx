@@ -13,7 +13,7 @@ import {
   TextArea,
 } from "../../../components";
 import { useCheckbox, useValidate } from "../../../hooks";
-import { notBlank, phoneNumberValidation } from "../../../utils";
+import { notBlank, phoneNumberValidation, urlValidation } from "../../../utils";
 
 const SContainer = styled.div`
   display: flex;
@@ -123,7 +123,7 @@ const NewPlace = () => {
     checkPhoneNumber,
   ] = useValidate(phoneNumberValidation);
   const [homePageValue, homePageError, handleHomePage, checkHomePage] =
-    useValidate(notBlank);
+    useValidate(urlValidation);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(
     noImageUrl
   );

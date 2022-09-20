@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export const notBlank = (value: string) => {
   return value.trim().length > 0;
 };
@@ -29,4 +30,11 @@ export const phoneNumberValidation = (value: string) => {
     /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-[0-9]{3,4}-[0-9]{4}$/;
 
   return PHONE_NUMBER_REGEX.test(value);
+};
+
+export const urlValidation = (value: string) => {
+  const URL_REGEX =
+    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+
+  return URL_REGEX.test(value);
 };
