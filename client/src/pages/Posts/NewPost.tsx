@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import { colors } from "../../assets";
 import { ButtonOrange, CustomEditor, Input } from "../../components";
-import { axiosInstance, base64ToBlob, packEditorImages } from "../../utils";
+import { axiosInstance, extractImageInfos } from "../../utils";
 import PreviewImages from "./PreviewImages";
 
 const SForm = styled.form`
@@ -60,12 +60,6 @@ const Button = styled(ButtonOrange)`
 interface PostRequest {
   body: string;
   imageLinks: string[];
-}
-
-function hashImages(str: string) {
-  const image = str.match(/data:image(.*?)(?=")/g) || [];
-
-  return Promise.all(image.map((blob) => md5(blob)));
 }
 
 const submitPost = async (payload: PostRequest) => {
@@ -125,7 +119,7 @@ const NewPost = () => {
         setTimeout(res, 150);
       });
 
-      const addedImage = await packEditorImages(editor.getHTML());
+      const addedImage = await extractImageInfos(editor.getHTML());
 
       setImages((prev) => [...prev, ...addedImage]);
     });
