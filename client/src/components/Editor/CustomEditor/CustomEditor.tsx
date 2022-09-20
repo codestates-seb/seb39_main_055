@@ -5,8 +5,11 @@ import { RefObject, useState } from "react";
 import { MdError } from "react-icons/md";
 import styled, { css } from "styled-components";
 
+import { colors } from "../../../assets";
+
 const EditorBorder = styled.div<{ isFocus: boolean; isError: boolean }>`
   position: relative;
+  width: 100%;
   outline: rgba(0, 0, 0, 0) solid 4px;
   border: 1px solid rgba(0, 0, 0, 0);
 
@@ -23,8 +26,7 @@ const EditorBorder = styled.div<{ isFocus: boolean; isError: boolean }>`
     !isError &&
     css`
       border-radius: 3px;
-      border: 1px solid var(--blue-300);
-      outline: var(--blue-100) solid 4px;
+      outline: ${colors("orange010")} solid 4px;
     `}
 
   ${({ isError }) =>
