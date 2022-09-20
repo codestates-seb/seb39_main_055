@@ -53,7 +53,7 @@ interface Prop {
 }
 
 const CustomEditor = ({
-  height = "500px",
+  height = "600px",
   value = "",
   isError = false,
   editorRef,
@@ -72,7 +72,7 @@ const CustomEditor = ({
             ["bold", "italic", "strike"],
             ["hr", "quote"],
             ["ul", "ol", "task", "indent", "outdent"],
-            ["table", "image", "link"],
+            ["table", "link"],
           ]}
           autofocus
           ref={editorRef}
