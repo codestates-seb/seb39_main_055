@@ -53,7 +53,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .toastui-editor-contents {
-    font-size: 18px;
+    font-size: 17px;
   }
 `;
 
