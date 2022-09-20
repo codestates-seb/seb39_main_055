@@ -6,8 +6,8 @@ import styled from "styled-components";
 
 import { colors } from "../../assets";
 import { ButtonOrange, CustomEditor, Input } from "../../components";
-import { axiosInstance, base64Converter } from "../../utils";
-import PostImages from "./DefaultImage";
+import { axiosInstance, base64ToBlob, packEditorImages } from "../../utils";
+import PreviewImages from "./PreviewImages";
 
 const SForm = styled.form`
   display: flex;
@@ -15,7 +15,7 @@ const SForm = styled.form`
   align-items: center;
   justify-content: center;
   row-gap: 25px;
-  height: 900px;
+  height: 1050px;
 `;
 
 const SBox = styled.div`
@@ -29,18 +29,6 @@ const SPostSection = styled.section`
   row-gap: 25px;
   display: flex;
   flex-flow: column nowrap;
-`;
-
-const SImageAside = styled.aside`
-  flex: 1 1 20%;
-  padding: 60px 20px 20px 25px;
-`;
-
-const SRepImageBox = styled.div`
-  width: 100%;
-  height: 200px;
-  border: 3px solid ${colors("orange075")};
-  border-radius: 5px;
 `;
 
 const STitleInput = styled(Input)`
@@ -98,7 +86,7 @@ export interface Images {
   md5: string;
 }
 
-const AddNewPost = () => {
+const NewPost = () => {
   const [title, setTitle] = useState("");
   const [images, setImages] = useState<Images[]>([]);
   const editorRef = useRef<Editor>(null);
@@ -123,22 +111,23 @@ const AddNewPost = () => {
 
     const editor = editorRef.current.getInstance();
 
+    editor.on("change", () => {
+      // 1. img
+      const innerHTML = editor.getHTML();
+      const imageCounts = (innerHTML.match(/<img\ssrc/g) || []).length;
+
+      console.log(imageCounts);
+    });
+
     editor.on("addImageBlobHook", async () => {
       // 에디터가 사진을 처리하고 DOM에 페인팅 완료할 때까지 대기
       await new Promise((res) => {
         setTimeout(res, 150);
       });
 
-      const innerHTML = editor.getHTML();
-      const blobs = base64Converter(innerHTML);
-      const md5 = await hashImages(innerHTML);
-      const image = blobs.map((b, i) => ({
-        blob: b,
-        uri: URL.createObjectURL(b),
-        md5: md5[i],
-      }));
+      const addedImage = await packEditorImages(editor.getHTML());
 
-      setImages(image);
+      setImages((prev) => [...prev, ...addedImage]);
     });
   }, []);
 
@@ -181,7 +170,7 @@ const AddNewPost = () => {
           />
           <CustomEditor editorRef={editorRef} />
         </SPostSection>
-        <PostImages images={images} />
+        <PreviewImages images={images} />
       </SBox>
 
       <Button onClick={handleSubmit}>등록하기</Button>
@@ -190,4 +179,4 @@ const AddNewPost = () => {
   );
 };
 
-export default AddNewPost;
+export default NewPost;
