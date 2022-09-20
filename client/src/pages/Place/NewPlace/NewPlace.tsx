@@ -13,7 +13,7 @@ import {
   TextArea,
 } from "../../../components";
 import { useCheckbox, useValidate } from "../../../hooks";
-import { notBlank } from "../../../utils";
+import { notBlank, phoneNumberValidation } from "../../../utils";
 
 const SContainer = styled.div`
   display: flex;
@@ -121,7 +121,7 @@ const NewPlace = () => {
     phoneNumberError,
     handlePhoneNumber,
     checkPhoneNumber,
-  ] = useValidate(notBlank);
+  ] = useValidate(phoneNumberValidation);
   const [homePageValue, homePageError, handleHomePage, checkHomePage] =
     useValidate(notBlank);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(
@@ -221,10 +221,12 @@ const NewPlace = () => {
           <Input
             label="전화번호"
             id="전화번호"
+            type="tel"
             value={phoneNumberValue}
             isError={phoneNumberError}
-            errorMsg="매장 전화번호를 입력해주세요."
+            errorMsg="'000-0000-0000' 형식으로 입력해주세요"
             placeholder="매장 전화번호를 입력해주세요."
+            comment="'000-0000-0000' 형식으로 입력해주세요"
             onChange={(e) => handlePhoneNumber(e)}
           />
           <Input
