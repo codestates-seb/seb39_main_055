@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
-import { Login, Main, Mypage, Signup } from "./pages";
+import { AddNewPost, Login, Main, Mypage, Signup } from "./pages";
 import {
   logOutUser,
   selectUser,
@@ -36,6 +36,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/Mypage" element={<Mypage />} />
+          <Route path="/new-post" element={<AddNewPost />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
