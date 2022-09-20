@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable default-param-last */
 import { ChangeEvent, useCallback, useState } from "react";
 
@@ -21,6 +22,16 @@ export const useValidate: UseValidate = (validateCallback) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>, password?: string) => {
       const { value } = e.target;
+      const { name } = (e.target.files as FileList)[0];
+
+      if (name) {
+        setValue(name);
+
+        if (validateCallback(name)) setError(false);
+        if (!validateCallback(name)) setError(true);
+
+        return;
+      }
 
       setValue(value);
 
