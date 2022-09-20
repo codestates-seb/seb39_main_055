@@ -6,7 +6,8 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
-import { AddNewPost, Login, Main, Mypage, Signup } from "./pages";
+import { AddNewPost, Login, Main, Mypage, Signup, RegisterPlace } from "./pages";
+
 import {
   logOutUser,
   selectUser,
@@ -35,6 +36,7 @@ const App = () => {
           <Route index element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/place/new" element={<RegisterPlace />} />
           <Route path="/Mypage" element={<Mypage />} />
           <Route path="/new-post" element={<AddNewPost />} />
         </Route>

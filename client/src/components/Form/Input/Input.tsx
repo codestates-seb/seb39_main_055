@@ -5,7 +5,7 @@ interface Prop {
   type?: "password" | "text";
   label?: string;
   id: string;
-  value: string;
+  value: any;
   isError: boolean;
   errorMsg: string;
   comment?: string;

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useSignup } from "../../../apis";
+import { useSignup } from "../../../apis/user/signup";
 import { Checkbox, Input, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
 import {
