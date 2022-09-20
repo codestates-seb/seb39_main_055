@@ -12,7 +12,7 @@ import {
   SearchAddress,
   TextArea,
 } from "../../../components";
-import { useValidate } from "../../../hooks";
+import { useCheckbox, useValidate } from "../../../hooks";
 import { notBlank } from "../../../utils";
 
 const SContainer = styled.div`
@@ -96,7 +96,11 @@ export const SButton = styled(ButtonOrange)`
   }
 `;
 
+const noImageUrl =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAAB1CAMAAABH2l6OAAAAMFBMVEW7u7vz8/PCwsK+vr7V1dX29vbv7+/Gxsa4uLjMzMzh4eH5+fnc3NzJycns7Oy1tbXhfB7JAAABWElEQVRoge2X2Y6EIBBFRSgplsH//9vBNdK2iU6umZd7XrobOzlSVBXQdYQQQgghhBBCCCGEkLfon6EIp0YxT5CI0NpHTlNf0SKsg2R7Fc3TA5tlgFiN8Zcx00o74FFW8ZdSH0tuh96w2mZmGpKIDG9bfSpNtMucP+44hLdqmQqj2yV2qaly/Dvcqm6yiLhRt0cz8d257iUZxuU1cqq/UpNsaOuY9yYl6/JqlmRCk2Fgq/Zt35vTWbv14y3rGD96n9tl6tzeLLBW/fncBGTYYutFSli9WOs4fOn0y/JqkZrZcdnioNalas4bTLaqQdbvU8ixc73YZKUu7xYFGRy2+x+q5uQ9hF5KD7SqTVfSlhSA1lPVXE4cae1vThVrPdUqrbT+0Wq8n05ldwDWaz0Pu7sAO2K298Gd/Z9cr8RArHq3G25ayJ3uf+6vhBBCCCGEEEIIIYSQb/wCIbMP1+B8V50AAAAASUVORK5CYII=";
+
 const RegisterPlace = () => {
+  const { checkboxValue, handleCheckboxClick } = useCheckbox();
   const [
     addressValue,
     addressError,
@@ -105,20 +109,16 @@ const RegisterPlace = () => {
     setAddressValue,
     setAddressError,
   ] = useValidate(notBlank);
-  const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    document
-      .querySelectorAll(`input[type=checkbox]`)
-      .forEach((el: any) => (el.checked = false));
-
-    const { target } = e;
-    target.checked = true;
-    console.log(target.value);
-  };
+  const [nameValue, nameError, handleName, checkName] = useValidate(notBlank);
+  const [
+    registrationValue,
+    registrationError,
+    handleRegistration,
+    checkRegistration,
+  ] = useValidate(notBlank);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAAB1CAMAAABH2l6OAAAAMFBMVEW7u7vz8/PCwsK+vr7V1dX29vbv7+/Gxsa4uLjMzMzh4eH5+fnc3NzJycns7Oy1tbXhfB7JAAABWElEQVRoge2X2Y6EIBBFRSgplsH//9vBNdK2iU6umZd7XrobOzlSVBXQdYQQQgghhBBCCCGEkLfon6EIp0YxT5CI0NpHTlNf0SKsg2R7Fc3TA5tlgFiN8Zcx00o74FFW8ZdSH0tuh96w2mZmGpKIDG9bfSpNtMucP+44hLdqmQqj2yV2qaly/Dvcqm6yiLhRt0cz8d257iUZxuU1cqq/UpNsaOuY9yYl6/JqlmRCk2Fgq/Zt35vTWbv14y3rGD96n9tl6tzeLLBW/fncBGTYYutFSli9WOs4fOn0y/JqkZrZcdnioNalas4bTLaqQdbvU8ixc73YZKUu7xYFGRy2+x+q5uQ9hF5KD7SqTVfSlhSA1lPVXE4cae1vThVrPdUqrbT+0Wq8n05ldwDWaz0Pu7sAO2K298Gd/Z9cr8RArHq3G25ayJ3uf+6vhBBCCCGEEEIIIYSQb/wCIbMP1+B8V50AAAAASUVORK5CYII="
+    noImageUrl
   );
-
-  console.log(imageSrc);
 
   return (
     <SContainer>
@@ -136,14 +136,14 @@ const RegisterPlace = () => {
           <Input
             label="매장명"
             id="매장명"
-            value=""
-            isError
+            value={nameValue}
+            isError={nameError}
             errorMsg="매장명을 입력해주세요."
             placeholder="매장명을 입력해주세요."
-            onChange={() => console.log("!")}
+            onChange={(e) => handleName(e)}
           />
           <SCheckboxContainer>
-            <span>업주 등록</span>
+            <span>카테고리</span>
             <section>
               {["숙소", "미용", "카페", "맛집", "운동장", "동물병원"].map(
                 (el, idx) => (
@@ -162,13 +162,19 @@ const RegisterPlace = () => {
           <Input
             label="사업자 등록증"
             id="사업자 등록증"
-            value=""
-            isError
+            value={registrationValue}
+            isError={registrationError}
             errorMsg="사업자 등록증을 첨부해주세요."
             placeholder="사업자 등록증을 첨부해주세요."
             onChange={() => console.log("!")}
             readOnly
-            sideButton={<FileInput id="사업자등록증" label="파일 첨부" />}
+            sideButton={
+              <FileInput
+                id="사업자등록증"
+                label="파일 첨부"
+                onChange={(e) => handleRegistration(e)}
+              />
+            }
           />
           <Input
             label="주소"
@@ -221,24 +227,3 @@ const RegisterPlace = () => {
 };
 
 export default RegisterPlace;
-
-export const STextAreaContainer = styled.div`
-  display: flex;
-
-  & > label {
-    flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 25px;
-
-    & > section > label {
-      flex-basis: 5%;
-    }
-  }
-`;
