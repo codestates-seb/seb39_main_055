@@ -6,8 +6,14 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
-import { AddNewPost, Login, Main, Mypage, Signup, RegisterPlace } from "./pages";
-
+import {
+  AddNewPost,
+  Login,
+  Main,
+  Mypage,
+  RegisterPlace,
+  Signup,
+} from "./pages";
 import {
   logOutUser,
   selectUser,
