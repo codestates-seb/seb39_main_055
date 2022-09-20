@@ -1,10 +1,12 @@
 package be.store.mapper;
 
 import be.store.dto.StoreImageDto;
+import be.store.dto.StoreImageResponseDto;
 import be.store.dto.StorePostDto;
 import be.store.dto.StoreResponseDto;
 import be.store.entity.Store;
 import be.store.entity.StoreImage;
+import be.store.service.StoreImageService;
 import be.user.dto.UserResponseDto;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
@@ -57,7 +59,18 @@ public interface StoreMapper {
             return storeImage;
         }).collect(Collectors.toList());
     }
-    default StoreResponseDto storeToStoreResponse(UserMapper userMapper,Store store){
+
+    default  List<StoreImageResponseDto> storeImagesToStoreImageResponseDtos(List<StoreImage> storeImages){
+
+        return storeImages.stream()
+                .map(storeImage -> {
+                    StoreImageResponseDto storeImageResponseDto =  new StoreImageResponseDto();
+                    storeImageResponseDto.setStoreImage(storeImage.getImage());
+                    return  storeImageResponseDto;
+                }).collect(Collectors.toList());
+    }
+
+    default StoreResponseDto storeToStoreResponse(UserMapper userMapper, StoreImageService storeImageService,Store store){
         StoreResponseDto storeResponseDto = new StoreResponseDto();
         storeResponseDto.setStoreId(store.getStoreId());
         storeResponseDto.setCreatedAt(store.getCreatedAt());
@@ -74,6 +87,11 @@ public interface StoreMapper {
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(store.getUser());
         storeResponseDto.setUser(userResponseDto);
+
+        storeResponseDto.setStoreImages(storeImagesToStoreImageResponseDtos(//가게에 대한 이미지 속성 추가
+                storeImageService.findVerifiedStoreImages(store)
+        ));
+
 
         return storeResponseDto;
     }
