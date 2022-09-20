@@ -1,3 +1,4 @@
+export { default as CustomEditor } from "./Editor/CustomEditor/CustomEditor";
 export * from "./Form";
 export { default as LoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 export * from "./Main";

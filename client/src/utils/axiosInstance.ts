@@ -17,7 +17,7 @@ export const axiosInstance = axios.create({
 
       if (!user.token) {
         throw new Error(
-          "Authentication Failed. Check whether you are logged-in."
+          "Authentication Failed. Check login status before sending a token."
         );
       }
       delete headers.tokenNeeded;

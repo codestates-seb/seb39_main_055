@@ -7,6 +7,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
 
   text-decoration: underline;
   text-underline-position: under;
@@ -18,7 +19,7 @@ const Container = styled.div`
   color: ${({ theme }) => theme.colors.black500};
 
   ${mobile(css`
-    width: 400px;
+    width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
     font-size: 34px;
@@ -27,7 +28,7 @@ const Container = styled.div`
   `)}
 
   @media (max-width: 1110px) {
-    width: 400px;
+    width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
     font-size: 34px;
