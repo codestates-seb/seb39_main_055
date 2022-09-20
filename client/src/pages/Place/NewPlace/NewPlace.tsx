@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-return-assign */
 import { useState } from "react";
-import styled from "styled-components";
 
 import {
-  ButtonOrange,
   Checkbox,
   FileInput,
   ImgPreview,
@@ -19,87 +17,7 @@ import {
   phoneNumberValidation,
   urlValidation,
 } from "../../../utils";
-
-const SContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 380px);
-  margin: 100px 0;
-
-  & > h1 {
-    font-size: 42px;
-    color: #161616;
-  }
-`;
-
-export const SForm = styled.form`
-  display: flex;
-  gap: 50px;
-  width: 100%;
-  margin-top: 50px;
-  padding: 100px 100px 50px 50px;
-  border: 1px solid #dbdbdb;
-
-  & > section:first-child {
-    flex-basis: 30%;
-  }
-
-  & > section:last-child {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-  }
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    flex-direction: column;
-    width: 90%;
-    padding: 20px;
-  }
-`;
-
-export const SCheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > span {
-    flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  & > section {
-    flex-basis: 70%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-  }
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 30px;
-
-    & > section > div {
-      flex-basis: 40%;
-      flex-grow: 1;
-    }
-  }
-`;
-
-export const SButton = styled(ButtonOrange)`
-  width: 150px;
-  border-radius: 25px;
-  margin-left: 130px;
-  padding: 0 30px;
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    margin: 0 auto;
-  }
-`;
+import { SButton, SCheckboxContainer, SContainer, SForm } from "./style";
 
 const noImageUrl =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAAB1CAMAAABH2l6OAAAAMFBMVEW7u7vz8/PCwsK+vr7V1dX29vbv7+/Gxsa4uLjMzMzh4eH5+fnc3NzJycns7Oy1tbXhfB7JAAABWElEQVRoge2X2Y6EIBBFRSgplsH//9vBNdK2iU6umZd7XrobOzlSVBXQdYQQQgghhBBCCCGEkLfon6EIp0YxT5CI0NpHTlNf0SKsg2R7Fc3TA5tlgFiN8Zcx00o74FFW8ZdSH0tuh96w2mZmGpKIDG9bfSpNtMucP+44hLdqmQqj2yV2qaly/Dvcqm6yiLhRt0cz8d257iUZxuU1cqq/UpNsaOuY9yYl6/JqlmRCk2Fgq/Zt35vTWbv14y3rGD96n9tl6tzeLLBW/fncBGTYYutFSli9WOs4fOn0y/JqkZrZcdnioNalas4bTLaqQdbvU8ixc73YZKUu7xYFGRy2+x+q5uQ9hF5KD7SqTVfSlhSA1lPVXE4cae1vThVrPdUqrbT+0Wq8n05ldwDWaz0Pu7sAO2K298Gd/Z9cr8RArHq3G25ayJ3uf+6vhBBCCCGEEEIIIYSQb/wCIbMP1+B8V50AAAAASUVORK5CYII=";
