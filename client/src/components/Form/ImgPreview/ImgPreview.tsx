@@ -9,7 +9,7 @@ export const SPreview = styled.div`
   & > img {
     width: 200px;
     height: 200px;
-    object-fit: cover;
+    object-fit: fill;
   }
 `;
 
@@ -45,6 +45,7 @@ interface Prop {
 
 const ImgPreview = ({ id, label, imgUrl, setImgUrl }: Prop) => {
   const encodeFileToBase64 = (fileBlob: Blob) => {
+    console.log(fileBlob);
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
     return new Promise<void>((resolve) => {
