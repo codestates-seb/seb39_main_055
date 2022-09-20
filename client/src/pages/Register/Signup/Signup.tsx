@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 import { useSignup } from "../../../apis/user/signup";
 import { Checkbox, Input, SearchAddress } from "../../../components";
-import { useValidate } from "../../../hooks";
+import { useCheckbox, useValidate } from "../../../hooks";
 import {
   emailValidation,
   nickNameValidation,
@@ -54,16 +54,7 @@ const Signup = () => {
     nickname: nameValue,
   });
 
-  const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    document
-      .querySelectorAll(`input[type=checkbox]`)
-      .forEach((el: any) => (el.checked = false));
-
-    const { target } = e;
-    target.checked = true;
-    if (target.value === "업주 등록") setIsGuest(false);
-    if (target.value === "업주 미등록") setIsGuest(true);
-  };
+  const { checkboxValue, handleCheckboxClick } = useCheckbox();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -153,18 +144,21 @@ const Signup = () => {
           onChange={(e) => handleAddress(e)}
         />
         <SCheckboxContainer>
-          <span>업주 등록</span>
+          <span>회원 구분</span>
           <section>
-            {["업주 등록", "업주 미등록"].map((el, idx) => (
-              <Checkbox
-                key={el}
-                id={el}
-                value={el}
-                labelName={el}
-                defaultChecked={idx === 1}
-                onChange={(e) => handleCheckboxClick(e)}
-              />
-            ))}
+            {["일반 회원", "기업 회원"].map((el, idx) => {
+              const value = el === "기업 회원" ? "ROLE_OWNER" : "ROLE_USER";
+              return (
+                <Checkbox
+                  key={el}
+                  id={el}
+                  value={value}
+                  labelName={el}
+                  defaultChecked={idx === 1}
+                  onChange={(e) => handleCheckboxClick(e)}
+                />
+              );
+            })}
           </section>
         </SCheckboxContainer>
         <SButtonContainer>
