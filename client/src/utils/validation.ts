@@ -38,3 +38,9 @@ export const urlValidation = (value: string) => {
 
   return URL_REGEX.test(value);
 };
+
+export const descriptionValidation = (value: string) => {
+  const { length } = value.trim();
+
+  return length > 19;
+};

@@ -13,7 +13,12 @@ import {
   TextArea,
 } from "../../../components";
 import { useCheckbox, useValidate } from "../../../hooks";
-import { notBlank, phoneNumberValidation, urlValidation } from "../../../utils";
+import {
+  descriptionValidation,
+  notBlank,
+  phoneNumberValidation,
+  urlValidation,
+} from "../../../utils";
 
 const SContainer = styled.div`
   display: flex;
@@ -132,7 +137,7 @@ const NewPlace = () => {
     descriptionError,
     handleDescription,
     checkDescription,
-  ] = useValidate(notBlank);
+  ] = useValidate(descriptionValidation);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -142,8 +147,19 @@ const NewPlace = () => {
     checkAddress();
     checkPhoneNumber();
     checkHomePage();
-    checkHomePage();
     checkDescription();
+
+    if (
+      !notBlank(nameValue) ||
+      !notBlank(addressValue) ||
+      !notBlank(registrationValue) ||
+      !phoneNumberValidation(phoneNumberValue) ||
+      !urlValidation(homePageValue) ||
+      !descriptionValidation(descriptionValue)
+    )
+      return;
+
+    console.log("success");
   };
 
   return (
@@ -234,7 +250,7 @@ const NewPlace = () => {
             id="홈페이지 주소"
             value={homePageValue}
             isError={homePageError}
-            errorMsg="매장 홈페이지 주소를 입력해주세요."
+            errorMsg="유효한 홈페이지 주소인지 확인해주세요."
             placeholder="매장 홈페이지 주소를 입력해주세요."
             onChange={(e) => handleHomePage(e)}
           />
