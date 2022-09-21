@@ -1,13 +1,13 @@
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
-import { Images } from "./AddNewPost";
+import { Images } from "./NewPost";
 
 const SImageAside = styled.aside`
   display: flex;
   flex-flow: column nowrap;
   flex: 1 1 20%;
-  padding: 20px 20px 20px 25px;
+  padding: 85px 20px 20px 25px;
 `;
 
 const SRepImageBox = styled.div`
@@ -68,28 +68,37 @@ const SMore = styled.span`
   }
 `;
 
-const SThumbnailBox = styled.div`
+const SThumbnailUList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(calc((100% - 20px) / 3), 76px));
-  justify-content: center;
-  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(calc((100% - 20px) / 3), 0));
   gap: 10px;
   margin-top: 17px;
   height: 250px;
   overflow: hidden;
 `;
 
+const SList = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+`;
+
 const SImg = styled.img`
-  object-fit: contain;
+  object-fit: cover;
+  /* max-width: 100%; */
   max-height: 100%;
+  clip-path: inset(1px round 5px);
 `;
 
 interface PostImagesProps {
   images: Images[];
 }
 
-const PostImages = ({ images }: PostImagesProps) => {
+const PreviewImages = ({ images }: PostImagesProps) => {
   return (
     <SImageAside>
       <SRepImageBox>
@@ -99,18 +108,15 @@ const PostImages = ({ images }: PostImagesProps) => {
         <p>대표사진 변경</p>
         <SMore />
       </SButton>
-      <SThumbnailBox>
+      <SThumbnailUList>
         {images.map(({ uri, md5 }, i) => (
-          <SImg
-            src={uri}
-            width="100%"
-            key={md5}
-            alt={`${i}-th images to upload`}
-          />
+          <SList key={md5}>
+            <SImg src={uri} alt={`${i}-th image to upload`} />
+          </SList>
         ))}
-      </SThumbnailBox>
+      </SThumbnailUList>
     </SImageAside>
   );
 };
 
-export default PostImages;
+export default PreviewImages;
