@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
-import { SharedLayout } from "./components";
+import { Modal, SharedLayout } from "./components";
 import PlaceCard from "./components/Main/HotPlace/PlaceCard/PlaceCard";
 import { Login, Main, Mypage, NewPost, RegisterPlace, Signup } from "./pages";
 import {
@@ -31,16 +31,18 @@ const App = () => {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<SharedLayout />}>
-          <Route index element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/place/new" element={<RegisterPlace />} />
-          <Route path="/post/new" element={<NewPost />} />
-        </Route>
-      </Routes>
+      <Modal width="300px" height="200px" background={false}>
+        <Routes>
+          <Route path="/" element={<SharedLayout />}>
+            <Route index element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/place/new" element={<RegisterPlace />} />
+            <Route path="/post/new" element={<NewPost />} />
+          </Route>
+        </Routes>
+      </Modal>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
     </>
   );
