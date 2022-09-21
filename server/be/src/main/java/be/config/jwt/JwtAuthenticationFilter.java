@@ -2,10 +2,12 @@ package be.config.jwt;
 
 import be.config.auth.PrincipalDetails;
 import be.user.dto.UserLoginDto;
+import be.user.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     //로그인 요청을 하면 로그인 시도를 위해서 실행되는 함수 /login
     @Override
@@ -49,6 +52,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
 
         System.out.println("JwtAuthenticationFilter : "+userLoginDto);
+
+        userService.verifyNotExistEmail(userLoginDto.getEmail());
 
         // 유저네임패스워드 토큰 생성
         UsernamePasswordAuthenticationToken authenticationToken=
