@@ -1,7 +1,11 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-return-assign */
 import { useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
+import { useNewPlace } from "../../../apis";
 import {
   Checkbox,
   FileInput,
@@ -12,6 +16,7 @@ import {
 } from "../../../components";
 import { useCheckbox, useValidate } from "../../../hooks";
 import {
+  axiosInstance,
   descriptionValidation,
   notBlank,
   phoneNumberValidation,
@@ -23,7 +28,13 @@ const noImageUrl =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAAB1CAMAAABH2l6OAAAAMFBMVEW7u7vz8/PCwsK+vr7V1dX29vbv7+/Gxsa4uLjMzMzh4eH5+fnc3NzJycns7Oy1tbXhfB7JAAABWElEQVRoge2X2Y6EIBBFRSgplsH//9vBNdK2iU6umZd7XrobOzlSVBXQdYQQQgghhBBCCCGEkLfon6EIp0YxT5CI0NpHTlNf0SKsg2R7Fc3TA5tlgFiN8Zcx00o74FFW8ZdSH0tuh96w2mZmGpKIDG9bfSpNtMucP+44hLdqmQqj2yV2qaly/Dvcqm6yiLhRt0cz8d257iUZxuU1cqq/UpNsaOuY9yYl6/JqlmRCk2Fgq/Zt35vTWbv14y3rGD96n9tl6tzeLLBW/fncBGTYYutFSli9WOs4fOn0y/JqkZrZcdnioNalas4bTLaqQdbvU8ixc73YZKUu7xYFGRy2+x+q5uQ9hF5KD7SqTVfSlhSA1lPVXE4cae1vThVrPdUqrbT+0Wq8n05ldwDWaz0Pu7sAO2K298Gd/Z9cr8RArHq3G25ayJ3uf+6vhBBCCCGEEEIIIYSQb/wCIbMP1+B8V50AAAAASUVORK5CYII=";
 
 const NewPlace = () => {
+  const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer | null>(
+    noImageUrl
+  );
   const { checkboxValue, handleCheckboxClick } = useCheckbox("숙소");
+  const [nameValue, nameError, handleName, checkName] = useValidate(notBlank);
+  const [homePageValue, homePageError, handleHomePage, checkHomePage] =
+    useValidate(urlValidation);
   const [
     addressValue,
     addressError,
@@ -32,7 +43,6 @@ const NewPlace = () => {
     setAddressValue,
     setAddressError,
   ] = useValidate(notBlank);
-  const [nameValue, nameError, handleName, checkName] = useValidate(notBlank);
   const [
     registrationValue,
     registrationError,
@@ -45,11 +55,6 @@ const NewPlace = () => {
     handlePhoneNumber,
     checkPhoneNumber,
   ] = useValidate(phoneNumberValidation);
-  const [homePageValue, homePageError, handleHomePage, checkHomePage] =
-    useValidate(urlValidation);
-  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(
-    noImageUrl
-  );
   const [
     descriptionValue,
     descriptionError,
@@ -57,27 +62,27 @@ const NewPlace = () => {
     checkDescription,
   ] = useValidate(descriptionValidation);
 
+  const { storeImages, fileMutate } = useNewPlace();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    checkName();
-    checkRegistration();
-    checkAddress();
-    checkPhoneNumber();
-    checkHomePage();
-    checkDescription();
+    // checkName();
+    // checkRegistration();
+    // checkAddress();
+    // checkPhoneNumber();
+    // checkHomePage();
+    // checkDescription();
 
-    if (
-      !notBlank(nameValue) ||
-      !notBlank(addressValue) ||
-      !notBlank(registrationValue) ||
-      !phoneNumberValidation(phoneNumberValue) ||
-      !urlValidation(homePageValue) ||
-      !descriptionValidation(descriptionValue)
-    )
-      return;
-
-    console.log("success");
+    // if (
+    //   !notBlank(nameValue) ||
+    //   !notBlank(addressValue) ||
+    //   !notBlank(registrationValue) ||
+    //   !phoneNumberValidation(phoneNumberValue) ||
+    //   !urlValidation(homePageValue) ||
+    //   !descriptionValidation(descriptionValue)
+    // )
+    //   return;
   };
 
   return (
@@ -88,8 +93,9 @@ const NewPlace = () => {
           <ImgPreview
             id="대표사진"
             label="대표사진등록"
-            imgUrl={imageSrc as string}
-            setImgUrl={setImageSrc}
+            previewUrl={previewUrl as string}
+            setPreviewUrl={setPreviewUrl}
+            mutate={fileMutate}
           />
         </section>
         <section>

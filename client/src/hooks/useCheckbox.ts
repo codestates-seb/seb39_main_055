@@ -12,7 +12,6 @@ export const useCheckbox = (defaultValue: string) => {
     const { target } = e;
     target.checked = true;
     setCheckboxValue(target.value);
-    console.log(target.value);
   };
 
   return { checkboxValue, handleCheckboxClick };
