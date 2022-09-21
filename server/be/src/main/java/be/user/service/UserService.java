@@ -66,6 +66,16 @@ public class UserService {
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
     }
 
+    public void verifyNotExistEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }else if(user.get().getUserStatus() == User.UserStatus.USER_NOT_EXIST){
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
+    }
+
+
     public User getUserByToken(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PrincipalDetails principalDetails = (PrincipalDetails)principal;
