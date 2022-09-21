@@ -3,24 +3,17 @@ import styled from "styled-components";
 
 import { logOutUser, useAppDispatch } from "../../../redux";
 
-export const SContainer = styled.section`
+export const SUserContainer = styled.section`
   & > div {
     display: flex;
     justify-content: center;
     padding: 15px 15px;
+    border-radius: 10px;
   }
 
   & > div:hover {
     background-color: ${({ theme }) => theme.colors.black010};
     cursor: pointer;
-  }
-
-  & > div:first-child {
-    border-radius: 10px 10px 0 0;
-  }
-
-  & > div:last-child {
-    border-radius: 0 0 10px 10px;
   }
 
   @keyframes dropdown {
@@ -47,10 +40,12 @@ export const DefaultTab = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <SUserContainer>
+      <div onClick={() => navigate("/place/list")}>펫플레이스</div>
+      <div onClick={() => navigate("/post/list")}>댕댕이숲</div>
       <div onClick={() => navigate("/login")}>로그인</div>
       <div onClick={() => navigate("/signup")}>회원가입</div>
-    </div>
+    </SUserContainer>
   );
 };
 
@@ -59,12 +54,12 @@ export const UserTab = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <SContainer>
+    <SUserContainer>
       <div onClick={() => navigate("/place/list")}>펫플레이스</div>
       <div onClick={() => navigate("/post/list")}>댕댕이숲</div>
       <div onClick={() => navigate("/mypage")}>마이페이지</div>
       <div onClick={() => navigate("/place/new")}>매장 등록</div>
       <div onClick={() => dispatch(logOutUser())}>로그아웃</div>
-    </SContainer>
+    </SUserContainer>
   );
 };

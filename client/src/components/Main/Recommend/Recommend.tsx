@@ -34,8 +34,6 @@ const ArrowIcon = styled.div`
   opacity: 0.2;
   color: black;
 
-  }
-
   ${mobile(css`
     display: block;
   `)}
