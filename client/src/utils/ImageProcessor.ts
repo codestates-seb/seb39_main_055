@@ -2,21 +2,21 @@
 
 import { md5 as md5Hash } from "hash-wasm";
 
-export async function extractImageInfos(innerHTML: string) {
-  const encoded = innerHTML.match(/data:image(.*?)(?=")/g)?.at(-1);
+export async function extractImageInfos(files: File[]) {
+  if (!files) return [];
 
-  if (!encoded) return [];
+  return Promise.all(
+    files.map(async (file) => {
+      const encoded = await blobToBase64(file);
+      const md5 = await md5Hash(encoded);
 
-  const blob = base64ToBlob(encoded)[0];
-  const md5 = await md5Hash(encoded);
-
-  return [
-    {
-      uri: URL.createObjectURL(blob),
-      blob,
-      md5,
-    },
-  ];
+      return {
+        file,
+        md5,
+        uri: URL.createObjectURL(file),
+      };
+    })
+  );
 }
 
 export function base64ToBlob(encoded: string): Blob[] {
@@ -38,27 +38,23 @@ export function base64ToBlob(encoded: string): Blob[] {
   });
 }
 
-export function blobToBase64(blobs: Blob[]) {
-  return Promise.all<Promise<string | ArrayBuffer>[]>(
-    blobs.map((b) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+export function blobToBase64(blob: Blob) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
 
-        reader.addEventListener("load", () => {
-          const { result } = reader;
+    reader.addEventListener("load", () => {
+      const { result } = reader;
 
-          if (!result) {
-            reject();
-            return;
-          }
-          resolve(result);
-        });
-        reader.addEventListener("error", (err) => {
-          reject(err);
-        });
+      if (!result) {
+        reject();
+        return;
+      }
+      resolve(result as string);
+    });
+    reader.addEventListener("error", (err) => {
+      reject(err);
+    });
 
-        reader.readAsDataURL(b);
-      });
-    })
-  );
+    reader.readAsDataURL(blob);
+  });
 }
