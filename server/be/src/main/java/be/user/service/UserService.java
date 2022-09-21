@@ -49,21 +49,40 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
-        // 이미 등록된 이메일인지 확인
+        // 현재 활동중인 유저의 이미 등록된 이메일인지 확인
         verifyExistsEmail(user.getEmail());
 
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        Optional<User> withdrawalUser = userRepository.findByEmailAndUserStatus(user.getEmail(), User.UserStatus.USER_NOT_EXIST);
+        if(withdrawalUser.isPresent()){// 기존 탈퇴한 회원일 경우
+            System.out.println("계정을 복구합니다.");
+            withdrawalUser.get().setUserStatus(User.UserStatus.USER_EXIST);// 계정 복구
 
-        //처음 회원가입 하고나서는 기본이미지가 기본프로필사진
-        user.setImage("https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800");
+            withdrawalUser.get().setPassword(bCryptPasswordEncoder.encode(user.getPassword()));//기존의 비밀번호만 새로 입력받은 비밀번호로 바꿔줌
+            withdrawalUser.get().setUserRole(user.getUserRole());// 오너로 가입할껀지 일반 유저로 가입할 건지 권한 부여
+            withdrawalUser.get().setNickname(user.getNickname()); //닉네임 변경
 
-        return userRepository.save(user);
+            withdrawalUser.get().setLongitude(user.getLongitude());//위치변경
+            withdrawalUser.get().setLatitude(user.getLatitude());
+
+            return withdrawalUser.get();
+        }else{ //진짜 처음 가입하는 유저
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+            //처음 회원가입 하고나서는 기본이미지가 기본프로필사진
+            user.setImage("https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800");
+
+            return userRepository.save(user);
+        }
     }
 
-    private void verifyExistsEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent())
-            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+    private void verifyExistsEmail(String email) { // 현재 활동중인 유저의 이미 등록된 이메일인지 확인
+        Optional<User> user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+        if (user.isPresent()){
+            if(user.get().getUserStatus() == User.UserStatus.USER_EXIST){
+                throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+            }
+        }
+
     }
 
     public void verifyNotExistEmail(String email) {

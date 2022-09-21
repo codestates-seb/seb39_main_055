@@ -20,6 +20,7 @@ public enum ExceptionCode {
     FILE_UPLOAD_FAILED(417, "file upload fail"),
     FILE_SIZE_EXCEED(431,"file size exceed"),
     HEART_EXIST(409,"Heart exists"),
+    HEART_NOT_FOUND(404,"Heart not found"),
 
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status");  // TO 추가된 부분
