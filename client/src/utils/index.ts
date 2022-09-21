@@ -1,5 +1,5 @@
 export * from "./axiosInstance";
-export * from "./ImageProcessor";
+export * from "./imageProcessor";
 export * from "./queryClient";
 export { isKeyOf } from "./type-guards";
 export * from "./validation";
