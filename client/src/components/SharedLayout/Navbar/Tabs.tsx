@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
+import { logOutUser, useAppDispatch } from "../../../redux";
+
 export const DefaultTab = () => {
   const navigate = useNavigate();
 
@@ -12,15 +14,14 @@ export const DefaultTab = () => {
 };
 
 export const UserTab = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
     <>
-      <div>마이페이지</div>
-      <div>찜</div>
-      <div>나의 후기</div>
-      <div>매장 등록</div>
-      <div>로그아웃</div>
+      <div onClick={() => navigate("/mypage")}>마이페이지</div>
+      <div onClick={() => navigate("/place/new")}>매장 등록</div>
+      <div onClick={() => dispatch(logOutUser())}>로그아웃</div>
     </>
   );
 };

@@ -13,8 +13,8 @@ import { DefaultTab, UserTab } from "./Tabs";
 const Navbar = () => {
   const navigate = useNavigate();
   const tabRef = useRef<HTMLElement>(null);
-  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
   const [tabIsOpen, setTabIsOpen] = useState(false);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
 
   const handleTabClick = () => {
     setTabIsOpen((prev) => !prev);
@@ -38,8 +38,13 @@ const Navbar = () => {
     <SNav>
       <img src={logo} alt="logo" onClick={() => navigate("/")} />
       <SMenu>
-        <img src={search} alt="search" />
-        <img src={like} alt="like" />
+        {/* <img src={search} alt="search" /> */}
+        <button type="button" onClick={() => navigate("/place/list")}>
+          펫플레이스
+        </button>
+        <button type="button" onClick={() => navigate("/post/list")}>
+          댕댕이숲
+        </button>
         <SHamberger onClick={() => handleTabClick()}>
           <img src={ham} alt="hamberger" />
           <img src={userInfos ? userInfos?.image : profile} alt="profile" />

@@ -27,7 +27,7 @@ export const SMenu = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   font-size: 25px;
 
   & > img {
@@ -41,6 +41,16 @@ export const SMenu = styled.div`
   & > img:hover {
     background-color: ${({ theme }) => theme.colors.black010};
     cursor: pointer;
+  }
+
+  & > button {
+    border: none;
+    background-color: inherit;
+    font-size: 14px;
+  }
+
+  & > button:first-child {
+    color: #ffc107;
   }
 `;
 
