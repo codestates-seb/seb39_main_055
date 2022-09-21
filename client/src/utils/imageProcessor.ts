@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import { md5 as md5Hash } from "hash-wasm";
 
 export async function extractImageInfos(files: File[]) {
@@ -23,7 +22,7 @@ export function base64ToBlob(encoded: string): Blob[] {
   const image = encoded.match(/data:image/g);
 
   if (!image) {
-    throw new Error('No base64 encoded string found in "innerHTML"');
+    throw new Error("No base64 encoded string found.");
   }
   const base64 = [encoded].map((str) => ({
     mime: str.match(/:(.*?);/)![1],
