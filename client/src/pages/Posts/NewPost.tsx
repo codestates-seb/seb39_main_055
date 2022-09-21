@@ -1,12 +1,11 @@
 import { Editor } from "@toast-ui/react-editor";
-import { md5 } from "hash-wasm";
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 
 import { colors } from "../../assets";
 import { ButtonOrange, CustomEditor, Input } from "../../components";
-import { axiosInstance, extractImageInfos } from "../../utils";
+import { axiosInstance } from "../../utils";
 import PreviewImages from "./PreviewImages";
 
 const SForm = styled.form`
@@ -83,6 +82,7 @@ export interface Images {
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [images, setImages] = useState<Images[]>([]);
+  const [defaultImg, setDefaultImg] = useState(0);
   const editorRef = useRef<Editor>(null);
   const [submitReady, setSubmitReady] = useState(false);
   const { mutate, isLoading } = useMutation(
@@ -157,9 +157,10 @@ const NewPost = () => {
           images={images}
           setImages={setImages}
           editorRef={editorRef}
+          defaultImg={defaultImg}
+          setDefaultImg={setDefaultImg}
         />
       </SBox>
-
       <Button onClick={handleSubmit}>등록하기</Button>
       <Button onClick={uploadImages}>이미지 전송 테스트</Button>
     </SForm>

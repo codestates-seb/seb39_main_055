@@ -13,7 +13,9 @@ import {
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
+import { useModal } from "../../components";
 import { extractImageInfos } from "../../utils";
+import DefaultImgSelect from "./DefaultImgSelect";
 import { Images } from "./NewPost";
 
 const SImageAside = styled.aside`
@@ -112,7 +114,7 @@ const SMore = styled.span`
   }
 `;
 
-const SThumbnailUList = styled.ul`
+export const SThumbnailUList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(calc((100% - 20px) / 3), 0));
@@ -122,7 +124,7 @@ const SThumbnailUList = styled.ul`
   overflow: hidden;
 `;
 
-const SList = styled.li`
+export const SList = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,20 +133,29 @@ const SList = styled.li`
   border-radius: 5px;
 `;
 
-const SImg = styled.img`
+export const SImg = styled.img`
   object-fit: cover;
   max-height: 100%;
   clip-path: inset(1px round 5px);
 `;
 
-interface PostImagesProps {
+export interface PostImagesProps {
   images: Images[];
   setImages: Dispatch<SetStateAction<Images[]>>;
   editorRef: RefObject<Editor>;
+  defaultImg: number;
+  setDefaultImg: Dispatch<SetStateAction<number>>;
 }
 
-const PreviewImages = ({ images, setImages, editorRef }: PostImagesProps) => {
+const PreviewImages = ({
+  images,
+  setImages,
+  editorRef,
+  defaultImg,
+  setDefaultImg,
+}: PostImagesProps) => {
   const workers = useRef<Worker[]>([]);
+  const { openModal, closeModal } = useModal();
 
   const prevHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     const images = e.target.files;
@@ -210,14 +221,27 @@ const PreviewImages = ({ images, setImages, editorRef }: PostImagesProps) => {
   return (
     <SImageAside>
       <SRepImageBox>
-        {!!images.length && <SRepImg src={images[0].uri} alt="대표 이미지" />}
+        {!!images.length && (
+          <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
+        )}
         <SFileLabel>
           <p>사진을 추가해주세요.</p>
           <p>(Ctrl 또는 Shift로 다중 선택)</p>
         </SFileLabel>
         <SFileInput accept="image/*" onChange={handleSelectImages} />
       </SRepImageBox>
-      <SButton>
+      <SButton
+        onClick={() =>
+          openModal(
+            <DefaultImgSelect
+              images={images}
+              defaultImg={defaultImg}
+              setDefaultImg={setDefaultImg}
+              closeModal={closeModal}
+            />
+          )
+        }
+      >
         <p>대표사진 변경</p>
         <SMore />
       </SButton>
