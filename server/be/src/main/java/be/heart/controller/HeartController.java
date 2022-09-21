@@ -1,5 +1,6 @@
 package be.heart.controller;
 
+import be.heart.dto.HeartPatchDto;
 import be.heart.dto.HeartPostDto;
 import be.heart.entity.Heart;
 import be.heart.mapper.HeartMapper;
@@ -15,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -48,6 +46,25 @@ public class HeartController {
                 HttpStatus.CREATED
         );
     }
+
+    /**
+     * 가게 하트등록 취소 API
+     * **/
+    @PatchMapping("user/heart/cancel")
+    public ResponseEntity patchHeart(@Valid @RequestBody HeartPatchDto heartPatchDto){
+
+        Heart heart = mapper.heartPatchDtoToHeart(storeService,userService,heartPatchDto);
+
+        Heart updatedHeart = heartService.updateHeart(heart);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.heartToHeartResponseDto(storeMapper,userMapper,storeImageService,updatedHeart)),
+                HttpStatus.CREATED
+        );
+
+    }
+
+
 
 
 

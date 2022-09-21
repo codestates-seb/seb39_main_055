@@ -1,5 +1,6 @@
 package be.heart.mapper;
 
+import be.heart.dto.HeartPatchDto;
 import be.heart.dto.HeartPostDto;
 import be.heart.dto.HeartResponseDto;
 import be.heart.entity.Heart;
@@ -28,6 +29,19 @@ public interface HeartMapper {
 
         return heart;
 
+    }
+    default Heart heartPatchDtoToHeart(StoreService storeService,UserService userService,HeartPatchDto heartPatchDto){
+
+        User user = userService.getLoginUser(); // request http 헤더의 토큰에 해당하는 유저 불러옴
+        Store store = storeService.findVerifiedStore(heartPatchDto.getStoreId()); //유저가 하트누른 가게 불러오기
+        Heart heart = new Heart();
+
+        heart.setHeartStatus(heartPatchDto.getHeartStatus());
+        heart.setStore(store);
+        heart.setUser(user);
+
+
+        return heart;
     }
 
     default HeartResponseDto heartToHeartResponseDto(StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,Heart heart){

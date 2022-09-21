@@ -41,7 +41,8 @@ public interface UserMapper {
     }
 
     default User userPatchDtoToUser(UserService userService,UserPatchDto userPatchDto){
-        long userId = userService.getLoginUser().getUserId();
+
+        long userId = userService.getLoginUser().getUserId();// 토큰에 해당하는 userId 값 가져오기
         User user = new User();
         user.setUserId(userId);
         user.setEmail(userPatchDto.getEmail());

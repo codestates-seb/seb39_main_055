@@ -26,6 +26,26 @@ public class HeartService {
         return heartRepository.save(heart);
     }
 
+    @Transactional
+    public Heart updateHeart(Heart heart){
+
+        Heart findHeart = findExistHeart(heart.getUser(),heart.getStore());//등록된 하트면 반환->등록된 하트가 아니면 에러!
+
+        Optional.ofNullable(heart.getHeartStatus())//하트 삭제
+                .ifPresent(heartStatus -> findHeart.setHeartStatus(heartStatus));
+
+        return findHeart;
+    }
+
+    private Heart findExistHeart(User user, Store store){//등록된 하트면 반환->등록된 하트가 아니면 에러!
+
+        Optional<Heart> heart = heartRepository.findByUserAndStoreAndHeartStatus(user,store, Heart.HeartStatus.HEART_EXIST);
+        if(!heart.isPresent()) //등록된 하트가 아니면 에러!
+            throw new BusinessLogicException(ExceptionCode.HEART_NOT_FOUND);
+
+        return heart.get();
+    }
+
     private void verifyExistHeart(User user, Store store){//이미 등록된 하트인지 확인
 
         Optional<Heart> heart = heartRepository.findByUserAndStoreAndHeartStatus(user,store, Heart.HeartStatus.HEART_EXIST);
