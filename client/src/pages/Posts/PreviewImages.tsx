@@ -1,6 +1,8 @@
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
+import { blobToBase64, extractImageInfos } from "../../utils";
 import { Images } from "./NewPost";
 
 const SImageAside = styled.aside`
@@ -11,6 +13,7 @@ const SImageAside = styled.aside`
 `;
 
 const SRepImageBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -22,6 +25,36 @@ const SRepImageBox = styled.div`
 const SRepImg = styled.img`
   max-width: 100%;
   object-fit: contain;
+`;
+
+const SFileLabel = styled.label.attrs({
+  htmlFor: "upload-image",
+})`
+  position: absolute;
+  display: flex;
+  flex-flow: column wrap;
+  row-gap: 5px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0);
+  transition: 600ms all;
+
+  &:hover {
+    background-color: rgba(124, 124, 124, 0.7);
+    color: white;
+  }
+`;
+
+const SFileInput = styled.input.attrs({
+  type: "file",
+  id: "upload-image",
+  multiple: true,
+})`
+  width: 0;
+  height: 0;
 `;
 
 const SButton = styled.button`
@@ -89,20 +122,34 @@ const SList = styled.li`
 
 const SImg = styled.img`
   object-fit: cover;
-  /* max-width: 100%; */
   max-height: 100%;
   clip-path: inset(1px round 5px);
 `;
 
 interface PostImagesProps {
   images: Images[];
+  setImages: Dispatch<SetStateAction<Images[]>>;
 }
 
-const PreviewImages = ({ images }: PostImagesProps) => {
+const PreviewImages = ({ images, setImages }: PostImagesProps) => {
+  const handleSelectImages = async (e: ChangeEvent<HTMLInputElement>) => {
+    const images = e.target.files;
+
+    if (!images) return;
+    const imgInfos = await extractImageInfos([...images]);
+
+    setImages((prev) => [...prev, ...imgInfos]);
+  };
+
   return (
     <SImageAside>
       <SRepImageBox>
         {!!images.length && <SRepImg src={images[0].uri} alt="대표 이미지" />}
+        <SFileLabel>
+          <p>사진을 추가해주세요.</p>
+          <p>(다중 선택 가능)</p>
+        </SFileLabel>
+        <SFileInput accept="image/*" onChange={handleSelectImages} />
       </SRepImageBox>
       <SButton>
         <p>대표사진 변경</p>

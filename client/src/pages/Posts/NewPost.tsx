@@ -75,7 +75,7 @@ const submitPost = async (payload: PostRequest) => {
 };
 
 export interface Images {
-  blob: Blob;
+  file: Blob;
   uri: string;
   md5: string;
 }
@@ -119,18 +119,18 @@ const NewPost = () => {
         setTimeout(res, 150);
       });
 
-      const addedImage = await extractImageInfos(editor.getHTML());
+      /* const addedImage = await extractImageInfos(editor.getHTML());
 
-      setImages((prev) => [...prev, ...addedImage]);
+      setImages((prev) => [...prev, ...addedImage]); */
     });
   }, []);
 
   const uploadImages = async () => {
     const formData = new FormData();
 
-    images.forEach(({ blob }, i) => {
-      const ext = blob.type.split("/")[1];
-      formData.append("files", blob, `${i}.${ext}`); // 확장자를 안 붙이니 500 에러가 떴음
+    images.forEach(({ file }, i) => {
+      const ext = file.type.split("/")[1];
+      formData.append("files", file, `${i}.${ext}`); // 확장자를 안 붙이니 500 에러가 떴음
     });
 
     const res = await axiosInstance.post("/v1/user/upload", formData, {
@@ -164,7 +164,7 @@ const NewPost = () => {
           />
           <CustomEditor editorRef={editorRef} />
         </SPostSection>
-        <PreviewImages images={images} />
+        <PreviewImages images={images} setImages={setImages} />
       </SBox>
 
       <Button onClick={handleSubmit}>등록하기</Button>
