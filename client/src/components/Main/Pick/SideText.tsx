@@ -1,26 +1,39 @@
 import styled, { css } from "styled-components";
 
-import { mobile } from "../../../assets";
+import { mobile, tablet } from "../../../assets";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start-end;
+  align-items: flex-start;
+  width: 100%;
 
-  width: 300px;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 1px;
   gap: 20px;
   font-family: ONE Mobile;
   font-weight: 400;
-  font-size: 2.5rem;
+  font-size: 38px;
   color: ${({ theme }) => theme.colors.black500};
 
   ${mobile(css`
+    width: 100%;
+    flex-direction: row;
     flex-wrap: wrap;
+    font-size: 34px;
+    text-decoration: none;
+    gap: 10px;
   `)}
+
+  @media (max-width: 1110px) {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 34px;
+    text-decoration: none;
+    gap: 10px;
   }
 `;
 

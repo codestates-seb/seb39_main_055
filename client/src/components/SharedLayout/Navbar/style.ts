@@ -18,6 +18,13 @@ export const SNav = styled.nav`
     cursor: pointer;
   }
 
+  @media screen and (max-width: 700px) {
+    & > img {
+      width: 100px;
+      height: 40px;
+    }
+  }
+
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.desktop}) {
     padding: 0 20px;
   }
@@ -27,20 +34,56 @@ export const SMenu = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   font-size: 25px;
 
   & > img {
+    display: none;
     width: 40px;
     height: 40px;
     padding: 10px;
     border-radius: 10px;
     transition: 0.4s all;
+    cursor: pointer;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.black010};
+    }
+
+    @media screen and (max-width: 700px) {
+      display: block;
+    }
   }
 
-  & > img:hover {
-    background-color: ${({ theme }) => theme.colors.black010};
-    cursor: pointer;
+  & > button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: inherit;
+    font-size: 14px;
+    transition: 0.4s all;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.black010};
+    }
+
+    &:nth-child(2) {
+      color: #ffc107;
+    }
+
+    &:nth-child(3) {
+      margin-right: 5px;
+    }
+
+    @media screen and (max-width: 700px) {
+      &:nth-child(2) {
+        display: none;
+      }
+
+      &:nth-child(3) {
+        display: none;
+      }
+    }
   }
 `;
 
@@ -67,6 +110,7 @@ export const SHamberger = styled.div`
   & > img:last-child {
     width: 20px;
     height: 20px;
+    border-radius: 50%;
   }
 `;
 
@@ -85,25 +129,6 @@ export const STab = styled.aside<{ isOpen: boolean }>`
   animation-name: dropdown;
   animation-duration: 500ms;
   animation-direction: normal;
-
-  & > div {
-    display: flex;
-    justify-content: center;
-    padding: 15px 15px;
-  }
-
-  & > div:hover {
-    background-color: ${({ theme }) => theme.colors.black010};
-    cursor: pointer;
-  }
-
-  & > div:first-child {
-    border-radius: 10px 10px 0 0;
-  }
-
-  & > div:last-child {
-    border-radius: 0 0 10px 10px;
-  }
 
   @keyframes dropdown {
     from {

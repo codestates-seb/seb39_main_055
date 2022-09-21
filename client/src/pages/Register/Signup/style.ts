@@ -8,6 +8,7 @@ export const SContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 40px;
+  margin: 100px 0;
   min-height: calc(100vh - 380px);
 
   & > h1 {

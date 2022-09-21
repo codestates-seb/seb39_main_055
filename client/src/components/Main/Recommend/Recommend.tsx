@@ -1,3 +1,4 @@
+import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import styled, { css } from "styled-components";
 
 import { mobile } from "../../../assets";
@@ -8,10 +9,12 @@ import ScrollContents from "./ScrollContents";
 const Container = styled.div`
   height: 851px;
   margin-top: 50px;
+  position: relative;
 
   ${mobile(css`
-    width: 400px;
-    padding-right: 30px;
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
   `)}
 `;
 
@@ -21,13 +24,30 @@ const SContainer = styled.div`
   flex-wrap: no-wrap;
   overflow-x: scroll;
   overflow-y: hidden;
-  // height: 851px;
+`;
+
+const ArrowIcon = styled.div`
+  display: none;
+  position: absolute;
+  top: 5.8%;
+  right: 10%;
+  opacity: 0.2;
+  color: black;
+
+  }
+
+  ${mobile(css`
+    display: block;
+  `)}
 `;
 
 const Recommend = () => {
   return (
     <Container>
       <Header />
+      <ArrowIcon>
+        <BsFillArrowRightCircleFill size={35} />
+      </ArrowIcon>
       <SContainer>
         {scrollDummyImg.map((e) => (
           <ScrollContents

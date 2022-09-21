@@ -21,6 +21,16 @@ export const Container = styled.div`
       color: ${({ theme }) => theme.colors.black100};
       font-size: 20px;
     }
+
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.mobile}) {
+      & > h3 {
+        font-size: 24px;
+      }
+
+      & > p {
+        font-size: 14px;
+      }
+    }
   }
 `;
 
@@ -31,7 +41,7 @@ export const SSection = styled.section`
   @media screen and (max-width: 1000px) {
     display: flex;
     flex-direction: column;
-    height: 1000px;
+    height: 700px;
   }
 `;
 
@@ -49,12 +59,19 @@ export const SImgContainer = styled.div`
   }
 
   @keyframes fadein {
-    from {
+    0% {
       opacity: 0;
     }
-    to {
+    50% {
       opacity: 1;
     }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    height: 350px;
   }
 `;
 
@@ -98,13 +115,17 @@ export const SButtonContainer = styled.div`
 
 export const SListContainer = styled.ul`
   position: relative;
-  height: 420px;
+  height: 445px;
   margin-top: 20px;
   padding: 5px;
   overflow-y: scroll;
 
   & > li:last-child {
     margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 1000px) {
+    height: 350px;
   }
 `;
 

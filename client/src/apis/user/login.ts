@@ -30,19 +30,14 @@ interface ErrorResponse {
   timestamp: string;
 }
 
-type LoginResult = Pick<LoginForm, "keepLoggedIn"> & {
-  token: string;
-};
-
-const handleLogin = async (form: LoginForm) => {
-  const { email, password, keepLoggedIn } = form;
+const handleLogin = async ({ email, password }: LoginForm) => {
   const { headers } = await axiosInstance.post("/login", { email, password });
   const { authorization: token } = headers;
 
-  return { token, keepLoggedIn };
+  return token;
 };
 
-const fetchUserInfos = async () => {
+export const fetchUserInfos = async () => {
   const { data } = await axiosInstance.get<UserInfosResponse>("/v1/user", {
     headers: {
       tokenNeeded: true,
@@ -61,15 +56,14 @@ export default function useLogin() {
   const dispatch = useAppDispatch();
   const [errMsg, setErrMsg] = useState("");
   const { mutate, isLoading, isSuccess, isError } = useMutation<
-    LoginResult,
+    string,
     AxiosError<ErrorResponse>,
     LoginForm
   >((form) => handleLogin(form), {
-    onSuccess: async (payload) => {
-      dispatch(logInUser(payload));
+    onSuccess: async (token, { keepLoggedIn }) => {
+      dispatch(logInUser({ token, keepLoggedIn }));
 
       const userInfos = await fetchUserInfos();
-
       dispatch(setUserInfos(userInfos));
     },
     onError: async (data) => {

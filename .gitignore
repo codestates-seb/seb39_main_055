@@ -1,2 +1,5 @@
 .idea
 .DS_Store
+
+# VS Code 설정 파일
+.vscode

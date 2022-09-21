@@ -2,23 +2,51 @@ import { useState } from "react";
 import { CgChevronRight } from "react-icons/cg";
 import styled, { css } from "styled-components";
 
-import { mobile } from "../../../assets";
+import { mobile, tablet } from "../../../assets";
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
-import { images, linkAdress1 } from "./PickData";
+import { data, linkAdress1 } from "./PickData";
 import SideText from "./SideText";
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+
+  ${mobile(css`
+    flex-direction: column;
+    align-items: center;
+    height: 610px;
+    overflow-x: hidden;
+  `)}
+
+  @media (max-width: 1110px) {
+    flex-direction: column;
+    align-items: center;
+    height: 610px;
+  }
+`;
+
+const TextContainer = styled.div`
+  width: 40%;
+
+  ${mobile(css`
+    flex-wrap: wrap;
+    width: auto;
+    height: 10%;
+  `)}
 `;
 
 const Contents = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 780px;
-  height: 570px;
-  gap: 20px;
+  height: auto;
+  width: 50%;
+  gap: 15px;
+
+  ${mobile(css`
+    flex-direction: column;
+    align-items: center;
+  `)}
 `;
 
 const SideContents = styled.span`
@@ -27,25 +55,38 @@ const SideContents = styled.span`
   justify-content: center;
   gap: 20px;
   height: 440px;
-  width: 110px;
+  width: 20%;
 
   ${mobile(css`
-    flex-wrap: wrap;
+    flex-direction: row;
+    height: 100px;
   `)}
-}
+
+  & > img {
+    ${mobile(css`
+      widht: 100%;
+      height: 100px;
+    `)}
+  }
 `;
 
 const UserPickContents = styled.span`
-  width: 480px;
-  height: 440px;
+  width: 440px;
+  height: 400px;
   position: relative;
   align-items: center;
 
   & > img {
-    widht: 480px;
-    height: 440px;
+    widht: 440px;
+    height: 400px;
     object-fit: contain;
-`;
+    
+    ${mobile(css`
+      widht: 100%;
+      height: 100%;
+      margin: 0% 8.7%;
+    `)}
+    `;
 
 const ContentsInfo = styled.div`
   font-size: 32px;
@@ -53,10 +94,21 @@ const ContentsInfo = styled.div`
   position: absolute;
   top: 75%;
   left: 7%;
+  opacity: 0.7;
 
+  :hover {
+    opacity: 0.8;
+  }
   & > a {
     color: #ffff;
   }
+
+  ${mobile(css`
+    top: 58%;
+    left: 15%;
+    font-size: 20px;
+    line-height: 30px;
+  `)}
 `;
 
 const SecondTextLine = styled.a`
@@ -70,13 +122,15 @@ const Pick = () => {
   // const [crrImg, setCrrImg] = useState(images[0]);
   // const handleOnClick = (id: number) => {
   //   setCrrImg(images.find((i) => i.id === id));  };
-  const [crrImg, setCrrImg] = useState(images[0]);
+  const [crrImg, setCrrImg] = useState(data[0]);
   const handleOnClick = (e: any) => {
     setCrrImg(e.target.value);
   };
   return (
     <Container>
-      <SideText />
+      <TextContainer>
+        <SideText />
+      </TextContainer>
       <Contents>
         <SideContents>
           {/* onClick={handleOnClick} crrImg={crrImg} images={images} /> */}
