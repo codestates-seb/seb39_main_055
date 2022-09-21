@@ -19,9 +19,12 @@ const SButton = styled.button`
 interface Prop {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
+  setCoordinate?: React.Dispatch<
+    React.SetStateAction<{ longitude: string; latitude: string }>
+  >;
 }
 
-const SearchAddress = ({ setValue, setError }: Prop) => {
+const SearchAddress = ({ setValue, setError, setCoordinate }: Prop) => {
   const open = useDaumPostcodePopup();
 
   const handleComplete = (data: any) => {

@@ -2,7 +2,7 @@
 import { SComment, SError, SInput, SInputContainer } from "./style";
 
 interface Prop {
-  type?: "password" | "text";
+  type?: "password" | "text" | "tel";
   label?: string;
   id: string;
   value: any;
