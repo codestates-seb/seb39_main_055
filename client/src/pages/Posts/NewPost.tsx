@@ -1,12 +1,11 @@
 import { Editor } from "@toast-ui/react-editor";
-import { md5 } from "hash-wasm";
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import styled from "styled-components";
 
 import { colors } from "../../assets";
 import { ButtonOrange, CustomEditor, Input } from "../../components";
-import { axiosInstance, extractImageInfos } from "../../utils";
+import { axiosInstance } from "../../utils";
 import PreviewImages from "./PreviewImages";
 
 const SForm = styled.form`
@@ -75,7 +74,7 @@ const submitPost = async (payload: PostRequest) => {
 };
 
 export interface Images {
-  blob: Blob;
+  file: Blob;
   uri: string;
   md5: string;
 }
@@ -83,6 +82,7 @@ export interface Images {
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [images, setImages] = useState<Images[]>([]);
+  const [defaultImg, setDefaultImg] = useState(0);
   const editorRef = useRef<Editor>(null);
   const [submitReady, setSubmitReady] = useState(false);
   const { mutate, isLoading } = useMutation(
@@ -105,32 +105,21 @@ const NewPost = () => {
 
     const editor = editorRef.current.getInstance();
 
-    editor.on("change", () => {
+    /* editor.on("change", () => {
       // 1. img
       const innerHTML = editor.getHTML();
       const imageCounts = (innerHTML.match(/<img\ssrc/g) || []).length;
 
       console.log(imageCounts);
-    });
-
-    editor.on("addImageBlobHook", async () => {
-      // 에디터가 사진을 처리하고 DOM에 페인팅 완료할 때까지 대기
-      await new Promise((res) => {
-        setTimeout(res, 150);
-      });
-
-      const addedImage = await extractImageInfos(editor.getHTML());
-
-      setImages((prev) => [...prev, ...addedImage]);
-    });
+    }); */
   }, []);
 
   const uploadImages = async () => {
     const formData = new FormData();
 
-    images.forEach(({ blob }, i) => {
-      const ext = blob.type.split("/")[1];
-      formData.append("files", blob, `${i}.${ext}`); // 확장자를 안 붙이니 500 에러가 떴음
+    images.forEach(({ file }, i) => {
+      const ext = file.type.split("/")[1];
+      formData.append("files", file, `${i}.${ext}`); // 확장자를 안 붙이니 500 에러가 떴음
     });
 
     const res = await axiosInstance.post("/v1/user/upload", formData, {
@@ -164,9 +153,14 @@ const NewPost = () => {
           />
           <CustomEditor editorRef={editorRef} />
         </SPostSection>
-        <PreviewImages images={images} />
+        <PreviewImages
+          images={images}
+          setImages={setImages}
+          editorRef={editorRef}
+          defaultImg={defaultImg}
+          setDefaultImg={setDefaultImg}
+        />
       </SBox>
-
       <Button onClick={handleSubmit}>등록하기</Button>
       <Button onClick={uploadImages}>이미지 전송 테스트</Button>
     </SForm>

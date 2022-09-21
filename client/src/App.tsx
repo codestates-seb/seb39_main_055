@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
-import { SharedLayout } from "./components";
+import { Modal, SharedLayout } from "./components";
 import {
   Login,
   Main,
@@ -40,7 +40,8 @@ const App = () => {
 
   return (
     <>
-      <Routes>
+      <Modal width="600px" height="max-content" borderRadius="3px" background>
+        <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Main />} />
           <Route path="/login" element={<Login />} />
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/search/*" element={<Search />} />
         </Route>
       </Routes>
+      </Modal>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
     </>
   );

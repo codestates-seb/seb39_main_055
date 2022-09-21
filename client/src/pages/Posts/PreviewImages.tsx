@@ -1,6 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable consistent-return */
+import { Editor } from "@toast-ui/react-editor";
+import {
+  ChangeEvent,
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
+import { useModal } from "../../components";
+import { extractImageInfos } from "../../utils";
+import DefaultImgSelect from "./DefaultImgSelect";
 import { Images } from "./NewPost";
 
 const SImageAside = styled.aside`
@@ -11,6 +26,7 @@ const SImageAside = styled.aside`
 `;
 
 const SRepImageBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -22,6 +38,36 @@ const SRepImageBox = styled.div`
 const SRepImg = styled.img`
   max-width: 100%;
   object-fit: contain;
+`;
+
+const SFileLabel = styled.label.attrs({
+  htmlFor: "upload-image",
+})`
+  position: absolute;
+  display: flex;
+  flex-flow: column wrap;
+  row-gap: 5px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0);
+  transition: 600ms all;
+
+  &:hover {
+    background-color: rgba(124, 124, 124, 0.7);
+    color: white;
+  }
+`;
+
+const SFileInput = styled.input.attrs({
+  type: "file",
+  id: "upload-image",
+  multiple: true,
+})`
+  width: 0;
+  height: 0;
 `;
 
 const SButton = styled.button`
@@ -68,7 +114,7 @@ const SMore = styled.span`
   }
 `;
 
-const SThumbnailUList = styled.ul`
+export const SThumbnailUList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(calc((100% - 20px) / 3), 0));
@@ -78,7 +124,7 @@ const SThumbnailUList = styled.ul`
   overflow: hidden;
 `;
 
-const SList = styled.li`
+export const SList = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,24 +133,115 @@ const SList = styled.li`
   border-radius: 5px;
 `;
 
-const SImg = styled.img`
+export const SImg = styled.img`
   object-fit: cover;
-  /* max-width: 100%; */
   max-height: 100%;
   clip-path: inset(1px round 5px);
 `;
 
-interface PostImagesProps {
+export interface PostImagesProps {
   images: Images[];
+  setImages: Dispatch<SetStateAction<Images[]>>;
+  editorRef: RefObject<Editor>;
+  defaultImg: number;
+  setDefaultImg: Dispatch<SetStateAction<number>>;
 }
 
-const PreviewImages = ({ images }: PostImagesProps) => {
+const PreviewImages = ({
+  images,
+  setImages,
+  editorRef,
+  defaultImg,
+  setDefaultImg,
+}: PostImagesProps) => {
+  const workers = useRef<Worker[]>([]);
+  const { openModal, closeModal } = useModal();
+
+  const prevHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+    const images = e.target.files;
+    if (!images?.length || !editorRef.current) return;
+
+    const addedImage = await extractImageInfos([...images]);
+
+    editorRef.current.getInstance().focus();
+
+    setImages((prev) => [...prev, ...addedImage]);
+  };
+
+  const handleSelectImages = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      const images = e.target.files;
+      const workerInst = workers.current.length;
+      const L = Math.ceil((images || []).length / workerInst);
+
+      if (!images?.length || !editorRef.current) return;
+
+      const uploaded: Images[] = [];
+
+      editorRef.current.getInstance().focus();
+
+      workers.current.forEach((wk, i) => {
+        const startI = L * i + i;
+        let endI = startI + L + 1;
+        if (endI > images.length) {
+          endI = images.length;
+        }
+        const imagePacking = [...images].slice(startI, endI);
+
+        wk.addEventListener("message", function callee(e) {
+          if (e.data.length) {
+            // FIXME: state 변경을 한번에 처리할 수 있도록
+            setImages((prev) => [...prev, ...e.data]);
+          }
+          wk.removeEventListener("message", callee);
+        });
+
+        wk.postMessage(imagePacking);
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!workers.current) return;
+
+    const maxWorker = navigator.hardwareConcurrency || 2;
+
+    workers.current = new Array(maxWorker).fill(0).map(() => {
+      return new Worker(
+        new URL("../../utils/imageLoad.worker.ts", import.meta.url)
+      );
+    });
+
+    return () => {
+      workers.current.forEach((wk) => wk.terminate());
+    };
+  }, []);
+
   return (
     <SImageAside>
       <SRepImageBox>
-        {!!images.length && <SRepImg src={images[0].uri} alt="대표 이미지" />}
+        {!!images.length && (
+          <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
+        )}
+        <SFileLabel>
+          <p>사진을 추가해주세요.</p>
+          <p>(Ctrl 또는 Shift로 다중 선택)</p>
+        </SFileLabel>
+        <SFileInput accept="image/*" onChange={handleSelectImages} />
       </SRepImageBox>
-      <SButton>
+      <SButton
+        onClick={() =>
+          openModal(
+            <DefaultImgSelect
+              images={images}
+              defaultImg={defaultImg}
+              setDefaultImg={setDefaultImg}
+              closeModal={closeModal}
+            />
+          )
+        }
+      >
         <p>대표사진 변경</p>
         <SMore />
       </SButton>
