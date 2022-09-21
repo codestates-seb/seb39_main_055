@@ -29,6 +29,10 @@ public class ThreadImage extends BaseEntity {
     @JoinColumn(name = "THREAD_ID")
     private Thread thread;
 
+    public void addThread(Thread thread) {
+        this.thread = thread;
+    }
+
     public enum ThreadImageStatus {
         THREAD_IMAGE_EXIST("존재하는 사진"),
         THREAD_IMAGE_NOT_EXIST("존재하지 않는 사진");
