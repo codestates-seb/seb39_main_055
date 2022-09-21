@@ -24,7 +24,7 @@ export const scrollDummyImg = [
     alt: "강아지산책이미지",
     textTitle: "생태정원 & 카페 문화박물관",
     textLine1: "제주 '숨도'에서 귀한 경험을 해보세요!",
-    textLine2: "다양한 포토존을 통해 반려동물과 추억을 쌓아요",
+    textLine2: "다양한 포토존을 통해 반려동물과 추억을 쌓아요!",
     link: "/",
   },
   {
@@ -36,7 +36,7 @@ export const scrollDummyImg = [
     alt: "펜션이미지",
     textTitle: "경주 독채 펜션'오늘도 너와'",
     textLine1: "우리들의 오롯한 쉼이 되어주는 ‘오늘도 너와’에서",
-    textLine2: "잊지못할 경험을 해보세요",
+    textLine2: "잊지못할 경험을 해보세요!",
     link: "/",
   },
   {
@@ -60,7 +60,7 @@ export const scrollDummyImg = [
     alt: "강아지산책이미지",
     textTitle: "생태정원 & 카페 문화박물관2",
     textLine1: "제주 '숨도'에서 귀한 경험을 해보세요!",
-    textLine2: "다양한 포토존을 통해 반려동물과 추억을 쌓아요",
+    textLine2: "다양한 포토존을 통해 반려동물과 추억을 쌓아요!",
     link: "/",
   },
   {
@@ -72,7 +72,7 @@ export const scrollDummyImg = [
     alt: "펜션이미지",
     textTitle: "경주 독채 펜션'오늘도 너와'2",
     textLine1: "우리들의 오롯한 쉼이 되어주는 ‘오늘도 너와’에서",
-    textLine2: "잊지못할 경험을 해보세요",
+    textLine2: "잊지못할 경험을 해보세요!",
     link: "/",
   },
 ];
