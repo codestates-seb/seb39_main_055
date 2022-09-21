@@ -3,7 +3,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-return-assign */
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
 
 import { useNewPlace } from "../../../apis";
 import {
@@ -16,7 +15,6 @@ import {
 } from "../../../components";
 import { useCheckbox, useValidate } from "../../../hooks";
 import {
-  axiosInstance,
   descriptionValidation,
   notBlank,
   phoneNumberValidation,
@@ -62,7 +60,7 @@ const NewPlace = () => {
     checkDescription,
   ] = useValidate(descriptionValidation);
 
-  const { storeImages, fileMutate } = useNewPlace();
+  const { imageUrlData, fileMutate } = useNewPlace();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

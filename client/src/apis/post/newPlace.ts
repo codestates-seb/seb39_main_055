@@ -1,9 +1,9 @@
+/* eslint-disable no-plusplus */
 import { AxiosError } from "axios";
 import { useMutation } from "react-query";
 
 import { ErrorResponse } from "../../types";
 import { axiosInstance } from "../../utils/axiosInstance";
-/* eslint-disable no-plusplus */
 
 export const getImgUrl = async (files: FileList): Promise<string[]> => {
   const formData = new FormData();
@@ -23,14 +23,11 @@ export const getImgUrl = async (files: FileList): Promise<string[]> => {
 };
 
 export const useNewPlace = () => {
-  const { data: storeImages, mutate: fileMutate } = useMutation<
+  const { data: imageUrlData, mutate: fileMutate } = useMutation<
     string[],
     AxiosError<ErrorResponse>,
     FileList
-  >((files) => getImgUrl(files), {
-    onSuccess: (data) => console.log(data),
-    onError: (error) => console.log(error),
-  });
+  >((files) => getImgUrl(files));
 
-  return { fileMutate, storeImages };
+  return { fileMutate, imageUrlData };
 };

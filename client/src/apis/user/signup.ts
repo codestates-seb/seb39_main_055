@@ -1,14 +1,11 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "react-toastify";
 
+import { ErrorResponse } from "../../types";
 import { axiosInstance } from "../../utils";
+import { CoordinateResponse, getCoordinate } from "../map";
 
-const KAKAO_KEY = process.env.REACT_APP_KAKAO_KEY;
-
-interface CoordinateResponse {
-  documents: { x: string; y: string }[];
-}
 interface SignupResponse {
   nickname: string;
   email: string;
@@ -29,27 +26,6 @@ interface SignupBody {
 interface SignupForm extends SignupBody {
   longitude: string;
   latitude: string;
-}
-
-interface ErrorResponse {
-  error: string;
-  path: string;
-  status: number;
-  timestamp: string;
-}
-
-export async function getCoordinate(
-  address: string
-): Promise<CoordinateResponse> {
-  const { data } = await axios.get(
-    `https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,
-    {
-      headers: {
-        Authorization: `KakaoAK ${KAKAO_KEY}`,
-      },
-    }
-  );
-  return data;
 }
 
 export async function signupUser(form: SignupForm): Promise<SignupResponse> {
