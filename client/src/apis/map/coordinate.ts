@@ -25,7 +25,7 @@ export async function getCoordinate(
 }
 
 export const useCoordinate = (address: string) => {
-  const { refetch, data: coordinateData } = useQuery<
+  const { data: coordinateData, refetch } = useQuery<
     CoordinateResponse,
     AxiosError<ErrorResponse>
   >(["coordinate", address], () => getCoordinate(address), {
