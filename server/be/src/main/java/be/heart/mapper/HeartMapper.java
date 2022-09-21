@@ -15,6 +15,9 @@ import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring")
 public interface HeartMapper {
 
@@ -30,6 +33,8 @@ public interface HeartMapper {
         return heart;
 
     }
+
+
     default Heart heartPatchDtoToHeart(StoreService storeService,UserService userService,HeartPatchDto heartPatchDto){
 
         User user = userService.getLoginUser(); // request http 헤더의 토큰에 해당하는 유저 불러옴
@@ -59,4 +64,9 @@ public interface HeartMapper {
 
         return heartResponseDto;
     }
+
+    default List<HeartResponseDto> heartsToHeartResponseDtos(StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,List<Heart> hearts){
+        return hearts.stream().map(heart -> heartToHeartResponseDto(storeMapper,userMapper,storeImageService,heart))
+                .collect(Collectors.toList());
+    };
 }

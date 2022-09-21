@@ -3,6 +3,7 @@ package be.awsS3.controller;
 
 import be.awsS3.service.AwsS3Service;
 import be.response.MultiResponseDto;
+import be.response.SingleResponseDto;
 import be.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -37,7 +38,7 @@ public class AwsS3Controller {
         long userId = userService.getLoginUser().getUserId();
         System.out.printf("upload userId: {}\n", userId);
         return new ResponseEntity<>(
-                new MultiResponseDto<>(awsS3Service.uploadFile(userId,multipartFiles)), HttpStatus.CREATED
+                new SingleResponseDto<>(awsS3Service.uploadFile(userId,multipartFiles)), HttpStatus.CREATED
         );
     }
 }
