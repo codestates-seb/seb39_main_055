@@ -6,10 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { SharedLayout } from "./components";
-
-import PlaceCard from "./components/Main/HotPlace/PlaceCard/PlaceCard";
-import { Login, Main, Mypage, NewPost, RegisterPlace, Signup, NewPlace } from "./pages";
-
+import { Login, Main, Mypage, NewPlace, NewPost, Signup } from "./pages";
 import {
   logOutUser,
   selectUser,
