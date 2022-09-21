@@ -1,8 +1,8 @@
 /* eslint-disable no-return-assign */
 import { useState } from "react";
 
-export const useCheckbox = () => {
-  const [checkboxValue, setCheckboxValue] = useState("");
+export const useCheckbox = (defaultValue: string) => {
+  const [checkboxValue, setCheckboxValue] = useState(defaultValue);
 
   const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     document
@@ -12,7 +12,6 @@ export const useCheckbox = () => {
     const { target } = e;
     target.checked = true;
     setCheckboxValue(target.value);
-    console.log(target.value);
   };
 
   return { checkboxValue, handleCheckboxClick };

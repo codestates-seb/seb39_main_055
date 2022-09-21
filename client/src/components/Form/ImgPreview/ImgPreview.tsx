@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { UseMutateFunction } from "react-query";
 import styled from "styled-components";
 
 export const SPreview = styled.div`
@@ -39,18 +40,20 @@ export const SContainer = styled.div`
 interface Prop {
   id: string;
   label: string;
-  imgUrl: string;
-  setImgUrl: React.Dispatch<React.SetStateAction<string | ArrayBuffer | null>>;
+  previewUrl: string;
+  setPreviewUrl: React.Dispatch<
+    React.SetStateAction<string | ArrayBuffer | null>
+  >;
+  mutate: UseMutateFunction<string[], any, FileList, unknown>;
 }
 
-const ImgPreview = ({ id, label, imgUrl, setImgUrl }: Prop) => {
+const ImgPreview = ({ id, label, previewUrl, setPreviewUrl, mutate }: Prop) => {
   const encodeFileToBase64 = (fileBlob: Blob) => {
-    console.log(fileBlob);
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
     return new Promise<void>((resolve) => {
       reader.onload = () => {
-        setImgUrl(reader.result);
+        setPreviewUrl(reader.result);
         resolve();
       };
     });
@@ -59,15 +62,18 @@ const ImgPreview = ({ id, label, imgUrl, setImgUrl }: Prop) => {
   return (
     <SContainer>
       <SPreview>
-        <img src={imgUrl as string} alt="preview-img" />
+        <img src={previewUrl as string} alt="preview-img" />
       </SPreview>
       <label htmlFor={id}>
         {label} <MdOutlineKeyboardArrowRight />
       </label>
       <input
         type="file"
+        multiple
+        accept=".gif, .jpg, .png, .svg, .jpeg"
         id={id}
         onChange={(e) => {
+          mutate(e.currentTarget.files as FileList);
           encodeFileToBase64((e.target.files as FileList)[0]);
         }}
       />

@@ -13,6 +13,7 @@ const Container = styled.div`
 
   ${mobile(css`
     width: 100%;
+    height: auto;
     overflow-x: hidden;
   `)}
 `;
@@ -32,8 +33,6 @@ const ArrowIcon = styled.div`
   right: 10%;
   opacity: 0.2;
   color: black;
-
-  }
 
   ${mobile(css`
     display: block;
