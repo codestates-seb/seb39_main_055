@@ -68,11 +68,9 @@ public class UserService {
         }
     }
 
-    public void verifyNotExistEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()){
-            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
-        }else if(user.get().getUserStatus() == User.UserStatus.USER_NOT_EXIST){
+    public void verifyExistUserByEmail(String email) { //현재 활동중인 유저중 email 파라미터로 조회
+        Optional<User> user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+        if (user.isEmpty()){//DB에 없는 유저거나 이전에 탈퇴한 유저면 예외처리함
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
     }
