@@ -42,18 +42,18 @@ const App = () => {
     <>
       <Modal width="600px" height="max-content" borderRadius="3px" background>
         <Routes>
-        <Route path="/" element={<SharedLayout />}>
-          <Route index element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/place/new" element={<NewPlace />} />
-          <Route path="/place/list" element={<PlaceList />} />
-          <Route path="/post/new" element={<NewPost />} />
-          <Route path="/post/list" element={<PostList />} />
-          <Route path="/search/*" element={<Search />} />
-        </Route>
-      </Routes>
+          <Route path="/" element={<SharedLayout />}>
+            <Route index element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/place/new" element={<NewPlace />} />
+            <Route path="/place/list" element={<PlaceList />} />
+            <Route path="/post/new" element={<NewPost />} />
+            <Route path="/post/list" element={<PostList />} />
+            <Route path="/search/*" element={<Search />} />
+          </Route>
+        </Routes>
       </Modal>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
     </>

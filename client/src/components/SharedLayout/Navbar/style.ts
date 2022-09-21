@@ -10,7 +10,7 @@ export const SNav = styled.nav`
   padding: 0 24px;
   background-color: #ffffff;
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
-  z-index: 100;
+  z-index: 3;
 
   & > img {
     width: 140px;
