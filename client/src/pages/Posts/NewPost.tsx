@@ -105,24 +105,13 @@ const NewPost = () => {
 
     const editor = editorRef.current.getInstance();
 
-    editor.on("change", () => {
+    /* editor.on("change", () => {
       // 1. img
       const innerHTML = editor.getHTML();
       const imageCounts = (innerHTML.match(/<img\ssrc/g) || []).length;
 
       console.log(imageCounts);
-    });
-
-    editor.on("addImageBlobHook", async () => {
-      // 에디터가 사진을 처리하고 DOM에 페인팅 완료할 때까지 대기
-      await new Promise((res) => {
-        setTimeout(res, 150);
-      });
-
-      /* const addedImage = await extractImageInfos(editor.getHTML());
-
-      setImages((prev) => [...prev, ...addedImage]); */
-    });
+    }); */
   }, []);
 
   const uploadImages = async () => {
@@ -164,7 +153,11 @@ const NewPost = () => {
           />
           <CustomEditor editorRef={editorRef} />
         </SPostSection>
-        <PreviewImages images={images} setImages={setImages} />
+        <PreviewImages
+          images={images}
+          setImages={setImages}
+          editorRef={editorRef}
+        />
       </SBox>
 
       <Button onClick={handleSubmit}>등록하기</Button>

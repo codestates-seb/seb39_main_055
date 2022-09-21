@@ -1,8 +1,19 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable consistent-return */
+import { Editor } from "@toast-ui/react-editor";
+import {
+  ChangeEvent,
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
-import { blobToBase64, extractImageInfos } from "../../utils";
+import { extractImageInfos } from "../../utils";
 import { Images } from "./NewPost";
 
 const SImageAside = styled.aside`
@@ -129,17 +140,72 @@ const SImg = styled.img`
 interface PostImagesProps {
   images: Images[];
   setImages: Dispatch<SetStateAction<Images[]>>;
+  editorRef: RefObject<Editor>;
 }
 
-const PreviewImages = ({ images, setImages }: PostImagesProps) => {
-  const handleSelectImages = async (e: ChangeEvent<HTMLInputElement>) => {
+const PreviewImages = ({ images, setImages, editorRef }: PostImagesProps) => {
+  const workers = useRef<Worker[]>([]);
+
+  const prevHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     const images = e.target.files;
+    if (!images?.length || !editorRef.current) return;
 
-    if (!images) return;
-    const imgInfos = await extractImageInfos([...images]);
+    const addedImage = await extractImageInfos([...images]);
 
-    setImages((prev) => [...prev, ...imgInfos]);
+    editorRef.current.getInstance().focus();
+
+    setImages((prev) => [...prev, ...addedImage]);
   };
+
+  const handleSelectImages = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      const images = e.target.files;
+      const workerInst = workers.current.length;
+      const L = Math.ceil((images || []).length / workerInst);
+
+      if (!images?.length || !editorRef.current) return;
+
+      const uploaded: Images[] = [];
+
+      editorRef.current.getInstance().focus();
+
+      workers.current.forEach((wk, i) => {
+        const startI = L * i + i;
+        let endI = startI + L + 1;
+        if (endI > images.length) {
+          endI = images.length;
+        }
+        const imagePacking = [...images].slice(startI, endI);
+
+        wk.addEventListener("message", function callee(e) {
+          if (e.data.length) {
+            // FIXME: state 변경을 한번에 처리할 수 있도록
+            setImages((prev) => [...prev, ...e.data]);
+          }
+          wk.removeEventListener("message", callee);
+        });
+
+        wk.postMessage(imagePacking);
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!workers.current) return;
+
+    const maxWorker = navigator.hardwareConcurrency || 2;
+
+    workers.current = new Array(maxWorker).fill(0).map(() => {
+      return new Worker(
+        new URL("../../utils/imageLoad.worker.ts", import.meta.url)
+      );
+    });
+
+    return () => {
+      workers.current.forEach((wk) => wk.terminate());
+    };
+  }, []);
 
   return (
     <SImageAside>
@@ -147,7 +213,7 @@ const PreviewImages = ({ images, setImages }: PostImagesProps) => {
         {!!images.length && <SRepImg src={images[0].uri} alt="대표 이미지" />}
         <SFileLabel>
           <p>사진을 추가해주세요.</p>
-          <p>(다중 선택 가능)</p>
+          <p>(Ctrl 또는 Shift로 다중 선택)</p>
         </SFileLabel>
         <SFileInput accept="image/*" onChange={handleSelectImages} />
       </SRepImageBox>
