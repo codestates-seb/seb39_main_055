@@ -74,6 +74,16 @@ export const SMenu = styled.div`
     &:nth-child(3) {
       margin-right: 5px;
     }
+
+    @media screen and (max-width: 700px) {
+      &:nth-child(2) {
+        display: none;
+      }
+
+      &:nth-child(3) {
+        display: none;
+      }
+    }
   }
 `;
 
@@ -119,25 +129,6 @@ export const STab = styled.aside<{ isOpen: boolean }>`
   animation-name: dropdown;
   animation-duration: 500ms;
   animation-direction: normal;
-
-  & > div {
-    display: flex;
-    justify-content: center;
-    padding: 15px 15px;
-  }
-
-  & > div:hover {
-    background-color: ${({ theme }) => theme.colors.black010};
-    cursor: pointer;
-  }
-
-  & > div:first-child {
-    border-radius: 10px 10px 0 0;
-  }
-
-  & > div:last-child {
-    border-radius: 0 0 10px 10px;
-  }
 
   @keyframes dropdown {
     from {
