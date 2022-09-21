@@ -30,6 +30,10 @@ export const SSearchBar = styled.div`
     height: 20px;
     cursor: pointer;
   }
+
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const Navbar = () => {
@@ -55,10 +59,14 @@ const Navbar = () => {
   };
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && inputValue) {
       navigate(`/search?search=${inputValue}`);
       setInputValue("");
     }
+  };
+
+  const handleSearchIconClick = () => {
+    if (inputValue) navigate(`/search?search=${inputValue}`);
   };
 
   useEffect(() => {
@@ -77,13 +85,10 @@ const Navbar = () => {
           onChange={handleInputChange}
           onKeyPress={handleInputKeyPress}
         />
-        <img
-          src={search}
-          alt="search"
-          onClick={() => navigate(`/search?search=${inputValue}`)}
-        />
+        <img src={search} alt="search" onClick={handleSearchIconClick} />
       </SSearchBar>
       <SMenu>
+        <img src={search} alt="search" onClick={handleSearchIconClick} />
         <button
           type="button"
           onClick={() => {

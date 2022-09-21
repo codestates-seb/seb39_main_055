@@ -18,7 +18,7 @@ export const SNav = styled.nav`
     cursor: pointer;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 700px) {
     & > img {
       width: 100px;
       height: 40px;
@@ -38,26 +38,42 @@ export const SMenu = styled.div`
   font-size: 25px;
 
   & > img {
+    display: none;
     width: 40px;
     height: 40px;
     padding: 10px;
     border-radius: 10px;
     transition: 0.4s all;
-  }
-
-  & > img:hover {
-    background-color: ${({ theme }) => theme.colors.black010};
     cursor: pointer;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.black010};
+    }
+
+    @media screen and (max-width: 700px) {
+      display: block;
+    }
   }
 
   & > button {
+    padding: 10px;
     border: none;
+    border-radius: 10px;
     background-color: inherit;
     font-size: 14px;
-  }
+    transition: 0.4s all;
 
-  & > button:first-child {
-    color: #ffc107;
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.black010};
+    }
+
+    &:nth-child(2) {
+      color: #ffc107;
+    }
+
+    &:nth-child(3) {
+      margin-right: 5px;
+    }
   }
 `;
 
