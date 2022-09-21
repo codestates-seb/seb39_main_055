@@ -18,6 +18,13 @@ export const SNav = styled.nav`
     cursor: pointer;
   }
 
+  @media screen and (max-width: 500px) {
+    & > img {
+      width: 100px;
+      height: 40px;
+    }
+  }
+
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.desktop}) {
     padding: 0 20px;
   }

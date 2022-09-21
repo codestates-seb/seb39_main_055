@@ -14,6 +14,7 @@ import {
   NewPost,
   PlaceList,
   PostList,
+  Search,
   Signup,
 } from "./pages";
 import {
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/place/list" element={<PlaceList />} />
           <Route path="/post/new" element={<NewPost />} />
           <Route path="/post/list" element={<PostList />} />
+          <Route path="/search/*" element={<Search />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" pauseOnFocusLoss theme="colored" />
