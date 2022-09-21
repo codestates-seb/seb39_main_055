@@ -94,6 +94,9 @@ public class UserService {
         Optional.ofNullable(user.getLatitude())//유저 latitude 수정
                 .ifPresent(userLatitude ->findUser.setLatitude(userLatitude));
 
+        Optional.ofNullable(user.getUserStatus())//유저 탈퇴
+                .ifPresent(userStatus -> findUser.setUserStatus(userStatus));
+
         return findUser;
     }
 }

@@ -49,6 +49,7 @@ public interface UserMapper {
         user.setLatitude(userPatchDto.getLatitude());
         user.setLongitude(userPatchDto.getLongitude());
         user.setNickname(userPatchDto.getNickname());
+        user.setUserStatus(userPatchDto.getUserStatus());
 
         return user;
     }
