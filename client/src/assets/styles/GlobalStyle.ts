@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    font-family: "ONE-Mobile-Regular";
   }
 
   :root {
@@ -27,11 +28,12 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     margin: 0;
     padding: 0;
-    font-family: "ONE-Mobile-Regular";
+    
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-size: revert;
+    font-weight: 400;
   }
 
   ol, ul, li {

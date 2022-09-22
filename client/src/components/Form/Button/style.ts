@@ -7,12 +7,11 @@ export const Buttton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 2px;
+  border-radius: 10px;
   border: 0px;
   padding: 2px 9px;
   transition: 0.4s all;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 18px;
   width: max-content;
   height: 55px;
 
@@ -25,6 +24,7 @@ export const Buttton = styled.button`
       &:hover {
         background-color: ${hoverColor || "white"};
         color: ${bgColor || colors("orange500")};
+        font-weight: bold;
         transition: 0.4s all;
       }
 

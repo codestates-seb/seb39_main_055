@@ -12,20 +12,20 @@ import {
 } from "react";
 import styled, { css } from "styled-components";
 
-import { colors } from "../../assets";
-import { useModal } from "../../components";
-import { extractImageInfos } from "../../utils";
+import { colors } from "../../../assets";
+import { InteractiveImage, useModal } from "../../../components";
+import { extractImageInfos } from "../../../utils";
 import DefaultImgSelect from "./DefaultImgSelect";
 import { Images } from "./NewPost";
 
-const SImageAside = styled.aside`
+export const SImageAside = styled.aside`
   display: flex;
   flex-flow: column nowrap;
   flex: 1 1 20%;
   padding: 85px 20px 20px 25px;
 `;
 
-const SRepImageBox = styled.div`
+export const SRepImageBox = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -35,12 +35,12 @@ const SRepImageBox = styled.div`
   border-radius: 5px;
 `;
 
-const SRepImg = styled.img`
+export const SRepImg = styled.img`
   max-width: 100%;
   object-fit: contain;
 `;
 
-const SFileLabel = styled.label.attrs({
+export const SaLabel = styled.label.attrs({
   htmlFor: "upload-image",
 })`
   position: absolute;
@@ -61,7 +61,7 @@ const SFileLabel = styled.label.attrs({
   }
 `;
 
-const SFileInput = styled.input.attrs({
+export const SFileInput = styled.input.attrs({
   type: "file",
   id: "upload-image",
   multiple: true,
@@ -70,7 +70,7 @@ const SFileInput = styled.input.attrs({
   height: 0;
 `;
 
-const SButton = styled.button`
+export const SaButton = styled.button`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -84,7 +84,7 @@ const SButton = styled.button`
   font-size: 15px;
 `;
 
-const arrowDefault = css`
+export const arrowDefault = css`
   content: "";
   position: absolute;
   display: block;
@@ -95,7 +95,7 @@ const arrowDefault = css`
   box-shadow: -5px -5px 20px white;
 `;
 
-const SMore = styled.span`
+export const SMore = styled.span`
   display: inline-block;
   position: relative;
   width: 12px;
@@ -116,27 +116,22 @@ const SMore = styled.span`
 
 export const SThumbnailUList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax(calc((100% - 20px) / 3), 0));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(calc((100% - 30px) / 4), 0));
   gap: 10px;
   margin-top: 17px;
-  height: 250px;
+  height: 330px;
   overflow: hidden;
 `;
 
 export const SList = styled.li`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   overflow: hidden;
   border-radius: 5px;
-`;
-
-export const SImg = styled.img`
-  object-fit: cover;
-  max-height: 100%;
-  clip-path: inset(1px round 5px);
 `;
 
 export interface PostImagesProps {
@@ -202,6 +197,10 @@ const PreviewImages = ({
     []
   );
 
+  const removeImg = (idx: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== idx));
+  };
+
   useEffect(() => {
     if (!workers.current) return;
 
@@ -209,7 +208,7 @@ const PreviewImages = ({
 
     workers.current = new Array(maxWorker).fill(0).map(() => {
       return new Worker(
-        new URL("../../utils/imageLoad.worker.ts", import.meta.url)
+        new URL("../../../utils/imageLoad.worker.ts", import.meta.url)
       );
     });
 
@@ -224,13 +223,13 @@ const PreviewImages = ({
         {!!images.length && (
           <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
         )}
-        <SFileLabel>
+        <SaLabel>
           <p>사진을 추가해주세요.</p>
           <p>(Ctrl 또는 Shift로 다중 선택)</p>
-        </SFileLabel>
+        </SaLabel>
         <SFileInput accept="image/*" onChange={handleSelectImages} />
       </SRepImageBox>
-      <SButton
+      <SaButton
         onClick={() =>
           openModal(
             <DefaultImgSelect
@@ -244,11 +243,17 @@ const PreviewImages = ({
       >
         <p>대표사진 변경</p>
         <SMore />
-      </SButton>
+      </SaButton>
       <SThumbnailUList>
         {images.map(({ uri, md5 }, i) => (
           <SList key={md5}>
-            <SImg src={uri} alt={`${i}-th image to upload`} />
+            <InteractiveImage
+              label="클릭해서 제거"
+              hoverColor="#ff1c1ca7"
+              imageURL={uri}
+              alt={`${i}-th image to upload`}
+              onClick={() => removeImg(i)}
+            />
           </SList>
         ))}
       </SThumbnailUList>

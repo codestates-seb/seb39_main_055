@@ -40,6 +40,7 @@ const SSection = styled.section`
 `;
 
 const SH3 = styled.h3`
+  font-size: 16px;
   color: ${colors("black250")};
 `;
 

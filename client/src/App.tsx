@@ -29,15 +29,22 @@ import {
 const App = () => {
   const dispatch = useAppDispatch();
   const { loginStatus } = useAppSelector(selectUser);
-  const InitQuery = useQuery(["authUser", loginStatus], fetchUserInfos, {
+
+  // 메인 페이지 로드 후 로그인 상태 확인
+  useQuery(["authUser", loginStatus], fetchUserInfos, {
     enabled: loginStatus,
+    staleTime: 6 * 60 * 1000, // 6시간
+    refetchOnWindowFocus: false,
     onSuccess: (data) => {
       dispatch(setUserInfos(data));
     },
-    onError: () => {
+    onError: (err) => {
+      console.log(err);
       dispatch(logOutUser());
     },
   });
+
+  console.log("loginStatus 상태 확인", loginStatus);
 
   return (
     <>
