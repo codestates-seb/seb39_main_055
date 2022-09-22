@@ -3,7 +3,6 @@ import { FormEvent, useState } from "react";
 import useLogin from "../../../apis/user/login";
 import { useRedirect } from "../../../hooks";
 import { emailValidation, notBlank, passwordValidation } from "../../../utils";
-import PreviewImages from "../../Posts/PreviewImages";
 import SocialLogin from "./SocialLogin";
 import {
   HideSVG,
@@ -39,12 +38,11 @@ const LoginForm = () => {
     e.preventDefault();
     const invalidPW = !notBlank(password);
     const invalidEmail = !emailValidation(email);
-    console.log(inputErrors);
+
     if (invalidPW || invalidEmail) {
       setInputErrors({ email: invalidEmail, password: invalidPW });
       return;
     }
-    console.log("wjsthd");
     setInputErrors({ email: false, password: false });
     mutate({ email, password, keepLoggedIn });
   };
