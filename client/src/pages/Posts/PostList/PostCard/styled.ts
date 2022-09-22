@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-import cat from "../../../assets/images/animal/cat.png";
-
 export const SCard = styled.li`
   display: flex;
   gap: 80px;
@@ -105,38 +103,3 @@ export const SLike = styled.div`
     }
   }
 `;
-
-const PostCard = () => {
-  return (
-    <SCard>
-      <SImgContainer>
-        <img src={cat} alt="cat" />
-      </SImgContainer>
-      <SMainContainer>
-        <SInfo>
-          <img src={cat} alt="profile" />
-          <span>멍멍냥</span>
-          <span>30분 전</span>
-        </SInfo>
-        <SBody>
-          <p>
-            발톱전용으로 하는데 너무 힘들어서 조언 부탁드려요 ㅠㅠㅠㅠ 어디까지
-            잘라야하는지 모르겠어요 초보 집사여서ㅠㅠㅠㅠㅠㅠㅠ 어떻게 잡고
-            어떻게 잘라야 하는지 친절히 알려주실 분 댓글 달아주시면 ...
-          </p>
-        </SBody>
-        <SLike>
-          <span>
-            좋아요 <strong>10</strong>
-          </span>
-          <span>·</span>
-          <span>
-            좋아요 <strong>10</strong>
-          </span>
-        </SLike>
-      </SMainContainer>
-    </SCard>
-  );
-};
-
-export default PostCard;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-import PostCard from "./PostCard";
+import PostCard from "./PostCard/PostCard";
+import { postData } from "./PostData";
 
 export const SContainer = styled.div`
   display: flex;
@@ -37,17 +38,18 @@ const PostList = () => {
     <SContainer>
       <h1>댕댕이숲</h1>
       <SListContainer>
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+        {postData.map((data) => (
+          <PostCard
+            key={data.threadId}
+            postImage={data.threadImages}
+            userImage={data.user.image}
+            nickName={data.user.ninkname}
+            updatedAt={data.updatedAt}
+            body={data.body}
+            likes={data.likes}
+            comments={5}
+          />
+        ))}
       </SListContainer>
     </SContainer>
   );
