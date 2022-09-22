@@ -2,7 +2,9 @@ package be.thread.service;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.store.entity.StoreImage;
 import be.thread.entity.Thread;
+import be.thread.entity.ThreadImage;
 import be.thread.repository.ThreadRepository;
 import be.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -45,22 +47,32 @@ public class ThreadService {
 
         Optional.ofNullable(thread.getThreadStatus()) // 글 삭제 (실제로 삭제하는 것이 아니라 threaaStatus를 변경시키는 것...)
                 .ifPresent(findThread::setThreadStatus);
+//
+//        Thread updatedThread = threadRepository.save(findThread);
 
-        Thread updatedThread = threadRepository.save(findThread);
+        Optional.ofNullable(thread.getThreadImages())//스레드 이미지 수정
+                .ifPresent(threadImages -> { //StoreImages null값 아닐때!
+                    System.out.println("들어가면 안된다고");
+                    findThread.getThreadImages().stream().forEach(threadImage -> //기존 스레드이미지 삭제(STORE_IMAGE_NOT_EXIST)됌
+                            threadImage.setThreadImageStatus(ThreadImage.ThreadImageStatus.THREAD_IMAGE_NOT_EXIST));
 
-        if(thread.getThreadImages().isEmpty()) {
-            // 수정된 글에 이미지가 없다면, 등록되어 있는 이미지는 삭제 (= 사용하지 않는 상태로 변경)
-            threadImageService.deleteThreadImages(thread);
+                    thread.getThreadImages().stream().forEach(threadImage -> //새 스레드 이미지로 갱신
+                            findThread.getThreadImages().add(threadImage));
+                });
 
-        } else {
-            log.info("이미지 수정 {}",thread.getThreadImages().toString()); // 새롭게 올라온 이미지가 있다면
-            threadImageService.deleteThreadImages(thread); // 등록되어 있는 이미지는 삭제 (= 사용하지 않는 상태로 변경)
-            threadImageService.createThreadImages(thread.getThreadImages()); // 이후 새롭게 추가된 이미지 등록
-        }
+//        if(thread.getThreadImages().isEmpty()) {
+//            // 수정된 글에 이미지가 없다면, 등록되어 있는 이미지는 삭제 (= 사용하지 않는 상태로 변경)
+//            threadImageService.deleteThreadImages(thread);
+//
+//        } else {
+//            log.info("이미지 수정 {}",thread.getThreadImages().toString()); // 새롭게 올라온 이미지가 있다면
+//            threadImageService.deleteThreadImages(thread); // 등록되어 있는 이미지는 삭제 (= 사용하지 않는 상태로 변경)
+//            threadImageService.createThreadImages(thread.getThreadImages()); // 이후 새롭게 추가된 이미지 등록
+//        }
+//
+//        updatedThread.setThreadImages(threadImageService.findVerifiedThreadImages(updatedThread));
 
-        updatedThread.setThreadImages(threadImageService.findVerifiedThreadImages(updatedThread));
-
-        return updatedThread;
+        return findThread;
     }
 
     /**
@@ -83,13 +95,11 @@ public class ThreadService {
         return findThread;
     }
 
+    @Transactional
     public Thread likeThread(long threadId, int likes) {
         Thread findThread = findVerifiedThread(threadId); // 작성한 글이 DB에 없다면 예외 처리
         findThread.setLikes(likes);
-        Thread updatedThread = threadRepository.save(findThread);
-        // Status가 THREAD_IMAGE_EXIST만 표시
-        updatedThread.setThreadImages(threadImageService.findVerifiedThreadImages(updatedThread));
-        return updatedThread;
+        return findThread;
     }
 
 }

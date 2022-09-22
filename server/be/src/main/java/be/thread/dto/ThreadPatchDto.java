@@ -10,9 +10,9 @@ import java.util.List;
 @Setter
 public class ThreadPatchDto {
 
-    private long threadId;
+//    private long threadId;
     private String body;
-    private List<ThreadImageDtos> threadImages;
+    private List<ThreadImageDto> threadImages;
     private Thread.ThreadStatus threadStatus;
 
 }

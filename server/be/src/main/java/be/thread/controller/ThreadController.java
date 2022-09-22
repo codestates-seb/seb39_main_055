@@ -6,6 +6,7 @@ import be.thread.dto.ThreadPatchDto;
 import be.thread.dto.ThreadPostDto;
 import be.thread.entity.Thread;
 import be.thread.mapper.ThreadMapper;
+import be.thread.service.ThreadImageService;
 import be.thread.service.ThreadService;
 import be.user.mapper.UserMapper;
 import be.user.service.UserService;
@@ -31,6 +32,7 @@ public class ThreadController {
     private final ThreadMapper threadMapper;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final ThreadImageService threadImageService;
 
     /**
      * 댕댕이숲 글(thread) 작성 API
@@ -43,7 +45,7 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,thread)), HttpStatus.CREATED);
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,threadImageService,thread)), HttpStatus.CREATED);
     }
 
     /**
@@ -53,12 +55,12 @@ public class ThreadController {
     public ResponseEntity patchThread(@PathVariable("thread-id") @Positive @NotNull long threadId,
                                       @Valid @RequestBody ThreadPatchDto threadPatchDto) {
         // Request를 처리하기 위한 객체 생성. / 객체를 생성하는 메서드는 threadService에서 정의, 생성 메서드의 매개변수 생성은 mapper에서 만든다.
-        Thread thread = threadMapper.threadPatchDtoToThread(threadService, userService, threadPatchDto);
+        Thread thread = threadMapper.threadPatchDtoToThread(threadService, userService, threadId,threadPatchDto);
         Thread updatedThread = threadService.updateThread(thread);
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, updatedThread)),
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,threadImageService, updatedThread)),
                 HttpStatus.OK);
     }
 
@@ -73,7 +75,7 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, likedThread)),
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, threadImageService,likedThread)),
                 HttpStatus.OK);
     }
 

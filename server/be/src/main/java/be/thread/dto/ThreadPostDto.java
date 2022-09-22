@@ -15,5 +15,5 @@ public class ThreadPostDto {
     @NotBlank(message = "내용을 입력해 주세요.")
     private String body;
 
-    private List<ThreadImageDtos> threadImages;
+    private List<ThreadImageDto> threadImages;
 }
