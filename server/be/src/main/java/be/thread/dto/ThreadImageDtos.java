@@ -5,7 +5,7 @@ import lombok.Getter;
 import javax.validation.constraints.Positive;
 
 @Getter
-public class ThreadImagePostDtos {
+public class ThreadImageDtos {
 
     @Positive
     private Long threadImageId;
