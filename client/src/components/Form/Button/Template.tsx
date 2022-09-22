@@ -10,12 +10,12 @@ export const ButtonOrange = styled(Button)`
 export const ButtonWhite = styled(Button)`
   width: 350px;
   background-color: white;
-  color: ${colors("black250")};
+  color: ${colors("black400")};
   border: 1px solid ${colors("black050")};
 
   &:hover {
-    background-color: ${colors("black010")};
-    color: ${colors("black250")};
+    background-color: ${colors("black400")};
+    color: white;
     border-color: ${colors("black010")};
   }
 
