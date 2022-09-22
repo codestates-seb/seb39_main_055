@@ -2,9 +2,11 @@ package be.thread.mapper;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.store.entity.StoreImage;
 import be.thread.dto.*;
 import be.thread.entity.Thread;
 import be.thread.entity.ThreadImage;
+import be.thread.service.ThreadImageService;
 import be.thread.service.ThreadService;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
@@ -37,7 +39,7 @@ public interface ThreadMapper {
         return thread;
     }
 
-    default List<ThreadImage> threadImageDtosToThreadImages(List<ThreadImageDtos> threadImageDtos, Thread thread) {
+    default List<ThreadImage> threadImageDtosToThreadImages(List<ThreadImageDto> threadImageDtos, Thread thread) {
         return threadImageDtos.stream().map(threadImageDto -> {
             ThreadImage threadImage = new ThreadImage();
             threadImage.addThread(thread); // thread가 생성되어야만 threadImage를 업로드 할 수 있으니까?
@@ -46,31 +48,40 @@ public interface ThreadMapper {
         }).collect(Collectors.toList());
     }
 
-    default Thread threadPatchDtoToThread(ThreadService threadService, UserService userService, ThreadPatchDto threadPatchDto) {
+    default Thread threadPatchDtoToThread(ThreadService threadService, UserService userService,long threadId, ThreadPatchDto threadPatchDto) {
+
         // 로그인 유저 = thread를 작성한 유저가 아니라면, 예외 처리. (수정 권한이 없기 때문에)
-        if(!userService.getLoginUser().getUserId().equals(threadService.findThreadUser(threadPatchDto.getThreadId()).getUserId())) {
+        if(!userService.getLoginUser().getUserId().equals(threadService.findThreadUser(threadId).getUserId())) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
         }
 
         Thread thread = new Thread();
-        thread.setThreadId(threadPatchDto.getThreadId());
+        thread.setThreadId(threadId);
 
         thread.setBody(threadPatchDto.getBody()); // thread 본문 수정
 
-        // thread 수정 시, 첨부된 이미지가 하나도 없다면 -> 빈 ArrayList 반환
-        if(threadPatchDto.getThreadImages() == null) {
-            threadPatchDto.setThreadImages(new ArrayList<>());
+
+        // changing from StoreImageDto to StoreImage
+        if(threadPatchDto.getThreadImages()==null){
+            System.out.printf("이미지 아무것도 안들어옴!!");
+        }else{//이미지 한개 이상 들어왔을 때 -> 해당 이미지들을 Store객체에 넣어준다.
+            List<ThreadImage> threadImages = threadImageDtosToThreadImage(threadPatchDto.getThreadImages(),thread);
+            thread.setThreadImages(threadImages);
         }
-        // thread 수정 시, 첨부된 이미지가 하나 이상 있다면 -> 해당 이미지를 등록
-        List<ThreadImage> threadImages = threadImageDtosToThreadImage(threadPatchDto.getThreadImages(), thread);
-        thread.setThreadImages(threadImages);
+//        // thread 수정 시, 첨부된 이미지가 하나도 없다면 -> 빈 ArrayList 반환
+//        if(threadPatchDto.getThreadImages() == null) {
+//            threadPatchDto.setThreadImages(new ArrayList<>());
+//        }
+//        // thread 수정 시, 첨부된 이미지가 하나 이상 있다면 -> 해당 이미지를 등록
+//        List<ThreadImage> threadImages = threadImageDtosToThreadImage(threadPatchDto.getThreadImages(), thread);
+//        thread.setThreadImages(threadImages);
 
         thread.setThreadStatus(threadPatchDto.getThreadStatus());
 
         return thread;
     }
 
-    default List<ThreadImage> threadImageDtosToThreadImage(List<ThreadImageDtos> threadImageDtos, Thread thread) {
+    default List<ThreadImage> threadImageDtosToThreadImage(List<ThreadImageDto> threadImageDtos, Thread thread) {
         //
         return threadImageDtos.stream().map(threadImageDto -> {
             ThreadImage threadImage = new ThreadImage();
@@ -80,13 +91,15 @@ public interface ThreadMapper {
         }).collect(Collectors.toList());
     }
 
-    default ThreadResponseDto threadToThreadResponseDto(UserMapper userMapper, Thread thread) {
+
+    default ThreadResponseDto threadToThreadResponseDto(UserMapper userMapper, ThreadImageService threadImageService,Thread thread) {
 
         ThreadResponseDto threadResponseDto = new ThreadResponseDto();
 
         // threadImage 추가. 단, 이미지가 없으면 본문(body)만 response로 전달되어야 함.
-        List<ThreadImage> threadImages = thread.getThreadImages();
-        threadResponseDto.setThreadImages(threadImagesToThreadImageResponseDtos(thread.getThreadImages()));
+        threadResponseDto.setThreadImages(threadImagesToThreadImageResponseDtos(
+                threadImageService.findVerifiedThreadImages(thread)
+        ));
 
         // Thread -> ThreadResponseDto
         threadResponseDto.setThreadId(thread.getThreadId());

@@ -31,13 +31,13 @@ public class Thread extends BaseEntity {
     private String body;
 
     @Column(nullable = false)
-    private int likes;
+    private Integer likes;
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<ThreadImage> threadImages = new ArrayList<>();
+    private List<ThreadImage> threadImages;
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<Reply> replies = new ArrayList<>();
+    private List<Reply> replies;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")

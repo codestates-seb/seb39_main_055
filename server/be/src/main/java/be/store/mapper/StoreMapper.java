@@ -100,7 +100,6 @@ public interface StoreMapper {
     }
 
     default Store storePatchDtoToStore(StoreService storeService,UserService userService, long storeId, StorePatchDto storePatchDto){
-        System.out.println("여기는..?");
 
         if(userService.getLoginUser() != storeService.findUserAtStore(storeId)){
             //접근 오너가 가지고 있는 가게가 아니므로 수정 삭제 불가
