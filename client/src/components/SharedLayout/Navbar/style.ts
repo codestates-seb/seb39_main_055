@@ -22,8 +22,8 @@ export const SSection = styled.section`
   height: 80px;
 
   & > img {
-    width: 140px;
-    height: 40px;
+    width: 160px;
+    height: 45px;
     cursor: pointer;
   }
 
@@ -65,7 +65,7 @@ export const SMenu = styled.div`
     border: none;
     border-radius: 10px;
     background-color: inherit;
-    font-size: 14px;
+    font-size: 18px;
     transition: 0.4s all;
 
     &:hover {
@@ -97,9 +97,13 @@ export const SHamberger = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 5px 10px;
+  padding: 5px 15px;
   border-radius: 25px;
-  box-shadow: rgb(0 0 0 / 40%) 0px 0px 4px 0px;
+  color: #161616;
+  font-size: 18px;
+  box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
+    1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
+  transition: all 0.4s;
   transition: 0.4s all;
 
   &:hover {
@@ -108,13 +112,8 @@ export const SHamberger = styled.div`
   }
 
   & > img:first-child {
-    width: 15px;
-    height: 15px;
-  }
-
-  & > img:last-child {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
   }
 `;

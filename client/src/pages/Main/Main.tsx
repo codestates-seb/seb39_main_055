@@ -10,6 +10,7 @@ import {
   Pick,
   Recommend,
   Review,
+  SearchBar,
 } from "../../components";
 
 const Container = styled.div`
@@ -29,12 +30,12 @@ const Container = styled.div`
     }
   }
 `;
-
 const Main = () => {
   return (
     <Container>
       <Header />
       <section>
+        <SearchBar />
         <Category />
         {[<Recommend />, <HotPlace />, <Pick />, <Review />].map(
           (component, idx) => (
