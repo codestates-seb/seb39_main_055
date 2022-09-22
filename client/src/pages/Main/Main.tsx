@@ -21,7 +21,7 @@ const Container = styled.div`
     flex-direction: column;
     gap: 200px;
     margin: 50px 0;
-    padding: 0 150px;
+    /* padding: 0 150px; */
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
