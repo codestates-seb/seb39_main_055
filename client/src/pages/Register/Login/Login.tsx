@@ -2,6 +2,8 @@ import { FormEvent, useState } from "react";
 
 import useLogin from "../../../apis/user/login";
 import { useRedirect } from "../../../hooks";
+import { emailValidation, notBlank, passwordValidation } from "../../../utils";
+import PreviewImages from "../../Posts/PreviewImages";
 import SocialLogin from "./SocialLogin";
 import {
   HideSVG,
@@ -25,12 +27,25 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [inputErrors, setInputErrors] = useState({
+    email: false,
+    password: false,
+  });
   const { mutate, isLoading, isSuccess, isError, errMsg } = useLogin();
 
   useRedirect({ redirect: isSuccess, replace: true });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const invalidPW = !notBlank(password);
+    const invalidEmail = !emailValidation(email);
+    console.log(inputErrors);
+    if (invalidPW || invalidEmail) {
+      setInputErrors({ email: invalidEmail, password: invalidPW });
+      return;
+    }
+    console.log("wjsthd");
+    setInputErrors({ email: false, password: false });
     mutate({ email, password, keepLoggedIn });
   };
 
@@ -39,9 +54,9 @@ const LoginForm = () => {
       <SInput
         id="username"
         value={email}
-        placeholder="아이디를 입력하세요"
-        isError={false}
-        errorMsg=""
+        placeholder="이메일을 입력하세요"
+        isError={isError && !emailValidation(email)}
+        errorMsg="유효하지 않은 이메일"
         onChange={(e) => setEmail(e.target.value)}
       />
       <SPWBox>
@@ -50,11 +65,11 @@ const LoginForm = () => {
           type={isHidden ? "password" : "text"}
           value={password}
           placeholder="비밀번호를 입력하세요"
-          isError={isError}
+          isError={isError && !passwordValidation(password)}
           errorMsg={errMsg}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <SButton onClick={() => setIsHidden(!isHidden)}>
+        <SButton type="button" onClick={(e) => setIsHidden(!isHidden)}>
           {isHidden ? <HideSVG /> : <ShowSVG />}
         </SButton>
       </SPWBox>
