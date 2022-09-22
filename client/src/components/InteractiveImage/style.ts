@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-interface LabelProps {
-  hoverColor: string;
-}
+import { InteractiveProps } from "./InteractiveImage";
+
+type LabelProps = Pick<InteractiveProps, "hoverColor">;
 
 export const SbLabel = styled.label<LabelProps>`
   position: absolute;

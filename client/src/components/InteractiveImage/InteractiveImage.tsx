@@ -1,6 +1,6 @@
 import { SbButton, SbLabel, SImg } from "./style";
 
-interface InteractiveProps {
+export interface InteractiveProps {
   label: string;
   hoverColor: string;
   imageURL: string;
