@@ -10,6 +10,7 @@ import {
   Pick,
   Recommend,
   Review,
+  SearchBar,
 } from "../../components";
 
 const Container = styled.div`
@@ -19,9 +20,7 @@ const Container = styled.div`
   & > section {
     display: flex;
     flex-direction: column;
-    gap: 200px;
-    margin: 50px 0;
-    /* padding: 0 150px; */
+    gap: 300px;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
@@ -31,12 +30,12 @@ const Container = styled.div`
     }
   }
 `;
-
 const Main = () => {
   return (
     <Container>
       <Header />
       <section>
+        <SearchBar />
         <Category />
         {[<Recommend />, <HotPlace />, <Pick />, <Review />].map(
           (component, idx) => (

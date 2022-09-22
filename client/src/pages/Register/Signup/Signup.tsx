@@ -2,30 +2,34 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useSignup } from "../../../apis/user/signup";
-import { Checkbox, Input, SearchAddress } from "../../../components";
-import { useCheckbox, useValidate } from "../../../hooks";
+import { Input, SearchAddress } from "../../../components";
+import { useValidate } from "../../../hooks";
 import {
   emailValidation,
   nickNameValidation,
   notBlank,
-  passwordCheckValidation,
   passwordValidation,
 } from "../../../utils/validation";
 import {
+  HideSVG,
   SButton,
   SButtonContainer,
-  SCheckboxContainer,
   SContainer,
+  SHideButton,
+  ShowSVG,
+  SPWBox,
+  SRole,
 } from "./style";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { checkboxValue, handleCheckboxClick } = useCheckbox("ROLE_OWNER");
+  const [isGuest, setIsGuest] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =
@@ -40,19 +44,12 @@ const Signup = () => {
   ] = useValidate(notBlank);
   const [passwordValue, passwordError, handlePassword, checkPassword] =
     useValidate(passwordValidation);
-  const [
-    passwordCheckValue,
-    passwordCheckError,
-    handlePasswordCheck,
-    checkPasswordCheck,
-  ] = useValidate(
-    passwordCheckValidation as (value: string, password?: string) => boolean
-  );
+
   const { refetch, isSuccess } = useSignup(addressValue, {
     email: emailValue,
     password: passwordValue,
     nickname: nameValue,
-    userRole: checkboxValue,
+    userRole: isGuest ? "ROLE_USER" : "ROLE_OWNER",
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -60,14 +57,12 @@ const Signup = () => {
     checkName();
     checkEmail();
     checkPassword();
-    checkPasswordCheck(passwordValue);
     checkAddress();
 
     if (
       !nickNameValidation(nameValue) ||
       !emailValidation(emailValue) ||
       !passwordValidation(passwordValue) ||
-      !passwordCheckValidation(passwordCheckValue, passwordValue) ||
       !notBlank(addressValue)
     ) {
       return;
@@ -86,6 +81,10 @@ const Signup = () => {
   return (
     <SContainer>
       <h1>회원가입</h1>
+      <SRole isGuest={isGuest}>
+        <div onClick={() => setIsGuest(false)}>기업회원</div>
+        <div onClick={() => setIsGuest(true)}>일반회원</div>
+      </SRole>
       <form onSubmit={handleSubmit}>
         <Input
           label="이름"
@@ -105,27 +104,22 @@ const Signup = () => {
           placeholder="이메일을 입력해주세요."
           onChange={(e) => handleEmail(e)}
         />
-        <Input
-          type="password"
-          label="비밀번호"
-          id="비밀번호"
-          value={passwordValue}
-          isError={passwordError}
-          errorMsg="공백없는 영문,숫자 6~20자"
-          comment="공백없는 영문,숫자 6~20자"
-          placeholder="비밀번호를 입력해주세요."
-          onChange={(e) => handlePassword(e)}
-        />
-        <Input
-          type="password"
-          label="비밀번호 확인"
-          id="비밀번호 확인"
-          value={passwordCheckValue}
-          isError={passwordCheckError}
-          errorMsg="비밀번호와 일치하는지 확인해주세요."
-          placeholder="비밀번호를 다시 입력해주세요."
-          onChange={(e) => handlePasswordCheck(e, passwordValue)}
-        />
+        <SPWBox>
+          <Input
+            type={isHidden ? "password" : "text"}
+            label="비밀번호"
+            id="비밀번호"
+            value={passwordValue}
+            isError={passwordError}
+            errorMsg="공백없는 영문,숫자 6~20자"
+            comment="공백없는 영문,숫자 6~20자"
+            placeholder="비밀번호를 입력해주세요."
+            onChange={(e) => handlePassword(e)}
+          />
+          <SHideButton type="button" onClick={(e) => setIsHidden(!isHidden)}>
+            {isHidden ? <HideSVG /> : <ShowSVG />}
+          </SHideButton>
+        </SPWBox>
         <Input
           label="주소"
           id="주소"
@@ -142,24 +136,6 @@ const Signup = () => {
           readOnly
           onChange={(e) => handleAddress(e)}
         />
-        <SCheckboxContainer>
-          <span>회원 구분</span>
-          <section>
-            {["일반 회원", "기업 회원"].map((el, idx) => {
-              const value = el === "기업 회원" ? "ROLE_OWNER" : "ROLE_USER";
-              return (
-                <Checkbox
-                  key={el}
-                  id={el}
-                  value={value}
-                  labelName={el}
-                  defaultChecked={idx === 1}
-                  onChange={(e) => handleCheckboxClick(e)}
-                />
-              );
-            })}
-          </section>
-        </SCheckboxContainer>
         <SButtonContainer>
           <SButton>회원가입</SButton>
         </SButtonContainer>
