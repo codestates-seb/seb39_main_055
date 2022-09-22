@@ -14,9 +14,11 @@ interface PostData {
     latitude: string;
     userRole: string;
   };
-  threadImages:
-    | null
-    | { threadImageId: string; image: string; threadImageStatus: string }[];
+  threadImages: {
+    threadImageId: string;
+    image: string;
+    threadImageStatus: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }

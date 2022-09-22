@@ -8,9 +8,11 @@ import {
 } from "./styled";
 
 interface Prop {
-  postImage:
-    | { threadImageId: string; image: string; threadImageStatus: string }[]
-    | null;
+  postImage: {
+    threadImageId: string;
+    image: string;
+    threadImageStatus: string;
+  }[];
   userImage: string;
   nickName: string;
   updatedAt: string;
@@ -31,8 +33,8 @@ const PostCard = ({
   return (
     <SCard>
       <SImgContainer>
-        {/** null일 경우 기본 이미지로 수정 */}
-        <img src={postImage![0].image} alt="cat" />
+        {/** 빈 배열일 경우 기본 이미지로 수정 */}
+        <img src={postImage[0].image} alt="cat" />
       </SImgContainer>
       <SMainContainer>
         <SInfo>

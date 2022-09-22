@@ -49,6 +49,7 @@ export const SMainContainer = styled.section`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 10px;
   padding: 10px;
 `;
@@ -79,13 +80,15 @@ export const SInfo = styled.div`
 `;
 
 export const SBody = styled.div`
-  flex-basis: 60%;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
   color: #161616;
-  overflow: hidden;
+  font-size: 18px;
   line-height: 30px;
+
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
 export const SLike = styled.div`
