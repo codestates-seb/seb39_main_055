@@ -5,7 +5,6 @@ export const SCard = styled.li`
   gap: 80px;
   height: 280px;
   padding: 24px;
-  border-radius: 17px;
   box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
     1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
   transition: all 0.4s;
