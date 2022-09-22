@@ -2,15 +2,24 @@ import styled from "styled-components";
 
 export const SNav = styled.nav`
   position: fixed;
+  display: flex;
+  justify-content: center;
   width: 100%;
+  background-color: #ffffff;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
+  z-index: 3;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.desktop}) {
+    padding: 0 20px;
+  }
+`;
+
+export const SSection = styled.section`
+  width: 1130px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 80px;
-  padding: 0 24px;
-  background-color: #ffffff;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
-  z-index: 3;
 
   & > img {
     width: 140px;
@@ -23,10 +32,6 @@ export const SNav = styled.nav`
       width: 100px;
       height: 40px;
     }
-  }
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.desktop}) {
-    padding: 0 20px;
   }
 `;
 

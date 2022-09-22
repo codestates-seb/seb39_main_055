@@ -13,6 +13,7 @@ import {
   NewPlace,
   NewPost,
   PlaceList,
+  PostDetail,
   PostList,
   Search,
   Signup,
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="/place/list" element={<PlaceList />} />
             <Route path="/post/new" element={<NewPost />} />
             <Route path="/post/list" element={<PostList />} />
+            <Route path="/post/:id" element={<PostDetail />} />
             <Route path="/search/*" element={<Search />} />
           </Route>
         </Routes>

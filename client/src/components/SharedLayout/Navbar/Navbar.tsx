@@ -7,7 +7,7 @@ import search from "../../../assets/icons/search.png";
 import profile from "../../../assets/icons/user.png";
 import logo from "../../../assets/images/logo/logo.png";
 import { useAppSelector } from "../../../redux";
-import { SHamberger, SMenu, SNav, STab } from "./style";
+import { SHamberger, SMenu, SNav, SSection, STab } from "./style";
 import { DefaultTab, UserTab } from "./Tabs";
 
 export const SSearchBar = styled.div`
@@ -78,41 +78,43 @@ const Navbar = () => {
 
   return (
     <SNav>
-      <img src={logo} alt="logo" onClick={() => navigate("/")} />
-      <SSearchBar>
-        <input
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyPress={handleInputKeyPress}
-        />
-        <img src={search} alt="search" onClick={handleSearchIconClick} />
-      </SSearchBar>
-      <SMenu>
-        <img src={search} alt="search" onClick={handleSearchIconClick} />
-        <button
-          type="button"
-          onClick={() => {
-            navigate("/place/list");
-            setInputValue("");
-          }}
-        >
-          펫플레이스
-        </button>
-        <button type="button" onClick={() => navigate("/post/list")}>
-          댕댕이숲
-        </button>
-        <SHamberger onClick={() => handleTabClick()}>
-          <img src={ham} alt="hamberger" />
-          <img src={userInfos ? userInfos?.image : profile} alt="profile" />
-        </SHamberger>
-        <STab
-          isOpen={tabIsOpen}
-          ref={tabRef}
-          onClick={() => setTabIsOpen(false)}
-        >
-          {loginStatus ? <UserTab /> : <DefaultTab />}
-        </STab>
-      </SMenu>
+      <SSection>
+        <img src={logo} alt="logo" onClick={() => navigate("/")} />
+        <SSearchBar>
+          <input
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyPress={handleInputKeyPress}
+          />
+          <img src={search} alt="search" onClick={handleSearchIconClick} />
+        </SSearchBar>
+        <SMenu>
+          <img src={search} alt="search" onClick={handleSearchIconClick} />
+          <button
+            type="button"
+            onClick={() => {
+              navigate("/place/list");
+              setInputValue("");
+            }}
+          >
+            펫플레이스
+          </button>
+          <button type="button" onClick={() => navigate("/post/list")}>
+            댕댕이숲
+          </button>
+          <SHamberger onClick={() => handleTabClick()}>
+            <img src={ham} alt="hamberger" />
+            <img src={userInfos ? userInfos?.image : profile} alt="profile" />
+          </SHamberger>
+          <STab
+            isOpen={tabIsOpen}
+            ref={tabRef}
+            onClick={() => setTabIsOpen(false)}
+          >
+            {loginStatus ? <UserTab /> : <DefaultTab />}
+          </STab>
+        </SMenu>
+      </SSection>
     </SNav>
   );
 };
