@@ -50,8 +50,8 @@ const DefaultImgSelect = ({
   setDefaultImg,
   closeModal,
 }: DefaultImgSelectProps) => {
-  const handleClick = (idx: number) => {
-    setDefaultImg(idx);
+  const handleClick = (id: number) => {
+    setDefaultImg(id);
     closeModal();
   };
   return (

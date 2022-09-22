@@ -4,13 +4,20 @@ import { InteractiveProps } from "./InteractiveImage";
 
 type LabelProps = Pick<InteractiveProps, "hoverColor">;
 
-export const SbLabel = styled.label<LabelProps>`
+export const SbLabel = styled.label`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+export const SP = styled.p<LabelProps>`
   position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   z-index: 1;
   color: rgba(0, 0, 0, 0);
   font-size: 14px;

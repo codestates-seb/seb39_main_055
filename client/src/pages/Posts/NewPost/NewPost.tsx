@@ -2,9 +2,9 @@
 import { Editor } from "@toast-ui/react-editor";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-import { colors } from "../../../assets";
+import { colors, mobile, tablet } from "../../../assets";
 import { ButtonOrange, CustomEditor } from "../../../components";
 import { axiosInstance } from "../../../utils";
 import { isArrayOfString } from "../../../utils/type-guards";
@@ -34,10 +34,20 @@ const SPostSection = styled.section`
 
 const SH1 = styled.h1`
   align-self: flex-start;
-  height: 55px;
+  height: max-content;
   font-size: 42px;
+  line-height: 3rem;
+  padding-bottom: 5px;
   color: ${colors("black300")};
   border-bottom: 1px solid ${colors("black050")};
+
+  ${tablet(css`
+    font-size: 30px;
+  `)}
+
+  ${mobile(css`
+    font-size: 25px;
+  `)}
 `;
 
 const Button = styled(ButtonOrange)`

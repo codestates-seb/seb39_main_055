@@ -1,4 +1,4 @@
-import { SbButton, SbLabel, SImg } from "./style";
+import { SbButton, SbLabel, SImg, SP } from "./style";
 
 export interface InteractiveProps {
   label: string;
@@ -23,14 +23,12 @@ const InteractiveImage = ({
   onClick,
 }: InteractiveProps) => {
   return (
-    <>
-      <SbLabel hoverColor={hoverColor} htmlFor="interactive-image">
-        {label}
-      </SbLabel>
-      <SbButton id="interactive-image" type="button" onClick={onClick}>
+    <SbLabel>
+      <SP hoverColor={hoverColor}>{label}</SP>
+      <SbButton type="button" onClick={onClick}>
         <SImg src={imageURL} alt={alt} />
       </SbButton>
-    </>
+    </SbLabel>
   );
 };
 

@@ -14,7 +14,6 @@ import styled, { css } from "styled-components";
 
 import { colors } from "../../../assets";
 import { InteractiveImage, useModal } from "../../../components";
-import { extractImageInfos } from "../../../utils";
 import DefaultImgSelect from "./DefaultImgSelect";
 import { Images } from "./NewPost";
 
@@ -152,17 +151,6 @@ const PreviewImages = ({
   const workers = useRef<Worker[]>([]);
   const { openModal, closeModal } = useModal();
 
-  const prevHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-    const images = e.target.files;
-    if (!images?.length || !editorRef.current) return;
-
-    const addedImage = await extractImageInfos([...images]);
-
-    editorRef.current.getInstance().focus();
-
-    setImages((prev) => [...prev, ...addedImage]);
-  };
-
   const handleSelectImages = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       const images = e.target.files;
@@ -170,8 +158,6 @@ const PreviewImages = ({
       const L = Math.ceil((images || []).length / workerInst);
 
       if (!images?.length || !editorRef.current) return;
-
-      const uploaded: Images[] = [];
 
       editorRef.current.getInstance().focus();
 
@@ -185,7 +171,6 @@ const PreviewImages = ({
 
         wk.addEventListener("message", function callee(e) {
           if (e.data.length) {
-            // FIXME: state 변경을 한번에 처리할 수 있도록
             setImages((prev) => [...prev, ...e.data]);
           }
           wk.removeEventListener("message", callee);
@@ -197,8 +182,8 @@ const PreviewImages = ({
     []
   );
 
-  const removeImg = (idx: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== idx));
+  const removeImg = (id: string) => {
+    setImages((prev) => prev.filter(({ md5 }) => md5 !== id));
   };
 
   useEffect(() => {
@@ -252,7 +237,7 @@ const PreviewImages = ({
               hoverColor="#ff1c1ca7"
               imageURL={uri}
               alt={`${i}-th image to upload`}
-              onClick={() => removeImg(i)}
+              onClick={() => removeImg(md5)}
             />
           </SList>
         ))}
