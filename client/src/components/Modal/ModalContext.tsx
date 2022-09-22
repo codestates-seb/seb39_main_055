@@ -82,7 +82,7 @@ export const ModalCtx = ({
       // Modal close 애니메이션을 위해 delayed unmount
       timerId = setTimeout(() => setMount(false), 350);
     }
-    // document.body.style.overflowY = isOpen ? 'hidden' : 'auto';
+    document.body.style.overflowY = isOpen ? "hidden" : "auto";
 
     return () => clearTimeout(timerId);
   }, [isOpen, mount]);
