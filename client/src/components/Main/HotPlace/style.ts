@@ -3,6 +3,7 @@ import styled from "styled-components";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 export const Container = styled.div`
+  height: 1000px;
   & > header {
     display: flex;
     flex-direction: column;
