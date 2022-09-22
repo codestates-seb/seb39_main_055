@@ -12,20 +12,20 @@ import {
 } from "react";
 import styled, { css } from "styled-components";
 
-import { colors } from "../../assets";
-import { InteractiveImage, useModal } from "../../components";
-import { extractImageInfos } from "../../utils";
+import { colors } from "../../../assets";
+import { InteractiveImage, useModal } from "../../../components";
+import { extractImageInfos } from "../../../utils";
 import DefaultImgSelect from "./DefaultImgSelect";
 import { Images } from "./NewPost";
 
-const SImageAside = styled.aside`
+export const SImageAside = styled.aside`
   display: flex;
   flex-flow: column nowrap;
   flex: 1 1 20%;
   padding: 85px 20px 20px 25px;
 `;
 
-const SRepImageBox = styled.div`
+export const SRepImageBox = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -35,12 +35,12 @@ const SRepImageBox = styled.div`
   border-radius: 5px;
 `;
 
-const SRepImg = styled.img`
+export const SRepImg = styled.img`
   max-width: 100%;
   object-fit: contain;
 `;
 
-const SaLabel = styled.label.attrs({
+export const SaLabel = styled.label.attrs({
   htmlFor: "upload-image",
 })`
   position: absolute;
@@ -61,7 +61,7 @@ const SaLabel = styled.label.attrs({
   }
 `;
 
-const SFileInput = styled.input.attrs({
+export const SFileInput = styled.input.attrs({
   type: "file",
   id: "upload-image",
   multiple: true,
@@ -70,7 +70,7 @@ const SFileInput = styled.input.attrs({
   height: 0;
 `;
 
-const SaButton = styled.button`
+export const SaButton = styled.button`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -84,7 +84,7 @@ const SaButton = styled.button`
   font-size: 15px;
 `;
 
-const arrowDefault = css`
+export const arrowDefault = css`
   content: "";
   position: absolute;
   display: block;
@@ -95,7 +95,7 @@ const arrowDefault = css`
   box-shadow: -5px -5px 20px white;
 `;
 
-const SMore = styled.span`
+export const SMore = styled.span`
   display: inline-block;
   position: relative;
   width: 12px;
@@ -132,40 +132,6 @@ export const SList = styled.li`
   height: 100%;
   overflow: hidden;
   border-radius: 5px;
-`;
-
-export const SbLabel = styled.label`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  color: rgba(0, 0, 0, 0);
-  font-size: 14px;
-  font-weight: bold;
-  background-color: rgba(0, 0, 0, 0);
-  transition: 600ms all;
-
-  &:hover {
-    color: white;
-    background-color: #ff1c1ca7;
-  }
-`;
-
-export const SbButton = styled.button`
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border: 0;
-  padding: 0;
-`;
-
-export const SImg = styled.img`
-  object-fit: cover;
-  max-height: 100%;
-  clip-path: inset(1px round 5px);
 `;
 
 export interface PostImagesProps {
@@ -242,7 +208,7 @@ const PreviewImages = ({
 
     workers.current = new Array(maxWorker).fill(0).map(() => {
       return new Worker(
-        new URL("../../utils/imageLoad.worker.ts", import.meta.url)
+        new URL("../../../utils/imageLoad.worker.ts", import.meta.url)
       );
     });
 

@@ -1,23 +1,20 @@
-import { css } from "@emotion/react";
 import styled from "styled-components";
 
-import { PostImagesProps, SImg, SList } from "./PreviewImages";
+import { PostImagesProps } from "./PreviewImages";
 
 const SModalSection = styled.section`
   padding: 30px;
   height: 100%;
 `;
 
-const SHeader = styled.header``;
-
 const SMImgUList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax(calc((100% - 40px) / 5), 0));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(0, 100px));
   gap: 10px;
   margin-top: 17px;
-  height: 400px;
-  overflow: hidden;
+  max-height: 70vh;
+  overflow-y: scroll;
 `;
 
 interface SelectedImg {
@@ -28,11 +25,11 @@ const SMImgList = styled.li<SelectedImg>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100px;
   overflow: hidden;
   border-radius: 5px;
 
-  border: ${({ selected }) => (selected ? "4px solid orange" : "")};
+  border: ${({ selected }) => (selected ? "4px solid #FFD801" : "")};
 `;
 
 const SMImg = styled.img`
