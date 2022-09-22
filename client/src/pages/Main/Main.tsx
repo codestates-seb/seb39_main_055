@@ -19,9 +19,7 @@ const Container = styled.div`
   & > section {
     display: flex;
     flex-direction: column;
-    gap: 200px;
-    margin: 50px 0;
-    /* padding: 0 150px; */
+    gap: 300px;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
