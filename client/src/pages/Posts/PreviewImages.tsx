@@ -13,7 +13,7 @@ import {
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
-import { useModal } from "../../components";
+import { InteractiveImage, useModal } from "../../components";
 import { extractImageInfos } from "../../utils";
 import DefaultImgSelect from "./DefaultImgSelect";
 import { Images } from "./NewPost";
@@ -40,7 +40,7 @@ const SRepImg = styled.img`
   object-fit: contain;
 `;
 
-const SFileLabel = styled.label.attrs({
+const SaLabel = styled.label.attrs({
   htmlFor: "upload-image",
 })`
   position: absolute;
@@ -70,7 +70,7 @@ const SFileInput = styled.input.attrs({
   height: 0;
 `;
 
-const SButton = styled.button`
+const SaButton = styled.button`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -116,21 +116,50 @@ const SMore = styled.span`
 
 export const SThumbnailUList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax(calc((100% - 20px) / 3), 0));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(calc((100% - 30px) / 4), 0));
   gap: 10px;
   margin-top: 17px;
-  height: 250px;
+  height: 330px;
   overflow: hidden;
 `;
 
 export const SList = styled.li`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   overflow: hidden;
   border-radius: 5px;
+`;
+
+export const SbLabel = styled.label`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0);
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0);
+  transition: 600ms all;
+
+  &:hover {
+    color: white;
+    background-color: #ff1c1ca7;
+  }
+`;
+
+export const SbButton = styled.button`
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border: 0;
+  padding: 0;
 `;
 
 export const SImg = styled.img`
@@ -202,6 +231,10 @@ const PreviewImages = ({
     []
   );
 
+  const removeImg = (idx: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== idx));
+  };
+
   useEffect(() => {
     if (!workers.current) return;
 
@@ -224,13 +257,13 @@ const PreviewImages = ({
         {!!images.length && (
           <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
         )}
-        <SFileLabel>
+        <SaLabel>
           <p>사진을 추가해주세요.</p>
           <p>(Ctrl 또는 Shift로 다중 선택)</p>
-        </SFileLabel>
+        </SaLabel>
         <SFileInput accept="image/*" onChange={handleSelectImages} />
       </SRepImageBox>
-      <SButton
+      <SaButton
         onClick={() =>
           openModal(
             <DefaultImgSelect
@@ -244,11 +277,17 @@ const PreviewImages = ({
       >
         <p>대표사진 변경</p>
         <SMore />
-      </SButton>
+      </SaButton>
       <SThumbnailUList>
         {images.map(({ uri, md5 }, i) => (
           <SList key={md5}>
-            <SImg src={uri} alt={`${i}-th image to upload`} />
+            <InteractiveImage
+              label="클릭해서 제거"
+              hoverColor="#ff1c1ca7"
+              imageURL={uri}
+              alt={`${i}-th image to upload`}
+              onClick={() => removeImg(i)}
+            />
           </SList>
         ))}
       </SThumbnailUList>
