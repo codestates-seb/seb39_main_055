@@ -16,17 +16,20 @@ import {
   passwordValidation,
 } from "../../../utils/validation";
 import {
+  HideSVG,
   SButton,
   SButtonContainer,
-  // SCheckboxContainer,
   SContainer,
+  SHideButton,
+  ShowSVG,
+  SPWBox,
   SRole,
 } from "./style";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [isGuest, setIsGuest] = useState(false);
-  // const { checkboxValue, handleCheckboxClick } = useCheckbox("ROLE_OWNER");
+  const [isHidden, setIsHidden] = useState(true);
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =
@@ -101,17 +104,22 @@ const Signup = () => {
           placeholder="이메일을 입력해주세요."
           onChange={(e) => handleEmail(e)}
         />
-        <Input
-          type="password"
-          label="비밀번호"
-          id="비밀번호"
-          value={passwordValue}
-          isError={passwordError}
-          errorMsg="공백없는 영문,숫자 6~20자"
-          comment="공백없는 영문,숫자 6~20자"
-          placeholder="비밀번호를 입력해주세요."
-          onChange={(e) => handlePassword(e)}
-        />
+        <SPWBox>
+          <Input
+            type={isHidden ? "password" : "text"}
+            label="비밀번호"
+            id="비밀번호"
+            value={passwordValue}
+            isError={passwordError}
+            errorMsg="공백없는 영문,숫자 6~20자"
+            comment="공백없는 영문,숫자 6~20자"
+            placeholder="비밀번호를 입력해주세요."
+            onChange={(e) => handlePassword(e)}
+          />
+          <SHideButton type="button" onClick={(e) => setIsHidden(!isHidden)}>
+            {isHidden ? <HideSVG /> : <ShowSVG />}
+          </SHideButton>
+        </SPWBox>
         <Input
           label="주소"
           id="주소"

@@ -1,5 +1,7 @@
+import { BiHide, BiShow } from "react-icons/bi";
 import styled, { css } from "styled-components";
 
+import { colors } from "../../../assets";
 import { ButtonOrange } from "../../../components";
 
 export const SContainer = styled.div`
@@ -90,34 +92,6 @@ export const SRole = styled.div<{ isGuest: boolean }>`
   }
 `;
 
-// export const SCheckboxContainer = styled.div`
-//   display: flex;
-//   align-items: center;
-
-//   & > span {
-//     flex-basis: 30%;
-//     color: #464646;
-//     font-size: 16px;
-//     cursor: pointer;
-//   }
-
-//   & > section {
-//     display: flex;
-//     gap: 30px;
-//   }
-
-//   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-//     flex-direction: column;
-//     align-items: flex-start;
-//     gap: 15px;
-
-//     & > section {
-//       width: 100%;
-//       justify-content: space-between;
-//     }
-//   }
-// `;
-
 export const SButtonContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -131,4 +105,37 @@ export const SButton = styled(ButtonOrange)`
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     width: 100%;
   }
+`;
+
+export const SPWBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 40px;
+`;
+
+export const IconDefault = css`
+  width: 28px;
+  height: 28px;
+  fill: ${colors("black250")};
+  transition: 1s all;
+  padding: 0px;
+`;
+
+export const SHideButton = styled.button`
+  width: 30px;
+  height: 22px;
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  transform: translate(-50%, -52%);
+  border: 0px;
+  padding: 0px;
+  background-color: rgba(0, 0, 0, 0);
+`;
+
+export const ShowSVG = styled(BiShow)`
+  ${IconDefault}
+`;
+export const HideSVG = styled(BiHide)`
+  ${IconDefault}
 `;
