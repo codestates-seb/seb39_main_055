@@ -13,7 +13,7 @@ const SSection = styled.section`
   margin: 0 auto;
   padding-top: 80px;
   min-height: calc(100vh - 300px); // nav or footer height 변경
-  max-width: 1280px;
+  max-width: 1130px;
 `;
 
 const SharedLayout = () => {
