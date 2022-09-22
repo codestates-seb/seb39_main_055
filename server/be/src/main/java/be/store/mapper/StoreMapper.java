@@ -1,18 +1,21 @@
 package be.store.mapper;
 
-import be.store.dto.StoreImageDto;
-import be.store.dto.StoreImageResponseDto;
-import be.store.dto.StorePostDto;
-import be.store.dto.StoreResponseDto;
+import be.exception.BusinessLogicException;
+import be.exception.ExceptionCode;
+import be.store.dto.*;
 import be.store.entity.Store;
 import be.store.entity.StoreImage;
 import be.store.service.StoreImageService;
+import be.store.service.StoreService;
 import be.user.dto.UserResponseDto;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
 import be.user.service.UserService;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +32,12 @@ public interface StoreMapper {
         store.setBody(storePostDto.getBody());
         store.setPhone(storePostDto.getPhone());
 
-        if(storePostDto.getHomepage()==null){
-            System.out.printf("홈페이지 아무것도 안들어옴");
-        }else{
-            store.setHomepage(storePostDto.getHomepage());
-        }
+//        if(storePostDto.getHomepage()==null){
+//            System.out.printf("홈페이지 아무것도 안들어옴");
+//        }else{
+//            store.setHomepage(storePostDto.getHomepage());
+//        }
+        store.setHomepage(storePostDto.getHomepage());
 
 
         if(storePostDto.getStoreImages()==null){
@@ -42,7 +46,6 @@ public interface StoreMapper {
             List<StoreImage> storeImages = storeImageDtosToStoreImages(storePostDto.getStoreImages(),store);
             store.setStoreImages(storeImages);
         }
-
 
         User user =userService.getLoginUser();// 현재 로그인된 유저 가져옴
         store.setUser(user);
@@ -94,5 +97,36 @@ public interface StoreMapper {
 
 
         return storeResponseDto;
+    }
+
+    default Store storePatchDtoToStore(StoreService storeService,UserService userService, long storeId, StorePatchDto storePatchDto){
+        System.out.println("여기는..?");
+
+        if(userService.getLoginUser() != storeService.findUserAtStore(storeId)){
+            //접근 오너가 가지고 있는 가게가 아니므로 수정 삭제 불가
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
+        }
+        Store store = new Store();
+        store.setStoreId(storeId);
+
+        // changing from StoreImageDto to StoreImage
+        if(storePatchDto.getStoreImages()==null){
+            System.out.printf("이미지 아무것도 안들어옴!!");
+        }else{//이미지 한개 이상 들어왔을 때 -> 해당 이미지들을 Store객체에 넣어준다.
+            List<StoreImage> storeImages = storeImageDtosToStoreImages(storePatchDto.getStoreImages(),store);
+            store.setStoreImages(storeImages);
+        }
+
+        store.setLatitude(storePatchDto.getLatitude());
+        store.setLongitude(storePatchDto.getLongitude());
+        store.setCategory(storePatchDto.getCategory());
+        store.setName(storePatchDto.getStoreName());
+        store.setAddressName(storePatchDto.getAddressName());
+        store.setBody(storePatchDto.getBody());
+        store.setPhone(storePatchDto.getPhone());
+        store.setHomepage(storePatchDto.getHomepage());
+
+        return store;
+
     }
 }

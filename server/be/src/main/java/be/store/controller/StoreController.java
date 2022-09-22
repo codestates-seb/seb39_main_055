@@ -1,6 +1,7 @@
 package be.store.controller;
 
 import be.response.SingleResponseDto;
+import be.store.dto.StorePatchDto;
 import be.store.dto.StorePostDto;
 import be.store.entity.Store;
 import be.store.mapper.StoreMapper;
@@ -13,12 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/v1")
@@ -43,4 +43,23 @@ public class StoreController {
                 new SingleResponseDto<>(mapper.storeToStoreResponse(userMapper,storeImageService,createdStore)), HttpStatus.CREATED
         );
     }
+
+    /**
+     * 선택한 스토어 수정
+     * **/
+    @PatchMapping("/owner/store/update/{store-id}")
+    public ResponseEntity patchStore(@PathVariable("store-id") @Positive @NotNull Long storeId,
+                                     @Valid @RequestBody StorePatchDto storePatchDto){
+        Store store = mapper.storePatchDtoToStore(storeService,userService,storeId,storePatchDto);
+        Store updatedStore = storeService.updateStore(store);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.storeToStoreResponse(userMapper,storeImageService,updatedStore)),
+                HttpStatus.OK
+        );
+
+    }
+
+
+
 }

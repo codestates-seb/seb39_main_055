@@ -3,6 +3,7 @@ package be.store.service;
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
 import be.store.entity.Store;
+import be.store.entity.StoreImage;
 import be.store.repository.StoreRepository;
 import be.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,53 @@ public class StoreService {
         if(findStore.getStoreStatus() == Store.StoreStatus.STORE_NOT_EXIST){// 만일 삭제된 스토어라면 예외발생
             throw new BusinessLogicException(ExceptionCode.STORE_NOT_FOUND);
         }
+        return findStore;
+    }
+
+    public User findUserAtStore(long storeId){//해당 스토어의 주인유저 반환
+        Store findStore = findVerifiedStore(storeId);//만약 스토어가 DB에 없거나 삭제된 스토어면 예외 발생
+        return findStore.getUser();
+    }
+
+    @Transactional
+    public Store updateStore(Store store){
+        Store findStore = findVerifiedStore(store.getStoreId());//만약 스토어가 DB에 없거나 삭제된 스토어면 예외 발생
+
+        Optional.ofNullable(store.getUpdatedAt())//업데이트 날짜 수정
+                .ifPresent(storeUpdatedAt -> findStore.setUpdatedAt(storeUpdatedAt));
+
+        Optional.ofNullable(store.getStoreImages())//스토어 이미지 수정
+                .ifPresent(storeImages -> { //StoreImages null값 아닐때!
+                    findStore.getStoreImages().stream().forEach(storeImage -> //기존 스토어이미지 삭제(STORE_IMAGE_NOT_EXIST)됌
+                            storeImage.setStoreImageStatus(StoreImage.StoreImageStatus.STORE_IMAGE_NOT_EXIST));
+
+                    store.getStoreImages().stream().forEach(storeImage -> //새 스토어 이미지로 갱신
+                            findStore.getStoreImages().add(storeImage));
+                });
+        Optional.ofNullable(store.getLatitude())// Latitude 수정
+                .ifPresent(latitude -> findStore.setLatitude(latitude));
+
+        Optional.ofNullable(store.getLongitude())// Longitude 수정
+                .ifPresent(longitude -> findStore.setLongitude(longitude));
+
+        Optional.ofNullable(store.getCategory())// Longitude 수정
+                .ifPresent(category -> findStore.setCategory(category));
+
+        Optional.ofNullable(store.getName())// 스토어 Name 수정
+                .ifPresent(name -> findStore.setName(name));
+
+        Optional.ofNullable(store.getAddressName()) //스토어 AddressName 수정
+                .ifPresent(addressName -> findStore.setAddressName(addressName));
+
+        Optional.ofNullable(store.getBody()) //body 수정
+                .ifPresent(body->findStore.setBody(body));
+
+        Optional.ofNullable(store.getPhone()) //phone 수정
+                .ifPresent(phone->findStore.setPhone(phone));
+
+        Optional.ofNullable(store.getHomepage()) //homepage 수정
+                .ifPresent(homepage -> findStore.setHomepage(homepage));
+
         return findStore;
     }
 
