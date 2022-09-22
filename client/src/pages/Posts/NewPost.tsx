@@ -25,28 +25,17 @@ const SBox = styled.div`
 
 const SPostSection = styled.section`
   width: 70%;
-  row-gap: 25px;
+  row-gap: 30px;
   display: flex;
   flex-flow: column nowrap;
 `;
 
-const STitleInput = styled(Input)`
+const SH1 = styled.h1`
   align-self: flex-start;
-  height: 60px;
-
-  & input {
-    height: 80%;
-    font-size: 35px;
-    border-radius: 3px;
-
-    &::placeholder {
-      font-size: 35px;
-    }
-
-    &:focus {
-      outline: ${colors("orange010")} solid 4px;
-    }
-  }
+  height: 55px;
+  font-size: 42px;
+  color: ${colors("black500")};
+  border-bottom: 1px solid ${colors("black050")};
 `;
 
 const Button = styled(ButtonOrange)`
@@ -143,14 +132,7 @@ const NewPost = () => {
     <SForm onSubmit={(e) => e.preventDefault()}>
       <SBox>
         <SPostSection>
-          <STitleInput
-            value={title}
-            id="title"
-            placeholder="제목을 입력해주세요."
-            isError={false}
-            errorMsg=""
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <SH1>반려동물과 관련된 다양한 정보를 공유해요!</SH1>
           <CustomEditor editorRef={editorRef} />
         </SPostSection>
         <PreviewImages
