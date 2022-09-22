@@ -37,10 +37,10 @@ public class Store extends BaseEntity {
     private String category;
 
     @Column(nullable = false)
-    private double longitude;
+    private Double longitude;
 
     @Column(nullable = false)
-    private double latitude;
+    private Double latitude;
 
     @Column(nullable = false)
     private String name;

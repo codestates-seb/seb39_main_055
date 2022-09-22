@@ -41,13 +41,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         // 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
         // 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는
         // loadByUsername이 호출됨.
-        String email = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token)
-                .getClaim("email").asString();
+        Long userId = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token)
+                .getClaim("userId").asLong();
 
         //서명 정상적으로 됌
-        if (email != null) {
-            System.out.println(email);
-            User user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST).get();
+        if (userId != null) {
+            System.out.println("서명이 정상적으로 됌"+userId);
+            User user = userRepository.findById(userId).get();
 
             // 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해
             // 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!
