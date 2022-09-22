@@ -8,12 +8,14 @@ export const SSearchBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 30px;
   margin: 0 auto;
+  margin-top: 100px;
   width: 75%;
   height: 64px;
   border: 1px solid #707070;
   border-radius: 40px;
+  transition: all 0.4s;
 
   & > input {
     outline: none;

@@ -8,14 +8,11 @@ export const SNav = styled.nav`
   background-color: #ffffff;
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
   z-index: 3;
-
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.desktop}) {
-    padding: 0 20px;
-  }
 `;
 
 export const SSection = styled.section`
-  width: 1130px;
+  width: 100%;
+  padding: 0 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,11 +24,8 @@ export const SSection = styled.section`
     cursor: pointer;
   }
 
-  @media screen and (max-width: 700px) {
-    & > img {
-      width: 100px;
-      height: 40px;
-    }
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    padding: 20px;
   }
 `;
 
@@ -39,7 +33,7 @@ export const SMenu = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 40px;
   font-size: 25px;
 
   & > img {
@@ -53,10 +47,6 @@ export const SMenu = styled.div`
 
     &:hover {
       background-color: ${({ theme }) => theme.colors.black010};
-    }
-
-    @media screen and (max-width: 700px) {
-      display: block;
     }
   }
 
@@ -72,20 +62,16 @@ export const SMenu = styled.div`
       background-color: ${({ theme }) => theme.colors.black010};
     }
 
-    &:nth-child(2) {
+    &:nth-child(1) {
       color: #ffc107;
     }
 
-    &:nth-child(3) {
-      margin-right: 5px;
-    }
-
-    @media screen and (max-width: 700px) {
-      &:nth-child(2) {
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+      &:nth-child(1) {
         display: none;
       }
 
-      &:nth-child(3) {
+      &:nth-child(2) {
         display: none;
       }
     }
@@ -98,6 +84,7 @@ export const SHamberger = styled.div`
   align-items: center;
   gap: 10px;
   padding: 5px 15px;
+  margin-left: 10px;
   border-radius: 25px;
   color: #161616;
   font-size: 18px;
@@ -120,11 +107,12 @@ export const SHamberger = styled.div`
 
 export const STab = styled.aside<{ isOpen: boolean }>`
   position: absolute;
-  top: 45px;
+  top: 50px;
   right: 0;
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;
   width: 200px;
+  padding: 20px 0;
   box-shadow: rgb(0 0 0 / 40%) 0px 0px 4px 0px;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.black300};
