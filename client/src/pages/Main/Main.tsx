@@ -20,7 +20,31 @@ const Container = styled.div`
   & > section {
     display: flex;
     flex-direction: column;
-    gap: 300px;
+    /* gap: 300px; */
+
+    & > div:nth-child(1) {
+      margin-bottom: 70px;
+    }
+
+    & > menu:nth-child(2) {
+      margin-bottom: 230px;
+    }
+
+    & > div:nth-child(3) {
+      margin-bottom: 300px;
+    }
+
+    & > div:nth-child(4) {
+      margin-bottom: 300px;
+    }
+
+    & > div:nth-child(5) {
+      margin-bottom: 300px;
+    }
+
+    & > div:nth-child(6) {
+      margin-bottom: 180px;
+    }
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
