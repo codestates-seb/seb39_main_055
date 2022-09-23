@@ -2,6 +2,8 @@ package be.store.mapper;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.review.dto.ReviewResponseDto;
+import be.review.mapper.ReviewMapper;
 import be.store.dto.*;
 import be.store.entity.Store;
 import be.store.entity.StoreImage;
@@ -73,7 +75,7 @@ public interface StoreMapper {
                 }).collect(Collectors.toList());
     }
 
-    default StoreResponseDto storeToStoreResponse(UserMapper userMapper, StoreImageService storeImageService,Store store){
+    default StoreResponseDto storeToStoreResponse(ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService, Store store){
         StoreResponseDto storeResponseDto = new StoreResponseDto();
         storeResponseDto.setStoreId(store.getStoreId());
         storeResponseDto.setCreatedAt(store.getCreatedAt());
@@ -94,6 +96,10 @@ public interface StoreMapper {
         storeResponseDto.setStoreImages(storeImagesToStoreImageResponseDtos(//가게에 대한 이미지 속성 추가
                 storeImageService.findVerifiedStoreImages(store)
         ));
+
+        //리뷰 추가
+        List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(userMapper,store.getReviews());
+        storeResponseDto.setReviews(reviewResponseDtos);
 
 
         return storeResponseDto;
@@ -124,6 +130,10 @@ public interface StoreMapper {
         store.setBody(storePatchDto.getBody());
         store.setPhone(storePatchDto.getPhone());
         store.setHomepage(storePatchDto.getHomepage());
+
+        //스토어 삭제
+        store.setStoreStatus(storePatchDto.getStoreStatus());
+        System.out.println(store.getStoreStatus());
 
         return store;
 

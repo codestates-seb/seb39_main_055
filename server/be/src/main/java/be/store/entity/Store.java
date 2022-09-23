@@ -2,6 +2,7 @@ package be.store.entity;
 
 import be.audit.BaseEntity;
 import be.heart.entity.Heart;
+import be.review.entity.Review;
 import be.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,9 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private List<Heart> hearts;
+
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
 
     @Enumerated(EnumType.STRING)

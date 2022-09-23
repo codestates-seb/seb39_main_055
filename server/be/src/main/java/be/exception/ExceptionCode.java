@@ -21,6 +21,8 @@ public enum ExceptionCode {
     FILE_SIZE_EXCEED(431,"file size exceed"),
     HEART_EXIST(409,"Heart exists"),
     HEART_NOT_FOUND(404,"Heart not found"),
+    ACCESS_DENIED_REVIEWER(403,"Access Denied Reviewer"),
+
 
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status");  // TO 추가된 부분

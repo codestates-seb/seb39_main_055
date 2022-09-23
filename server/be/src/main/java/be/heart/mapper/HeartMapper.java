@@ -4,6 +4,7 @@ import be.heart.dto.HeartPatchDto;
 import be.heart.dto.HeartPostDto;
 import be.heart.dto.HeartResponseDto;
 import be.heart.entity.Heart;
+import be.review.mapper.ReviewMapper;
 import be.store.dto.StoreResponseDto;
 import be.store.entity.Store;
 import be.store.mapper.StoreMapper;
@@ -49,24 +50,26 @@ public interface HeartMapper {
         return heart;
     }
 
-    default HeartResponseDto heartToHeartResponseDto(StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,Heart heart){
+    default HeartResponseDto heartToHeartResponseDto(ReviewMapper reviewMapper,StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService, Heart heart){
         HeartResponseDto heartResponseDto = new HeartResponseDto();
         heartResponseDto.setHeartId(heart.getHeartId());
         heartResponseDto.setHeartStatus(heart.getHeartStatus());
         heartResponseDto.setUpdatedAt(heart.getUpdatedAt());
         heartResponseDto.setCreatedAt(heart.getCreatedAt());
 
-        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponse(userMapper,storeImageService,heart.getStore());
+        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponse(reviewMapper,userMapper,storeImageService,heart.getStore());
         heartResponseDto.setStore(storeResponseDto);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(heart.getUser());
         heartResponseDto.setUser(userResponseDto);
 
+
+
         return heartResponseDto;
     }
 
-    default List<HeartResponseDto> heartsToHeartResponseDtos(StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,List<Heart> hearts){
-        return hearts.stream().map(heart -> heartToHeartResponseDto(storeMapper,userMapper,storeImageService,heart))
+    default List<HeartResponseDto> heartsToHeartResponseDtos(ReviewMapper reviewMapper,StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,List<Heart> hearts){
+        return hearts.stream().map(heart -> heartToHeartResponseDto(reviewMapper,storeMapper,userMapper,storeImageService,heart))
                 .collect(Collectors.toList());
     };
 }
