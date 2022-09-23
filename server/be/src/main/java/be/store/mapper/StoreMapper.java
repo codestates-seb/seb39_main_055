@@ -125,6 +125,10 @@ public interface StoreMapper {
         store.setPhone(storePatchDto.getPhone());
         store.setHomepage(storePatchDto.getHomepage());
 
+        //스토어 삭제
+        store.setStoreStatus(storePatchDto.getStoreStatus());
+        System.out.println(store.getStoreStatus());
+
         return store;
 
     }

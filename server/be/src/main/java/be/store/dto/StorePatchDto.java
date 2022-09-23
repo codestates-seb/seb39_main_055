@@ -1,5 +1,7 @@
 package be.store.dto;
 
+import be.store.entity.Store;
+import be.thread.entity.Thread;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +34,8 @@ public class StorePatchDto {
     private List<StoreImageDto> storeImages;
 
     private String homepage;
+
+    // 스토어 삭제
+    private Store.StoreStatus storeStatus;
 
 }

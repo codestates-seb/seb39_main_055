@@ -90,6 +90,9 @@ public class StoreService {
         Optional.ofNullable(store.getHomepage()) //homepage 수정
                 .ifPresent(homepage -> findStore.setHomepage(homepage));
 
+        Optional.ofNullable(store.getStoreStatus())//store 삭제
+                .ifPresent(storeStatus -> findStore.setStoreStatus(storeStatus));
+
         return findStore;
     }
 
