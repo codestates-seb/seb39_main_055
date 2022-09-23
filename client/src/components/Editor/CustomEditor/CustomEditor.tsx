@@ -15,8 +15,9 @@ const EditorBorder = styled.div<{ isFocus: boolean; isError: boolean }>`
 
   svg {
     position: absolute;
-    top: 230px;
+    top: 50%;
     right: 10px;
+    transform: translateY(-50%);
     color: hsl(358, 68%, 59%);
     font-size: 20px;
   }
@@ -38,16 +39,20 @@ const EditorBorder = styled.div<{ isFocus: boolean; isError: boolean }>`
     `}
 `;
 
-const ErrorMsg = styled.p`
-  margin-top: 10px;
+const ErrorMsg = styled.p<Pick<Prop, "isError">>`
+  margin-top: 13px;
   color: hsl(358, 62%, 52%);
-  font-size: 12px;
+  font-size: 13px;
+  overflow: hidden;
+  transition: 400ms all;
+  opacity: ${({ isError }) => (isError ? "1" : "0")};
 `;
 
 interface Prop {
   height?: string;
   value?: string;
   isError?: boolean;
+  errorMessage?: string;
   editorRef?: RefObject<Editor>;
   onChange?: () => void;
 }
@@ -56,12 +61,13 @@ const CustomEditor = ({
   height = "600px",
   value = "",
   isError = false,
+  errorMessage,
   editorRef,
   onChange,
 }: Prop) => {
   const [isEditorFocus, setIsEditorFocus] = useState(false);
   return (
-    <>
+    <div>
       <EditorBorder isFocus={isEditorFocus} isError={isError}>
         <Editor
           initialValue={value}
@@ -82,8 +88,8 @@ const CustomEditor = ({
         />
         {isError && <MdError />}
       </EditorBorder>
-      {isError && <ErrorMsg>Body must be at least 30 characters.</ErrorMsg>}
-    </>
+      <ErrorMsg isError={isError}>{errorMessage}</ErrorMsg>
+    </div>
   );
 };
 
