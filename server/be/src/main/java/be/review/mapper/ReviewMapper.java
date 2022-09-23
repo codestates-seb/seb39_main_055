@@ -2,9 +2,11 @@ package be.review.mapper;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.review.dto.ReviewPatchDto;
 import be.review.dto.ReviewPostDto;
 import be.review.dto.ReviewResponseDto;
 import be.review.entity.Review;
+import be.review.service.ReviewService;
 import be.store.dto.StoreResponseDto;
 import be.store.entity.Store;
 import be.store.mapper.StoreMapper;
@@ -65,6 +67,19 @@ public interface ReviewMapper {
     default List<ReviewResponseDto> reviewsToReviewResponseDtos(UserMapper userMapper,List<Review> reviews){
         return reviews.stream().map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
     };
+
+    default Review reviewPatchDtoToReview(ReviewService reviewService, UserService userService, long reviewId, ReviewPatchDto reviewPatchDto){
+        if(userService.getLoginUser()!=reviewService.findUserAtReview(reviewId)){
+            //접근 유저가 적은 리뷰가 아니므로 수정 삭제 불가
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_REVIEWER);
+        }
+        Review review = new Review();
+
+        review.setReviewId(reviewId);
+        review.setReviewStatus(reviewPatchDto.getReviewStatus());
+
+        return review;
+    }
 
 
 }
