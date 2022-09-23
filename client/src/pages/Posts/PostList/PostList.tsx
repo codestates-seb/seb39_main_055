@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import speaker from "../../../assets/icons/speaker.svg";
@@ -67,6 +68,8 @@ export const SButtonContainer = styled.section`
 `;
 
 const PostList = () => {
+  const navigate = useNavigate();
+
   return (
     <SContainer>
       <STitleContainer>
@@ -74,7 +77,9 @@ const PostList = () => {
         <h1>댕댕이숲</h1>
       </STitleContainer>
       <SButtonContainer>
-        <button type="button">글 작성</button>
+        <button type="button" onClick={() => navigate("/post/new")}>
+          글 작성
+        </button>
       </SButtonContainer>
       <SListContainer>
         {postData.map((data) => (
