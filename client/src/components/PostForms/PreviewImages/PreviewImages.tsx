@@ -15,13 +15,14 @@ import { ThreadImages } from "../../../types";
 import { InteractiveImage, useModal } from "../..";
 import DefaultImgSelect from "../DefaultImgSelect/DefaultImgSelect";
 import {
+  SaBox,
   SaButton,
   SaLabel,
+  SbBox,
   SFileInput,
   SImageAside,
   SList,
   SMore,
-  SRepImageBox,
   SRepImg,
   SThumbnailUList,
 } from "./style";
@@ -97,31 +98,33 @@ const PreviewImages = ({
 
   return (
     <SImageAside>
-      <SRepImageBox>
-        {!!images.length && (
-          <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
-        )}
-        <SaLabel>
-          <p>사진을 추가해주세요.</p>
-          <p>(Ctrl 또는 Shift로 다중 선택)</p>
-        </SaLabel>
-        <SFileInput accept="image/*" onChange={handleSelectImages} />
-      </SRepImageBox>
-      <SaButton
-        onClick={() =>
-          openModal(
-            <DefaultImgSelect
-              images={images}
-              defaultImg={defaultImg}
-              setDefaultImg={setDefaultImg}
-              closeModal={closeModal}
-            />
-          )
-        }
-      >
-        <p>대표사진 변경</p>
-        <SMore />
-      </SaButton>
+      <SaBox>
+        <SbBox>
+          {!!images.length && (
+            <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
+          )}
+          <SaLabel>
+            <p>사진을 추가해주세요.</p>
+            <p>(Ctrl 또는 Shift로 다중 선택)</p>
+          </SaLabel>
+          <SFileInput accept="image/*" onChange={handleSelectImages} />
+        </SbBox>
+        <SaButton
+          onClick={() =>
+            openModal(
+              <DefaultImgSelect
+                images={images}
+                defaultImg={defaultImg}
+                setDefaultImg={setDefaultImg}
+                closeModal={closeModal}
+              />
+            )
+          }
+        >
+          <p>대표사진 변경</p>
+          <SMore />
+        </SaButton>
+      </SaBox>
       <SThumbnailUList>
         {images.map(({ uri, id }, i) => (
           <SList key={id}>

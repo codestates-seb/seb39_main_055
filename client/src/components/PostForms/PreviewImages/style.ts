@@ -1,15 +1,28 @@
 import styled, { css } from "styled-components";
 
 import { colors } from "../../../assets";
+import { FormBreakPoint } from "../style";
 
 export const SImageAside = styled.aside`
   display: flex;
   flex-flow: column nowrap;
   flex: 1 1 20%;
-  padding: 85px 20px 20px 25px;
+  padding: 0px 20px 20px 25px;
+  min-width: 250px;
+
+  @media screen and (max-width: ${FormBreakPoint}) {
+    padding: 0px;
+    flex-flow: row nowrap;
+    height: 250px;
+  }
 `;
 
-export const SRepImageBox = styled.div`
+export const SaBox = styled.div`
+  min-width: 220px;
+  max-width: 280px;
+`;
+
+export const SbBox = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -106,6 +119,15 @@ export const SThumbnailUList = styled.ul`
   margin-top: 17px;
   height: 330px;
   overflow: hidden;
+
+  @media screen and (max-width: ${FormBreakPoint}) {
+    flex: 1 1 100%;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(calc((100% - 20px) / 3), 0));
+    height: 200px;
+    padding: 0px 15px;
+    margin-top: 0px;
+  }
 `;
 
 export const SList = styled.li`
