@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { logOutUser, useAppDispatch } from "../../../redux";
 
 export const SUserContainer = styled.section`
+  color: #434343;
+  font-size: 18px;
+
   & > div {
-    display: flex;
-    justify-content: center;
-    padding: 15px 15px;
-    border-radius: 10px;
+    padding: 10px 20px 10px 20px;
   }
 
   & > div:hover {
@@ -26,7 +26,7 @@ export const SUserContainer = styled.section`
     }
   }
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakPoints.tablet}) {
     & > div:first-child {
       display: none;
     }

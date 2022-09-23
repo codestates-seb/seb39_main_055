@@ -9,13 +9,12 @@ const GlobalStyle = createGlobalStyle`
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-  }
+}
 
-  // font-family: 'Noto Sans KR', sans-serif;
-
+  /* font-family: 'Noto Sans KR', sans-serif; */
+  
   * {
     box-sizing: border-box;
-    font-family: "ONE-Mobile-Regular";
   }
 
   :root {
@@ -28,7 +27,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     margin: 0;
     padding: 0;
-    
+    font-family: "ONE-Mobile-Regular";
   }
 
   h1, h2, h3, h4, h5, h6 {
