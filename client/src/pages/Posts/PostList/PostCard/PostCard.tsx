@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import {
   SBody,
   SCard,
@@ -8,6 +10,7 @@ import {
 } from "./styled";
 
 interface Prop {
+  postId: string;
   postImage: {
     threadImageId: string;
     image: string;
@@ -22,6 +25,7 @@ interface Prop {
 }
 
 const PostCard = ({
+  postId,
   postImage,
   userImage,
   nickName,
@@ -30,8 +34,10 @@ const PostCard = ({
   likes,
   comments,
 }: Prop) => {
+  const navigate = useNavigate();
+
   return (
-    <SCard>
+    <SCard onClick={() => navigate(`/post/${postId}`)}>
       <SImgContainer>
         {/** 빈 배열일 경우 기본 이미지로 수정 */}
         <img src={postImage[0].image} alt="cat" />

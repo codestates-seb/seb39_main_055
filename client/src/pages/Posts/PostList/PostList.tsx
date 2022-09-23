@@ -41,6 +41,7 @@ const PostList = () => {
         {postData.map((data) => (
           <PostCard
             key={data.threadId}
+            postId={data.threadId}
             postImage={data.threadImages}
             userImage={data.user.image}
             nickName={data.user.ninkname}
