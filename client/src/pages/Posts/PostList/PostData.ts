@@ -1,4 +1,4 @@
-import cat from "../../../assets/images/animal/cat.png";
+import cat from "../../../assets/images/animal/cat.jpg";
 
 interface PostData {
   threadId: string;
