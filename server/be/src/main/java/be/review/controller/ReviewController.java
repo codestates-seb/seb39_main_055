@@ -1,6 +1,7 @@
 package be.review.controller;
 
 import be.response.SingleResponseDto;
+import be.review.dto.ReviewPatchDto;
 import be.review.dto.ReviewPostDto;
 import be.review.entity.Review;
 import be.review.mapper.ReviewMapper;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @RestController
@@ -46,6 +48,19 @@ public class ReviewController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.reviewToReviewResponseDto(userMapper,review)), HttpStatus.CREATED);
+    }
+
+    /**
+     * 리뷰 수정 API (리뷰 삭제만 가능)
+     * **/
+    @PatchMapping("/user/review/update/{review-id}")
+    public ResponseEntity patchReview(@PathVariable("review-id") @Positive @NotNull Long reviewId,
+                                      @Valid @RequestBody ReviewPatchDto reviewPatchDto){
+        Review review = mapper.reviewPatchDtoToReview(reviewService,userService,reviewId,reviewPatchDto);
+        Review updatedReview = reviewService.updateReview(review);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.reviewToReviewResponseDto(userMapper,updatedReview)), HttpStatus.OK);
     }
 
 

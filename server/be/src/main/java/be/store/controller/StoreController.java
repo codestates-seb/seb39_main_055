@@ -47,7 +47,7 @@ public class StoreController {
     }
 
     /**
-     * 선택한 스토어 수정
+     * 선택한 스토어 수정 API
      * **/
     @PatchMapping("/owner/store/update/{store-id}")
     public ResponseEntity patchStore(@PathVariable("store-id") @Positive @NotNull Long storeId,
