@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 import {
   ThreadErrorResponse,
+  ThreadForm,
   ThreadImages,
-  ThreadPostForm,
   ThreadPostResponse,
 } from "../../types";
 import CustomEditor from "../Editor/CustomEditor/CustomEditor";
@@ -18,26 +18,30 @@ import PreviewImages from "./PreviewImages/PreviewImages";
 import { SBox, SForm, SH1, SPostSection } from "./style";
 
 interface PostFormsProps {
-  initialBody?: string;
+  threadId?: number;
+  body?: string;
+  threadImages?: ThreadImages[];
   buttonText: string;
-  mutation: MutationFunction<AxiosResponse<ThreadPostResponse>, ThreadPostForm>;
+  mutation: MutationFunction<AxiosResponse<ThreadPostResponse>, ThreadForm>;
   mutateOptions?: Omit<
     UseMutationOptions<
       AxiosResponse<ThreadPostResponse>,
       ThreadErrorResponse,
-      ThreadPostForm
+      ThreadForm
     >,
     "mutationFn"
   >;
 }
 
 const PostForms = ({
-  initialBody = "",
+  threadId,
+  body = "",
+  threadImages,
   buttonText,
   mutation,
   mutateOptions,
 }: PostFormsProps) => {
-  const [images, setImages] = useState<ThreadImages[]>([]);
+  const [images, setImages] = useState<ThreadImages[]>(threadImages || []);
   const [defaultImg, setDefaultImg] = useState(0);
   const [bodyErr, setBodyErr] = useState(false);
   const editorRef = useRef<Editor>(null);
@@ -64,7 +68,7 @@ const PostForms = ({
       return;
     }
     setBodyErr(false);
-    mutate({ images, body });
+    mutate({ images, body, threadId });
   };
 
   return (
@@ -73,7 +77,7 @@ const PostForms = ({
         <SPostSection>
           <SH1>반려동물과 관련된 다양한 정보를 공유해요!</SH1>
           <CustomEditor
-            value={initialBody}
+            value={body}
             editorRef={editorRef}
             isError={bodyErr}
             errorMessage="한 글자 이상 입력해주세요."
