@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+  }
 
   /* font-family: 'Noto Sans KR', sans-serif; */
   

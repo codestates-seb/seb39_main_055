@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const SCard = styled.li`
   display: flex;
-  gap: 80px;
-  height: 280px;
+  gap: 60px;
+  height: 260px;
   padding: 24px;
   box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
     1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
@@ -12,6 +12,7 @@ export const SCard = styled.li`
 
   &:hover {
     opacity: 0.5;
+    background-color: #f5f4f4;
   }
 
   @media screen and (max-width: 800px) {
@@ -58,29 +59,30 @@ export const SInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 13px;
+  font-family: "Noto Sans KR", sans-serif !important;
 
   & > img {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
   }
 
   & > span:nth-child(2) {
-    color: #000000;
-    font-size: 20px;
-    font-weight: bold;
+    color: #161616;
+    font-size: 18px;
+    font-weight: 500;
   }
 
   & > span:nth-child(3) {
-    color: #bdbdbd;
-    font-size: 18px;
+    color: #a5a5a5;
+    font-size: 16px;
   }
 `;
 
 export const SBody = styled.div`
   color: #161616;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 30px;
 
   display: -webkit-box;
@@ -94,10 +96,10 @@ export const SLike = styled.div`
   flex-basis: 20%;
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 12px;
 
   & > span {
-    color: #bdbdbd;
+    color: #b1b1b1;
     font-size: 14px;
 
     & > strong {
