@@ -3,6 +3,7 @@ export { default as Mypage } from "./Mypage/Mypage";
 export * from "./Place";
 export { default as NewPlace } from "./Place/NewPlace/NewPlace";
 export * from "./Posts";
+export { default as EditPost } from "./Posts/EditPost/EditPost";
 export { default as NewPost } from "./Posts/NewPost/NewPost";
 export { default as Login } from "./Register/Login/Login";
 export { default as Signup } from "./Register/Signup/Signup";
