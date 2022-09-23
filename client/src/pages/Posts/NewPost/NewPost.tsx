@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 import { Editor } from "@toast-ui/react-editor";
+import { AxiosResponse } from "axios";
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { colors, mobile, tablet } from "../../../assets";
@@ -51,7 +53,7 @@ const SH1 = styled.h1`
 `;
 
 const Button = styled(ButtonOrange)`
-  width: 120px;
+  width: 125px;
   height: 47px;
   font-size: 19px;
   border-radius: 30px;
@@ -65,34 +67,58 @@ interface PostRequest {
 const uploadImages = async (images: Images[]) => {
   const formData = new FormData();
 
-  if (!images.length) return null;
+  if (!images.length) return [];
 
   images.forEach(({ file, md5 }) => {
     const ext = file.type.split("/")[1];
     formData.append("files", file, `${md5}.${ext}`);
   });
 
-  const res = await axiosInstance.post<string[]>("/v1/user/upload", formData, {
-    headers: {
-      tokenNeeded: true,
-    },
-  });
+  const { data } = await axiosInstance.post<AxiosResponse<string[]>>(
+    "/v1/user/upload",
+    formData,
+    {
+      headers: {
+        tokenNeeded: true,
+      },
+    }
+  );
 
-  return res.data;
+  return data.data;
 };
 
-interface ThreadRequest {
+interface ThreadPostRequest {
   body: string;
-  threadImages: null | { image: string }[] | string[];
+  threadImages: { image: string }[] | string[];
 }
 
-const threadImgTransformer = (data: ThreadRequest) => {
+interface ThreadImageResponse {
+  image: string;
+  threadImageId: number;
+  threadImageStatus: string;
+}
+
+interface ThreadPostResponse {
+  body: string;
+  createdAt: string;
+  likes: number;
+  threadId: number;
+  threadImages: ThreadImageResponse[];
+  threadStatus: string;
+  updatedAt: string;
+}
+
+interface ServerError {
+  fieldErrors: null;
+  message: string;
+  status: number;
+  violationErrors: null;
+}
+
+const threadImgTransformer = (data: ThreadPostRequest) => {
   const { threadImages } = data;
   let transformed = threadImages;
 
-  if (!threadImages) {
-    transformed = null;
-  }
   if (isArrayOfString(threadImages)) {
     transformed = threadImages.map((url) => ({ image: url }));
   }
@@ -105,14 +131,10 @@ const threadImgTransformer = (data: ThreadRequest) => {
 const submitPost = async (payload: PostRequest) => {
   const { body, images } = payload;
 
-  // const imageURLs = await uploadImages(images); // imageURLs = ["http://dgdfg", "http://dgdfg"]
-  const imageURLs = [
-    "https://main055.s3.ap-northeast-2.amazonaws.com/user28-3de780dcc470be912494e3810d6059401663821267423.jpeg",
-    "https://main055.s3.ap-northeast-2.amazonaws.com/user28-3de780dcc470be912494e3810d6059401663821267423.jpeg",
-  ];
+  const imageURLs = await uploadImages(images);
 
   const { data } = await axiosInstance.post(
-    "/v1/user/upload",
+    "/v1/user/thread/write",
     { body, threadImages: imageURLs },
     {
       transformRequest: [threadImgTransformer],
@@ -121,6 +143,10 @@ const submitPost = async (payload: PostRequest) => {
       },
     }
   );
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, 3000);
+  });
 
   return data;
 };
@@ -134,19 +160,38 @@ export interface Images {
 const NewPost = () => {
   const [images, setImages] = useState<Images[]>([]);
   const [defaultImg, setDefaultImg] = useState(0);
+  const [bodyErr, setBodyErr] = useState(false);
   const editorRef = useRef<Editor>(null);
-  const { mutate, isLoading } = useMutation(
-    (payload: PostRequest) => submitPost(payload),
-    {
-      onSuccess: () => {
-        console.log("g");
-      },
-    }
-  );
+  const navigate = useNavigate();
+  const { mutate, isLoading } = useMutation<
+    AxiosResponse<ThreadPostResponse>,
+    ServerError,
+    PostRequest
+  >((payload) => submitPost(payload), {
+    onSuccess: (data) => {
+      const { threadId } = data.data;
+
+      if (threadId >= 0) {
+        navigate(`/v1/user/thread/${threadId}`);
+      }
+    },
+    onError: (err) => {
+      /*  if (err ===  "Required request body is missing") {
+        toas
+      } */
+    },
+  });
 
   const handleSubmit = async () => {
     if (!editorRef.current) return;
 
+    const body = editorRef.current.getInstance().getHTML();
+
+    if (body.match(/^<p><br><\/p>$/g)) {
+      setBodyErr(true);
+      return;
+    }
+    setBodyErr(false);
     mutate({ images, body: editorRef.current.getInstance().getHTML() });
   };
 
@@ -155,7 +200,11 @@ const NewPost = () => {
       <SBox>
         <SPostSection>
           <SH1>반려동물과 관련된 다양한 정보를 공유해요!</SH1>
-          <CustomEditor editorRef={editorRef} />
+          <CustomEditor
+            editorRef={editorRef}
+            isError={bodyErr}
+            errorMessage="한 글자 이상 입력해주세요."
+          />
         </SPostSection>
         <PreviewImages
           images={images}
