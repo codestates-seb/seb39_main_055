@@ -15,7 +15,7 @@ import {
 import CustomEditor from "../Editor/CustomEditor/CustomEditor";
 import { Button } from "../Form";
 import PreviewImages from "./PreviewImages/PreviewImages";
-import { SBox, SForm, SH1, SPostSection } from "./style";
+import { SBox, SButton, SEditorBox, SForm, SH1, SPostSection } from "./style";
 
 interface PostFormsProps {
   threadId?: number;
@@ -54,7 +54,7 @@ const PostForms = ({
   useEffect(() => {
     if (isSuccess) {
       const { threadId } = data.data;
-      navigate(`/v1/user/thread/${threadId}`, { replace: true });
+      navigate(`/post/${threadId}`, { replace: true });
     }
   }, [isSuccess]);
 
@@ -62,8 +62,8 @@ const PostForms = ({
     if (!editorRef.current) return;
 
     const body = editorRef.current.getInstance().getHTML();
-    console.log(images, body);
-    if (body.match(/^<p><br><\/p>$/g)) {
+
+    if (body.match(/^(<p><br><\/p>)|(<p>\s{1,}<\/p>)$/g)) {
       setBodyErr(true);
       return;
     }
@@ -74,26 +74,28 @@ const PostForms = ({
   return (
     <SForm onSubmit={(e) => e.preventDefault()}>
       <SBox>
+        <SH1>반려동물과 관련된 다양한 정보를 공유해요!</SH1>
         <SPostSection>
-          <SH1>반려동물과 관련된 다양한 정보를 공유해요!</SH1>
-          <CustomEditor
-            value={body}
+          <SEditorBox>
+            <CustomEditor
+              value={body}
+              editorRef={editorRef}
+              isError={bodyErr}
+              errorMessage="한 글자 이상 입력해주세요."
+            />
+          </SEditorBox>
+          <PreviewImages
+            images={images}
+            setImages={setImages}
             editorRef={editorRef}
-            isError={bodyErr}
-            errorMessage="한 글자 이상 입력해주세요."
+            defaultImg={defaultImg}
+            setDefaultImg={setDefaultImg}
           />
         </SPostSection>
-        <PreviewImages
-          images={images}
-          setImages={setImages}
-          editorRef={editorRef}
-          defaultImg={defaultImg}
-          setDefaultImg={setDefaultImg}
-        />
       </SBox>
-      <Button onClick={handleSubmit} isPending={isLoading}>
+      <SButton onClick={handleSubmit} isPending={isLoading}>
         {buttonText}
-      </Button>
+      </SButton>
     </SForm>
   );
 };

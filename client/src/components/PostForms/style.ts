@@ -3,32 +3,28 @@ import styled, { css } from "styled-components";
 import { colors, mobile, tablet } from "../../assets";
 import { ButtonOrange } from "../Form";
 
+export const FormBreakPoint = "906px";
+
 export const SForm = styled.form`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  row-gap: 25px;
-  height: 1050px;
+  margin: 55px 15px;
 `;
 
 export const SBox = styled.div`
   display: flex;
-  flex-flow: row nowrap;
-  width: 80vw;
-`;
-
-export const SPostSection = styled.section`
-  width: 70%;
-  row-gap: 30px;
-  display: flex;
   flex-flow: column nowrap;
+  width: 100%;
+  row-gap: 25px;
+  margin-bottom: 20px;
 `;
 
 export const SH1 = styled.h1`
   align-self: flex-start;
   height: max-content;
-  font-size: 42px;
+  font-size: 40px;
   line-height: 3rem;
   padding-bottom: 5px;
   color: ${colors("black300")};
@@ -36,14 +32,35 @@ export const SH1 = styled.h1`
 
   ${tablet(css`
     font-size: 30px;
+    line-height: 2.5rem;
   `)}
 
   ${mobile(css`
-    font-size: 25px;
+    font-size: 23px;
+    line-height: 2rem;
   `)}
 `;
 
-export const Button = styled(ButtonOrange)`
+export const SPostSection = styled.section`
+  width: 100%;
+  row-gap: 25px;
+  display: flex;
+  flex-flow: row wrap;
+
+  @media screen and (max-width: ${FormBreakPoint}) {
+    flex-direction: column-reverse;
+  }
+`;
+
+export const SEditorBox = styled.div`
+  width: 70%;
+
+  @media screen and (max-width: ${FormBreakPoint}) {
+    width: 100%;
+  }
+`;
+
+export const SButton = styled(ButtonOrange)`
   width: 125px;
   height: 47px;
   font-size: 19px;

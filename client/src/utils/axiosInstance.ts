@@ -19,11 +19,11 @@ export const axiosInstance = axios.create({
 function defaultTransformerCheck(config: AxiosRequestConfig) {
   const reqTransformer = config.transformRequest;
 
-  if (!Array.isArray(reqTransformer)) {
+  if (!Array.isArray(reqTransformer) || !reqTransformer.length) {
     throw new Error("axios.config에 transformer가 존재하지 않습니다.");
   }
   // 부주의로 제거된 default transformer(헤더 설정, JSON 변환 등) 복구
-  if (reqTransformer.at(-1)!.name !== "transformRequest") {
+  if (reqTransformer.at(-1)?.name !== "transformRequest") {
     config.transformRequest = [
       ...reqTransformer,
       ...(axios.defaults.transformRequest as ReqTransformer),
