@@ -7,9 +7,9 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
     align-items: center;
-    padding: 50px 10px;
+    gap: 20px;
+    height: 174px;
     background-color: #f8f8fa;
 
     & > h3 {
@@ -18,7 +18,7 @@ export const Container = styled.div`
     }
 
     & > p {
-      color: ${({ theme }) => theme.colors.black100};
+      color: #707070;
       font-size: 20px;
     }
 
@@ -41,7 +41,7 @@ export const SSection = styled.section`
   @media screen and (max-width: 1000px) {
     display: flex;
     flex-direction: column;
-    height: 700px;
+    height: 770px;
   }
 `;
 
@@ -77,7 +77,7 @@ export const SImgContainer = styled.div`
 
 export const SMainContainer = styled.main`
   flex-basis: 50%;
-  padding: 20px;
+  padding: 20px 20px 0 20px;
 
   @media screen and (max-width: 1200px) {
     padding: 20px 0 0 0;
@@ -98,7 +98,7 @@ export const SButtonContainer = styled.div`
     border: none;
     color: ${({ theme }) => theme.colors.black200};
     background-color: inherit;
-    font-size: 14px;
+    font-size: 18px;
   }
 
   & > div {
@@ -115,7 +115,7 @@ export const SButtonContainer = styled.div`
 
 export const SListContainer = styled.ul`
   position: relative;
-  height: 445px;
+  height: 440px;
   margin-top: 20px;
   padding: 5px;
   overflow-y: scroll;

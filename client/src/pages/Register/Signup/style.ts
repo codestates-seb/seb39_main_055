@@ -1,5 +1,7 @@
-import styled from "styled-components";
+import { BiHide, BiShow } from "react-icons/bi";
+import styled, { css } from "styled-components";
 
+import { colors } from "../../../assets";
 import { ButtonOrange } from "../../../components";
 
 export const SContainer = styled.div`
@@ -7,28 +9,34 @@ export const SContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 40px;
   margin: 100px 0;
   min-height: calc(100vh - 380px);
 
   & > h1 {
-    font-size: 42px;
+    margin-bottom: 64px;
+    color: #161616;
+    font-size: 32px;
   }
 
   & > form {
     display: flex;
     flex-direction: column;
     gap: 60px;
-    width: 50%;
-    padding: 60px;
-    border: 1px solid lightgray;
-    /* box-shadow: 0px 0px 5px grey; */
+    width: 100%;
+    max-width: 660px;
+    padding: 100px 60px;
+    border: 1px solid #dbdbdb;
+    border-radius: 0 0 10px 10px;
+    font-family: "Noto Sans KR", sans-serif;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    & > div {
+      width: 90%;
+    }
+
     & > form {
-      gap: 50px;
-      width: 80%;
+      width: 90%;
     }
   }
 
@@ -45,31 +53,42 @@ export const SContainer = styled.div`
   }
 `;
 
-export const SCheckboxContainer = styled.div`
+export const SRole = styled.div<{ isGuest: boolean }>`
   display: flex;
-  align-items: center;
+  width: 100%;
+  height: 50px;
+  max-width: 660px;
+  color: #161616;
+  font-size: 16px;
 
-  & > span {
-    flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  & > section {
+  & > div {
+    border: 1px solid #dbdbdb;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    flex-basis: 50%;
     display: flex;
-    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s;
   }
 
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+  & > div:first-child {
+    ${({ isGuest }) =>
+      !isGuest &&
+      css`
+        background-color: #ffc107;
+        border-color: #ffc107;
+      `}
+  }
 
-    & > section {
-      width: 100%;
-      justify-content: space-between;
-    }
+  & > div:last-child {
+    ${({ isGuest }) =>
+      isGuest &&
+      css`
+        background-color: #ffc107;
+        border-color: #ffc107;
+      `}
   }
 `;
 
@@ -77,6 +96,7 @@ export const SButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 30px;
 `;
 
 export const SButton = styled(ButtonOrange)`
@@ -85,4 +105,37 @@ export const SButton = styled(ButtonOrange)`
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     width: 100%;
   }
+`;
+
+export const SPWBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 40px;
+`;
+
+export const IconDefault = css`
+  width: 28px;
+  height: 28px;
+  fill: ${colors("black250")};
+  transition: 1s all;
+  padding: 0px;
+`;
+
+export const SHideButton = styled.button`
+  width: 30px;
+  height: 22px;
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  transform: translate(-50%, -52%);
+  border: 0px;
+  padding: 0px;
+  background-color: rgba(0, 0, 0, 0);
+`;
+
+export const ShowSVG = styled(BiShow)`
+  ${IconDefault}
+`;
+export const HideSVG = styled(BiHide)`
+  ${IconDefault}
 `;

@@ -8,7 +8,6 @@ import ScrollContents from "./ScrollContents";
 
 const Container = styled.div`
   height: 851px;
-  margin-top: 50px;
   position: relative;
 
   ${mobile(css`

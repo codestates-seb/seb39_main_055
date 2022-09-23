@@ -11,8 +11,15 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
 
-  // font-family: 'Noto Sans KR', sans-serif;
+  @font-face {
+    font-family: 'ONE-Mobile-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Title.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
+  /* font-family: 'Noto Sans KR', sans-serif; */
+  
   * {
     box-sizing: border-box;
   }
@@ -32,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
 
   h1, h2, h3, h4, h5, h6 {
     font-size: revert;
+    font-weight: 400;
   }
 
   ol, ul, li {

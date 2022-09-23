@@ -71,9 +71,11 @@ export const SInput = styled(Input)`
   & input {
     height: 100%;
     font-size: 16px;
+    padding-right: 60px;
 
     &::placeholder {
       font-size: 16px;
+      color: ${colors("black050")};
     }
   }
 `;
@@ -87,11 +89,11 @@ export const SPWBox = styled.div`
 export const SPWInput = styled(SInput)``;
 
 export const SButton = styled.button`
-  width: 60px;
+  width: 30px;
   height: 22px;
   position: absolute;
   top: 50%;
-  right: -30px;
+  right: 0px;
   transform: translate(-50%, -52%);
   border: 0px;
   padding: 0px;
@@ -101,14 +103,9 @@ export const SButton = styled.button`
 export const IconDefault = css`
   width: 100%;
   height: 100%;
-  fill: rgba(0, 0, 0, 0);
+  fill: ${colors("black250")};
   transition: 1s all;
-  padding: 0px 20px 0px 10px;
-
-  &:hover {
-    fill: ${colors("black250")};
-    background-color: white;
-  }
+  padding: 0px;
 `;
 
 export const ShowSVG = styled(BiShow)`

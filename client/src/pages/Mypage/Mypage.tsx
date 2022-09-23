@@ -1,129 +1,183 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { MdArrowForwardIos } from "react-icons/md";
 import styled from "styled-components";
 
-import HeartList from "./HeartList";
+import borderline from "../../assets/images/mypage/borderline.png";
+import love from "../../assets/images/mypage/love.png";
+import pension from "../../assets/images/mypage/pension.jpeg";
+import { Category } from "../../components";
+import HeartList from "./HeartList/HeartList";
+import MyPostList from "./MyPostList/MyPostList";
+import { recentPlace } from "./RecentList/RecentDummyData";
+import RecentList from "./RecentList/RecentList";
 
-interface Props {
-  image: string;
-  category: string;
-  alt: string;
-  adress: string;
-  text: string;
-  link: string;
-}
-
-const Container = styled.div`
+const SContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 40px;
-  margin: 200px 0;
+  gap: 24px;
   min-height: calc(100vh - 380px);
+  font-family: "ONE-Mobile-Regular";
 
   & > h1 {
     font-size: 42px;
   }
 `;
 
-const UserContainer = styled.div`
+const SUserContainer = styled.div`
   width: 100%;
   height: 895px;
-  border: 1px solid black;
+  border: 2px solid ${({ theme }) => theme.colors.black050};
   display: flex;
   justify-content: center;
 `;
 
-const MyInfo = styled.div`
+const SMyInfo = styled.div`
   width: 25%;
   height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 100px;
-  gap: 20px;
-  border: 1px solid red;
-  font-size: 24px;
+  padding-top: 82px;
+  gap: 30px;
 
-  & > div:first-child {
+  & > div {
     font-size: 26px;
+    gap: 20px;
   }
 `;
 
-const MyContents = styled.div`
-  width: 75%;
-  height: auto;
-  border: 1px solid red;
+const SLinkContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  padding: 20px;
+
+  // gap: 26px;
+
+  // & div {
+  //   font-size: 20px;
+  //   gap: 20px;
+  // }
+`;
+
+const SMyContents = styled.div`
+  width: 70%;
+  overflow: auto;
+  height: auto;
+  // display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   gap: 20px;
 `;
 
-// const HeartList = styled.div`
-//   height: 33%;
-//   width: 100%;
-//   border: 1px solid red;
-// `;
-
-const RecentList = styled.div`
-  height: 33%;
-  width: 100%;
-  border: 1px solid red;
+const SBorderLine = styled.div`
+  margin: 5% 0%;
+  align-items: center;
+  border-left: 1px solid ${({ theme }) => theme.colors.black050};
+  height: 80%;
 `;
 
-const Editbutton = styled.span`
-  position: absolute;
-  top: 58%;
-  left: 23%;
-`;
-
-const MyPostList = styled.div`
-  height: 33%;
-  width: 100%;
-  border: 1px solid red;
-`;
-
-const Button = styled.button`
-  display: flex;
+const WritePost = styled.div`
+  margin: 0px 0px 10px 0px;
   font-size: 20px;
 `;
 
+const MyPosts = styled.div`
+  margin: 0px 0px 10px 0px;
+  font-size: 20px;
+`;
+
+const RegistCompany = styled.div`
+  margin: 0px 0px 10px 0px;
+  font-size: 20px;
+`;
+
+const SButton = styled.div`
+  display: flex;
+  font-size: 20px;
+  background-color: none;
+  border: 1px solid ${({ theme }) => theme.colors.black050};
+  border-radius: 8px;
+`;
+
+// const Line = styled.span`
+//   margin: 5% 0%;
+//   align-items: center;
+//   border-left: 1px solid ${({ theme }) => theme.colors.black050};
+//   height: 80%;
+// `;
+
+const SAsk1 = styled.a`
+  font-size: 20px;
+  padding: 20px 15px 20px 20px;
+`;
+
+const SAsk2 = styled.a`
+  font-size: 20px;
+  padding: 20px 20px 20px 15px;
+  border-left: 1px solid ${({ theme }) => theme.colors.black050};
+`;
+
 const Mypage = () => {
+  // const getRecent = JSON.parse(localStorage.getItem("recentPlace"));
+  // useEffect(() => {
+  //   getRecent === null? localStorage.setItem("recentPlace", JSON.stringify([]))
+  //     : null;
+  // }, []);
+
+  useEffect(() => {
+    localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
+  }, []);
+
+  const localstorageData = JSON.parse(
+    localStorage.getItem("recentPlace") as string
+  );
   return (
-    <Container>
+    <SContainer>
       <h1>마이페이지</h1>
-      <UserContainer>
-        <MyInfo>
+      <SUserContainer>
+        <SMyInfo>
           <img
             alt="예시"
             src="https://user-images.githubusercontent.com/104320234/191059694-ddd96c9a-c412-4a5b-9846-a4377bd516fa.png"
           />
-          <Editbutton>
-            <img
-              alt="이미지 수정버튼"
-              src="https://user-images.githubusercontent.com/104320234/191094430-9782110c-74e8-4b5e-a579-34ece4b9b712.png"
-            />
-          </Editbutton>
           <div>Jin 님</div>
-          <div>글 작성하기</div>
-          <div>내가 남긴 글</div>
-          <div>업주 등록</div>
-          <Button>
-            <div>1:1문의</div>
-            <div>제휴문의</div>
-          </Button>
-        </MyInfo>
-        <MyContents>
+          <SLinkContainer>
+            <WritePost>
+              글 작성하기
+              <MdArrowForwardIos />
+            </WritePost>
+            <MyPosts>
+              내가 남긴 글
+              <MdArrowForwardIos />
+            </MyPosts>
+            <RegistCompany>
+              업주 등록
+              <MdArrowForwardIos />
+            </RegistCompany>
+            <SButton>
+              <SAsk1>1:1문의</SAsk1>
+              {/* <Line>
+                <div />
+              </Line> */}
+              <SAsk2>제휴문의</SAsk2>
+            </SButton>
+          </SLinkContainer>
+        </SMyInfo>
+        <SBorderLine>
+          <div />
+        </SBorderLine>
+        <SMyContents>
           <HeartList />
-          <RecentList>recent</RecentList>
-          <MyPostList>mypost</MyPostList>
-        </MyContents>
-      </UserContainer>
-    </Container>
+          <RecentList />
+          <MyPostList />
+        </SMyContents>
+      </SUserContainer>
+    </SContainer>
   );
 };
 

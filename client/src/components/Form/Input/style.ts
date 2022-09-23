@@ -6,8 +6,8 @@ export const SInputContainer = styled.div`
 
   & > label {
     flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
+    color: #161616;
+    font-size: 18px;
     cursor: pointer;
   }
 
@@ -24,19 +24,21 @@ export const SInput = styled.div<{
 }>`
   position: relative;
   flex-basis: ${({ isLabel }) => (isLabel ? "70%" : "100%")};
-  border-bottom: 1px solid #dbdbdb;
+  border-bottom: 1px solid #707070;
 
   & > input {
     width: ${({ isSideButton }) => (isSideButton ? "70%" : "100%")};
     /* width: 100%; */
     padding: 5px;
     border: none;
+    font-size: 16px;
     outline: none;
     overflow: auto;
   }
 
   & > input::placeholder {
-    color: #767676;
+    font-size: 16px;
+    color: #dbdbdb;
   }
 
   & > button {
@@ -61,7 +63,7 @@ export const SError = styled.p<{ isError: boolean }>`
   top: 35px;
   left: 5px;
   color: red;
-  font-size: 10px;
+  font-size: 12px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     left: 0;
@@ -73,8 +75,8 @@ export const SComment = styled.p<{ isError: boolean }>`
   position: absolute;
   top: 35px;
   left: 5px;
-  color: #767676;
-  font-size: 10px;
+  color: #707070;
+  font-size: 12px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     left: 0;

@@ -10,6 +10,9 @@ import SideText from "./SideText";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
 
   ${mobile(css`
     flex-direction: column;
@@ -20,8 +23,10 @@ const Container = styled.div`
 
   @media (max-width: 1110px) {
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    height: 610px;
+    height: auto;
+    flex-wrap: wrap;
   }
 `;
 
@@ -33,6 +38,15 @@ const TextContainer = styled.div`
     width: auto;
     height: 10%;
   `)}
+
+  @media (max-width: 1110px) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 `;
 
 const Contents = styled.div`
@@ -47,6 +61,13 @@ const Contents = styled.div`
     flex-direction: column;
     align-items: center;
   `)}
+
+  @media (max-width: 1110px) {
+    // flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 `;
 
 const SideContents = styled.span`
@@ -61,6 +82,11 @@ const SideContents = styled.span`
     flex-direction: row;
     height: 100px;
   `)}
+
+  @media (max-width: 1110px) {
+    flex-direction: row;
+    height: 100px;
+  }
 
   & > img {
     ${mobile(css`
@@ -96,9 +122,9 @@ const ContentsInfo = styled.div`
   left: 7%;
   opacity: 0.7;
 
-  :hover {
-    opacity: 0.8;
-  }
+  // :hover {
+  //   opacity: 0.8;
+  // }
   & > a {
     color: #ffff;
   }

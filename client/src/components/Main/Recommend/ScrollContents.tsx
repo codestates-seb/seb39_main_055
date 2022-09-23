@@ -27,19 +27,19 @@ const Image = styled.img`
 
 const Category = styled.div`
   margin: 10px 0px;
-  color: #ffc107;
+  color: ${({ theme }) => theme.colors.orange500};
   font-size: 14px;
 `;
 
 const TextTitle = styled.div`
   color: ${({ theme }) => theme.colors.black500};
-  font-size: 26px;
+  font-size: 25px;
 `;
 
 const TextLine1 = styled.div`
   color: ${({ theme }) => theme.colors.black400};
   margin-bottom: 3px;
-  font-size: 16px;
+  font-size: 14px;
 
   ${mobile(css`
     width: 300px;
