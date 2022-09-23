@@ -18,15 +18,16 @@ const DefaultImgSelect = ({
     setDefaultImg(id);
     closeModal();
   };
+
   return (
     <SModalSection>
       <h1>대표 이미지를 선택해주세요.</h1>
       <SMImgUList>
-        {images.map(({ uri, md5 }, i) => (
+        {images.map(({ uri, id }, i) => (
           <SMImgList
             selected={defaultImg === i}
             onClick={() => handleClick(i)}
-            key={md5}
+            key={id}
           >
             <SMImg src={uri} alt={`${i}-th image to upload`} />
           </SMImgList>

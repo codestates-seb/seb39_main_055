@@ -1,7 +1,7 @@
 export interface ThreadImages {
-  file: Blob;
+  file: Blob | null; // 서버에서 받아온 이미지: null
   uri: string;
-  md5: string;
+  id: string;
 }
 
 export interface ThreadImageResponse {
@@ -10,9 +10,11 @@ export interface ThreadImageResponse {
   threadImageStatus: string;
 }
 
-export interface ThreadPostForm {
+// 새 thread 작성
+export interface ThreadForm {
   body: string;
   images: ThreadImages[];
+  threadId?: number;
 }
 
 export interface ThreadPostRequest {
@@ -29,6 +31,11 @@ export interface ThreadPostResponse {
   threadStatus: string;
   updatedAt: string;
 }
+
+// thread 수정
+/* export interface ThreadEditForm extends ThreadPostForm {
+  threadId: string;
+} */
 
 export interface ThreadErrorResponse {
   fieldErrors: null;

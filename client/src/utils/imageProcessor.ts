@@ -7,11 +7,11 @@ export async function extractImageInfos(files: File[]) {
   return Promise.all(
     files.map(async (file) => {
       const encoded = await blobToBase64(file);
-      const md5 = await md5Hash(encoded);
+      const id = await md5Hash(encoded);
 
       return {
         file,
-        md5,
+        id,
         uri: URL.createObjectURL(file),
       };
     })

@@ -75,8 +75,8 @@ const PreviewImages = ({
     []
   );
 
-  const removeImg = (id: string) => {
-    setImages((prev) => prev.filter(({ md5 }) => md5 !== id));
+  const removeImg = (targetId: string) => {
+    setImages((prev) => prev.filter(({ id }) => id !== targetId));
   };
 
   useEffect(() => {
@@ -123,14 +123,14 @@ const PreviewImages = ({
         <SMore />
       </SaButton>
       <SThumbnailUList>
-        {images.map(({ uri, md5 }, i) => (
-          <SList key={md5}>
+        {images.map(({ uri, id }, i) => (
+          <SList key={id}>
             <InteractiveImage
               label="클릭해서 제거"
               hoverColor="#ff1c1ca7"
               imageURL={uri}
               alt={`${i}-th image to upload`}
-              onClick={() => removeImg(md5)}
+              onClick={() => removeImg(id)}
             />
           </SList>
         ))}
