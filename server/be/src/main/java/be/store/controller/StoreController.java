@@ -1,6 +1,7 @@
 package be.store.controller;
 
 import be.response.SingleResponseDto;
+import be.review.mapper.ReviewMapper;
 import be.store.dto.StorePatchDto;
 import be.store.dto.StorePostDto;
 import be.store.entity.Store;
@@ -31,6 +32,7 @@ public class StoreController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final StoreImageService storeImageService;
+    private final ReviewMapper reviewMapper;
 
     /**
      * 업주 매장 등록 API
@@ -40,7 +42,7 @@ public class StoreController {
         Store store = mapper.storePostDtoToStore(userService,storePostDto);
         Store createdStore = storeService.createStore(store);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.storeToStoreResponse(userMapper,storeImageService,createdStore)), HttpStatus.CREATED
+                new SingleResponseDto<>(mapper.storeToStoreResponse(reviewMapper,userMapper,storeImageService,createdStore)), HttpStatus.CREATED
         );
     }
 
@@ -54,7 +56,7 @@ public class StoreController {
         Store updatedStore = storeService.updateStore(store);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.storeToStoreResponse(userMapper,storeImageService,updatedStore)),
+                new SingleResponseDto<>(mapper.storeToStoreResponse(reviewMapper,userMapper,storeImageService,updatedStore)),
                 HttpStatus.OK
         );
 

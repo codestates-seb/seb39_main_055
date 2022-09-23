@@ -21,4 +21,5 @@ public class HeartResponseDto {
     private Heart.HeartStatus heartStatus;
     private UserResponseDto user;
     private StoreResponseDto store;
+
 }

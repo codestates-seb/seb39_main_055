@@ -1,5 +1,6 @@
 package be.store.dto;
 
+import be.review.dto.ReviewResponseDto;
 import be.store.entity.Store;
 import be.user.dto.UserResponseDto;
 import lombok.Getter;
@@ -25,5 +26,8 @@ public class StoreResponseDto {
     private String homepage;
     private UserResponseDto user;
     private List<StoreImageResponseDto> storeImages;
+
+    //리뷰추가
+    private List<ReviewResponseDto> reviews;
 
 }

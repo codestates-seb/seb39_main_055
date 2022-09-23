@@ -45,7 +45,7 @@ public class ReviewController {
                 mapper.reviewPostDtoToReview(storeService,userService,storeId,reviewPostDto));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.reviewToReviewResponseDto(storeMapper,userMapper,storeImageService,review)), HttpStatus.CREATED);
+                new SingleResponseDto<>(mapper.reviewToReviewResponseDto(userMapper,review)), HttpStatus.CREATED);
     }
 
 

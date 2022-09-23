@@ -7,6 +7,7 @@ import be.heart.mapper.HeartMapper;
 import be.heart.service.HeartService;
 import be.response.MultiResponseDto;
 import be.response.SingleResponseDto;
+import be.review.mapper.ReviewMapper;
 import be.store.mapper.StoreMapper;
 import be.store.service.StoreImageService;
 import be.store.service.StoreService;
@@ -37,6 +38,7 @@ public class HeartController {
     private final StoreMapper storeMapper;
     private final UserMapper userMapper;
     private final StoreImageService storeImageService;
+    private final ReviewMapper reviewMapper;
 
     /**
      * 가게 하트등록 API
@@ -46,7 +48,7 @@ public class HeartController {
         Heart heart = mapper.heartPostDtoToHeart(storeService,userService,heartPostDto);
         Heart createdHeart = heartService.createHeart(heart);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.heartToHeartResponseDto(storeMapper,userMapper,storeImageService,createdHeart)),
+                new SingleResponseDto<>(mapper.heartToHeartResponseDto(reviewMapper,storeMapper,userMapper,storeImageService,createdHeart)),
                 HttpStatus.CREATED
         );
     }
@@ -62,7 +64,7 @@ public class HeartController {
         Heart updatedHeart = heartService.updateHeart(heart);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.heartToHeartResponseDto(storeMapper,userMapper,storeImageService,updatedHeart)),
+                new SingleResponseDto<>(mapper.heartToHeartResponseDto(reviewMapper,storeMapper,userMapper,storeImageService,updatedHeart)),
                 HttpStatus.OK
         );
 
@@ -80,7 +82,7 @@ public class HeartController {
         List<Heart> hearts = pageHearts.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(
-                mapper.heartsToHeartResponseDtos(storeMapper,userMapper,storeImageService,hearts),
+                mapper.heartsToHeartResponseDtos(reviewMapper,storeMapper,userMapper,storeImageService,hearts),
                 pageHearts),HttpStatus.OK);
     }
 

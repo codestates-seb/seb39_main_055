@@ -29,7 +29,6 @@ public class ReviewService {
     private void verifyExistReview(User user, Store store){ //중복 리뷰인지 확인(리뷰어는 하나의 스토어에 대해 단 하나의 리뷰만 달 수 있음)
         Optional<Review> review = reviewRepository.findByUserAndStoreAndReviewStatus(user,store, Review.ReviewStatus.REVIEW_EXIST);
         if(review.isPresent()){ //중복 리뷰일 시 예외처리
-            System.out.println("여기라고?");
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_REVIEWER);
         }
     }

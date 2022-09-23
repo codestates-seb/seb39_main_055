@@ -30,11 +30,11 @@ public class Review extends BaseEntity {
     @Column(nullable = false)
     private int score;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne // 1유저당 후기 여러 개? 1개만 허용?
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_ID")
     private Store store;
 

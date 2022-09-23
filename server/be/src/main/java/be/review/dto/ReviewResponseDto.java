@@ -18,7 +18,7 @@ public class ReviewResponseDto {
     private LocalDateTime updatedAt;
     private Review.ReviewStatus reviewStatus;
     private UserResponseDto user;
-    private StoreResponseDto store;
+    private Long storeId;
     private String body;
     private Integer score;
 }

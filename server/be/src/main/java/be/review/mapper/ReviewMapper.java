@@ -16,6 +16,9 @@ import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "Spring")
 public interface ReviewMapper {
 
@@ -39,7 +42,7 @@ public interface ReviewMapper {
         return review;
     }
 
-    default ReviewResponseDto reviewToReviewResponseDto(StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,Review review){
+    default ReviewResponseDto reviewToReviewResponseDto(UserMapper userMapper,Review review){
 
         ReviewResponseDto reviewResponseDto = new ReviewResponseDto();
         reviewResponseDto.setReviewId(review.getReviewId());
@@ -48,15 +51,20 @@ public interface ReviewMapper {
         reviewResponseDto.setReviewStatus(review.getReviewStatus());
         reviewResponseDto.setBody(review.getBody());
         reviewResponseDto.setScore(review.getScore());
+        reviewResponseDto.setStoreId(review.getStore().getStoreId());
+        System.out.println(review.getStore().getStoreId());
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(review.getUser());
         reviewResponseDto.setUser(userResponseDto);
 
-        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponse(userMapper,storeImageService,review.getStore());
-        reviewResponseDto.setStore(storeResponseDto);
+
 
         return reviewResponseDto;
     }
+
+    default List<ReviewResponseDto> reviewsToReviewResponseDtos(UserMapper userMapper,List<Review> reviews){
+        return reviews.stream().map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
+    };
 
 
 }
