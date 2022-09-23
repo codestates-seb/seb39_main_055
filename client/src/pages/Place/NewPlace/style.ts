@@ -57,7 +57,7 @@ export const SCheckboxContainer = styled.div`
     flex-basis: 70%;
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 15px;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {

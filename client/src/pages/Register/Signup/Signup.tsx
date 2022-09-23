@@ -74,7 +74,7 @@ const Signup = () => {
   useEffect(() => {
     if (isSuccess) {
       navigate("/login");
-      toast.success("회원가입을 축하드립니다 ! 로그인 해주세요.");
+      toast.success("회원가입을 축하합니다 !");
     }
   }, [isSuccess, navigate]);
 
@@ -116,7 +116,7 @@ const Signup = () => {
             placeholder="비밀번호를 입력해주세요."
             onChange={(e) => handlePassword(e)}
           />
-          <SHideButton type="button" onClick={(e) => setIsHidden(!isHidden)}>
+          <SHideButton type="button" onClick={() => setIsHidden(!isHidden)}>
             {isHidden ? <HideSVG /> : <ShowSVG />}
           </SHideButton>
         </SPWBox>
