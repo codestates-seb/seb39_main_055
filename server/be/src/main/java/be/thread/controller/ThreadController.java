@@ -79,4 +79,21 @@ public class ThreadController {
                 HttpStatus.OK);
     }
 
+    /**
+     * 댕댕이숲 글(thread) 삭제 API
+     * */
+    @PatchMapping("/user/thread/delete/{thread-id}")
+    public ResponseEntity deleteThread(@PathVariable("thread-id") @Positive @NotNull long threadId,
+                                       @Valid @RequestBody ThreadPatchDto threadPatchDto) {
+        // Request를 처리하기 위한 객체 생성. / 객체를 생성하는 메서드는 threadService에서 정의, 생성 메서드의 매개변수 생성은 mapper에서 만든다.
+        // 실제로 삭제하는 것이 아니라 threadStatus를 THREAD_NOT_EXIST로 변경하는 것.
+        Thread thread = threadMapper.threadPatchDtoToThread(threadService, userService, threadId, threadPatchDto);
+        Thread deletedThread = threadService.deleteThread(thread);
+
+        // 생성된 객체를 처리하여 Response 반환
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, threadImageService, deletedThread)),
+                HttpStatus.OK);
+    }
+
 }
