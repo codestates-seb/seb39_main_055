@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import HeartList from "./HeartList";
+import HeartList from "./HeartList/HeartList";
 
 interface Props {
   image: string;
