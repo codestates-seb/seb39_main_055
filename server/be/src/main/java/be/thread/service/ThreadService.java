@@ -39,6 +39,17 @@ public class ThreadService {
     public Thread updateThread(Thread thread) {
         Thread findThread = findVerifiedThread(thread.getThreadId()); // thread가 DB에 없으면 예외처리.
 
+        // 삭제된 (실제로는 not exist 상태인) thread라면 예외처리.
+        if(findThread.getThreadStatus() == Thread.ThreadStatus.THREAD_NOT_EXIST){
+            throw new BusinessLogicException(ExceptionCode.THREAD_NOT_FOUND);
+        }
+
+//        if(findThread.getThreadStatus().equals("THREAD_NOT_EXIST")) {
+//            throw new BusinessLogicException(ExceptionCode.THREAD_NOT_FOUND);
+//        } // 이건 안 되는지 알아보자.
+
+        log.info("게시글 존재함 {}",thread.getThreadId().toString());
+
         Optional.ofNullable(thread.getBody()) // 본문 수정
                 .ifPresent(findThread::setBody);
 
@@ -95,10 +106,26 @@ public class ThreadService {
         return findThread;
     }
 
+    /**
+     * Thread에 좋아요 추가 or 취소 - biz logic
+     */
     @Transactional
     public Thread likeThread(long threadId, int likes) {
         Thread findThread = findVerifiedThread(threadId); // 작성한 글이 DB에 없다면 예외 처리
         findThread.setLikes(likes);
+        return findThread;
+    }
+
+    /**
+     * Thread 삭제 (실제로는 '존재하지 않음' 상태로 변경) - biz logic
+     */
+    @Transactional
+    public Thread deleteThread(Thread thread) {
+        Thread findThread = findVerifiedThread(thread.getThreadId()); // thread가 DB에 없으면 예외처리.
+
+        // threadId로 thread를 불러와서 threadStatus를'존재하지 않음'상태로 변경
+        findThread.setThreadStatus(Thread.ThreadStatus.THREAD_NOT_EXIST);
+
         return findThread;
     }
 
