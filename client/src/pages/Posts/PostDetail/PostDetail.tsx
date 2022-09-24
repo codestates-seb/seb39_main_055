@@ -79,22 +79,17 @@ export const SLikeContainer = styled.section<{ isLike: boolean }>`
   }
 `;
 
-export const SForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin: 55px 0;
+export const SCommentHeader = styled.header`
+  margin-top: 55px;
+  font-size: 18px;
 
-  & > header {
-    font-size: 18px;
+  & > span:first-child {
+    color: #161616;
+    margin-right: 10px;
+  }
 
-    & > span:first-child {
-      color: #161616;
-      margin-right: 10px;
-    }
-
-    & > span:last-child {
-      color: #ffc107;
-    }
+  & > span:last-child {
+    color: #ffc107;
   }
 `;
 
@@ -104,6 +99,7 @@ export const SInputContainer = styled.section<{ isFocus: boolean }>`
   align-items: center;
   height: 52px;
   margin-top: 18px;
+  margin-bottom: 55px;
   padding: 5px 20px;
   border: 1px solid #dbdbdb;
   border-radius: 5px;
@@ -167,22 +163,20 @@ const PostDetail = () => {
           <span>{data.likes}</span>
         </SLikeContainer>
       </SMainContainer>
-      <SForm>
-        <header>
-          <span>댓글</span>
-          <span>{data.replyList.length}</span>
-        </header>
-        <SInputContainer isFocus={isFocus}>
-          {/** focus시 스타일 변경 */}
-          <input
-            type="text"
-            placeholder="다양한 이야기를 공유해주세요 :)"
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-          />
-          <button type="submit">입력</button>
-        </SInputContainer>
-      </SForm>
+      <SCommentHeader>
+        <span>댓글</span>
+        <span>{data.replyList.length}</span>
+      </SCommentHeader>
+      <SInputContainer isFocus={isFocus}>
+        {/** focus시 스타일 변경 */}
+        <input
+          type="text"
+          placeholder="다양한 이야기를 공유해주세요 :)"
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+        />
+        <button type="button">입력</button>
+      </SInputContainer>
       <SListContainer>
         {data.replyList.map((reply) => (
           <ReplyCard
