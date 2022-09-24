@@ -24,7 +24,7 @@ const UserCard = ({ threadId, user, updatedAt }: Prop) => {
         <span>{updatedAt}</span>
       </SUserInfo>
       <Dots
-        name="댕댕이숲"
+        deleteModalTitle="댕댕이 숲의 기록을 삭제하시겠습니까?"
         onEdit={() => console.log("수정")}
         onDelete={() => console.log("삭제")}
       />

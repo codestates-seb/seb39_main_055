@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
-import { MdHeight } from "react-icons/md";
 import styled from "styled-components";
 
 import { Slider } from "../../../components";

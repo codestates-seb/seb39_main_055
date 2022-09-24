@@ -11,12 +11,12 @@ import {
 } from "./style";
 
 interface Prop {
-  name: string;
+  deleteModalTitle: string;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-const Dots = ({ name, onEdit, onDelete }: Prop) => {
+const Dots = ({ deleteModalTitle, onEdit, onDelete }: Prop) => {
   const [isTabOpen, setIsTabOpen, tabRef] = useCloseElement();
   const { openModal, closeModal } = useModal();
 
@@ -35,7 +35,7 @@ const Dots = ({ name, onEdit, onDelete }: Prop) => {
             openModal(
               <SContainer>
                 <main>
-                  <header>{name}의 기록을 삭제 하시겠습니까?</header>
+                  <header>{deleteModalTitle}</header>
                   <p>삭제한 게시물은 다시 복원할 수 없습니다.</p>
                 </main>
                 <SButtonContainer>
