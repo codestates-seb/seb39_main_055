@@ -1,9 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { TbDots } from "react-icons/tb";
 import styled from "styled-components";
 
-import { useModal } from "../../../../components";
-import { useCloseElement } from "../../../../hooks";
+import { Dots } from "../../../../components";
 
 export const SUtils = styled.section`
   position: relative;
@@ -115,9 +112,6 @@ interface Prop {
 }
 
 export const SContainer = styled.div`
-  border: none;
-  border-radius: 10px;
-
   & > main {
     display: flex;
     flex-direction: column;
@@ -141,10 +135,8 @@ export const SContainer = styled.div`
 
 export const SButtonContainer = styled.section`
   display: flex;
-  gap: 7px;
   background-color: #f5f5f5;
   border: none;
-  border-radius: 0 0 10px 10px;
 
   & > button {
     flex-basis: 50%;
@@ -161,44 +153,14 @@ export const SButtonContainer = styled.section`
 
 export const SDeleteButton = styled.button`
   color: #f53a3a;
-  /* border-radius: 0 0 10px 0px; */
-
-  &:hover {
-    color: #ffffff;
-    border-color: #f53a3a;
-    background-color: #f53a3a;
-  }
 `;
 
 export const SCancelButton = styled.button`
-  color: #097aff;
-
-  &:hover {
-    color: #ffffff;
-    border-color: #097aff;
-    background-color: #097aff;
-  }
+  color: #a5a5a5;
+  border-right: 2px solid #f5f5f5 !important;
 `;
 
-const DeleteModal = () => {
-  return (
-    <SContainer>
-      <main>
-        <header>댕댕이 숲의 기록을 삭제 하시겠습니까?</header>
-        <p>삭제한 게시물은 다시 복원할 수 없습니다.</p>
-      </main>
-      <SButtonContainer>
-        <SCancelButton type="button">취소</SCancelButton>
-        <SDeleteButton type="button">삭제</SDeleteButton>
-      </SButtonContainer>
-    </SContainer>
-  );
-};
-
 const UserCard = ({ threadId, user, updatedAt }: Prop) => {
-  const [isTabOpen, setIsTabOpen, tabRef] = useCloseElement();
-  const { openModal, closeModal } = useModal();
-
   return (
     <SUtils>
       <SUserInfo>
@@ -206,12 +168,11 @@ const UserCard = ({ threadId, user, updatedAt }: Prop) => {
         <span>{user.ninkname}</span>
         <span>{updatedAt}</span>
       </SUserInfo>
-      {/** 클릭시 모달창 */}
-      <TbDots onClick={() => setIsTabOpen((prev) => !prev)} />
-      <SModal isOpen={isTabOpen} ref={tabRef}>
-        <div>수정</div>
-        <div onClick={() => openModal(<DeleteModal />)}>삭제</div>
-      </SModal>
+      <Dots
+        name="댕댕이숲"
+        onEdit={() => console.log("수정")}
+        onDelete={() => console.log("삭제")}
+      />
     </SUtils>
   );
 };

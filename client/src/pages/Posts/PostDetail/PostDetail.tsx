@@ -22,8 +22,8 @@ export const SMainContainer = styled.main`
 
   & > h1 {
     color: #707070;
-    font-size: 32px;
-    font-family: "ONE-Mobile-Bold";
+    font-size: 40px;
+    /* font-family: "ONE-Mobile-Bold"; */
   }
 `;
 

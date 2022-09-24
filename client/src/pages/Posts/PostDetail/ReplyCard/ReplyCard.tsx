@@ -67,7 +67,7 @@ export const SBottom = styled.section`
 
     & > svg {
       margin-right: 2px;
-      font-size: 20px;
+      font-size: 15px;
       fill: red;
       color: red;
     }
