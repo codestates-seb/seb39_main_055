@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
 import { MdHeight } from "react-icons/md";
 import styled from "styled-components";
@@ -57,7 +58,7 @@ export const SBody = styled.p`
   }
 `;
 
-export const SLikeContainer = styled.section`
+export const SLikeContainer = styled.section<{ isLike: boolean }>`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -66,8 +67,8 @@ export const SLikeContainer = styled.section`
   & > svg {
     cursor: pointer;
     font-size: 30px;
-    color: #ffc107;
-    fill: #ffc107;
+    color: ${({ isLike }) => isLike && "#ffc107"};
+    fill: ${({ isLike }) => isLike && "#ffc107"};
     transition: all 0.3s;
   }
 
@@ -149,6 +150,8 @@ export const SListContainer = styled.ul`
 
 const PostDetail = () => {
   const data = detailData;
+  const [isLike, setIsLike] = useState(false);
+
   return (
     <SContainer>
       <SMainContainer>
@@ -162,7 +165,10 @@ const PostDetail = () => {
           <Slider imageList={data.threadImages} />
         </SImageContainer>
         <SBody>{data.body}</SBody>
-        <SLikeContainer>
+        <SLikeContainer
+          isLike={isLike}
+          onClick={() => setIsLike((prev) => !prev)}
+        >
           {/** 클릭시 하트 변경 */}
           <HiOutlineHeart />
           <span>20</span>
