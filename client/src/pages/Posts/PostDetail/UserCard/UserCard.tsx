@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 import { Dots } from "../../../../components";
-import { PostData } from "../data";
 import { SUserInfo, SUtils } from "./style";
 
 interface Prop {
