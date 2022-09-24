@@ -49,7 +49,7 @@ export const SCancelButton = styled.button`
   border-right: 2px solid #f5f5f5 !important;
 `;
 
-export const SModal = styled.div<{ isOpen: boolean }>`
+export const STab = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: 0;
   top: 50px;
@@ -65,6 +65,7 @@ export const SModal = styled.div<{ isOpen: boolean }>`
   background-color: #ffffff;
   color: #434343;
   cursor: pointer;
+  z-index: 50;
   font-family: "Noto Sans KR", sans-serif;
 
   animation-name: dropdown;

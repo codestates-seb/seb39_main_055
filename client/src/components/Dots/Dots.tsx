@@ -7,7 +7,7 @@ import {
   SCancelButton,
   SContainer,
   SDeleteButton,
-  SModal,
+  STab,
 } from "./style";
 
 interface Prop {
@@ -28,7 +28,7 @@ const Dots = ({ name, onEdit, onDelete }: Prop) => {
   return (
     <>
       <TbDots onClick={() => setIsTabOpen((prev) => !prev)} />
-      <SModal isOpen={isTabOpen} ref={tabRef}>
+      <STab isOpen={isTabOpen} ref={tabRef}>
         <div onClick={() => onEdit()}>수정</div>
         <div
           onClick={() =>
@@ -52,7 +52,7 @@ const Dots = ({ name, onEdit, onDelete }: Prop) => {
         >
           삭제
         </div>
-      </SModal>
+      </STab>
     </>
   );
 };
