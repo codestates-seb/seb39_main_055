@@ -1,4 +1,5 @@
 import { HiOutlineHeart } from "react-icons/hi";
+import { MdHeight } from "react-icons/md";
 import styled from "styled-components";
 
 import { Slider } from "../../../components";
@@ -39,6 +40,10 @@ export const SImageContainer = styled.section`
     object-fit: cover;
     border-radius: 17px;
   }
+
+  @media screen and (max-width: 750px) {
+    height: 300px;
+  }
 `;
 
 export const SBody = styled.p`
@@ -46,6 +51,10 @@ export const SBody = styled.p`
   color: #161616;
   font-size: 18px;
   line-height: 35px;
+
+  @media screen and (max-width: 750px) {
+    margin: 50px 0;
+  }
 `;
 
 export const SLikeContainer = styled.section`
@@ -150,9 +159,7 @@ const PostDetail = () => {
           updatedAt={data.updatedAt}
         />
         <SImageContainer>
-          {/** 슬라이드 */}
           <Slider imageList={data.threadImages} />
-          {/* <img src={data.threadImages[0].image} alt="animal" /> */}
         </SImageContainer>
         <SBody>{data.body}</SBody>
         <SLikeContainer>
