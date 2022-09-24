@@ -60,6 +60,7 @@ export const ModalMain = styled.div`
   }: ModalMainProps) => css`
     min-width: ${minWidth};
     min-height: ${minHeight};
+    max-width: 90vw;
     animation: ${isMount ? fadeIn : fadeOut} 0.3s ease-out;
     border-radius: ${borderRadius};
     box-shadow: ${boxShadow};

@@ -15,13 +15,14 @@ import { ThreadImages } from "../../../types";
 import { InteractiveImage, useModal } from "../..";
 import DefaultImgSelect from "../DefaultImgSelect/DefaultImgSelect";
 import {
+  SaBox,
   SaButton,
   SaLabel,
+  SbBox,
   SFileInput,
   SImageAside,
   SList,
   SMore,
-  SRepImageBox,
   SRepImg,
   SThumbnailUList,
 } from "./style";
@@ -75,8 +76,8 @@ const PreviewImages = ({
     []
   );
 
-  const removeImg = (id: string) => {
-    setImages((prev) => prev.filter(({ md5 }) => md5 !== id));
+  const removeImg = (targetId: string) => {
+    setImages((prev) => prev.filter(({ id }) => id !== targetId));
   };
 
   useEffect(() => {
@@ -97,40 +98,42 @@ const PreviewImages = ({
 
   return (
     <SImageAside>
-      <SRepImageBox>
-        {!!images.length && (
-          <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
-        )}
-        <SaLabel>
-          <p>사진을 추가해주세요.</p>
-          <p>(Ctrl 또는 Shift로 다중 선택)</p>
-        </SaLabel>
-        <SFileInput accept="image/*" onChange={handleSelectImages} />
-      </SRepImageBox>
-      <SaButton
-        onClick={() =>
-          openModal(
-            <DefaultImgSelect
-              images={images}
-              defaultImg={defaultImg}
-              setDefaultImg={setDefaultImg}
-              closeModal={closeModal}
-            />
-          )
-        }
-      >
-        <p>대표사진 변경</p>
-        <SMore />
-      </SaButton>
+      <SaBox>
+        <SbBox>
+          {!!images.length && (
+            <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
+          )}
+          <SaLabel>
+            <p>사진을 추가해주세요.</p>
+            <p>(Ctrl 또는 Shift로 다중 선택)</p>
+          </SaLabel>
+          <SFileInput accept="image/*" onChange={handleSelectImages} />
+        </SbBox>
+        <SaButton
+          onClick={() =>
+            openModal(
+              <DefaultImgSelect
+                images={images}
+                defaultImg={defaultImg}
+                setDefaultImg={setDefaultImg}
+                closeModal={closeModal}
+              />
+            )
+          }
+        >
+          <p>대표사진 변경</p>
+          <SMore />
+        </SaButton>
+      </SaBox>
       <SThumbnailUList>
-        {images.map(({ uri, md5 }, i) => (
-          <SList key={md5}>
+        {images.map(({ uri, id }, i) => (
+          <SList key={id}>
             <InteractiveImage
               label="클릭해서 제거"
               hoverColor="#ff1c1ca7"
               imageURL={uri}
               alt={`${i}-th image to upload`}
-              onClick={() => removeImg(md5)}
+              onClick={() => removeImg(id)}
             />
           </SList>
         ))}

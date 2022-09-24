@@ -39,6 +39,7 @@ export const STitleContainer = styled.section`
   & > h1 {
     color: #161616;
     font-size: 32px;
+    font-family: "ONE-Mobile-Bold";
   }
 `;
 

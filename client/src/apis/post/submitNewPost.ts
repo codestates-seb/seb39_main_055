@@ -1,9 +1,9 @@
-import { ThreadPostForm, ThreadPostRequest } from "../../types";
+import { ThreadForm, ThreadPostRequest } from "../../types";
 import { axiosInstance } from "../../utils";
 import { isArrayOfString } from "../../utils/type-guards";
 import uploadImages from "./uploadImages";
 
-const threadImgTransformer = (data: ThreadPostRequest) => {
+export const threadImgTransformer = (data: ThreadPostRequest) => {
   const { threadImages } = data;
   let transformed = threadImages;
 
@@ -16,7 +16,7 @@ const threadImgTransformer = (data: ThreadPostRequest) => {
   return data;
 };
 
-const submitPost = async (payload: ThreadPostForm) => {
+const submitNewPost = async (payload: ThreadForm) => {
   const { body, images } = payload;
 
   const imageURLs = await uploadImages(images);
@@ -35,4 +35,4 @@ const submitPost = async (payload: ThreadPostForm) => {
   return data;
 };
 
-export default submitPost;
+export default submitNewPost;
