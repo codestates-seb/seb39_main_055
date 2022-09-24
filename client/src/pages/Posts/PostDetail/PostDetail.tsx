@@ -100,7 +100,7 @@ export const SInputContainer = styled.section<{ isFocus: boolean }>`
   height: 52px;
   margin-top: 18px;
   margin-bottom: 55px;
-  padding: 5px 20px;
+  padding: 5px 10px;
   border: 1px solid #dbdbdb;
   border-radius: 5px;
 

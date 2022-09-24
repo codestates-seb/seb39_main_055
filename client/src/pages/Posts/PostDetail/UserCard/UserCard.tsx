@@ -1,5 +1,7 @@
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
+import { deletePost } from "../../../../apis";
 import { Dots } from "../../../../components";
 import { SUserInfo, SUtils } from "./style";
 
@@ -25,6 +27,10 @@ interface Prop {
 
 const UserCard = ({ user, updatedAt, threadId, threadImages, body }: Prop) => {
   const navigate = useNavigate();
+  const { mutate } = useMutation(() => deletePost(threadId), {
+    onSuccess: () => navigate("/post/list"),
+    onError: () => console.log("에러"),
+  });
 
   return (
     <SUtils>
@@ -38,7 +44,7 @@ const UserCard = ({ user, updatedAt, threadId, threadImages, body }: Prop) => {
         onEdit={() =>
           navigate("/post/edit", { state: { body, threadId, threadImages } })
         }
-        onDelete={() => console.log("삭제")}
+        onDelete={() => mutate()}
       />
     </SUtils>
   );
