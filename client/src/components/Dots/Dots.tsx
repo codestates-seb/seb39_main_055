@@ -7,6 +7,7 @@ import {
   SCancelButton,
   SContainer,
   SDeleteButton,
+  SModalContainer,
   STab,
 } from "./style";
 
@@ -26,14 +27,14 @@ const Dots = ({ deleteModalTitle, onEdit, onDelete }: Prop) => {
   };
 
   return (
-    <>
+    <SContainer>
       <TbDots onClick={() => setIsTabOpen((prev) => !prev)} />
       <STab isOpen={isTabOpen} ref={tabRef}>
         <div onClick={() => onEdit()}>수정</div>
         <div
           onClick={() =>
             openModal(
-              <SContainer>
+              <SModalContainer>
                 <main>
                   <header>{deleteModalTitle}</header>
                   <p>삭제한 게시물은 다시 복원할 수 없습니다.</p>
@@ -46,14 +47,14 @@ const Dots = ({ deleteModalTitle, onEdit, onDelete }: Prop) => {
                     삭제
                   </SDeleteButton>
                 </SButtonContainer>
-              </SContainer>
+              </SModalContainer>
             )
           }
         >
           삭제
         </div>
       </STab>
-    </>
+    </SContainer>
   );
 };
 

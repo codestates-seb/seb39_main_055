@@ -2,6 +2,8 @@ import { HiOutlineHeart } from "react-icons/hi";
 import { TbDots } from "react-icons/tb";
 import styled from "styled-components";
 
+import { Dots } from "../../../../components";
+
 export const SList = styled.li`
   border-bottom: 1px solid #bdbdbd;
   display: flex;
@@ -101,7 +103,11 @@ const ReplyCard = ({ replyId, replyBody, createdAt, user }: Prop) => {
           <img src={user.image} alt="profile" />
           <span>{user.ninkname}</span>
         </SUserInfo2>
-        <TbDots />
+        <Dots
+          deleteModalTitle="댓글을 삭제하시겠습니까?"
+          onEdit={() => console.log(replyId)}
+          onDelete={() => console.log(replyId)}
+        />
       </SUtils2>
       <SBody2>{replyBody}</SBody2>
       <SBottom>

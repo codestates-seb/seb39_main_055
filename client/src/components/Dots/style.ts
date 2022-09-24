@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const SContainer = styled.div`
+  position: relative;
+`;
+
+export const SModalContainer = styled.div`
   & > main {
     display: flex;
     flex-direction: column;
@@ -52,7 +56,7 @@ export const SCancelButton = styled.button`
 export const STab = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: 0;
-  top: 50px;
+  top: 30px;
 
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;

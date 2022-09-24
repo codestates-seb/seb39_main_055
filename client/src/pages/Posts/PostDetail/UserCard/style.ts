@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
 export const SUtils = styled.section`
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 45px 0 50px 0;
 
   svg {
-    font-size: 50px;
+    font-size: 40px;
     color: #a5a5a5;
     cursor: pointer;
     transition: all 0.3s;
