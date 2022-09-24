@@ -86,7 +86,6 @@ export const STab = styled.div<{ isOpen: boolean }>`
 
     &:hover {
       font-weight: bold;
-      font-size: 18px;
     }
   }
 
