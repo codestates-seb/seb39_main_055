@@ -157,6 +157,8 @@ const PostDetail = () => {
         <h1>댕댕이숲</h1>
         <UserCard
           threadId={data.threadId}
+          threadImages={data.threadImages}
+          body={data.body}
           user={data.user}
           updatedAt={data.updatedAt}
         />
@@ -164,13 +166,9 @@ const PostDetail = () => {
           <Slider imageList={data.threadImages} />
         </SImageContainer>
         <SBody>{data.body}</SBody>
-        <SLikeContainer
-          isLike={isLike}
-          onClick={() => setIsLike((prev) => !prev)}
-        >
-          {/** 클릭시 하트 변경 */}
-          <HiOutlineHeart />
-          <span>20</span>
+        <SLikeContainer isLike={isLike}>
+          <HiOutlineHeart onClick={() => setIsLike((prev) => !prev)} />
+          <span>{data.likes}</span>
         </SLikeContainer>
       </SMainContainer>
       <SForm>

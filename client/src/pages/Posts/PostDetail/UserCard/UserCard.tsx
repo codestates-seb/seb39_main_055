@@ -1,8 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 import { Dots } from "../../../../components";
+import { PostData } from "../data";
 import { SUserInfo, SUtils } from "./style";
 
 interface Prop {
   threadId: string;
+  threadImages: {
+    image: string;
+    threadImageId: string;
+    threadImageStatus: string;
+  }[];
+  body: string;
   updatedAt: string;
   user: {
     ninkname: string;
@@ -15,7 +24,9 @@ interface Prop {
   };
 }
 
-const UserCard = ({ threadId, user, updatedAt }: Prop) => {
+const UserCard = ({ user, updatedAt, threadId, threadImages, body }: Prop) => {
+  const navigate = useNavigate();
+
   return (
     <SUtils>
       <SUserInfo>
@@ -25,7 +36,9 @@ const UserCard = ({ threadId, user, updatedAt }: Prop) => {
       </SUserInfo>
       <Dots
         deleteModalTitle="댕댕이 숲의 기록을 삭제하시겠습니까?"
-        onEdit={() => console.log("수정")}
+        onEdit={() =>
+          navigate("/post/edit", { state: { body, threadId, threadImages } })
+        }
         onDelete={() => console.log("삭제")}
       />
     </SUtils>
