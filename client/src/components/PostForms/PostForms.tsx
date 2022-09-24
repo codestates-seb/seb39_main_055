@@ -13,7 +13,6 @@ import {
   ThreadPostResponse,
 } from "../../types";
 import CustomEditor from "../Editor/CustomEditor/CustomEditor";
-import { Button } from "../Form";
 import PreviewImages from "./PreviewImages/PreviewImages";
 import { SBox, SButton, SEditorBox, SForm, SH1, SPostSection } from "./style";
 
@@ -63,7 +62,7 @@ const PostForms = ({
 
     const body = editorRef.current.getInstance().getHTML();
 
-    if (body.match(/^(<p><br><\/p>)|(<p>\s{1,}<\/p>)$/g)) {
+    if (body.match(/^(<p>(<br>|\s{1,})<\/p>)$/g)) {
       setBodyErr(true);
       return;
     }

@@ -45,7 +45,7 @@ const ReviewCard = ({
         <SRating>{rating}</SRating>
         <SReviewerP>
           <SName>{reviewer}</SName>
-          <SImg src={userImg} alt={`image of ${reviewer}`} />
+          <SImg src={userImg} alt={`image of ${reviewer}`} loading="lazy" />
         </SReviewerP>
       </SFooter>
     </SArticle>
