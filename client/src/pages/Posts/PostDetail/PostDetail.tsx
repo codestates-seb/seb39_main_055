@@ -1,6 +1,7 @@
 import { HiOutlineHeart } from "react-icons/hi";
 import styled from "styled-components";
 
+import { Slider } from "../../../components";
 import { detailData } from "./data";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
@@ -150,7 +151,8 @@ const PostDetail = () => {
         />
         <SImageContainer>
           {/** 슬라이드 */}
-          <img src={data.threadImages[0].image} alt="animal" />
+          <Slider imageList={data.threadImages} />
+          {/* <img src={data.threadImages[0].image} alt="animal" /> */}
         </SImageContainer>
         <SBody>{data.body}</SBody>
         <SLikeContainer>

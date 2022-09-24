@@ -7,3 +7,4 @@ export * from "./Main";
 export { Modal, useModal } from "./Modal";
 export { default as SearchAddress } from "./SearchAddress/SearchAddress";
 export { default as SharedLayout } from "./SharedLayout/SharedLayout";
+export { default as Slider } from "./Slider/Slider";
