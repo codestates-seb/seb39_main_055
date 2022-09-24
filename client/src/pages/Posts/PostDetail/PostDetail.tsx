@@ -98,7 +98,7 @@ export const SForm = styled.form`
   }
 `;
 
-export const SInputContainer = styled.section`
+export const SInputContainer = styled.section<{ isFocus: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -125,18 +125,13 @@ export const SInputContainer = styled.section`
   & > button {
     width: 65px;
     height: 100%;
-    color: #161616;
-    background-color: #dbdbdb;
+    color: ${({ isFocus }) => (isFocus ? "#ffffff" : "#161616")};
+    background-color: ${({ isFocus }) => (isFocus ? "#ffc107" : "#dbdbdb")};
     border: none;
     border-radius: 10px;
     font-size: 18px;
     font-family: "ONE-Mobile-Regular";
     transition: all 0.4s;
-
-    &:hover {
-      color: #ffffff;
-      background-color: #ffc107;
-    }
   }
 `;
 
@@ -150,6 +145,7 @@ export const SListContainer = styled.ul`
 const PostDetail = () => {
   const data = detailData;
   const [isLike, setIsLike] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
 
   return (
     <SContainer>
@@ -176,9 +172,14 @@ const PostDetail = () => {
           <span>댓글</span>
           <span>{data.replyList.length}</span>
         </header>
-        <SInputContainer>
+        <SInputContainer isFocus={isFocus}>
           {/** focus시 스타일 변경 */}
-          <input type="text" placeholder="다양한 이야기를 공유해주세요 :)" />
+          <input
+            type="text"
+            placeholder="다양한 이야기를 공유해주세요 :)"
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+          />
           <button type="submit">입력</button>
         </SInputContainer>
       </SForm>
