@@ -1,4 +1,6 @@
 import cat from "../../../assets/images/animal/cat.jpg";
+import pension1 from "../../../assets/images/mypage/pension2.png";
+import pension2 from "../../../assets/images/mypage/pension3.png";
 
 export interface PostData {
   threadId: string;
@@ -51,14 +53,18 @@ export const detailData: PostData = {
     latitude: "124",
     userRole: "test",
   },
-  threadImages: [{ image: cat, threadImageId: "1", threadImageStatus: "Test" }],
+  threadImages: [
+    { image: cat, threadImageId: "1", threadImageStatus: "Test" },
+    { image: pension1, threadImageId: "2", threadImageStatus: "Test" },
+    { image: pension2, threadImageId: "3", threadImageStatus: "Test" },
+  ],
   createdAt: "30분 전",
   updatedAt: "30분 전",
   replyList: [
     {
       replyId: "1",
       replyBody:
-        "각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!",
+        "각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!각잡고 자르려고 하지 마시고, 아이들 편히 자고 있을 때 잘라보세요!",
       createdAt: "30분 전",
       user: {
         ninkname: "우리집댕댕이",
