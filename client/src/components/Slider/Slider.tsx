@@ -22,12 +22,12 @@ export const Wrapper = styled.div`
 
   .swiper-button-next::after {
     color: white;
-    font-size: 2rem !important;
+    font-size: 30px !important;
   }
 
   .swiper-button-prev::after {
     color: white;
-    font-size: 2rem !important;
+    font-size: 30px !important;
   }
 `;
 
