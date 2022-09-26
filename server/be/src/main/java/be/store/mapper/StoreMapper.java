@@ -132,6 +132,8 @@ public interface StoreMapper {
         Store store = new Store();
         store.setStoreId(storeId);
 
+        store.setUser(userService.getLoginUser());
+
         // changing from StoreImageDto to StoreImage
         if(storePatchDto.getStoreImages()==null){
             System.out.printf("이미지 아무것도 안들어옴!!");

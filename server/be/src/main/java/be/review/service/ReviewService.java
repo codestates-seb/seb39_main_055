@@ -65,6 +65,6 @@ public class ReviewService {
     }
     public List<Review> findExistReviews(List<Review> reviews){// reviews인자중 status가 true인 것만 반환
         return reviews.stream().map(review -> reviewRepository.findByReviewIdAndReviewStatus(
-                review.getReviewId(),Review.ReviewStatus.REVIEW_EXIST)).filter(review -> review!=null).collect(Collectors.toList());
+                review.getReviewId(),Review.ReviewStatus.REVIEW_EXIST)).collect(Collectors.toList());
     }
 }
