@@ -41,7 +41,7 @@ const PostForms = ({
   mutateOptions,
 }: PostFormsProps) => {
   const [images, setImages] = useState<ThreadImages[]>(threadImages || []);
-  const [defaultImg, setDefaultImg] = useState(0);
+  const [defaultId, setDefaultId] = useState("");
   const [bodyErr, setBodyErr] = useState(false);
   const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
@@ -87,8 +87,8 @@ const PostForms = ({
             images={images}
             setImages={setImages}
             editorRef={editorRef}
-            defaultImg={defaultImg}
-            setDefaultImg={setDefaultImg}
+            defaultId={defaultId}
+            setDefaultId={setDefaultId}
           />
         </SPostSection>
       </SBox>

@@ -31,16 +31,16 @@ export interface PostImagesProps {
   images: ThreadImages[];
   setImages: Dispatch<SetStateAction<ThreadImages[]>>;
   editorRef: RefObject<Editor>;
-  defaultImg: number;
-  setDefaultImg: Dispatch<SetStateAction<number>>;
+  defaultId: string;
+  setDefaultId: Dispatch<SetStateAction<string>>;
 }
 
 const PreviewImages = ({
   images,
   setImages,
   editorRef,
-  defaultImg,
-  setDefaultImg,
+  defaultId,
+  setDefaultId,
 }: PostImagesProps) => {
   const workers = useRef<Worker[]>([]);
   const { openModal, closeModal } = useModal();
@@ -96,12 +96,17 @@ const PreviewImages = ({
     };
   }, []);
 
+  const defaultImage = images.filter(({ id }, i) => {
+    if (!defaultId) return i === 0;
+    return id === defaultId;
+  })[0];
+
   return (
     <SImageAside>
       <SaBox>
         <SbBox>
           {!!images.length && (
-            <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
+            <SRepImg src={defaultImage.uri} alt="대표 이미지" />
           )}
           <SaLabel>
             <p>사진을 추가해주세요.</p>
@@ -114,8 +119,8 @@ const PreviewImages = ({
             openModal(
               <DefaultImgSelect
                 images={images}
-                defaultImg={defaultImg}
-                setDefaultImg={setDefaultImg}
+                defaultId={defaultId}
+                setDefaultId={setDefaultId}
                 closeModal={closeModal}
               />
             )
