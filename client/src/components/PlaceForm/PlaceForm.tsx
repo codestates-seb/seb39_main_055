@@ -103,7 +103,7 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     refetch();
   };
 
-  const { refetch, isAddSuccess, isEditSuccess } = usePlace(
+  const { refetch, isAddSuccess, isEditSuccess, isLoading } = usePlace(
     {
       category: checkboxValue,
       addressName: addressValue,
@@ -248,7 +248,7 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
             placeholder="매장에 대한 설명을 입력해주세요."
             onChange={(e) => handleDescription(e)}
           />
-          <SButton>등록하기</SButton>
+          <SButton isPending={isLoading}>등록하기</SButton>
         </section>
       </SForm>
     </SContainer>

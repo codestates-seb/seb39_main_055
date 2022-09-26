@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 import { AxiosError } from "axios";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 
@@ -24,6 +25,7 @@ export interface UsePlaceForm {
 
 const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { mutate: fileMutate } = useMutation<
     string[],
@@ -48,6 +50,7 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
     () => getCoordinate(form.addressName),
     {
       enabled: false,
+      onSettled: () => setIsLoading(true),
       onSuccess: (coordinateData) => {
         if (!coordinateData.documents.length) {
           toast.error("주소를 상세하게 입력해주세요.");
@@ -75,13 +78,14 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
                 });
 
             queryClient.invalidateQueries("place"); // list 구현시 key 수정
+            setIsLoading(false);
           },
         });
       },
     }
   );
 
-  return { refetch, isAddSuccess, isEditSuccess };
+  return { refetch, isAddSuccess, isEditSuccess, isLoading };
 };
 
 export default usePlace;
