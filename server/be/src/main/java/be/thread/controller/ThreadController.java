@@ -64,20 +64,20 @@ public class ThreadController {
                 HttpStatus.OK);
     }
 
-    /**
-     * 댕댕이숲 글(thread) 좋아요 추가 or 취소 API
-     */
-    @PatchMapping("/user/thread/like/{thread-id}")
-    public ResponseEntity likeThread(@PathVariable("thread-id") @Positive @NotNull long threadId,
-                                     @Valid @RequestBody ThreadLikeDto threadLikeDto) {
-        // Request를 처리하기 위한 객체 생성. / 객체를 생성하는 메서드는 threadService에서 정의, 생성 메서드의 매개변수 생성은 mapper에서 만든다.
-        Thread likedThread = threadService.likeThread(threadId, threadLikeDto.getLikes());
-
-        // 생성된 객체를 처리하여 Response 반환
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, threadImageService,likedThread)),
-                HttpStatus.OK);
-    }
+//    /**
+//     * 댕댕이숲 글(thread) 좋아요 추가 or 취소 API
+//     */
+//    @PatchMapping("/user/thread/like/{thread-id}")
+//    public ResponseEntity likeThread(@PathVariable("thread-id") @Positive @NotNull long threadId,
+//                                     @Valid @RequestBody ThreadLikeDto threadLikeDto) {
+//        // Request를 처리하기 위한 객체 생성. / 객체를 생성하는 메서드는 threadService에서 정의, 생성 메서드의 매개변수 생성은 mapper에서 만든다.
+//        Thread likedThread = threadService.likeThread(threadId, threadLikeDto.getLikes());
+//
+//        // 생성된 객체를 처리하여 Response 반환
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, threadImageService,likedThread)),
+//                HttpStatus.OK);
+//    }
 
     /**
      * 댕댕이숲 글(thread) 삭제 API

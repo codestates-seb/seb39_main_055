@@ -106,15 +106,15 @@ public class ThreadService {
         return findThread;
     }
 
-    /**
-     * Thread에 좋아요 추가 or 취소 - biz logic
-     */
-    @Transactional
-    public Thread likeThread(long threadId, int likes) {
-        Thread findThread = findVerifiedThread(threadId); // 작성한 글이 DB에 없다면 예외 처리
-
-        return findThread;
-    }
+//    /**
+//     * Thread에 좋아요 추가 or 취소 - biz logic
+//     */
+//    @Transactional
+//    public Thread likeThread(long threadId, int likes) {
+//        Thread findThread = findVerifiedThread(threadId); // 작성한 글이 DB에 없다면 예외 처리
+//
+//        return findThread;
+//    }
 
     /**
      * Thread 삭제 (실제로는 '존재하지 않음' 상태로 변경) - biz logic
