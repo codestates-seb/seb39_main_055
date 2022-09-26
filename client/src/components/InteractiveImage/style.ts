@@ -20,8 +20,8 @@ export const SP = styled.p<LabelProps>`
   align-items: center;
   z-index: 1;
   color: rgba(0, 0, 0, 0);
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
+  padding: 5px;
   background-color: rgba(0, 0, 0, 0);
   transition: 600ms all;
 

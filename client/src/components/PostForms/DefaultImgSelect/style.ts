@@ -10,7 +10,7 @@ export const SMImgUList = styled.ul`
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   grid-template-rows: repeat(auto-fit, minmax(0, 100px));
   gap: 10px;
-  margin-top: 17px;
+  margin-top: 20px;
   max-height: 70vh;
   overflow-y: scroll;
 `;
@@ -28,9 +28,4 @@ export const SMImgList = styled.li<SelectedImg>`
   border-radius: 5px;
 
   border: ${({ selected }) => (selected ? "4px solid #FFD801" : "")};
-`;
-
-export const SMImg = styled.img`
-  object-fit: cover;
-  max-height: 100%;
 `;
