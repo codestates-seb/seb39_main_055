@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
 import love from "../../../assets/icons/love.png";
-import user from "../../../assets/images/mypage/user.png";
+import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { recentPlace } from "./RecentDummyData";
 
 const SContainer = styled.div`
@@ -121,7 +121,7 @@ const RecentList = () => {
                 src={
                   place.storeImages.length >= 1
                     ? place.storeImages[0].storeImage
-                    : user
+                    : defaultImg
                 } // 기본 이미지 수정 예정
                 alt="장소이미지"
                 key={place.storeId}
