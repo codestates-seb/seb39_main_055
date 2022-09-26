@@ -6,7 +6,9 @@ import be.heart.dto.HeartResponseDto;
 import be.heart.entity.Heart;
 import be.heart.mapper.HeartMapper;
 import be.heart.service.HeartService;
+import be.response.MultiResponseDto;
 import be.review.dto.ReviewResponseDto;
+import be.review.entity.Review;
 import be.review.mapper.ReviewMapper;
 import be.review.service.ReviewService;
 import be.store.dto.*;
@@ -23,6 +25,7 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +85,50 @@ public interface StoreMapper {
                     storeImageResponseDto.setStoreImageStatus(storeImage.getStoreImageStatus());
                     return  storeImageResponseDto;
                 }).collect(Collectors.toList());
+    }
+
+    default StoreAndReviewResponseDto storeToStoreAndReviewResponseDto(ReviewService reviewService,HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService,
+                                                                       Store store, Integer reviewPage,Integer reviewSize,String reviewSort){
+
+        System.out.println("여기3");
+        StoreAndReviewResponseDto storeAndReviewResponseDto = new StoreAndReviewResponseDto();
+        storeAndReviewResponseDto.setStoreId(store.getStoreId());
+        storeAndReviewResponseDto.setCreatedAt(store.getCreatedAt());
+        storeAndReviewResponseDto.setUpdatedAt(store.getUpdatedAt());
+        storeAndReviewResponseDto.setStoreStatus(store.getStoreStatus());
+        storeAndReviewResponseDto.setCategory(store.getCategory());
+        storeAndReviewResponseDto.setLongitude(store.getLongitude());
+        storeAndReviewResponseDto.setLatitude(store.getLatitude());
+        storeAndReviewResponseDto.setStoreName(store.getName());
+        storeAndReviewResponseDto.setAddressName(store.getAddressName());
+        storeAndReviewResponseDto.setBody(store.getBody());
+        storeAndReviewResponseDto.setPhone(store.getPhone());
+        storeAndReviewResponseDto.setHomepage(store.getHomepage());
+
+        UserResponseDto userResponseDto = userMapper.userToUserResponseDto(store.getUser());
+        storeAndReviewResponseDto.setUser(userResponseDto);
+
+        System.out.println("여기2");
+        storeAndReviewResponseDto.setStoreImages(storeImagesToStoreImageResponseDtos(//가게에 대한 이미지 속성 추가
+                storeImageService.findVerifiedStoreImages(store)//해당 스토어의 스토어이미지들 중에서 status가 STORE_IMAGE_EXIST것만 반환
+        ));
+
+        Page<Review> pageReviews = reviewService.findExistReviewsToPaginationAndSort(
+                store,reviewPage,reviewSize,reviewSort);// store의 reviews중 status가 true인 것만 페이지네이션 정렬해서 반환
+        List<Review> reviews = pageReviews.getContent();
+        System.out.println(pageReviews.getContent());
+        storeAndReviewResponseDto.setReviews(new MultiResponseDto<>(
+                reviewMapper.reviewsToReviewResponseDtos(userMapper,reviews),pageReviews
+        ));
+
+        System.out.println("여기5");
+
+
+        List<Heart> hearts = heartService.findExistHeartsByStore(store);//해당 store의 하트중에 Status가 HEART_EXIST인 하트들만 반환
+        List<Long> heartUserId = hearts.stream().map(heart -> heart.getUser().getUserId()).collect(Collectors.toList());
+        storeAndReviewResponseDto.setHeartUserId(heartUserId);
+
+        return storeAndReviewResponseDto;
     }
 
     default StoreResponseDto storeToStoreResponseDto(ReviewService reviewService,HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService, Store store){

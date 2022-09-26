@@ -93,21 +93,22 @@ public class StoreController {
     }
 
 
-//    /**
-//     * 선택한 스토어의 상세페이지 이동 API
-//     * **/
-//    @GetMapping("/store/{question-id}")
-//    public ResponseEntity getQuestion(@PathVariable("store-id") @Positive @NotNull Long storeId,
-//                                      @Positive @RequestParam("page") Integer reviewPage,
-//                                      @Positive @RequestParam("size") Integer reviewSize,
-//                                      @RequestParam("sort") String reviewSort){
-//
-//        Store store = storeService.findStore(storeId);
-//        return new ResponseEntity<>(new SingleResponseDto<>(
-//                mapper.questionToQuestionAndAnswerResponseDto(answerService,answerMapper,userMapper,question,
-//                        answerPage,answerSize,answerSort,questionTagService)),
-//                HttpStatus.OK);
-//    }
+    /**
+     * 선택한 스토어의 상세페이지 이동 API
+     * **/
+    @GetMapping("/store/{store-id}")
+    public ResponseEntity getQuestion(@PathVariable("store-id") @Positive @NotNull Long storeId,
+                                      @Positive @RequestParam("page") Integer reviewPage,
+                                      @Positive @RequestParam("size") Integer reviewSize,
+                                      @RequestParam("sort") String reviewSort){
+
+        Store store = storeService.findVerifiedStore(storeId);
+        System.out.println("여기1");
+        return new ResponseEntity<>(new SingleResponseDto<>(
+                mapper.storeToStoreAndReviewResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,
+                        store,reviewPage,reviewSize,reviewSort)),
+                HttpStatus.OK);
+    }
 
 
 
