@@ -147,7 +147,7 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
 
   return (
     <SContainer>
-      <h1>매장 등록</h1>
+      <h1>{isEditPage ? "매장 수정" : "매장 등록"}</h1>
       <SForm onSubmit={handleSubmit}>
         <section>
           <PreviewImages
@@ -248,7 +248,9 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
             placeholder="매장에 대한 설명을 입력해주세요."
             onChange={(e) => handleDescription(e)}
           />
-          <SButton isPending={isLoading}>등록하기</SButton>
+          <SButton isPending={isLoading}>
+            {isEditPage ? "수정하기" : "등록하기"}
+          </SButton>
         </section>
       </SForm>
     </SContainer>
