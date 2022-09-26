@@ -30,9 +30,9 @@ import {
 export interface PostImagesProps {
   images: ThreadImages[];
   setImages: Dispatch<SetStateAction<ThreadImages[]>>;
-  editorRef: RefObject<Editor>;
-  defaultId: string;
-  setDefaultId: Dispatch<SetStateAction<string>>;
+  editorRef?: RefObject<Editor>;
+  defaultImg: number;
+  setDefaultImg: Dispatch<SetStateAction<number>>;
 }
 
 const PreviewImages = ({
@@ -51,9 +51,12 @@ const PreviewImages = ({
       const workerInst = workers.current.length;
       const L = Math.ceil((images || []).length / workerInst);
 
-      if (!images?.length || !editorRef.current) return;
+      if (editorRef) {
+        if (!images?.length || !editorRef.current) return;
+        editorRef.current.getInstance().focus();
+      }
 
-      editorRef.current.getInstance().focus();
+      if (!images?.length) return;
 
       workers.current.forEach((wk, i) => {
         const startI = L * i + i;
@@ -115,6 +118,7 @@ const PreviewImages = ({
           <SFileInput accept="image/*" onChange={handleSelectImages} />
         </SbBox>
         <SaButton
+          type="button"
           onClick={() =>
             openModal(
               <DefaultImgSelect

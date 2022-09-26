@@ -25,7 +25,6 @@ export const SMainContainer = styled.main`
   & > h1 {
     color: #707070;
     font-size: 40px;
-    /* font-family: "ONE-Mobile-Bold"; */
   }
 `;
 
@@ -168,7 +167,6 @@ const PostDetail = () => {
         <span>{data.replyList.length}</span>
       </SCommentHeader>
       <SInputContainer isFocus={isFocus}>
-        {/** focus시 스타일 변경 */}
         <input
           type="text"
           placeholder="다양한 이야기를 공유해주세요 :)"

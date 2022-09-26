@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 const SFooter = styled.footer`
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  width: 100%;
   height: 300px;
   color: ${({ theme }) => theme.colors.black500};
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 20px;
   border-top: 1px solid #f0f0f0;
@@ -20,19 +20,27 @@ const SFooter = styled.footer`
 export const SMain = styled.main`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
-  margin: 0 auto;
-  padding: 0 30px;
+  width: 1130px;
 
   & > h3 {
     font-family: "Noto Sans KR", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
+    margin-bottom: 10px;
   }
 
   & > h4 {
+    margin: 10px 0;
+    font-size: 16px;
     font-family: "Noto Sans KR", sans-serif;
     font-weight: 600;
+  }
+
+  @media screen and (max-width: 1130px) {
+    width: 100%;
+    padding: 0 20px;
   }
 `;
 
@@ -43,7 +51,8 @@ const Footer = () => {
         <h3>(주) With pet</h3>
         <p>
           대표이사: 모상빈 <strong>|</strong> 김성현 <strong>|</strong> 심소영{" "}
-          <strong>|</strong> 윤준영 <strong>|</strong> 박소영
+          <strong>|</strong> 윤준영 <strong>|</strong> 박소영 <strong>|</strong>{" "}
+          최지인 <strong>|</strong> 나다운
         </p>
         <p>
           <span>
