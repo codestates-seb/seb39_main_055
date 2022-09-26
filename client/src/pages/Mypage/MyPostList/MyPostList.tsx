@@ -23,7 +23,7 @@ const SContainer = styled.div`
   width: 100%;
 
   height: auto;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 40px 80px 40px;
 
   @media (max-width: 900px) {
     justify-content: center;
