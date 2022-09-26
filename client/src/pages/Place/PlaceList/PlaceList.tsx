@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 const PlaceList = () => {
   const state = {
-    storeId: "14",
+    storeId: "2",
     category: "맛집",
     longitude: 127.045232157226,
     latitude: 170,
