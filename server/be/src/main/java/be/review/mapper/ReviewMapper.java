@@ -18,6 +18,7 @@ import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,8 +66,13 @@ public interface ReviewMapper {
     }
 
     default List<ReviewResponseDto> reviewsToReviewResponseDtos(UserMapper userMapper,List<Review> reviews){
-        return reviews.stream().map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
-    };
+       if(reviews == null){
+           return new ArrayList<>();
+       }else{
+           return reviews.stream().map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
+       }
+
+    }
 
     default Review reviewPatchDtoToReview(ReviewService reviewService, UserService userService, long reviewId, ReviewPatchDto reviewPatchDto){
         if(userService.getLoginUser()!=reviewService.findUserAtReview(reviewId)){

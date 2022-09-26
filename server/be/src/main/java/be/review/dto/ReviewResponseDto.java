@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class ReviewResponseDto {
-    private long reviewId;
+    private Long reviewId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Review.ReviewStatus reviewStatus;

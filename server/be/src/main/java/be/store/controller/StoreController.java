@@ -1,5 +1,8 @@
 package be.store.controller;
 
+import be.heart.mapper.HeartMapper;
+import be.heart.service.HeartService;
+import be.response.MultiResponseDto;
 import be.response.SingleResponseDto;
 import be.review.mapper.ReviewMapper;
 import be.store.dto.StorePatchDto;
@@ -12,6 +15,7 @@ import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
@@ -33,6 +39,7 @@ public class StoreController {
     private final UserMapper userMapper;
     private final StoreImageService storeImageService;
     private final ReviewMapper reviewMapper;
+    private final HeartService heartService;
 
     /**
      * 업주 매장 등록 API
@@ -42,7 +49,7 @@ public class StoreController {
         Store store = mapper.storePostDtoToStore(userService,storePostDto);
         Store createdStore = storeService.createStore(store);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.storeToStoreResponse(reviewMapper,userMapper,storeImageService,createdStore)), HttpStatus.CREATED
+                new SingleResponseDto<>(mapper.storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,createdStore)), HttpStatus.CREATED
         );
     }
 
@@ -56,12 +63,32 @@ public class StoreController {
         Store updatedStore = storeService.updateStore(store);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.storeToStoreResponse(reviewMapper,userMapper,storeImageService,updatedStore)),
+                new SingleResponseDto<>(mapper.storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,updatedStore)),
                 HttpStatus.OK
         );
 
     }
 
+    /**
+     * 해당 카테고리의 전체 스토어 반환 API
+     * **/
+    @GetMapping("/store")
+    public ResponseEntity getStores(@Pattern(regexp = "(^숙소$)|(^미용$)|(^카페$)|(^맛집$)|(^운동장$)|(^동물병원$)",
+            message = "숙소,미용,카페,맛집,운동장,동물병원중에 선택해주세요.") @RequestParam("category") String category,
+                                    @Positive @RequestParam("page") int page,
+                                    @Positive @RequestParam("size") int size,
+                                    @RequestParam("sort") String sort,
+                                    @RequestParam(value = "latitude",required = false) Double latitude,
+                                    @RequestParam(value = "longitude",required = false) Double longitude){
+        System.out.println(latitude);
+        Page<Store> pageStores = storeService.findStores(page-1,size,sort,category,latitude,longitude);
+
+        List<Store> stores = pageStores.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                mapper.storesToStoreResponseDtos(heartService,reviewMapper,userMapper,storeImageService,stores),
+                pageStores),HttpStatus.OK);
+    }
 
 
 }

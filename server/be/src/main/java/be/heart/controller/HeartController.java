@@ -48,7 +48,7 @@ public class HeartController {
         Heart heart = mapper.heartPostDtoToHeart(storeService,userService,heartPostDto);
         Heart createdHeart = heartService.createHeart(heart);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.heartToHeartResponseDto(reviewMapper,storeMapper,userMapper,storeImageService,createdHeart)),
+                new SingleResponseDto<>(mapper.heartToHeartResponseDto(heartService,reviewMapper,storeMapper,userMapper,storeImageService,createdHeart)),
                 HttpStatus.CREATED
         );
     }
@@ -64,7 +64,7 @@ public class HeartController {
         Heart updatedHeart = heartService.updateHeart(heart);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.heartToHeartResponseDto(reviewMapper,storeMapper,userMapper,storeImageService,updatedHeart)),
+                new SingleResponseDto<>(mapper.heartToHeartResponseDto(heartService,reviewMapper,storeMapper,userMapper,storeImageService,updatedHeart)),
                 HttpStatus.OK
         );
 
@@ -82,7 +82,7 @@ public class HeartController {
         List<Heart> hearts = pageHearts.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(
-                mapper.heartsToHeartResponseDtos(reviewMapper,storeMapper,userMapper,storeImageService,hearts),
+                mapper.heartsToHeartResponseDtos(heartService,reviewMapper,storeMapper,userMapper,storeImageService,hearts),
                 pageHearts),HttpStatus.OK);
     }
 

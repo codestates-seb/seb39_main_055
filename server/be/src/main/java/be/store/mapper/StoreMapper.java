@@ -2,6 +2,10 @@ package be.store.mapper;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.heart.dto.HeartResponseDto;
+import be.heart.entity.Heart;
+import be.heart.mapper.HeartMapper;
+import be.heart.service.HeartService;
 import be.review.dto.ReviewResponseDto;
 import be.review.mapper.ReviewMapper;
 import be.store.dto.*;
@@ -13,9 +17,11 @@ import be.user.dto.UserResponseDto;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
 import be.user.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface StoreMapper {
+
 
     default  Store storePostDtoToStore(UserService userService,StorePostDto storePostDto){
         Store store = new Store();
@@ -71,11 +78,12 @@ public interface StoreMapper {
                 .map(storeImage -> {
                     StoreImageResponseDto storeImageResponseDto =  new StoreImageResponseDto();
                     storeImageResponseDto.setStoreImage(storeImage.getImage());
+                    storeImageResponseDto.setStoreImageStatus(storeImage.getStoreImageStatus());
                     return  storeImageResponseDto;
                 }).collect(Collectors.toList());
     }
 
-    default StoreResponseDto storeToStoreResponse(ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService, Store store){
+    default StoreResponseDto storeToStoreResponseDto(HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService, Store store){
         StoreResponseDto storeResponseDto = new StoreResponseDto();
         storeResponseDto.setStoreId(store.getStoreId());
         storeResponseDto.setCreatedAt(store.getCreatedAt());
@@ -97,13 +105,22 @@ public interface StoreMapper {
                 storeImageService.findVerifiedStoreImages(store)
         ));
 
-        //리뷰 추가
         List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(userMapper,store.getReviews());
         storeResponseDto.setReviews(reviewResponseDtos);
 
 
+        List<Heart> hearts = heartService.findExistHeartsByStore(store);//해당 store의 하트중에 Status가 HEART_EXIST인 하트들만 반환
+        List<Long> heartUserId = hearts.stream().map(heart -> heart.getUser().getUserId()).collect(Collectors.toList());
+        storeResponseDto.setHeartUserId(heartUserId);
+
+
         return storeResponseDto;
     }
+
+    default List<StoreResponseDto> storesToStoreResponseDtos(HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService,List<Store> stores){
+        return stores.stream().map(store -> storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,store))
+                .collect(Collectors.toList());
+    };
 
     default Store storePatchDtoToStore(StoreService storeService,UserService userService, long storeId, StorePatchDto storePatchDto){
 

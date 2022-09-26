@@ -1,5 +1,6 @@
 package be.store.dto;
 
+import be.heart.dto.HeartResponseDto;
 import be.review.dto.ReviewResponseDto;
 import be.store.entity.Store;
 import be.user.dto.UserResponseDto;
@@ -29,5 +30,8 @@ public class StoreResponseDto {
 
     //리뷰추가
     private List<ReviewResponseDto> reviews;
+
+    //해당 store를 heart누른 유저id 추가 // 클라이언트에서 해당 유저가 하트를 눌렀으면 하트를 눌렀다는 표시를 해주어야 하기 때문에 추가
+    private List<Long> heartUserId;
 
 }

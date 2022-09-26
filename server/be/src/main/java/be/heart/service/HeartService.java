@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,4 +75,8 @@ public class HeartService {
             throw new BusinessLogicException(ExceptionCode.HEART_EXIST);
 
     }
+    public List<Heart> findExistHeartsByStore(Store store){ //해당 store의 하트중에 Status가 HEART_EXIST인 하트들만 반환
+        return heartRepository.findByStoreAndHeartStatus(store, Heart.HeartStatus.HEART_EXIST);
+    }
+
 }
