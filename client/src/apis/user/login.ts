@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
-import { logInUser, setUserInfos, useAppDispatch } from "../../redux";
+import { initializeUserInfos, logInUser, useAppDispatch } from "../../redux";
 import { axiosInstance, isKeyOf } from "../../utils";
 
 interface LoginForm {
@@ -64,7 +64,7 @@ export default function useLogin() {
       dispatch(logInUser({ token, keepLoggedIn }));
 
       const userInfos = await fetchUserInfos();
-      dispatch(setUserInfos(userInfos));
+      dispatch(initializeUserInfos(userInfos));
     },
     onError: async (data) => {
       const { response } = data;
