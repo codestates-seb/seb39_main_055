@@ -16,4 +16,6 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     Optional<Heart> findByUserAndStoreAndHeartStatus(User user, Store store, Heart.HeartStatus heartStatus);
 
     Page<Heart> findByUserAndHeartStatus(Pageable pageable, User user, Heart.HeartStatus heartStatus);
+
+    List<Heart> findByStoreAndHeartStatus(Store store,Heart.HeartStatus heartStatus);
 }
