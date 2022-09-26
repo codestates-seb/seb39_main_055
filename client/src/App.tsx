@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { fetchUserInfos } from "./apis/user/login";
 import { Modal, SharedLayout } from "./components";
 import {
+  EditPlace,
   EditPost,
   Login,
   Main,
@@ -44,6 +45,7 @@ const PlaceRouter = () => {
     <Routes>
       <Route path="/new" element={<NewPlace />} />
       <Route path="/list" element={<PlaceList />} />
+      <Route path="/edit" element={<EditPlace />} />
     </Routes>
   );
 };

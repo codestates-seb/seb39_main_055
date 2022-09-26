@@ -14,5 +14,5 @@ export const useCheckbox = (defaultValue: string) => {
     setCheckboxValue(target.value);
   };
 
-  return { checkboxValue, handleCheckboxClick };
+  return { checkboxValue, handleCheckboxClick, setCheckboxValue };
 };
