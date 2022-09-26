@@ -142,11 +142,11 @@ const SMyContents = styled.div`
   `)}
 `;
 
-const SBorderLine = styled.div`
+const SBorderLine = styled.span`
   margin: 5% 0%;
   align-items: center;
-  border-left: 1px solid ${({ theme }) => theme.colors.black100};
-  height: 90%;
+  border-left: 1px solid ${({ theme }) => theme.colors.black050};
+  height: 1230px;
 
   // ${mobile(css`
     //   display: none;
@@ -294,7 +294,7 @@ const Mypage = () => {
           </SMyInfo>
         </SMyInfoContainer>
         <SBorderLine>
-          <div />
+          <span />
         </SBorderLine>
         <SMyContents>
           <HeartList />
