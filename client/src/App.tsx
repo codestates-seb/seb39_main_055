@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { fetchUserInfos } from "./apis/user/login";
 import { Modal, SharedLayout } from "./components";
 import {
+  EditPost,
   Login,
   Main,
   Mypage,
@@ -25,6 +26,26 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "./redux";
+
+const PostRouter = () => {
+  return (
+    <Routes>
+      <Route path="/new" element={<NewPost />} />
+      <Route path="/edit" element={<EditPost />} />
+      <Route path="/list" element={<PostList />} />
+      <Route path="/:id" element={<PostDetail />} />
+    </Routes>
+  );
+};
+
+const PlaceRouter = () => {
+  return (
+    <Routes>
+      <Route path="/new" element={<NewPlace />} />
+      <Route path="/list" element={<PlaceList />} />
+    </Routes>
+  );
+};
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -55,11 +76,8 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<Mypage />} />
-            <Route path="/place/new" element={<NewPlace />} />
-            <Route path="/place/list" element={<PlaceList />} />
-            <Route path="/post/new" element={<NewPost />} />
-            <Route path="/post/list" element={<PostList />} />
-            <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/place/*" element={<PlaceRouter />} />
+            <Route path="/post/*" element={<PostRouter />} />
             <Route path="/search/*" element={<Search />} />
           </Route>
         </Routes>
@@ -68,10 +86,5 @@ const App = () => {
     </>
   );
 };
-
-// post/new
-// post/edit
-// post/list
-// post/detail
 
 export default App;

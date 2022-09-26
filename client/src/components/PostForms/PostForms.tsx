@@ -13,7 +13,6 @@ import {
   ThreadPostResponse,
 } from "../../types";
 import CustomEditor from "../Editor/CustomEditor/CustomEditor";
-import { Button } from "../Form";
 import PreviewImages from "./PreviewImages/PreviewImages";
 import { SBox, SButton, SEditorBox, SForm, SH1, SPostSection } from "./style";
 
@@ -42,7 +41,7 @@ const PostForms = ({
   mutateOptions,
 }: PostFormsProps) => {
   const [images, setImages] = useState<ThreadImages[]>(threadImages || []);
-  const [defaultImg, setDefaultImg] = useState(0);
+  const [defaultId, setDefaultId] = useState("");
   const [bodyErr, setBodyErr] = useState(false);
   const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
@@ -63,7 +62,7 @@ const PostForms = ({
 
     const body = editorRef.current.getInstance().getHTML();
 
-    if (body.match(/^(<p><br><\/p>)|(<p>\s{1,}<\/p>)$/g)) {
+    if (body.match(/^(<p>(<br>|\s{1,})<\/p>)$/g)) {
       setBodyErr(true);
       return;
     }
@@ -88,8 +87,8 @@ const PostForms = ({
             images={images}
             setImages={setImages}
             editorRef={editorRef}
-            defaultImg={defaultImg}
-            setDefaultImg={setDefaultImg}
+            defaultId={defaultId}
+            setDefaultId={setDefaultId}
           />
         </SPostSection>
       </SBox>
