@@ -6,10 +6,10 @@ export interface EditPlacePayload extends AddPlacePayload {
   storeId: string;
 }
 
-export const editPlace = async (form: EditPlacePayload): Promise<Store> => {
+export const editPlace = async (payload: EditPlacePayload): Promise<Store> => {
   const { data } = await axiosInstance.patch(
-    `v1/owner/store/update/${form.storeId}`,
-    form,
+    `v1/owner/store/update/${payload.storeId}`,
+    payload,
     {
       headers: { tokenNeeded: true },
     }

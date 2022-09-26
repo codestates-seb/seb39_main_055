@@ -38,6 +38,8 @@ interface Prop {
 
 const NewPlace = ({ isEditPage, state }: Prop) => {
   const navigate = useNavigate();
+  const [images, setImages] = useState<ThreadImages[]>([]);
+  const [defaultId, setDefaultId] = useState("");
   const { checkboxValue, handleCheckboxClick, setCheckboxValue } =
     useCheckbox("숙소");
   const [nameValue, nameError, handleName, checkName, setNameValue] =
@@ -78,23 +80,6 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     setDescriptionValue,
   ] = useValidate(descriptionValidation);
 
-  const [images, setImages] = useState<ThreadImages[]>([]);
-  const [defaultId, setDefaultId] = useState("");
-
-  const { refetch, isSuccess } = usePlace(
-    {
-      category: checkboxValue,
-      addressName: addressValue,
-      body: descriptionValue,
-      storeName: nameValue,
-      phone: phoneNumberValue,
-      homepage: homePageValue,
-      storeImages: images,
-    },
-    isEditPage,
-    state?.storeId as string
-  );
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -118,6 +103,20 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     refetch();
   };
 
+  const { refetch, isAddSuccess, isEditSuccess } = usePlace(
+    {
+      category: checkboxValue,
+      addressName: addressValue,
+      body: descriptionValue,
+      storeName: nameValue,
+      phone: phoneNumberValue,
+      homepage: homePageValue,
+      storeImages: images,
+    },
+    isEditPage,
+    state?.storeId as string
+  );
+
   useEffect(() => {
     if (isEditPage && state) {
       setNameValue(state.storeName);
@@ -129,11 +128,12 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
       setDescriptionValue(state.body);
     }
 
-    if (isSuccess) {
+    if (isAddSuccess || isEditSuccess) {
       navigate("/"); // list 페이지 구현되면 수정
     }
   }, [
-    isSuccess,
+    isAddSuccess,
+    isEditSuccess,
     navigate,
     isEditPage,
     state,

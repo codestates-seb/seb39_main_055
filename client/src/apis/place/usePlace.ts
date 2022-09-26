@@ -31,13 +31,13 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
     UsePlaceForm
   >((payload) => uploadImages(payload.storeImages));
 
-  const { mutate: addPlaceMutate, isSuccess } = useMutation<
+  const { mutate: addPlaceMutate, isSuccess: isAddSuccess } = useMutation<
     Store,
     AxiosError<ErrorResponse>,
     AddPlacePayload
   >((payload) => addPlace(payload));
 
-  const { mutate: editPlaceMutate } = useMutation<
+  const { mutate: editPlaceMutate, isSuccess: isEditSuccess } = useMutation<
     Store,
     AxiosError<ErrorResponse>,
     EditPlacePayload
@@ -81,7 +81,7 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
     }
   );
 
-  return { refetch, isSuccess };
+  return { refetch, isAddSuccess, isEditSuccess };
 };
 
 export default usePlace;
