@@ -2,13 +2,17 @@ import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 
-interface UserInfos {
+export interface UserInfosRequest {
   nickname: string;
-  userStatus: string;
-  email: string;
   image: string;
   latitude: number;
   longitude: number;
+}
+
+export interface UserInfos extends UserInfosRequest {
+  userStatus: string;
+  userRole: string;
+  email: string;
   hearts?: unknown[];
   threads?: unknown[];
 }
@@ -23,6 +27,7 @@ interface User {
 const initialUserInfos = {
   nickname: "",
   userStatus: "",
+  userRole: "",
   email: "",
   image: "",
   latitude: 0,
@@ -62,12 +67,31 @@ const userSlice = createSlice({
     initializeUserInfos: (state, { payload }: PayloadAction<UserInfos>) => {
       state.userInfos = { ...payload, hearts: [], threads: [] };
     },
+    changeUserNickname: (state, { payload }: PayloadAction<string>) => {
+      if (!state.userInfos) {
+        state.userInfos = { ...initialUserInfos, nickname: payload };
+      }
+
+      state.userInfos.nickname = payload;
+    },
     changeUserImage: (state, { payload }: PayloadAction<string>) => {
       if (!state.userInfos) {
         state.userInfos = { ...initialUserInfos, image: payload };
       }
 
       state.userInfos.image = payload;
+    },
+    changeUserAddress: (
+      state,
+      { payload }: PayloadAction<Pick<UserInfos, "latitude" | "longitude">>
+    ) => {
+      const { latitude, longitude } = payload;
+      if (!state.userInfos) {
+        state.userInfos = { ...initialUserInfos, latitude, longitude };
+      }
+
+      state.userInfos.latitude = latitude;
+      state.userInfos.longitude = longitude;
     },
     /* changeUserInfos: (
       state,
@@ -85,6 +109,12 @@ const userSlice = createSlice({
 export const selectUser = (state: RootState) => state.user;
 export const selectUserInfos = (state: RootState) => state.user.userInfos;
 
-export const { logInUser, initializeUserInfos, changeUserImage, logOutUser } =
-  userSlice.actions;
+export const {
+  logInUser,
+  initializeUserInfos,
+  changeUserNickname,
+  changeUserImage,
+  changeUserAddress,
+  logOutUser,
+} = userSlice.actions;
 export const userReducer: Reducer<typeof initialUser> = userSlice.reducer;
