@@ -22,9 +22,15 @@ interface Prop {
   setCoordinate?: React.Dispatch<
     React.SetStateAction<{ longitude: string; latitude: string }>
   >;
+  className?: string;
 }
 
-const SearchAddress = ({ setValue, setError, setCoordinate }: Prop) => {
+const SearchAddress = ({
+  setValue,
+  setError,
+  setCoordinate,
+  className,
+}: Prop) => {
   const open = useDaumPostcodePopup();
 
   const handleComplete = (data: any) => {
@@ -58,7 +64,7 @@ const SearchAddress = ({ setValue, setError, setCoordinate }: Prop) => {
   };
 
   return (
-    <SButton onClick={handleClick} type="button">
+    <SButton onClick={handleClick} className={className} type="button">
       주소 검색
     </SButton>
   );
