@@ -2,6 +2,7 @@ package be.thread.entity;
 
 import be.audit.BaseEntity;
 import be.heart.entity.Heart;
+import be.likes.entity.Likes;
 import be.reply.entity.Reply;
 import be.user.entity.User;
 import lombok.Getter;
@@ -30,14 +31,14 @@ public class Thread extends BaseEntity {
     @Column(nullable = false,columnDefinition = "TEXT")
     private String body;
 
-    @Column(nullable = false)
-    private Integer likes;
-
     @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<ThreadImage> threadImages;
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Reply> replies;
+
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Likes> likes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")

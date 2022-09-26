@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -72,7 +73,8 @@ public class StoreController {
      * 해당 카테고리의 전체 스토어 반환 API
      * **/
     @GetMapping("/store")
-    public ResponseEntity getStores(@RequestParam("category") String category,
+    public ResponseEntity getStores(@Pattern(regexp = "(^숙소$)|(^미용$)|(^카페$)|(^맛집$)|(^운동장$)|(^동물병원$)",
+            message = "숙소,미용,카페,맛집,운동장,동물병원중에 선택해주세요.") @RequestParam("category") String category,
                                     @Positive @RequestParam("page") int page,
                                     @Positive @RequestParam("size") int size,
                                     @RequestParam("sort") String sort,

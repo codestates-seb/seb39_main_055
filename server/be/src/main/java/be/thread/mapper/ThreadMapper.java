@@ -23,7 +23,6 @@ public interface ThreadMapper {
     default Thread threadPostDtoToThread(UserService userService, ThreadPostDto threadPostDto) {
         Thread thread = new Thread();
 
-        thread.setLikes(0); // thread 생성되는 순간, 좋아요(likes)는 당연히 0개
 
         // 하나의 thread에 1장 or 여러 장의 image를 올릴 수도 있고, image 업로드 없이 thread를 등록할 수도 있다.
         if(threadPostDto.getThreadImages() == null) {
@@ -105,7 +104,6 @@ public interface ThreadMapper {
         threadResponseDto.setThreadId(thread.getThreadId());
         threadResponseDto.setThreadStatus(thread.getThreadStatus());
         threadResponseDto.setBody(thread.getBody());
-        threadResponseDto.setLikes(thread.getLikes());
 
         // thread 작성자 추가
         User user = thread.getUser();

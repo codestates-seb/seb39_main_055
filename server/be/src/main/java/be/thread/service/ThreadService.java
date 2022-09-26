@@ -112,7 +112,7 @@ public class ThreadService {
     @Transactional
     public Thread likeThread(long threadId, int likes) {
         Thread findThread = findVerifiedThread(threadId); // 작성한 글이 DB에 없다면 예외 처리
-        findThread.setLikes(likes);
+
         return findThread;
     }
 

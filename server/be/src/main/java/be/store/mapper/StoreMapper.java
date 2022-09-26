@@ -105,11 +105,10 @@ public interface StoreMapper {
                 storeImageService.findVerifiedStoreImages(store)
         ));
 
-        //리뷰 추가
         List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(userMapper,store.getReviews());
         storeResponseDto.setReviews(reviewResponseDtos);
 
-        //해당 store를 heart누른 유저id 추가
+
         List<Heart> hearts = heartService.findExistHeartsByStore(store);//해당 store의 하트중에 Status가 HEART_EXIST인 하트들만 반환
         List<Long> heartUserId = hearts.stream().map(heart -> heart.getUser().getUserId()).collect(Collectors.toList());
         storeResponseDto.setHeartUserId(heartUserId);
