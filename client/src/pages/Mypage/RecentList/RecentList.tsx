@@ -5,7 +5,6 @@ import styled, { css } from "styled-components";
 import { mobile, tablet } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import user from "../../../assets/images/mypage/user.png";
-// import defaultImg from "../defaultImg";
 import { recentPlace } from "./RecentDummyData";
 
 const SContainer = styled.div`
