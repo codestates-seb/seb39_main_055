@@ -14,7 +14,7 @@ public class StoreImageService {
 
     StoreImageRepository storeImageRepository;
 
-    public List<StoreImage> findVerifiedStoreImages(Store store){
+    public List<StoreImage> findVerifiedStoreImages(Store store){ //해당 스토어의 스토어이미지들 중에서 status가 STORE_IMAGE_EXIST것만 반환
         List<StoreImage> findStoreImages = storeImageRepository.findAllByStoreAndStoreImageStatus(
                 store, StoreImage.StoreImageStatus.STORE_IMAGE_EXIST);
         return findStoreImages;

@@ -103,7 +103,7 @@ public interface StoreMapper {
         storeResponseDto.setUser(userResponseDto);
 
         storeResponseDto.setStoreImages(storeImagesToStoreImageResponseDtos(//가게에 대한 이미지 속성 추가
-                storeImageService.findVerifiedStoreImages(store)
+                storeImageService.findVerifiedStoreImages(store)//해당 스토어의 스토어이미지들 중에서 status가 STORE_IMAGE_EXIST것만 반환
         ));
 
         List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToExistReviewResponseDtos(reviewService,userMapper,store.getReviews());
