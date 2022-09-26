@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -19,11 +21,6 @@ interface NewPlaceBody {
   storeImages: ThreadImages[];
 }
 
-interface FileMutatePayload extends NewPlaceBody {
-  longitude: string;
-  latitude: string;
-}
-
 interface NewPlaceForm {
   category: string;
   addressName: string;
@@ -34,6 +31,10 @@ interface NewPlaceForm {
   longitude: string;
   latitude: string;
   storeImages: { storeImage: string }[];
+}
+
+interface EditPlacePayload extends NewPlaceForm {
+  storeId: string;
 }
 
 interface NewPlaceResponse extends NewPlaceForm {
@@ -52,7 +53,20 @@ interface NewPlaceResponse extends NewPlaceForm {
   };
 }
 
-export const addNewPlace = async (
+export const editPlace = async (
+  form: EditPlacePayload
+): Promise<NewPlaceResponse> => {
+  const { data } = await axiosInstance.patch(
+    `v1/owner/store/update/${form.storeId}`,
+    form,
+    {
+      headers: { tokenNeeded: true },
+    }
+  );
+  return data.data;
+};
+
+export const addPlace = async (
   form: NewPlaceForm
 ): Promise<NewPlaceResponse> => {
   const { data } = await axiosInstance.post("v1/owner/store/register", form, {
@@ -61,20 +75,30 @@ export const addNewPlace = async (
   return data.data;
 };
 
-export const useNewPlace = (form: NewPlaceBody) => {
+export const usePlace = (
+  form: NewPlaceBody,
+  isEditPage: boolean,
+  storeId: string
+) => {
   const queryClient = useQueryClient();
 
   const { mutate: fileMutate } = useMutation<
     string[],
     AxiosError<ErrorResponse>,
-    FileMutatePayload
+    NewPlaceBody
   >((payload) => uploadImages(payload.storeImages));
 
-  const { mutate: placeMutate, isSuccess } = useMutation<
+  const { mutate: addPlaceMutate, isSuccess } = useMutation<
     NewPlaceResponse,
     AxiosError<ErrorResponse>,
     NewPlaceForm
-  >((payload) => addNewPlace(payload));
+  >((payload) => addPlace(payload));
+
+  const { mutate: editPlaceMutate } = useMutation<
+    NewPlaceResponse,
+    AxiosError<ErrorResponse>,
+    EditPlacePayload
+  >((payload) => editPlace(payload));
 
   const { refetch } = useQuery<CoordinateResponse, AxiosError<ErrorResponse>>(
     ["coordinate", form.addressName],
@@ -86,30 +110,30 @@ export const useNewPlace = (form: NewPlaceBody) => {
           toast.error("주소를 상세하게 입력해주세요.");
           return;
         }
-        fileMutate(
-          {
-            ...form,
-            longitude: coordinateData.documents[0].x,
-            latitude: coordinateData.documents[0].y,
+        fileMutate(form, {
+          onSuccess: (fileData) => {
+            const storeImages = fileData.map((file) => {
+              return { storeImage: file };
+            });
+
+            isEditPage
+              ? editPlaceMutate({
+                  ...form,
+                  storeId,
+                  storeImages,
+                  longitude: coordinateData.documents[0].x,
+                  latitude: coordinateData.documents[0].y,
+                })
+              : addPlaceMutate({
+                  ...form,
+                  storeImages,
+                  longitude: coordinateData.documents[0].x,
+                  latitude: coordinateData.documents[0].y,
+                });
+
+            queryClient.invalidateQueries("place"); // list 구현시 key 수정
           },
-          {
-            onSuccess: (fileData) => {
-              const storeImages = fileData.map((file) => {
-                return { storeImage: file };
-              });
-              console.log(`좌표: ${coordinateData.documents}`);
-              console.log(`이미지: ${storeImages}`);
-              console.log(`폼: ${form}`);
-              placeMutate({
-                ...form,
-                storeImages,
-                longitude: coordinateData.documents[0].x,
-                latitude: coordinateData.documents[0].y,
-              });
-              queryClient.invalidateQueries("place"); // list 구현시 key 수정
-            },
-          }
-        );
+        });
       },
     }
   );

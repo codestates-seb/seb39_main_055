@@ -31,8 +31,8 @@ export interface PostImagesProps {
   images: ThreadImages[];
   setImages: Dispatch<SetStateAction<ThreadImages[]>>;
   editorRef?: RefObject<Editor>;
-  defaultImg: number;
-  setDefaultImg: Dispatch<SetStateAction<number>>;
+  defaultId: string;
+  setDefaultId: Dispatch<SetStateAction<string>>;
 }
 
 const PreviewImages = ({
