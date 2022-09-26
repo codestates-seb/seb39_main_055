@@ -4,6 +4,7 @@
 /* eslint-disable no-return-assign */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import usePlace from "../../apis/place/usePlace";
 import { useCheckbox, useValidate } from "../../hooks";
@@ -39,6 +40,7 @@ interface Prop {
 const NewPlace = ({ isEditPage, state }: Prop) => {
   const navigate = useNavigate();
   const [images, setImages] = useState<ThreadImages[]>([]);
+  const [imagesError, setImagesError] = useState(false);
   const [defaultId, setDefaultId] = useState("");
   const { checkboxValue, handleCheckboxClick, setCheckboxValue } =
     useCheckbox("숙소");
@@ -90,7 +92,12 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     checkHomePage();
     checkDescription();
 
+    if (!images.length) {
+      setImagesError(true);
+    }
+
     if (
+      !images.length ||
       !notBlank(nameValue) ||
       !notBlank(addressValue) ||
       (!isEditPage && !notBlank(registrationValue)) ||
@@ -155,6 +162,8 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
             setImages={setImages}
             defaultId={defaultId}
             setDefaultId={setDefaultId}
+            isError={imagesError}
+            setIsError={setImagesError}
           />
         </section>
         <section>
