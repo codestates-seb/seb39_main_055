@@ -6,8 +6,8 @@ export const STextAreaContainer = styled.div`
 
   & > label {
     flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
+    color: #161616;
+    font-size: 18px;
     cursor: pointer;
   }
 
@@ -34,17 +34,21 @@ export const STextArea = styled.section`
     padding: 10px;
     outline: none;
     border: 1px solid #dbdbdb;
+    color: #000000;
+    font-size: 16px;
+    font-family: "Noto Sans KR", sans-serif;
     resize: none;
 
     &::placeholder {
+      font-size: 16px;
       color: #767676;
     }
   }
 
   & > p {
     margin-top: 5px;
-    color: red;
-    font-size: 10px;
+    color: #f53a3a;
+    font-size: 12px;
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
