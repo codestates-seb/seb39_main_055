@@ -20,7 +20,7 @@ interface CaseHandler {
 const middlewares: Middleware[] = [];
 
 const localStorageHandler: CaseHandler = {
-  "user/setUserInfos": (storeAPI, next, action) => {
+  "user/initializeUserInfos": (storeAPI, next, action) => {
     const { keepLoggedIn, token } = storeAPI.getState().user;
 
     if (!keepLoggedIn) return next(action);

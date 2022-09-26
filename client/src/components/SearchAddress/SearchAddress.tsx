@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
 
@@ -8,7 +9,7 @@ const SButton = styled.button`
   border-radius: 3px;
   background-color: ${({ theme }) => theme.colors.orange500};
   font-size: 12px;
-  transition: 0.4s all;
+  transition: background-color 0.4s, color 0.4s;
 
   &:hover {
     color: ${({ theme }) => theme.colors.orange500};
@@ -17,14 +18,23 @@ const SButton = styled.button`
 `;
 
 interface Prop {
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((address: string) => void);
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   setCoordinate?: React.Dispatch<
     React.SetStateAction<{ longitude: string; latitude: string }>
   >;
+
+  className?: string;
 }
 
-const SearchAddress = ({ setValue, setError, setCoordinate }: Prop) => {
+const SearchAddress = ({
+  setValue,
+  setError,
+  setCoordinate,
+  className,
+}: Prop) => {
   const open = useDaumPostcodePopup();
 
   const handleComplete = (data: any) => {
@@ -58,7 +68,7 @@ const SearchAddress = ({ setValue, setError, setCoordinate }: Prop) => {
   };
 
   return (
-    <SButton onClick={handleClick} type="button">
+    <SButton onClick={handleClick} className={className} type="button">
       주소 검색
     </SButton>
   );

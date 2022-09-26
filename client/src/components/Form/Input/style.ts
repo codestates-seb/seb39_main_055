@@ -19,6 +19,7 @@ export const SInputContainer = styled.div`
 `;
 
 export const SInput = styled.div<{
+  isError: boolean;
   isLabel: string | undefined;
   isSideButton: JSX.Element | undefined;
 }>`
