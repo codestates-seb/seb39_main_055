@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -60,5 +62,9 @@ public class ReviewService {
         }
 
         return findReview;
+    }
+    public List<Review> findExistReviews(List<Review> reviews){// reviews인자중 status가 true인 것만 반환
+        return reviews.stream().map(review -> reviewRepository.findByReviewIdAndReviewStatus(
+                review.getReviewId(),Review.ReviewStatus.REVIEW_EXIST)).filter(review -> review!=null).collect(Collectors.toList());
     }
 }

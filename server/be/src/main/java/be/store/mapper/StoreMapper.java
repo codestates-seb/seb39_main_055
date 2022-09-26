@@ -8,6 +8,7 @@ import be.heart.mapper.HeartMapper;
 import be.heart.service.HeartService;
 import be.review.dto.ReviewResponseDto;
 import be.review.mapper.ReviewMapper;
+import be.review.service.ReviewService;
 import be.store.dto.*;
 import be.store.entity.Store;
 import be.store.entity.StoreImage;
@@ -83,7 +84,7 @@ public interface StoreMapper {
                 }).collect(Collectors.toList());
     }
 
-    default StoreResponseDto storeToStoreResponseDto(HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService, Store store){
+    default StoreResponseDto storeToStoreResponseDto(ReviewService reviewService,HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService, Store store){
         StoreResponseDto storeResponseDto = new StoreResponseDto();
         storeResponseDto.setStoreId(store.getStoreId());
         storeResponseDto.setCreatedAt(store.getCreatedAt());
@@ -105,7 +106,7 @@ public interface StoreMapper {
                 storeImageService.findVerifiedStoreImages(store)
         ));
 
-        List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(userMapper,store.getReviews());
+        List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToExistReviewResponseDtos(reviewService,userMapper,store.getReviews());
         storeResponseDto.setReviews(reviewResponseDtos);
 
 
@@ -117,8 +118,8 @@ public interface StoreMapper {
         return storeResponseDto;
     }
 
-    default List<StoreResponseDto> storesToStoreResponseDtos(HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService,List<Store> stores){
-        return stores.stream().map(store -> storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,store))
+    default List<StoreResponseDto> storesToStoreResponseDtos(ReviewService reviewService,HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService,List<Store> stores){
+        return stores.stream().map(store -> storeToStoreResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,store))
                 .collect(Collectors.toList());
     };
 

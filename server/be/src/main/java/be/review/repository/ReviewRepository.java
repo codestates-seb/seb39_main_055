@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Optional<Review> findByUserAndStoreAndReviewStatus(User user, Store store, Review.ReviewStatus reviewStatus);
+
+    Review findByReviewIdAndReviewStatus(Long reviewId,Review.ReviewStatus reviewStatus);
 }
