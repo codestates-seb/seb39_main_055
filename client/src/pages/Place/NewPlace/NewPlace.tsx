@@ -9,12 +9,13 @@ import { useNewPlace } from "../../../apis";
 import {
   Checkbox,
   FileInput,
-  ImgPreview,
   Input,
   SearchAddress,
   TextArea,
 } from "../../../components";
+import PreviewImages from "../../../components/PostForms/PreviewImages/PreviewImages";
 import { useCheckbox, useValidate } from "../../../hooks";
+import { ThreadImages } from "../../../types";
 import {
   descriptionValidation,
   notBlank,
@@ -23,14 +24,8 @@ import {
 } from "../../../utils";
 import { SButton, SCheckboxContainer, SContainer, SForm } from "./style";
 
-const noImageUrl =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAAB1CAMAAABH2l6OAAAAMFBMVEW7u7vz8/PCwsK+vr7V1dX29vbv7+/Gxsa4uLjMzMzh4eH5+fnc3NzJycns7Oy1tbXhfB7JAAABWElEQVRoge2X2Y6EIBBFRSgplsH//9vBNdK2iU6umZd7XrobOzlSVBXQdYQQQgghhBBCCCGEkLfon6EIp0YxT5CI0NpHTlNf0SKsg2R7Fc3TA5tlgFiN8Zcx00o74FFW8ZdSH0tuh96w2mZmGpKIDG9bfSpNtMucP+44hLdqmQqj2yV2qaly/Dvcqm6yiLhRt0cz8d257iUZxuU1cqq/UpNsaOuY9yYl6/JqlmRCk2Fgq/Zt35vTWbv14y3rGD96n9tl6tzeLLBW/fncBGTYYutFSli9WOs4fOn0y/JqkZrZcdnioNalas4bTLaqQdbvU8ixc73YZKUu7xYFGRy2+x+q5uQ9hF5KD7SqTVfSlhSA1lPVXE4cae1vThVrPdUqrbT+0Wq8n05ldwDWaz0Pu7sAO2K298Gd/Z9cr8RArHq3G25ayJ3uf+6vhBBCCCGEEEIIIYSQb/wCIbMP1+B8V50AAAAASUVORK5CYII=";
-
 const NewPlace = () => {
   const navigate = useNavigate();
-  const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer | null>(
-    noImageUrl
-  );
   const { checkboxValue, handleCheckboxClick } = useCheckbox("숙소");
   const [nameValue, nameError, handleName, checkName] = useValidate(notBlank);
   const [homePageValue, homePageError, handleHomePage, checkHomePage] =
@@ -62,13 +57,17 @@ const NewPlace = () => {
     checkDescription,
   ] = useValidate(descriptionValidation);
 
-  const { fileMutate, refetch, isSuccess } = useNewPlace({
+  const [images, setImages] = useState<ThreadImages[]>([]);
+  const [defaultImg, setDefaultImg] = useState(0);
+
+  const { refetch, isSuccess } = useNewPlace({
     category: checkboxValue,
     addressName: addressValue,
     body: descriptionValue,
     storeName: nameValue,
     phone: phoneNumberValue,
     homepage: homePageValue,
+    storeImages: images,
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,19 +97,18 @@ const NewPlace = () => {
     if (isSuccess) {
       navigate("/"); // list 페이지 구현되면 수정
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, navigate, images]);
 
   return (
     <SContainer>
       <h1>매장 등록</h1>
       <SForm onSubmit={handleSubmit}>
         <section>
-          <ImgPreview
-            id="대표사진"
-            label="대표사진등록"
-            previewUrl={previewUrl as string}
-            setPreviewUrl={setPreviewUrl}
-            mutate={fileMutate}
+          <PreviewImages
+            images={images}
+            setImages={setImages}
+            defaultImg={defaultImg}
+            setDefaultImg={setDefaultImg}
           />
         </section>
         <section>
