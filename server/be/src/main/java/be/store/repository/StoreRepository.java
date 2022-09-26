@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    Optional<Store> findByUserAndLatitudeAndLongitudeAndNameAndStoreStatus(
-            User user,Double latitude,Double longitude,String storeName,Store.StoreStatus storeStatus);
+    Optional<Store> findByLatitudeAndLongitudeAndNameAndStoreStatus(
+            Double latitude,Double longitude,String storeName,Store.StoreStatus storeStatus);
 
     Page<Store> findByCategoryAndStoreStatus(Pageable pageable, String category, Store.StoreStatus storeStatus);
 

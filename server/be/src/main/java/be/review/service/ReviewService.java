@@ -8,10 +8,15 @@ import be.store.entity.Store;
 import be.store.repository.StoreRepository;
 import be.user.entity.User;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -60,5 +65,17 @@ public class ReviewService {
         }
 
         return findReview;
+    }
+    public List<Review> findExistReviews(List<Review> reviews){// reviews인자중 status가 true인 것만 반환
+        return reviews.stream().map(review -> reviewRepository.findByReviewIdAndReviewStatus(
+                review.getReviewId(),Review.ReviewStatus.REVIEW_EXIST)).collect(Collectors.toList());
+    }
+
+    public Page<Review> findExistReviewsToPaginationAndSort(Store store,Integer reviewPage,Integer reviewSize,String reviewSort){// store의 reviews중 status가 true인 것만 페이지네이션 정렬해서 반환
+        Page<Review> findReviews = reviewRepository.findByStoreAndReviewStatus(
+                PageRequest.of(reviewPage-1,reviewSize, Sort.by(reviewSort).descending()),
+                store, Review.ReviewStatus.REVIEW_EXIST
+        );
+        return findReviews;
     }
 }

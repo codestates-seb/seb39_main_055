@@ -5,6 +5,7 @@ import be.heart.service.HeartService;
 import be.response.MultiResponseDto;
 import be.response.SingleResponseDto;
 import be.review.mapper.ReviewMapper;
+import be.review.service.ReviewService;
 import be.store.dto.StorePatchDto;
 import be.store.dto.StorePostDto;
 import be.store.entity.Store;
@@ -40,6 +41,7 @@ public class StoreController {
     private final StoreImageService storeImageService;
     private final ReviewMapper reviewMapper;
     private final HeartService heartService;
+    private final ReviewService reviewService;
 
     /**
      * 업주 매장 등록 API
@@ -49,7 +51,7 @@ public class StoreController {
         Store store = mapper.storePostDtoToStore(userService,storePostDto);
         Store createdStore = storeService.createStore(store);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,createdStore)), HttpStatus.CREATED
+                new SingleResponseDto<>(mapper.storeToStoreResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,createdStore)), HttpStatus.CREATED
         );
     }
 
@@ -63,7 +65,7 @@ public class StoreController {
         Store updatedStore = storeService.updateStore(store);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,updatedStore)),
+                new SingleResponseDto<>(mapper.storeToStoreResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,updatedStore)),
                 HttpStatus.OK
         );
 
@@ -86,9 +88,28 @@ public class StoreController {
         List<Store> stores = pageStores.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(
-                mapper.storesToStoreResponseDtos(heartService,reviewMapper,userMapper,storeImageService,stores),
+                mapper.storesToStoreResponseDtos(reviewService,heartService,reviewMapper,userMapper,storeImageService,stores),
                 pageStores),HttpStatus.OK);
     }
+
+
+    /**
+     * 선택한 스토어의 상세페이지 이동 API
+     * **/
+    @GetMapping("/store/{store-id}")
+    public ResponseEntity getQuestion(@PathVariable("store-id") @Positive @NotNull Long storeId,
+                                      @Positive @RequestParam("page") Integer reviewPage,
+                                      @Positive @RequestParam("size") Integer reviewSize,
+                                      @RequestParam("sort") String reviewSort){
+
+        Store store = storeService.findVerifiedStore(storeId);
+        System.out.println("여기1");
+        return new ResponseEntity<>(new SingleResponseDto<>(
+                mapper.storeToStoreAndReviewResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,
+                        store,reviewPage,reviewSize,reviewSort)),
+                HttpStatus.OK);
+    }
+
 
 
 }

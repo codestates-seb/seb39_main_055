@@ -6,6 +6,7 @@ import be.heart.dto.HeartResponseDto;
 import be.heart.entity.Heart;
 import be.heart.service.HeartService;
 import be.review.mapper.ReviewMapper;
+import be.review.service.ReviewService;
 import be.store.dto.StoreResponseDto;
 import be.store.entity.Store;
 import be.store.mapper.StoreMapper;
@@ -51,14 +52,14 @@ public interface HeartMapper {
         return heart;
     }
 
-    default HeartResponseDto heartToHeartResponseDto(HeartService heartService,ReviewMapper reviewMapper, StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService, Heart heart){
+    default HeartResponseDto heartToHeartResponseDto(ReviewService reviewService,HeartService heartService, ReviewMapper reviewMapper, StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService, Heart heart){
         HeartResponseDto heartResponseDto = new HeartResponseDto();
         heartResponseDto.setHeartId(heart.getHeartId());
         heartResponseDto.setHeartStatus(heart.getHeartStatus());
         heartResponseDto.setUpdatedAt(heart.getUpdatedAt());
         heartResponseDto.setCreatedAt(heart.getCreatedAt());
 
-        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponseDto(heartService,reviewMapper,userMapper,storeImageService,heart.getStore());
+        StoreResponseDto storeResponseDto = storeMapper.storeToStoreResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,heart.getStore());
         heartResponseDto.setStore(storeResponseDto);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(heart.getUser());
@@ -69,8 +70,8 @@ public interface HeartMapper {
         return heartResponseDto;
     }
 
-    default List<HeartResponseDto> heartsToHeartResponseDtos(HeartService heartService,ReviewMapper reviewMapper,StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,List<Heart> hearts){
-        return hearts.stream().map(heart -> heartToHeartResponseDto(heartService,reviewMapper,storeMapper,userMapper,storeImageService,heart))
+    default List<HeartResponseDto> heartsToHeartResponseDtos(ReviewService reviewService,HeartService heartService,ReviewMapper reviewMapper,StoreMapper storeMapper, UserMapper userMapper, StoreImageService storeImageService,List<Heart> hearts){
+        return hearts.stream().map(heart -> heartToHeartResponseDto(reviewService,heartService,reviewMapper,storeMapper,userMapper,storeImageService,heart))
                 .collect(Collectors.toList());
     };
 }

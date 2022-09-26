@@ -55,7 +55,6 @@ public interface ReviewMapper {
         reviewResponseDto.setBody(review.getBody());
         reviewResponseDto.setScore(review.getScore());
         reviewResponseDto.setStoreId(review.getStore().getStoreId());
-        System.out.println(review.getStore().getStoreId());
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(review.getUser());
         reviewResponseDto.setUser(userResponseDto);
@@ -65,13 +64,21 @@ public interface ReviewMapper {
         return reviewResponseDto;
     }
 
-    default List<ReviewResponseDto> reviewsToReviewResponseDtos(UserMapper userMapper,List<Review> reviews){
-       if(reviews == null){
-           return new ArrayList<>();
-       }else{
-           return reviews.stream().map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
-       }
+    default List<ReviewResponseDto> reviewsToExistReviewResponseDtos(ReviewService reviewService,UserMapper userMapper,List<Review> reviews){
+        //리뷰중에 존재하는 리뷰(REVIEW_EXIST 상태)만 가지고 ReviewResponseDtos반환
 
+        if(reviews == null){
+            System.out.println("리뷰가 status 상태가 REVIEW_EXIST/REVIEW_NOT_EXIST인지 상관없이 DB에 존재하지 않습니다");
+            return new ArrayList<>();
+        }else{
+            reviews = reviewService.findExistReviews(reviews); // reviews인자중 status가 REVIEW_EXIST인 것만 반환
+            return reviews.stream().filter(review -> review != null).map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
+        }
+    }
+
+    default List<ReviewResponseDto> reviewsToReviewResponseDtos(UserMapper userMapper,List<Review> reviews){
+        //모든리뷰만 가지고 ReviewResponseDtos반환
+        return reviews.stream().filter(review -> review != null).map(review -> reviewToReviewResponseDto(userMapper,review)).collect(Collectors.toList());
     }
 
     default Review reviewPatchDtoToReview(ReviewService reviewService, UserService userService, long reviewId, ReviewPatchDto reviewPatchDto){

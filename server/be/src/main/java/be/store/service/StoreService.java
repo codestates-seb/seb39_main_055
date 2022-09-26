@@ -28,15 +28,15 @@ public class StoreService {
 
     @Transactional
     public Store createStore(Store store){
-        //이미 등록된 스토어인지 확인
-        verifyExistStore(store.getUser(),store.getLatitude(),store.getLongitude(),store.getName());//이미 등록된 가게인지 확인
+
+        verifyExistStore(store.getLatitude(),store.getLongitude(),store.getName());//이미 등록된 가게인지 확인
 
         return storeRepository.save(store);
     }
 
-    public void verifyExistStore(User user,Double latitude,Double longitude,String storeName){//이미 등록된 가게인지 확인
-        Optional<Store> store = storeRepository.findByUserAndLatitudeAndLongitudeAndNameAndStoreStatus(
-                user,latitude,longitude,storeName,Store.StoreStatus.STORE_EXIST
+    public void verifyExistStore(Double latitude,Double longitude,String storeName){//이미 등록된 가게인지 확인
+        Optional<Store> store = storeRepository.findByLatitudeAndLongitudeAndNameAndStoreStatus(
+                latitude,longitude,storeName,Store.StoreStatus.STORE_EXIST
         );
         if(store.isPresent()) //이미 등록된 가게면 에러!
             throw new BusinessLogicException(ExceptionCode.STORE_EXISTS);
@@ -61,6 +61,9 @@ public class StoreService {
 
     @Transactional
     public Store updateStore(Store store){
+
+        verifyExistStore(store.getLatitude(),store.getLongitude(),store.getName());//이미 등록된 가게인지 확인
+
         Store findStore = findVerifiedStore(store.getStoreId());//만약 스토어가 DB에 없거나 삭제된 스토어면 예외 발생
 
         Optional.ofNullable(store.getUpdatedAt())//업데이트 날짜 수정
@@ -134,5 +137,6 @@ public class StoreService {
         }
 
     }
+
 
 }
