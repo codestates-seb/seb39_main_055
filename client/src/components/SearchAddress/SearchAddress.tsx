@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
 
@@ -8,7 +9,7 @@ const SButton = styled.button`
   border-radius: 3px;
   background-color: ${({ theme }) => theme.colors.orange500};
   font-size: 12px;
-  transition: 0.4s all;
+  transition: background-color 0.4s, color 0.4s;
 
   &:hover {
     color: ${({ theme }) => theme.colors.orange500};
@@ -17,11 +18,14 @@ const SButton = styled.button`
 `;
 
 interface Prop {
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((address: string) => void);
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   setCoordinate?: React.Dispatch<
     React.SetStateAction<{ longitude: string; latitude: string }>
   >;
+
   className?: string;
 }
 
