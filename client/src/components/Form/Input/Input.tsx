@@ -35,7 +35,7 @@ const Input = ({
   return (
     <SInputContainer className={className}>
       {label && <label htmlFor={id}>{label}</label>}
-      <SInput isLabel={label} isSideButton={sideButton}>
+      <SInput isError={isError} isLabel={label} isSideButton={sideButton}>
         <input
           type={type}
           id={id}
