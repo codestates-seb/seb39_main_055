@@ -21,13 +21,20 @@ const SContainer = styled.div`
   min-height: calc(100vh - 380px);
   font-family: "ONE-Mobile-Regular";
 
+  ${mobile(css`
+    padding-top: 40px;
+    justify-content: flex-start;
+    gap: 10px;
+  `)}
+
   & > h1 {
     font-size: 42px;
     font-weight: bold;
     ${mobile(css`
-      font-size: 32px;
-      padding-top: 24px;
-      justify-content: flex-start;
+      font-weight: 400;
+      font-size: 38px;
+      padding-top: 0px;
+      // justify-content: flex-start;
     `)}
   }
 `;
@@ -41,6 +48,9 @@ const SUserContainer = styled.div`
 
   ${mobile(css`
     flex-direction: column;
+    border: none;
+    justify-content: center;
+    align-items: center;
   `)}
 `;
 
@@ -58,7 +68,7 @@ const SMyInfoContainer = styled.div`
     height: auto;
     flex-direction: row;
     align-items: center;
-    padding-top: 5px;
+    padding: 0px;
   `)}
 
   & > div {
@@ -67,15 +77,19 @@ const SMyInfoContainer = styled.div`
     font-weight: bold;
     gap: 30px;
     color: ${({ theme }) => theme.colors.black500};
+
     ${mobile(css`
+      flex-direction: row;
       font-size: 20px;
       width: 100%;
-      height: auto;
+      height: 160px;
+      border-bottom: 0.4px solid #d6d6d6;
       display: flex;
-      flex-direction: row;
+      justify-content: flex-start;
       align-items: center;
       padding-top: 5px;
       flex-wrap: wrap;
+      gap: 10px;
     `)}
   }
 `;
@@ -88,18 +102,43 @@ const SMyInfo = styled.div`
   align-items: center;
   gap: 40px;
 
-  & > img {
-    ${mobile(css`
-      width: 50px;
-      height: 50px;
-    `)}
-  }
-
   ${mobile(css`
     flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+  `)}
+`;
+
+const SUserImg = styled.div`
+  gap: 40px;
+  width: 160px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > img {
+    ${mobile(css`
+      width: 60px;
+      margin-left: 25px;
+    `)}
+  }
+
+  & > div {
+    ${mobile(css`
+      width: auto;
+      margin-left: 25px;
+    `)}
+  }
+
+  ${mobile(css`
+    gap: 15px;
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   `)}
 `;
 
@@ -116,11 +155,14 @@ const SLinkContainer = styled.div`
   }
 
   ${mobile(css`
-    flex-direction: row;
+    padding-top: 20px;
+    flex-direction: column;
     width: auto;
-    align-items: center;
-    justify-content: center;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-wrap: wrap;
+    margin-left: 15px;
   `)}
 `;
 
@@ -142,15 +184,14 @@ const SMyContents = styled.div`
   `)}
 `;
 
-const SBorderLine = styled.div`
+const SBorderLine = styled.span`
   margin: 5% 0%;
   align-items: center;
-  border-left: 1px solid ${({ theme }) => theme.colors.black100};
-  height: 90%;
+  border-left: 1px solid ${({ theme }) => theme.colors.black050};
+  height: 1230px;
 
-  // ${mobile(css`
-    //   display: none;
-    //
+  ${mobile(css`
+    display: none;
   `)}
 `;
 
@@ -271,8 +312,10 @@ const Mypage = () => {
       <SUserContainer>
         <SMyInfoContainer>
           <SMyInfo>
-            <img alt="예시" src={user} />
-            <div>Jin 님</div>
+            <SUserImg>
+              <img alt="예시" src={user} />
+              <div>Jin 님</div>
+            </SUserImg>
             <SLinkContainer>
               <WritePost onClick={() => navigate("/post/new")}>
                 글 작성하기
@@ -282,11 +325,11 @@ const Mypage = () => {
                 업주등록하기
                 <MdArrowForwardIos />
               </RegistCompany>
-              <EditUserInfo onClick={() => navigate("/post/list")}>
+              <EditUserInfo onClick={() => navigate("/login")}>
                 회원정보수정
                 <MdArrowForwardIos />
               </EditUserInfo>
-              <Resignation onClick={() => navigate("/signup")}>
+              <Resignation onClick={() => navigate("/.")}>
                 회원탈퇴
                 <MdArrowForwardIos />
               </Resignation>
@@ -294,7 +337,7 @@ const Mypage = () => {
           </SMyInfo>
         </SMyInfoContainer>
         <SBorderLine>
-          <div />
+          <span />
         </SBorderLine>
         <SMyContents>
           <HeartList />
