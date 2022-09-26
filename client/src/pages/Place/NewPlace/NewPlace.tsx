@@ -58,7 +58,7 @@ const NewPlace = () => {
   ] = useValidate(descriptionValidation);
 
   const [images, setImages] = useState<ThreadImages[]>([]);
-  const [defaultImg, setDefaultImg] = useState(0);
+  const [defaultId, setDefaultId] = useState("0");
 
   const { refetch, isSuccess } = useNewPlace({
     category: checkboxValue,
@@ -107,8 +107,8 @@ const NewPlace = () => {
           <PreviewImages
             images={images}
             setImages={setImages}
-            defaultImg={defaultImg}
-            setDefaultImg={setDefaultImg}
+            defaultId={defaultId}
+            setDefaultId={setDefaultId}
           />
         </section>
         <section>
