@@ -5,13 +5,14 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 
-import { ErrorResponse } from "../../types";
+import { ErrorResponse, Store } from "../../types";
 import { ThreadImages } from "../../types/threads";
-import { axiosInstance } from "../../utils/axiosInstance";
 import { CoordinateResponse, getCoordinate } from "../map/coordinate";
 import { uploadImages } from "../post";
+import { addPlace, AddPlacePayload } from "./addPlace";
+import { editPlace, EditPlacePayload } from "./editPlace";
 
-interface NewPlaceBody {
+export interface UsePlaceForm {
   category: string;
   addressName: string;
   body: string;
@@ -21,81 +22,23 @@ interface NewPlaceBody {
   storeImages: ThreadImages[];
 }
 
-interface NewPlaceForm {
-  category: string;
-  addressName: string;
-  body: string;
-  storeName: string;
-  phone: string;
-  homepage: string;
-  longitude: string;
-  latitude: string;
-  storeImages: { storeImage: string }[];
-}
-
-interface EditPlacePayload extends NewPlaceForm {
-  storeId: string;
-}
-
-interface NewPlaceResponse extends NewPlaceForm {
-  storeId: string;
-  createdAt: string;
-  updatedAt: string;
-  storeStatus: string;
-  user: {
-    ninkname: string;
-    email: string;
-    image: string;
-    userStatus: string;
-    longitude: string;
-    latitude: string;
-    userRole: string;
-  };
-}
-
-export const editPlace = async (
-  form: EditPlacePayload
-): Promise<NewPlaceResponse> => {
-  const { data } = await axiosInstance.patch(
-    `v1/owner/store/update/${form.storeId}`,
-    form,
-    {
-      headers: { tokenNeeded: true },
-    }
-  );
-  return data.data;
-};
-
-export const addPlace = async (
-  form: NewPlaceForm
-): Promise<NewPlaceResponse> => {
-  const { data } = await axiosInstance.post("v1/owner/store/register", form, {
-    headers: { tokenNeeded: true },
-  });
-  return data.data;
-};
-
-export const usePlace = (
-  form: NewPlaceBody,
-  isEditPage: boolean,
-  storeId: string
-) => {
+const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
   const queryClient = useQueryClient();
 
   const { mutate: fileMutate } = useMutation<
     string[],
     AxiosError<ErrorResponse>,
-    NewPlaceBody
+    UsePlaceForm
   >((payload) => uploadImages(payload.storeImages));
 
   const { mutate: addPlaceMutate, isSuccess } = useMutation<
-    NewPlaceResponse,
+    Store,
     AxiosError<ErrorResponse>,
-    NewPlaceForm
+    AddPlacePayload
   >((payload) => addPlace(payload));
 
   const { mutate: editPlaceMutate } = useMutation<
-    NewPlaceResponse,
+    Store,
     AxiosError<ErrorResponse>,
     EditPlacePayload
   >((payload) => editPlace(payload));
@@ -140,3 +83,5 @@ export const usePlace = (
 
   return { refetch, isSuccess };
 };
+
+export default usePlace;
