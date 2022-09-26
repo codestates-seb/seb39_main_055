@@ -19,10 +19,11 @@ import {
   Search,
   Signup,
 } from "./pages";
+import EditMyInfos from "./pages/Mypage/EditMyInfos/EditMyInfos";
 import {
+  initializeUserInfos,
   logOutUser,
   selectUser,
-  setUserInfos,
   useAppDispatch,
   useAppSelector,
 } from "./redux";
@@ -57,7 +58,7 @@ const App = () => {
     staleTime: 6 * 60 * 1000, // 6시간
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
-      dispatch(setUserInfos(data));
+      dispatch(initializeUserInfos(data));
     },
     onError: (err) => {
       console.log(err);
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<Mypage />} />
+            <Route path="/mypage/edit" element={<EditMyInfos />} />
             <Route path="/place/*" element={<PlaceRouter />} />
             <Route path="/post/*" element={<PostRouter />} />
             <Route path="/search/*" element={<Search />} />
