@@ -19,6 +19,7 @@ import {
   SaButton,
   SaLabel,
   SbBox,
+  SError,
   SFileInput,
   SImageAside,
   SList,
@@ -31,8 +32,10 @@ export interface PostImagesProps {
   images: ThreadImages[];
   setImages: Dispatch<SetStateAction<ThreadImages[]>>;
   editorRef?: RefObject<Editor>;
-  defaultImg: number;
-  setDefaultImg: Dispatch<SetStateAction<number>>;
+  defaultId: string;
+  setDefaultId: Dispatch<SetStateAction<string>>;
+  isError?: boolean;
+  setIsError?: Dispatch<SetStateAction<boolean>>;
 }
 
 const PreviewImages = ({
@@ -41,6 +44,8 @@ const PreviewImages = ({
   editorRef,
   defaultId,
   setDefaultId,
+  isError,
+  setIsError,
 }: PostImagesProps) => {
   const workers = useRef<Worker[]>([]);
   const { openModal, closeModal } = useModal();
@@ -75,12 +80,16 @@ const PreviewImages = ({
 
         wk.postMessage(imagePacking);
       });
+
+      if (setIsError) {
+        setIsError(false);
+      }
     },
     []
   );
 
   const removeImg = (targetId: string) => {
-    setImages((prev) => prev.filter(({ id }) => id !== targetId));
+    setImages((prev) => prev.filter((image) => image.id !== targetId));
   };
 
   useEffect(() => {
@@ -117,6 +126,7 @@ const PreviewImages = ({
           </SaLabel>
           <SFileInput accept="image/*" onChange={handleSelectImages} />
         </SbBox>
+
         <SaButton
           type="button"
           onClick={() =>
@@ -133,6 +143,9 @@ const PreviewImages = ({
           <p>대표사진 변경</p>
           <SMore />
         </SaButton>
+        <SError isError={isError}>
+          <p>대표사진을 등록해주세요.</p>
+        </SError>
       </SaBox>
       <SThumbnailUList>
         {images.map(({ uri, id }, i) => (

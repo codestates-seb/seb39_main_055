@@ -1,4 +1,4 @@
-export * from "../place/newPlace";
+export * from "../place/usePlace";
 export * from "./deletePost";
 export { default as editPost } from "./editPost";
 export { default as submitNewPost } from "./submitNewPost";

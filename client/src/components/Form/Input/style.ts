@@ -63,7 +63,7 @@ export const SError = styled.p<{ isError: boolean }>`
   position: absolute;
   top: 35px;
   left: 5px;
-  color: red;
+  color: #f53a3a;
   font-size: 12px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
