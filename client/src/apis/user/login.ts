@@ -3,7 +3,12 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
-import { initializeUserInfos, logInUser, useAppDispatch } from "../../redux";
+import {
+  initializeUserInfos,
+  logInUser,
+  useAppDispatch,
+  UserInfos,
+} from "../../redux";
 import { axiosInstance, isKeyOf } from "../../utils";
 
 interface LoginForm {
@@ -13,14 +18,7 @@ interface LoginForm {
 }
 
 interface UserInfosResponse {
-  data: {
-    nickname: string;
-    userStatus: string;
-    email: string;
-    image: string;
-    latitude: number;
-    longitude: number;
-  };
+  data: UserInfos;
 }
 
 interface ErrorResponse {
