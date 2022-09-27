@@ -113,7 +113,7 @@ const RecentList = () => {
   if (localstorageData.length > 0) {
     window.localStorage.setItem(
       "defaultStorage",
-      JSON.stringify(getRecentList)
+      JSON.stringify(defaultStorage)
     );
   }
   // console.log(localstorageData);
