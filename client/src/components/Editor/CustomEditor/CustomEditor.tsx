@@ -37,6 +37,10 @@ const EditorBorder = styled.div<{ isFocus: boolean; isError: boolean }>`
       border-radius: 3px;
       outline: hsl(358, 76%, 90%) solid 4px;
     `}
+
+  & .toastui-editor-contents {
+    font-size: 17px;
+  }
 `;
 
 const ErrorMsg = styled.p<Pick<Prop, "isError">>`

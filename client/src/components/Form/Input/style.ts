@@ -19,16 +19,16 @@ export const SInputContainer = styled.div`
 `;
 
 export const SInput = styled.div<{
+  isError: boolean;
   isLabel: string | undefined;
   isSideButton: JSX.Element | undefined;
 }>`
   position: relative;
   flex-basis: ${({ isLabel }) => (isLabel ? "70%" : "100%")};
-  border-bottom: 1px solid #707070;
+  border-bottom: 1px solid #dbdbdb;
 
   & > input {
     width: ${({ isSideButton }) => (isSideButton ? "70%" : "100%")};
-    /* width: 100%; */
     padding: 5px;
     border: none;
     font-size: 16px;
@@ -38,7 +38,7 @@ export const SInput = styled.div<{
 
   & > input::placeholder {
     font-size: 16px;
-    color: #dbdbdb;
+    color: #767676;
   }
 
   & > button {
@@ -62,7 +62,7 @@ export const SError = styled.p<{ isError: boolean }>`
   position: absolute;
   top: 35px;
   left: 5px;
-  color: red;
+  color: #f53a3a;
   font-size: 12px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {

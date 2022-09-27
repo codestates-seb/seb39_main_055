@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ButtonOrange } from "../../../components/Form/Button/Template";
+import { ButtonOrange } from "../Form/Button/Template";
 
 export const SContainer = styled.div`
   display: flex;
@@ -48,8 +48,8 @@ export const SCheckboxContainer = styled.div`
 
   & > span {
     flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
+    color: #161616;
+    font-size: 18px;
     cursor: pointer;
   }
 

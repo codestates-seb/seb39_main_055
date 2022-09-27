@@ -1,24 +1,48 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-import love from "../../../assets/images/mypage/love.png";
-import { postDummyData } from "./PostDummyData";
+import { mobile, tablet } from "../../../assets";
+import photoShoot from "../../../assets/icons/photoShoot.png";
+import user from "../../../assets/images/mypage/user.png";
+import { post } from "./PostDummyData";
 
-interface Props {
-  image: string;
-  category: string;
-  alt: string;
-  adress: string;
-  text: string;
-  link: string;
-}
-
+// interface Props {
+//   threadId: number;
+//   // eslint-disable-next-line react/no-unused-prop-types
+//   threadImages: { image: string }[];
+//   image: string;
+//   body: string;
+//   createdAt: string;
+//   nickname: string;
+// }
+// data.body(앞글자 일부를 제목으로?), createdAt, user.nickname user.image 필요
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
   display: flex;
+  overflow-x: hidden;
   flex-direction: column;
   width: 100%;
+
   height: auto;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 40px 80px 40px;
+
+  @media (max-width: 900px) {
+    justify-content: center;
+    height: auto;
+    width: 500px;
+  }
+
+  ${mobile(css`
+    justify-content: center;
+    width: 260px;
+    height: auto;
+    padding: 40px 0px 0px 25px;
+  `)}
+`;
+
+const SItemContainer = styled.div`
+  width: 690px;
+  display: flex;
+  overflow-x: scroll;
 `;
 
 const SHeader = styled.div`
@@ -38,7 +62,7 @@ const SHeader = styled.div`
   }
 `;
 
-const SInfoContainer = styled.div`
+const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
@@ -46,94 +70,74 @@ const SInfoContainer = styled.div`
   height: auto;
 `;
 
-const SImageContainer = styled.div`
-  margin: 10px;
-  position: relative;
+const SCard = styled.div`
+  width: 220px;
+  height: 315px;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.black050};
 
   & > img {
-    object-fit:cover
+    object-fit: cover;
     justify-content: space-between;
     width: 100%;
-    height: auto%;
+    height: 68%;
     flex-direction: column;
   }
 `;
 
 const STextInfo = styled.div`
+  padding-top: 10px;
   justify-content: space-between;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 `;
 
 const STitle = styled.div`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.orange500};
+  font-size: 20px;
 `;
 
-const SArea = styled.div`
+const SCreatedAt = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black400};
 `;
 
-const SText = styled.div`
-  font-size: 20px;
+const SNickname = styled.div`
+  font-size: 14px;
   line-height: 23px;
+  color: ${({ theme }) => theme.colors.orange500};
 `;
-
 const MyPostList = () => {
   return (
     <SContainer>
       <SHeader>
-        <img sizes="24" alt="" src={love} />
+        <img sizes="24" alt="" src={photoShoot} />
         <div>댕댕이숲</div>
       </SHeader>
-      <SInfoContainer>
-        <SImageContainer>
-          <img
-            src="https://user-images.githubusercontent.com/104320234/191087779-c979a023-6f7c-4be5-bbde-bc1b91a0f845.jpeg"
-            alt="제주 솔펜션"
-          />
-          <STextInfo>
-            <STitle>숙소</STitle>
-            <SArea>제주 제주시</SArea>
-            <SText>제주 솔펜션 (객실에서 보는 제주일출)</SText>
-          </STextInfo>
-        </SImageContainer>
-        <SImageContainer>
-          <img
-            src="https://user-images.githubusercontent.com/104320234/191087779-c979a023-6f7c-4be5-bbde-bc1b91a0f845.jpeg"
-            alt="제주 솔펜션"
-          />
-          <STextInfo>
-            <STitle>숙소</STitle>
-            <SArea>제주 제주시</SArea>
-            <SText>제주 솔펜션 (객실에서 보는 제주일출)</SText>
-          </STextInfo>
-        </SImageContainer>
-        <SImageContainer>
-          <img
-            src="https://user-images.githubusercontent.com/104320234/191087779-c979a023-6f7c-4be5-bbde-bc1b91a0f845.jpeg"
-            alt="제주 솔펜션"
-          />
-          <STextInfo>
-            <STitle>숙소</STitle>
-            <SArea>제주 제주시</SArea>
-            <SText>제주 솔펜션 (객실에서 보는 제주일출)</SText>
-          </STextInfo>
-        </SImageContainer>
-        <SImageContainer>
-          <img
-            src="https://user-images.githubusercontent.com/104320234/191087779-c979a023-6f7c-4be5-bbde-bc1b91a0f845.jpeg"
-            alt="제주 솔펜션"
-          />
-          <STextInfo>
-            <STitle>숙소</STitle>
-            <SArea>제주 제주시</SArea>
-            <SText>제주 솔펜션 (객실에서 보는 제주일출)</SText>
-          </STextInfo>
-        </SImageContainer>
-      </SInfoContainer>
+      <SItemContainer>
+        {post.map((post: any) => (
+          <SCardContainer key={post.data.threadId}>
+            <SCard>
+              <img
+                src={
+                  post.data.threadImages.length >= 1
+                    ? post.data.threadImages[0].image
+                    : user
+                } // 기본이미지 수정 필요
+                alt={post.data.threadId}
+              />
+              <STextInfo>
+                {/* data.body의 앞부분 일부가 제목으로. */}
+                <STitle>{post.data.body.substring(0, 16)}</STitle>
+                {/* 년,월,일 까지만 출력 */}
+                <SCreatedAt>{post.data.createdAt.substring(0, 10)}</SCreatedAt>
+                <SNickname>{post.data.user.nickname}</SNickname>
+              </STextInfo>
+            </SCard>
+          </SCardContainer>
+        ))}
+      </SItemContainer>
     </SContainer>
   );
 };

@@ -25,7 +25,6 @@ export const SMainContainer = styled.main`
   & > h1 {
     color: #707070;
     font-size: 40px;
-    /* font-family: "ONE-Mobile-Bold"; */
   }
 `;
 
@@ -140,6 +139,7 @@ export const SListContainer = styled.ul`
 
 const PostDetail = () => {
   const data = detailData;
+  const convertImages = detailData.threadImages.map((image) => image.image);
   const [isLike, setIsLike] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -155,7 +155,7 @@ const PostDetail = () => {
           updatedAt={data.updatedAt}
         />
         <SImageContainer>
-          <Slider imageList={data.threadImages} />
+          <Slider imageList={convertImages} />
         </SImageContainer>
         <SBody>{data.body}</SBody>
         <SLikeContainer isLike={isLike}>
@@ -168,7 +168,6 @@ const PostDetail = () => {
         <span>{data.replyList.length}</span>
       </SCommentHeader>
       <SInputContainer isFocus={isFocus}>
-        {/** focus시 스타일 변경 */}
         <input
           type="text"
           placeholder="다양한 이야기를 공유해주세요 :)"

@@ -7,24 +7,50 @@ import { ToastContainer } from "react-toastify";
 import { fetchUserInfos } from "./apis/user/login";
 import { Modal, SharedLayout } from "./components";
 import {
+  EditPlace,
+  EditPost,
   Login,
   Main,
   Mypage,
   NewPlace,
   NewPost,
+  PlaceDetail,
   PlaceList,
   PostDetail,
   PostList,
   Search,
   Signup,
 } from "./pages";
+import EditMyInfos from "./pages/Mypage/EditMyInfos/EditMyInfos";
 import {
+  initializeUserInfos,
   logOutUser,
   selectUser,
-  setUserInfos,
   useAppDispatch,
   useAppSelector,
 } from "./redux";
+
+const PostRouter = () => {
+  return (
+    <Routes>
+      <Route path="/new" element={<NewPost />} />
+      <Route path="/edit" element={<EditPost />} />
+      <Route path="/list" element={<PostList />} />
+      <Route path="/:id" element={<PostDetail />} />
+    </Routes>
+  );
+};
+
+const PlaceRouter = () => {
+  return (
+    <Routes>
+      <Route path="/new" element={<NewPlace />} />
+      <Route path="/list" element={<PlaceList />} />
+      <Route path="/edit" element={<EditPlace />} />
+      <Route path="/:id" element={<PlaceDetail />} />
+    </Routes>
+  );
+};
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +62,7 @@ const App = () => {
     staleTime: 6 * 60 * 1000, // 6시간
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
-      dispatch(setUserInfos(data));
+      dispatch(initializeUserInfos(data));
     },
     onError: (err) => {
       console.log(err);
@@ -55,11 +81,9 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<Mypage />} />
-            <Route path="/place/new" element={<NewPlace />} />
-            <Route path="/place/list" element={<PlaceList />} />
-            <Route path="/post/new" element={<NewPost />} />
-            <Route path="/post/list" element={<PostList />} />
-            <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/mypage/edit" element={<EditMyInfos />} />
+            <Route path="/place/*" element={<PlaceRouter />} />
+            <Route path="/post/*" element={<PostRouter />} />
             <Route path="/search/*" element={<Search />} />
           </Route>
         </Routes>
@@ -68,10 +92,5 @@ const App = () => {
     </>
   );
 };
-
-// post/new
-// post/edit
-// post/list
-// post/detail
 
 export default App;

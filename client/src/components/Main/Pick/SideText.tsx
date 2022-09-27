@@ -25,13 +25,30 @@ const Container = styled.div`
     font-size: 34px;
     text-decoration: none;
     gap: 10px;
+    margin-bottom: 30px;
   `)}
 
-  @media (max-width: 1110px) {
+  @media screen and (max-width: 760px) {
+    margin-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    font-size: 34px;
+    text-decoration: none;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media screen and (max-width: 1110px) {
+    margin-bottom: 30px;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     flex-direction: row;
-    flex-wrap: wrap;
     font-size: 34px;
+    flex-wrap: wrap;
     text-decoration: none;
     gap: 10px;
   }

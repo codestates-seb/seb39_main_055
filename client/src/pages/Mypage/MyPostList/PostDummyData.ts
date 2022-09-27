@@ -2,65 +2,109 @@ import styled, { css } from "styled-components";
 
 import pension from "../../../assets/images/mypage/pension.jpg";
 
-export const postDummyData = [
+interface Props {
+  threadId: number;
+  threadImages: { threadImg: string }[];
+  body: string;
+  createdAt: string;
+  image: string;
+}
+
+export const post = [
   {
-    id: 1,
-    image: pension,
-    category: "숙소",
-    title: "제주 솔펜션",
-    alt: "제주 솔펜션",
-    adress: "제주 제주시",
-    text: "제주 솔펜션(객실에서 보는 제주 일출)",
-    link: "/",
+    data: {
+      threadId: 1,
+      body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
+      user: {
+        nickname: "yjy6",
+      },
+      threadImages: [
+        {
+          image:
+            "http://www.popsci.co.kr/news/photo/202205/11966_7101_2744.jpg",
+        },
+      ],
+      createdAt: "2022-09-20T23:07:13.523525",
+    },
   },
   {
-    id: 1,
-    image: pension,
-    category: "숙소",
-    title: "제주 솔펜션",
-    alt: "제주 솔펜션",
-    adress: "제주 제주시",
-    text: "제주 솔펜션(객실에서 보는 제주 일출)",
-    link: "/",
+    data: {
+      threadId: 1,
+      body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
+      user: {
+        nickname: "yjy6",
+      },
+      threadImages: [
+        {
+          image:
+            "http://www.popsci.co.kr/news/photo/202205/11966_7101_2744.jpg",
+        },
+      ],
+      createdAt: "2022-09-20T23:07:13.523525",
+    },
   },
   {
-    id: 1,
-    image: pension,
-    category: "숙소",
-    title: "제주 솔펜션",
-    alt: "제주 솔펜션",
-    adress: "제주 제주시",
-    text: "제주 솔펜션(객실에서 보는 제주 일출)",
-    link: "/",
+    data: {
+      threadId: 1,
+      body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
+      user: {
+        nickname: "yjy6",
+      },
+      threadImages: [
+        {
+          image:
+            "http://www.popsci.co.kr/news/photo/202205/11966_7101_2744.jpg",
+        },
+      ],
+      createdAt: "2022-09-20T23:07:13.523525",
+    },
   },
   {
-    id: 1,
-    image: pension,
-    category: "숙소",
-    title: "제주 솔펜션",
-    alt: "제주 솔펜션",
-    adress: "제주 제주시",
-    textLine1: "제주 솔펜션(객실에서 보는 제주 일출)",
-    link: "/",
+    data: {
+      threadId: 1,
+      body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
+      user: {
+        nickname: "yjy6",
+      },
+      threadImages: [
+        {
+          image:
+            "http://www.popsci.co.kr/news/photo/202205/11966_7101_2744.jpg",
+        },
+      ],
+      createdAt: "2022-09-20T23:07:13.523525",
+    },
   },
   {
-    id: 1,
-    image: pension,
-    category: "숙소",
-    title: "제주 솔펜션",
-    alt: "제주 솔펜션",
-    adress: "제주 제주시",
-    textLine1: "제주 솔펜션(객실에서 보는 제주 일출)",
-    link: "/",
+    data: {
+      threadId: 1,
+      body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
+      user: {
+        nickname: "yjy6",
+      },
+      threadImages: [
+        {
+          image:
+            "http://www.popsci.co.kr/news/photo/202205/11966_7101_2744.jpg",
+        },
+      ],
+      createdAt: "2022-09-20T23:07:13.523525",
+    },
   },
   {
-    id: 1,
-    image: pension,
-    category: "숙소",
-    title: "제주 솔펜션",
-    alt: "제주 솔펜션",
-    adress: "제주 제주시",
-    text: "제주 솔펜션(객실에서 보는 제주 일출)",
-    link: "/",
+    data: {
+      threadId: 1,
+      body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
+      user: {
+        nickname: "yjy6",
+      },
+      threadImages: [
+        {
+          image:
+            "http://www.popsci.co.kr/news/photo/202205/11966_7101_2744.jpg",
+        },
+      ],
+      createdAt: "2022-09-20T23:07:13.523525",
+    },
   },
 ];

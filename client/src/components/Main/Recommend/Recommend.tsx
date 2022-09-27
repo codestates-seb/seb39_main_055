@@ -46,19 +46,19 @@ const Recommend = () => {
         <BsFillArrowRightCircleFill size={35} />
       </ArrowIcon>
       <SContainer>
-        {scrollDummyImg.map((e) => (
+        {scrollDummyImg.map((recommend) => (
           <ScrollContents
-            id={e.id}
-            image={e.image}
-            category={e.category}
-            title={e.title}
-            date={e.date}
-            alt={e.alt}
-            textTitle={e.textTitle}
-            textLine1={e.textLine1}
-            textLine2={e.textLine2}
-            link={e.link}
-            key={e.textTitle}
+            id={recommend.id}
+            image={recommend.image}
+            category={recommend.category}
+            title={recommend.title}
+            date={recommend.date}
+            alt={recommend.alt}
+            textTitle={recommend.textTitle}
+            textLine1={recommend.textLine1}
+            textLine2={recommend.textLine2}
+            link={recommend.link}
+            key={recommend.textTitle}
           />
         ))}
       </SContainer>

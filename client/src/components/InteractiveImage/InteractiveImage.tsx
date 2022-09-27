@@ -2,10 +2,12 @@ import { SbButton, SbLabel, SImg, SP } from "./style";
 
 export interface InteractiveProps {
   label: string;
+  htmlFor?: string;
   hoverColor: string;
   imageURL: string;
   alt: string;
-  onClick: () => void;
+  className?: string;
+  onClick?: () => void;
 }
 /**
  * 이미지 클릭 시 제거, 대표 이미지 설정 등 각종 클릭 상호작용 추가할 때 사용하는 컴포넌트
@@ -17,13 +19,15 @@ export interface InteractiveProps {
  */
 const InteractiveImage = ({
   label,
+  htmlFor,
   hoverColor,
   imageURL,
   alt,
+  className,
   onClick,
 }: InteractiveProps) => {
   return (
-    <SbLabel>
+    <SbLabel htmlFor={htmlFor} className={className}>
       <SP hoverColor={hoverColor}>{label}</SP>
       <SbButton type="button" onClick={onClick}>
         <SImg src={imageURL} alt={alt} />

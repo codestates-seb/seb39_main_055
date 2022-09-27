@@ -19,6 +19,7 @@ import {
   SaButton,
   SaLabel,
   SbBox,
+  SError,
   SFileInput,
   SImageAside,
   SList,
@@ -30,17 +31,21 @@ import {
 export interface PostImagesProps {
   images: ThreadImages[];
   setImages: Dispatch<SetStateAction<ThreadImages[]>>;
-  editorRef: RefObject<Editor>;
-  defaultImg: number;
-  setDefaultImg: Dispatch<SetStateAction<number>>;
+  editorRef?: RefObject<Editor>;
+  defaultId: string;
+  setDefaultId: Dispatch<SetStateAction<string>>;
+  isError?: boolean;
+  setIsError?: Dispatch<SetStateAction<boolean>>;
 }
 
 const PreviewImages = ({
   images,
   setImages,
   editorRef,
-  defaultImg,
-  setDefaultImg,
+  defaultId,
+  setDefaultId,
+  isError,
+  setIsError,
 }: PostImagesProps) => {
   const workers = useRef<Worker[]>([]);
   const { openModal, closeModal } = useModal();
@@ -51,9 +56,12 @@ const PreviewImages = ({
       const workerInst = workers.current.length;
       const L = Math.ceil((images || []).length / workerInst);
 
-      if (!images?.length || !editorRef.current) return;
+      if (editorRef) {
+        if (!images?.length || !editorRef.current) return;
+        editorRef.current.getInstance().focus();
+      }
 
-      editorRef.current.getInstance().focus();
+      if (!images?.length) return;
 
       workers.current.forEach((wk, i) => {
         const startI = L * i + i;
@@ -72,12 +80,16 @@ const PreviewImages = ({
 
         wk.postMessage(imagePacking);
       });
+
+      if (setIsError) {
+        setIsError(false);
+      }
     },
     []
   );
 
   const removeImg = (targetId: string) => {
-    setImages((prev) => prev.filter(({ id }) => id !== targetId));
+    setImages((prev) => prev.filter((image) => image.id !== targetId));
   };
 
   useEffect(() => {
@@ -96,12 +108,17 @@ const PreviewImages = ({
     };
   }, []);
 
+  const defaultImage = images.filter(({ id }, i) => {
+    if (!defaultId) return i === 0;
+    return id === defaultId;
+  })[0];
+
   return (
     <SImageAside>
       <SaBox>
         <SbBox>
           {!!images.length && (
-            <SRepImg src={images[defaultImg].uri} alt="대표 이미지" />
+            <SRepImg src={defaultImage.uri} alt="대표 이미지" />
           )}
           <SaLabel>
             <p>사진을 추가해주세요.</p>
@@ -109,13 +126,15 @@ const PreviewImages = ({
           </SaLabel>
           <SFileInput accept="image/*" onChange={handleSelectImages} />
         </SbBox>
+
         <SaButton
+          type="button"
           onClick={() =>
             openModal(
               <DefaultImgSelect
                 images={images}
-                defaultImg={defaultImg}
-                setDefaultImg={setDefaultImg}
+                defaultId={defaultId}
+                setDefaultId={setDefaultId}
                 closeModal={closeModal}
               />
             )
@@ -124,6 +143,9 @@ const PreviewImages = ({
           <p>대표사진 변경</p>
           <SMore />
         </SaButton>
+        <SError isError={isError}>
+          <p>대표사진을 등록해주세요.</p>
+        </SError>
       </SaBox>
       <SThumbnailUList>
         {images.map(({ uri, id }, i) => (

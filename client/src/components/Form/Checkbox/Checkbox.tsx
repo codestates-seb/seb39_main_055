@@ -9,7 +9,7 @@ export const SCheckbox = styled.div`
     display: flex;
     align-items: center;
     padding-top: 2.5px;
-    color: #767676;
+    color: #464646;
     font-size: 13px;
     cursor: pointer;
   }

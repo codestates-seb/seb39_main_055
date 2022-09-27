@@ -1,5 +1,6 @@
+import InteractiveImage from "../../InteractiveImage/InteractiveImage";
 import { PostImagesProps } from "../PreviewImages/PreviewImages";
-import { SMImg, SMImgList, SMImgUList, SModalSection } from "./style";
+import { SMImgList, SMImgUList, SModalSection } from "./style";
 
 type DefaultImgSelectProps = Omit<
   PostImagesProps,
@@ -10,12 +11,12 @@ type DefaultImgSelectProps = Omit<
 
 const DefaultImgSelect = ({
   images,
-  defaultImg,
-  setDefaultImg,
+  defaultId,
+  setDefaultId,
   closeModal,
 }: DefaultImgSelectProps) => {
-  const handleClick = (id: number) => {
-    setDefaultImg(id);
+  const handleClick = (id: string) => {
+    setDefaultId(id);
     closeModal();
   };
 
@@ -24,12 +25,14 @@ const DefaultImgSelect = ({
       <h1>대표 이미지를 선택해주세요.</h1>
       <SMImgUList>
         {images.map(({ uri, id }, i) => (
-          <SMImgList
-            selected={defaultImg === i}
-            onClick={() => handleClick(i)}
-            key={id}
-          >
-            <SMImg src={uri} alt={`${i}-th image to upload`} />
+          <SMImgList selected={defaultId ? defaultId === id : i === 0} key={id}>
+            <InteractiveImage
+              label="대표 이미지로 설정"
+              hoverColor="#eece1c"
+              imageURL={uri}
+              alt={`${i}-th image to upload`}
+              onClick={() => handleClick(id)}
+            />
           </SMImgList>
         ))}
       </SMImgUList>

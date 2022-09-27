@@ -59,10 +59,6 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
-
-  .toastui-editor-contents {
-    font-size: 17px;
-  }
 `;
 
 export default GlobalStyle;

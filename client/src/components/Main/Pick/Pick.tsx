@@ -8,6 +8,7 @@ import { data, linkAdress1 } from "./PickData";
 import SideText from "./SideText";
 
 const Container = styled.div`
+  font-family: "ONE-Mobile-Regular";
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,7 +22,7 @@ const Container = styled.div`
     overflow-x: hidden;
   `)}
 
-  @media (max-width: 1110px) {
+  @media screen and (max-width: 1110px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -32,21 +33,23 @@ const Container = styled.div`
 
 const TextContainer = styled.div`
   width: 40%;
+  display: flex;
 
-  ${mobile(css`
-    flex-wrap: wrap;
-    width: auto;
-    height: 10%;
-  `)}
-
-  @media (max-width: 1110px) {
+  @media screen and (max-width: 1110px) {
     flex-direction: row;
     justify-content: center;
+    padding-right: 10%;
     align-items: center;
     height: auto;
     width: 100%;
     flex-wrap: wrap;
   }
+  ${mobile(css`
+    flex-wrap: wrap;
+    width: auto;
+    height: 10%;
+    padding: 0px;
+  `)}
 `;
 
 const Contents = styled.div`
@@ -60,13 +63,11 @@ const Contents = styled.div`
   ${mobile(css`
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   `)}
 
-  @media (max-width: 1110px) {
+  @media screen and (max-width: 1110px) {
     // flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
   }
 `;
 
@@ -83,12 +84,14 @@ const SideContents = styled.span`
     height: 100px;
   `)}
 
-  @media (max-width: 1110px) {
-    flex-direction: row;
+  @media screen and (max-width: 1110px) {
     height: 100px;
   }
 
   & > img {
+    :hover {
+      opacity: 0.5;
+    }
     ${mobile(css`
       widht: 100%;
       height: 100px;
@@ -97,30 +100,29 @@ const SideContents = styled.span`
 `;
 
 const UserPickContents = styled.span`
-  width: 440px;
-  height: 400px;
+  width: 565px;
+  height: 565px;
   position: relative;
   align-items: center;
 
   & > img {
-    widht: 440px;
-    height: 400px;
+    widht: 565px;
+    height: 565px;
     object-fit: contain;
     
     ${mobile(css`
-      widht: 100%;
-      height: 100%;
-      margin: 0% 8.7%;
+      width: 100%;
+      height: 350px;
+      // margin: 0% 8.7%;
     `)}
     `;
 
 const ContentsInfo = styled.div`
-  font-size: 32px;
+  font-size: 30px;
   line-height: 42px;
   position: absolute;
-  top: 75%;
-  left: 7%;
-  opacity: 0.7;
+  top: 78%;
+  left: 8%;
 
   // :hover {
   //   opacity: 0.8;
@@ -130,8 +132,8 @@ const ContentsInfo = styled.div`
   }
 
   ${mobile(css`
-    top: 58%;
-    left: 15%;
+    top: 46%;
+    left: 24%;
     font-size: 20px;
     line-height: 30px;
   `)}
@@ -148,10 +150,11 @@ const Pick = () => {
   // const [crrImg, setCrrImg] = useState(images[0]);
   // const handleOnClick = (id: number) => {
   //   setCrrImg(images.find((i) => i.id === id));  };
-  const [crrImg, setCrrImg] = useState(data[0]);
-  const handleOnClick = (e: any) => {
-    setCrrImg(e.target.value);
-  };
+  // const [datas, setDatas] = useState(data);
+  // const [crrImg, setCrrImg] = useState(data[0]);
+  // const handleOnClick = (e: any) => {
+  //   setCrrImg(e.target.value);
+  // };
   return (
     <Container>
       <TextContainer>
@@ -159,19 +162,15 @@ const Pick = () => {
       </TextContainer>
       <Contents>
         <SideContents>
-          {/* onClick={handleOnClick} crrImg={crrImg} images={images} /> */}
           <img
-            onChange={handleOnClick}
             alt="hand"
             src="https://user-images.githubusercontent.com/104320234/189981170-e4ceda7e-b5ff-4de1-8791-be0679027363.png"
           />
           <img
-            onClick={handleOnClick}
             alt="ktx"
             src="https://user-images.githubusercontent.com/104320234/190197236-2c14cd20-1867-4562-a249-abe026dcc096.png"
           />
           <img
-            onClick={handleOnClick}
             alt="airplane"
             src="https://user-images.githubusercontent.com/104320234/190197670-8d50fc24-c298-449c-9bae-cd69a3c73e46.png"
           />

@@ -1,7 +1,8 @@
+import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
-import Img1 from "../../../assets/images/carousel/1.png";
+import Img1 from "../../../assets/images/carousel/1.webp";
 import Carousel from "../../Carousel/Carousel";
 import Banner, { BannerProps } from "./Banner";
 
@@ -47,6 +48,10 @@ function bannerGenerator(details: BannerProps[]) {
 }
 
 const Header = () => {
+  /* const { isLoading, data, error } = useQuery(["mainBanner"], () => {
+    "f";
+  }); */
+
   return (
     <SHeader>
       <Carousel items={bannerGenerator(carouselItems)} />

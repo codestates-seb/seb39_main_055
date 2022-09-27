@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import styled, { css } from "styled-components";
 
-import borderline from "../../assets/images/mypage/borderline.png";
-import love from "../../assets/images/mypage/love.png";
-import pension from "../../assets/images/mypage/pension.jpeg";
-import { Category } from "../../components";
+import { mobile, tablet } from "../../assets";
+import user from "../../assets/images/mypage/user.png";
 import HeartList from "./HeartList/HeartList";
 import MyPostList from "./MyPostList/MyPostList";
 import { recentPlace } from "./RecentList/RecentDummyData";
@@ -13,27 +12,49 @@ import RecentList from "./RecentList/RecentList";
 
 const SContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
+  padding-top: 100px;
   align-items: center;
   gap: 24px;
   min-height: calc(100vh - 380px);
   font-family: "ONE-Mobile-Regular";
 
+  ${mobile(css`
+    padding-top: 40px;
+    justify-content: flex-start;
+    gap: 10px;
+  `)}
+
   & > h1 {
     font-size: 42px;
+    font-weight: bold;
+    ${mobile(css`
+      font-weight: 400;
+      font-size: 38px;
+      padding-top: 0px;
+      // justify-content: flex-start;
+    `)}
   }
 `;
 
 const SUserContainer = styled.div`
   width: 100%;
-  height: 895px;
-  border: 2px solid ${({ theme }) => theme.colors.black050};
+  height: auto;
+  border: 1px solid ${({ theme }) => theme.colors.black050};
   display: flex;
   justify-content: center;
+
+  ${mobile(css`
+    flex-direction: column;
+    border: none;
+    justify-content: center;
+    align-items: center;
+  `)}
 `;
 
-const SMyInfo = styled.div`
+const SMyInfoContainer = styled.div`
   width: 25%;
   height: auto;
   display: flex;
@@ -41,75 +62,228 @@ const SMyInfo = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding-top: 82px;
-  gap: 30px;
+
+  ${mobile(css`
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+  `)}
 
   & > div {
+    width: 100%;
     font-size: 26px;
-    gap: 20px;
+    font-weight: bold;
+    gap: 30px;
+    color: ${({ theme }) => theme.colors.black500};
+
+    ${mobile(css`
+      flex-direction: row;
+      font-size: 20px;
+      width: 100%;
+      height: 160px;
+      border-bottom: 0.4px solid #d6d6d6;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 5px;
+      flex-wrap: wrap;
+      gap: 10px;
+    `)}
   }
+`;
+
+const SMyInfo = styled.div`
+  width: 160px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  ${mobile(css`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  `)}
+`;
+
+const SUserImg = styled.div`
+  gap: 40px;
+  width: 160px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > img {
+    ${mobile(css`
+      width: 60px;
+      margin-left: 25px;
+    `)}
+  }
+
+  & > div {
+    ${mobile(css`
+      width: auto;
+      margin-left: 25px;
+    `)}
+  }
+
+  ${mobile(css`
+    gap: 15px;
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  `)}
 `;
 
 const SLinkContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  font-weight: 200;
+  width: 140px;
+  gap: 10px;
 
-  // gap: 26px;
+  & > svg {
+    align-items: flex-end;
+  }
 
-  // & div {
-  //   font-size: 20px;
-  //   gap: 20px;
-  // }
+  ${mobile(css`
+    padding-top: 20px;
+    flex-direction: column;
+    width: auto;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: 15px;
+  `)}
 `;
 
 const SMyContents = styled.div`
   width: 70%;
   overflow: auto;
   height: auto;
-  // display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+
+  ${mobile(css`
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  `)}
 `;
 
-const SBorderLine = styled.div`
+const SBorderLine = styled.span`
   margin: 5% 0%;
   align-items: center;
   border-left: 1px solid ${({ theme }) => theme.colors.black050};
-  height: 80%;
+  height: 1230px;
+
+  ${mobile(css`
+    display: none;
+  `)}
 `;
 
 const WritePost = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin: 0px 0px 10px 0px;
   font-size: 20px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  color: ${({ theme }) => theme.colors.black500};
+
+  :hover {
+    color: ${({ theme }) => theme.colors.black200};
+  }
+
+  ${mobile(css`
+    font-size: 16px;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  `)}
 `;
 
-const MyPosts = styled.div`
+const EditUserInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin: 0px 0px 10px 0px;
   font-size: 20px;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.black500};
+
+  :hover {
+    color: ${({ theme }) => theme.colors.black200};
+  }
+
+  ${mobile(css`
+    font-size: 16px;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  `)}
 `;
 
 const RegistCompany = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin: 0px 0px 10px 0px;
   font-size: 20px;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.black500};
+
+  :hover {
+    color: ${({ theme }) => theme.colors.black200};
+  }
+
+  ${mobile(css`
+    font-size: 16px;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  `)}
 `;
 
-const SButton = styled.div`
+const Resignation = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin: 0px 0px 10px 0px;
   font-size: 20px;
-  background-color: none;
-  border: 1px solid ${({ theme }) => theme.colors.black050};
-  border-radius: 8px;
-`;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.black500};
 
-// const Line = styled.span`
-//   margin: 5% 0%;
-//   align-items: center;
-//   border-left: 1px solid ${({ theme }) => theme.colors.black050};
-//   height: 80%;
-// `;
+  :hover {
+    color: ${({ theme }) => theme.colors.black200};
+  }
+
+  ${mobile(css`
+    font-size: 16px;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  `)}
+`;
 
 const SAsk1 = styled.a`
   font-size: 20px;
@@ -123,12 +297,7 @@ const SAsk2 = styled.a`
 `;
 
 const Mypage = () => {
-  // const getRecent = JSON.parse(localStorage.getItem("recentPlace"));
-  // useEffect(() => {
-  //   getRecent === null? localStorage.setItem("recentPlace", JSON.stringify([]))
-  //     : null;
-  // }, []);
-
+  const navigate = useNavigate();
   useEffect(() => {
     localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
   }, []);
@@ -136,40 +305,39 @@ const Mypage = () => {
   const localstorageData = JSON.parse(
     localStorage.getItem("recentPlace") as string
   );
+  // console.log(localstorageData);
   return (
     <SContainer>
       <h1>마이페이지</h1>
       <SUserContainer>
-        <SMyInfo>
-          <img
-            alt="예시"
-            src="https://user-images.githubusercontent.com/104320234/191059694-ddd96c9a-c412-4a5b-9846-a4377bd516fa.png"
-          />
-          <div>Jin 님</div>
-          <SLinkContainer>
-            <WritePost>
-              글 작성하기
-              <MdArrowForwardIos />
-            </WritePost>
-            <MyPosts>
-              내가 남긴 글
-              <MdArrowForwardIos />
-            </MyPosts>
-            <RegistCompany>
-              업주 등록
-              <MdArrowForwardIos />
-            </RegistCompany>
-            <SButton>
-              <SAsk1>1:1문의</SAsk1>
-              {/* <Line>
-                <div />
-              </Line> */}
-              <SAsk2>제휴문의</SAsk2>
-            </SButton>
-          </SLinkContainer>
-        </SMyInfo>
+        <SMyInfoContainer>
+          <SMyInfo>
+            <SUserImg>
+              <img alt="예시" src={user} />
+              <div>Jin 님</div>
+            </SUserImg>
+            <SLinkContainer>
+              <WritePost onClick={() => navigate("/post/new")}>
+                글 작성하기
+                <MdArrowForwardIos />
+              </WritePost>
+              <RegistCompany onClick={() => navigate("/signup")}>
+                업주등록하기
+                <MdArrowForwardIos />
+              </RegistCompany>
+              <EditUserInfo onClick={() => navigate("/login")}>
+                회원정보수정
+                <MdArrowForwardIos />
+              </EditUserInfo>
+              <Resignation onClick={() => navigate("/.")}>
+                회원탈퇴
+                <MdArrowForwardIos />
+              </Resignation>
+            </SLinkContainer>
+          </SMyInfo>
+        </SMyInfoContainer>
         <SBorderLine>
-          <div />
+          <span />
         </SBorderLine>
         <SMyContents>
           <HeartList />
