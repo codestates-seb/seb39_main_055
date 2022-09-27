@@ -1,4 +1,5 @@
 export { default as Main } from "./Main/Main";
+export { default as EditMyInfos } from "./Mypage/EditMyInfos/EditMyInfos";
 export { default as Mypage } from "./Mypage/Mypage";
 export * from "./Place";
 export { default as NewPlace } from "./Place/NewPlace/NewPlace";

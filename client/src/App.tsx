@@ -6,21 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { Modal, SharedLayout } from "./components";
-import {
-  EditPlace,
-  EditPost,
-  Login,
-  Main,
-  Mypage,
-  NewPlace,
-  NewPost,
-  PlaceDetail,
-  PlaceList,
-  PostDetail,
-  PostList,
-  Search,
-  Signup,
-} from "./pages";
+import { Login, Main, Mypage, Signup } from "./pages";
 import EditMyInfos from "./pages/Mypage/EditMyInfos/EditMyInfos";
 import {
   initializeUserInfos,
@@ -29,28 +15,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "./redux";
-
-const PostRouter = () => {
-  return (
-    <Routes>
-      <Route path="/new" element={<NewPost />} />
-      <Route path="/edit" element={<EditPost />} />
-      <Route path="/list" element={<PostList />} />
-      <Route path="/:id" element={<PostDetail />} />
-    </Routes>
-  );
-};
-
-const PlaceRouter = () => {
-  return (
-    <Routes>
-      <Route path="/new" element={<NewPlace />} />
-      <Route path="/list" element={<PlaceList />} />
-      <Route path="/edit" element={<EditPlace />} />
-      <Route path="/:id" element={<PlaceDetail />} />
-    </Routes>
-  );
-};
+import { PlaceRouter, PostRouter, SearchRouter, UserRouter } from "./Routers";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -78,13 +43,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Main />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/mypage/edit" element={<EditMyInfos />} />
+            <Route path="/*" element={<UserRouter />} />
             <Route path="/place/*" element={<PlaceRouter />} />
             <Route path="/post/*" element={<PostRouter />} />
-            <Route path="/search/*" element={<Search />} />
+            <Route path="/search/*" element={<SearchRouter />} />
           </Route>
         </Routes>
       </Modal>
