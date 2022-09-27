@@ -89,6 +89,9 @@ const SideContents = styled.span`
   }
 
   & > img {
+    :hover {
+      opacity: 0.5;
+    }
     ${mobile(css`
       widht: 100%;
       height: 100px;
@@ -147,10 +150,11 @@ const Pick = () => {
   // const [crrImg, setCrrImg] = useState(images[0]);
   // const handleOnClick = (id: number) => {
   //   setCrrImg(images.find((i) => i.id === id));  };
-  const [crrImg, setCrrImg] = useState(data[0]);
-  const handleOnClick = (e: any) => {
-    setCrrImg(e.target.value);
-  };
+  // const [datas, setDatas] = useState(data);
+  // const [crrImg, setCrrImg] = useState(data[0]);
+  // const handleOnClick = (e: any) => {
+  //   setCrrImg(e.target.value);
+  // };
   return (
     <Container>
       <TextContainer>
@@ -158,19 +162,15 @@ const Pick = () => {
       </TextContainer>
       <Contents>
         <SideContents>
-          {/* onClick={handleOnClick} crrImg={crrImg} images={images} /> */}
           <img
-            onChange={handleOnClick}
             alt="hand"
             src="https://user-images.githubusercontent.com/104320234/189981170-e4ceda7e-b5ff-4de1-8791-be0679027363.png"
           />
           <img
-            onClick={handleOnClick}
             alt="ktx"
             src="https://user-images.githubusercontent.com/104320234/190197236-2c14cd20-1867-4562-a249-abe026dcc096.png"
           />
           <img
-            onClick={handleOnClick}
             alt="airplane"
             src="https://user-images.githubusercontent.com/104320234/190197670-8d50fc24-c298-449c-9bae-cd69a3c73e46.png"
           />

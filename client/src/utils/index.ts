@@ -1,3 +1,4 @@
+export * from "./averageStar";
 export * from "./axiosInstance";
 export * from "./imageProcessor";
 export * from "./queryClient";
