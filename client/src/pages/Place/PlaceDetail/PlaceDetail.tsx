@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import { cafe, hospital, hotpension } from "../../../assets/images/hotplace";
 import { Slider } from "../../../components";
+import { DUMMY_DATA } from "./data";
 
 export const SContainer = styled.div`
   display: flex;
@@ -184,17 +185,13 @@ export const SReviewContainer = styled.section`
   padding: 35px 0;
 `;
 const PlaceDetail = () => {
+  const data = DUMMY_DATA;
+  const convertImages = DUMMY_DATA.storeImages.map((image) => image.storeImage);
   return (
     <SContainer>
       <main>
         <SImagesContainer>
-          <Slider
-            imageList={[
-              { image: cafe },
-              { image: hospital },
-              { image: hotpension },
-            ]}
-          />
+          <Slider imageList={convertImages} />
         </SImagesContainer>
         <SHeader>
           <STitle>
