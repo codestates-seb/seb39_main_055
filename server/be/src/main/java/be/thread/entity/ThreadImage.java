@@ -22,12 +22,16 @@ public class ThreadImage extends BaseEntity {
     @Column(nullable = false, name = "STATUS")
     private ThreadImageStatus threadImageStatus = ThreadImageStatus.THREAD_IMAGE_EXIST;
 
-    @Column(nullable = false,columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String image;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "THREAD_ID")
     private Thread thread;
+
+    public void addThread(Thread thread) {
+        this.thread = thread;
+    }
 
     public enum ThreadImageStatus {
         THREAD_IMAGE_EXIST("존재하는 사진"),

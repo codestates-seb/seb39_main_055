@@ -42,10 +42,10 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(nullable = false)
-    private double longitude;
+    private Double longitude;
 
     @Column(nullable = false)
-    private double latitude;
+    private Double latitude;
 
     @Column(nullable = true)
     private String userRole;

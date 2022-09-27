@@ -20,7 +20,7 @@ public class PrincipalDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         System.out.println("PrincipalDetailsService : 진입");
-        Optional<User> userEntity  = userRepository.findByEmail(email);
+        Optional<User> userEntity  = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
 
 
         return new PrincipalDetails(userEntity.get());

@@ -49,7 +49,7 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
-        // 이미 등록된 이메일인지 확인
+        // 현재 활동중인 유저의 이미 등록된 이메일인지 확인
         verifyExistsEmail(user.getEmail());
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -58,13 +58,23 @@ public class UserService {
         user.setImage("https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800");
 
         return userRepository.save(user);
+
     }
 
-    private void verifyExistsEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent())
+    private void verifyExistsEmail(String email) { // 현재 활동중인 유저의 이미 등록된 이메일인지 확인
+        Optional<User> user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+        if (user.isPresent()){
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+        }
     }
+
+    public void verifyExistUserByEmail(String email) { //현재 활동중인 유저중 email 파라미터로 조회
+        Optional<User> user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+        if (user.isEmpty()){//DB에 없는 유저거나 이전에 탈퇴한 유저면 예외처리함
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
+    }
+
 
     public User getUserByToken(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -93,6 +103,9 @@ public class UserService {
 
         Optional.ofNullable(user.getLatitude())//유저 latitude 수정
                 .ifPresent(userLatitude ->findUser.setLatitude(userLatitude));
+
+        Optional.ofNullable(user.getUserStatus())//유저 탈퇴
+                .ifPresent(userStatus -> findUser.setUserStatus(userStatus));
 
         return findUser;
     }
