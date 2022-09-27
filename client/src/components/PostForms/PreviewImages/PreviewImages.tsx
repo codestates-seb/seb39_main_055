@@ -34,7 +34,6 @@ import {
 export interface PostImagesProps {
   images: ThreadImages[];
   setImages: Dispatch<SetStateAction<ThreadImages[]>>;
-  editorRef?: RefObject<Editor>;
   defaultId: string;
   setDefaultId: Dispatch<SetStateAction<string>>;
   isError?: boolean;
@@ -44,7 +43,6 @@ export interface PostImagesProps {
 const PreviewImages = ({
   images,
   setImages,
-  editorRef,
   defaultId,
   setDefaultId,
   isError,
@@ -59,11 +57,6 @@ const PreviewImages = ({
       const workerInst = workers.current.length;
       const L = Math.ceil((images || []).length / workerInst);
 
-      if (editorRef) {
-        if (!images?.length || !editorRef.current) return;
-        editorRef.current.getInstance().focus();
-      }
-
       if (!images?.length) return;
 
       workers.current.forEach((wk, i) => {
@@ -74,12 +67,11 @@ const PreviewImages = ({
         }
         const imagePacking = [...images].slice(startI, endI);
         const canvas: any = document.createElement("canvas");
-
         const offscreen = canvas?.transferControlToOffscreen();
 
-        wk.addEventListener("message", function callee(e) {
-          if (e.data.length) {
-            setImages((prev) => [...prev, ...e.data]);
+        wk.addEventListener("message", function callee({ data }) {
+          if (data.length) {
+            setImages((prev) => [...prev, ...data]);
           }
           wk.removeEventListener("message", callee);
         });
