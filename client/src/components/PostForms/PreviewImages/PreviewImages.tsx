@@ -51,7 +51,6 @@ const PreviewImages = ({
   setIsError,
 }: PostImagesProps) => {
   const workers = useRef<Worker[]>([]);
-  const canvasRef = useRef<HTMLCanvasElement[] | null[]>([]);
   const { openModal, closeModal } = useModal();
 
   const handleSelectImages = useCallback(
@@ -74,8 +73,7 @@ const PreviewImages = ({
           endI = images.length;
         }
         const imagePacking = [...images].slice(startI, endI);
-        const canvas =
-          document.createElement("canvas"); /* canvasRef.current[i]; */
+        const canvas: any = document.createElement("canvas");
 
         const offscreen = canvas?.transferControlToOffscreen();
 
@@ -170,9 +168,6 @@ const PreviewImages = ({
           </SList>
         ))}
       </SThumbnailUList>
-      {new Array(16).fill(0).map((e, i) => (
-        <SCanvas ref={(el) => (canvasRef.current[i] = el)} key={i} />
-      ))}
     </SImageAside>
   );
 };
