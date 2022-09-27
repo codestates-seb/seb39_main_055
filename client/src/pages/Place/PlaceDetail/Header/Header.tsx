@@ -190,10 +190,10 @@ const Header = ({ data }: Prop) => {
         <h1>{data?.storeName}</h1>
         <HiOutlineHeart onClick={handleHeartClick} />
       </STitle>
-      {/* <p>{data.addressName}</p> */}
       <SScoreContainer>
         <AiFillStar />
-        <span>{data?.reviews.data && averageStar(data?.reviews.data)}</span>
+        {/* <span>{data?.reviews.data && averageStar(data?.reviews.data)}</span> */}
+        <span>0.0(0)</span>
         <div>
           <span>리뷰보기</span>
           <MdOutlineKeyboardArrowRight />
