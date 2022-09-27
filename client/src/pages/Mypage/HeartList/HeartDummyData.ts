@@ -14,7 +14,7 @@ interface Props {
 export const heartDummyData = [
   {
     store: {
-      storeId: 5,
+      storeId: 1,
       category: "카페",
       storeName: "동작을 점령해버린 카페! 2호점",
       addressName: "서울시 동작구 흑석동 123-123",
@@ -32,7 +32,7 @@ export const heartDummyData = [
   },
   {
     store: {
-      storeId: 5,
+      storeId: 2,
       category: "카페",
       storeName: "동작을 점령해버린 카페! 2호점",
       addressName: "서울시 동작구 흑석동 123-123",
@@ -50,7 +50,7 @@ export const heartDummyData = [
   },
   {
     store: {
-      storeId: 5,
+      storeId: 3,
       category: "카페",
       storeName: "동작을 점령해버린 카페! 2호점",
       addressName: "서울시 동작구 흑석동 123-123",
@@ -68,7 +68,7 @@ export const heartDummyData = [
   },
   {
     store: {
-      storeId: 5,
+      storeId: 4,
       category: "카페",
       storeName: "동작을 점령해버린 카페! 2호점",
       addressName: "서울시 동작구 흑석동 123-123",

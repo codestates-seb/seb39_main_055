@@ -29,7 +29,7 @@ export const post = [
   },
   {
     data: {
-      threadId: 1,
+      threadId: 2,
       body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
       user: {
         nickname: "yjy6",
@@ -45,7 +45,7 @@ export const post = [
   },
   {
     data: {
-      threadId: 1,
+      threadId: 3,
       body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
       user: {
         nickname: "yjy6",
@@ -61,7 +61,7 @@ export const post = [
   },
   {
     data: {
-      threadId: 1,
+      threadId: 4,
       body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
       user: {
         nickname: "yjy6",
@@ -77,7 +77,7 @@ export const post = [
   },
   {
     data: {
-      threadId: 1,
+      threadId: 5,
       body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
       user: {
         nickname: "yjy6",
@@ -93,7 +93,7 @@ export const post = [
   },
   {
     data: {
-      threadId: 1,
+      threadId: 6,
       body: "저와 함께 사는 친구들입니다. 좋아요 한 번씩 해주면 기부니 조크든요",
       user: {
         nickname: "yjy6",
