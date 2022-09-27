@@ -37,7 +37,7 @@ export const SInfoContainer = styled.div`
 `;
 
 interface Prop {
-  data: Store;
+  data: Store | undefined;
 }
 
 const Info = ({ data }: Prop) => {
@@ -46,21 +46,29 @@ const Info = ({ data }: Prop) => {
       <SH2>기본 정보</SH2>
       <div>
         <span>전화</span>
-        <span>{data.phone}</span>
+        <span>{data?.phone}</span>
       </div>
       <div>
         <span>홈페이지</span>
-        <span>{data.homepage}</span>
+        <span>{data?.homepage}</span>
       </div>
       <div>
         <span>주소</span>
-        <span>{data.addressName}</span>
+        <span>{data?.addressName}</span>
       </div>
       <Map
-        center={{ lat: data.latitude, lng: data.longitude }}
+        center={{
+          lat: data?.latitude as number,
+          lng: data?.longitude as number,
+        }}
         style={{ width: "100%", height: "400px", marginTop: "40px" }}
       >
-        <MapMarker position={{ lat: data.latitude, lng: data.longitude }} />
+        <MapMarker
+          position={{
+            lat: data?.latitude as number,
+            lng: data?.longitude as number,
+          }}
+        />
       </Map>
     </SInfoContainer>
   );

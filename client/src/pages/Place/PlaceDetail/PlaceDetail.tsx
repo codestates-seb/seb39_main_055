@@ -1,5 +1,8 @@
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { getPlaceDetail } from "../../../apis/place";
 import { LoadingSpinner, Slider } from "../../../components";
 import { DUMMY_DATA } from "./data";
 import Header from "./Header/Header";
@@ -50,8 +53,12 @@ export const SLoadingContainer = styled.div`
 `;
 
 const PlaceDetail = () => {
-  const data = DUMMY_DATA;
-  const isLoading = false;
+  // const data = DUMMY_DATA;
+  // const isLoading = false;
+  const params = useParams();
+  const { data, isLoading } = useQuery(["place"], () =>
+    getPlaceDetail(params.id as string)
+  );
 
   if (isLoading) {
     return (
@@ -66,13 +73,13 @@ const PlaceDetail = () => {
       <main>
         <SImagesContainer>
           <Slider
-            imageList={data.storeImages.map((image) => image.storeImage)}
+            imageList={data?.storeImages.map((image) => image.storeImage)}
           />
         </SImagesContainer>
         <Header data={data} />
         <SDescriptionContainer>
           <SH2>시설 개요</SH2>
-          <SP>{data.body}</SP>
+          <SP>{data?.body}</SP>
         </SDescriptionContainer>
         <Info data={data} />
       </main>

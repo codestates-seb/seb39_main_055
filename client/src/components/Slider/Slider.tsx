@@ -32,14 +32,14 @@ export const Wrapper = styled.div`
 `;
 
 interface Props {
-  imageList: Array<string>;
+  imageList: Array<string> | undefined;
 }
 
 const Slider: React.FC<Props> = ({ imageList }) => {
   return (
     <Wrapper>
       <Swiper spaceBetween={30} navigation modules={[Navigation]}>
-        {imageList.map((image, index) => (
+        {imageList?.map((image, index) => (
           <SwiperSlide key={index}>
             <img src={image} alt="animals" />
           </SwiperSlide>

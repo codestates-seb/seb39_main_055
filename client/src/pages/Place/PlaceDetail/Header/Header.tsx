@@ -127,7 +127,7 @@ export const SLocationContainer = styled.div`
 `;
 
 interface Prop {
-  data: Store;
+  data: Store | undefined;
 }
 
 const Header = ({ data }: Prop) => {
@@ -144,13 +144,13 @@ const Header = ({ data }: Prop) => {
   return (
     <SHeader>
       <STitle>
-        <h1>{data.storeName}</h1>
+        <h1>{data?.storeName}</h1>
         <HiOutlineHeart />
       </STitle>
       {/* <p>{data.addressName}</p> */}
       <SScoreContainer>
         <AiFillStar />
-        <span>{averageStar(data.reviews.data)}</span>
+        <span>{data?.reviews.data && averageStar(data?.reviews.data)}</span>
         <div>
           <span>리뷰보기</span>
           <MdOutlineKeyboardArrowRight />
@@ -159,7 +159,7 @@ const Header = ({ data }: Prop) => {
       <SLocationContainer>
         <div>
           <FaMapMarkerAlt />
-          <span>{data.addressName}</span>
+          <span>{data?.addressName}</span>
         </div>
         <div>
           <button
