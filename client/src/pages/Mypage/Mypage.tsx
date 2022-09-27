@@ -285,19 +285,9 @@ const Resignation = styled.div`
   `)}
 `;
 
-const SAsk1 = styled.a`
-  font-size: 20px;
-  padding: 20px 15px 20px 20px;
-`;
-
-const SAsk2 = styled.a`
-  font-size: 20px;
-  padding: 20px 20px 20px 15px;
-  border-left: 1px solid ${({ theme }) => theme.colors.black050};
-`;
-
 const Mypage = () => {
   const navigate = useNavigate();
+
   useEffect(() => {
     localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
   }, []);

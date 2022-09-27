@@ -1,3 +1,5 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
 import { Editor } from "@toast-ui/react-editor";
@@ -19,6 +21,7 @@ import {
   SaButton,
   SaLabel,
   SbBox,
+  SCanvas,
   SError,
   SFileInput,
   SImageAside,
@@ -70,6 +73,9 @@ const PreviewImages = ({
           endI = images.length;
         }
         const imagePacking = [...images].slice(startI, endI);
+        const canvas: any = document.createElement("canvas");
+
+        const offscreen = canvas?.transferControlToOffscreen();
 
         wk.addEventListener("message", function callee(e) {
           if (e.data.length) {
@@ -78,7 +84,9 @@ const PreviewImages = ({
           wk.removeEventListener("message", callee);
         });
 
-        wk.postMessage(imagePacking);
+        wk.postMessage({ images: imagePacking, canvas: offscreen }, [
+          offscreen,
+        ]);
       });
 
       if (setIsError) {

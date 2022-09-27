@@ -102,9 +102,20 @@ const SText = styled.div`
 `;
 
 const RecentList = () => {
-  const localstorageData = JSON.parse(
-    localStorage.getItem("recentPlace") as string
-  );
+  const defaultStorage = "아직 이용 내역이 없습니다.";
+  // console.log(defaultStorage);
+  const getRecentList = window.localStorage.getItem("recentPlace");
+
+  const localstorageData = getRecentList
+    ? JSON.parse(getRecentList)
+    : defaultStorage;
+
+  if (localstorageData.length > 0) {
+    window.localStorage.setItem(
+      "defaultStorage",
+      JSON.stringify(getRecentList)
+    );
+  }
   // console.log(localstorageData);
   return (
     <SContainer>

@@ -8,7 +8,7 @@ export const SCategoryMenu = styled.menu`
   flex-flow: row wrap;
   justify-content: space-evenly;
   gap: 20px 20px;
-  margin-bottom: 15px;
+  /* margin: 15px 10px; */
 
   ${mobile(css`
     gap: 15px 10px;
@@ -40,21 +40,30 @@ export const SIconList = styled.li`
   `)}
 `;
 
-export const SImgLink = styled(Link)`
+export const SImgLink = styled(Link)<{ selected?: boolean }>`
+  width: 105px;
   height: 105px;
   border-radius: 100%;
   border: 2px solid #a4a4a4;
   transition: 0.5s border;
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      border: 2px solid #ffc107;
+    `}
 
   &:hover {
     border: 2px solid #ffc107;
   }
 
   ${tablet(css`
-    height: 100px;
+    width: 95px;
+    height: 95px;
   `)}
 
   ${mobile(css`
+    width: 80px;
     height: 80px;
   `)}
 `;
@@ -69,8 +78,15 @@ export const SIconImg = styled.img`
   `)}
 `;
 
-export const SIconText = styled.span`
+export const SIconText = styled.span<{ selected?: boolean }>`
   font-size: 18px;
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      color: #ffc107;
+      font-weight: bold;
+    `}
 
   ${mobile(css`
     font-size: 15px;

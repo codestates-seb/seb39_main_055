@@ -33,11 +33,13 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
     UsePlaceForm
   >((payload) => uploadImages(payload.storeImages));
 
-  const { mutate: addPlaceMutate, isSuccess: isAddSuccess } = useMutation<
-    Store,
-    AxiosError<ErrorResponse>,
-    AddPlacePayload
-  >((payload) => addPlace(payload));
+  const {
+    data: placeData,
+    mutate: addPlaceMutate,
+    isSuccess: isAddSuccess,
+  } = useMutation<Store, AxiosError<ErrorResponse>, AddPlacePayload>(
+    (payload) => addPlace(payload)
+  );
 
   const { mutate: editPlaceMutate, isSuccess: isEditSuccess } = useMutation<
     Store,
@@ -77,7 +79,7 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
                   latitude: coordinateData.documents[0].y,
                 });
 
-            queryClient.invalidateQueries("place"); // list 구현시 key 수정
+            // queryClient.invalidateQueries("place"); // list 구현시 key 수정
             setIsLoading(false);
           },
         });
@@ -85,7 +87,7 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
     }
   );
 
-  return { refetch, isAddSuccess, isEditSuccess, isLoading };
+  return { refetch, isAddSuccess, isEditSuccess, isLoading, placeData };
 };
 
 export default usePlace;
