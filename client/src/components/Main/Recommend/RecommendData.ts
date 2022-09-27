@@ -13,7 +13,7 @@ export const scrollDummyImg = [
     textTitle: "한강 달빛 야시장",
     textLine1: "한강에서 즐기는 축제!",
     textLine2: "3년만에 재개장하는 야시장에서 다양하게 즐겨보세요.",
-    link: "/",
+    link: "https://bamdokkaebi.org/notice",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const scrollDummyImg = [
     textTitle: "생태정원 & 카페 문화박물관",
     textLine1: "제주 '숨도'에서 귀한 경험을 해보세요!",
     textLine2: "다양한 포토존을 통해 반려동물과 추억을 쌓아요!",
-    link: "/",
+    link: "https://www.instagram.com/jeju_soomdo/?hl=ko",
   },
   {
     id: 3,
@@ -37,7 +37,7 @@ export const scrollDummyImg = [
     textTitle: "경주 독채 펜션'오늘도 너와'",
     textLine1: "우리들의 오롯한 쉼이 되어주는 ‘오늘도 너와’에서",
     textLine2: "잊지못할 경험을 해보세요!",
-    link: "/",
+    link: "https://m.place.naver.com/accommodation/1081181858/home?entry=ple&businessCategory=pension",
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ export const scrollDummyImg = [
     textTitle: "한강 달빛 야시장2",
     textLine1: "한강에서 즐기는 축제!",
     textLine2: "3년만에 재개장하는 야시장에서 다양하게 즐겨보세요.",
-    link: "/",
+    link: "https://bamdokkaebi.org/notice",
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ export const scrollDummyImg = [
     textTitle: "생태정원 & 카페 문화박물관2",
     textLine1: "제주 '숨도'에서 귀한 경험을 해보세요!",
     textLine2: "다양한 포토존을 통해 반려동물과 추억을 쌓아요!",
-    link: "/",
+    link: "https://www.instagram.com/jeju_soomdo/?hl=ko",
   },
   {
     id: 6,
@@ -73,6 +73,6 @@ export const scrollDummyImg = [
     textTitle: "경주 독채 펜션'오늘도 너와'2",
     textLine1: "우리들의 오롯한 쉼이 되어주는 ‘오늘도 너와’에서",
     textLine2: "잊지못할 경험을 해보세요!",
-    link: "/",
+    link: "https://m.place.naver.com/accommodation/1081181858/home?entry=ple&businessCategory=pension",
   },
 ];
