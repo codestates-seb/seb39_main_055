@@ -13,10 +13,10 @@ export const Container = styled.div`
     width: 44px;
     height: 44px;
     margin: 6px;
-    border: 3px solid #919191;
+    border: 3px solid #ffc107;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #919191 transparent transparent transparent;
+    border-color: #ffc107 transparent transparent transparent;
   }
 
   & > div:nth-child(1) {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Slider } from "../../../components";
+import { LoadingSpinner, Slider } from "../../../components";
 import { DUMMY_DATA } from "./data";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
@@ -8,6 +8,7 @@ import Info from "./Info/Info";
 export const SContainer = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 380px);
 
   @media screen and (max-width: 1130px) {
     padding: 20px;
@@ -39,8 +40,27 @@ export const SP = styled.p`
 export const SReviewContainer = styled.section`
   padding: 35px 0;
 `;
+
+export const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 380px);
+`;
+
 const PlaceDetail = () => {
   const data = DUMMY_DATA;
+  const isLoading = false;
+
+  if (isLoading) {
+    return (
+      <SLoadingContainer>
+        <LoadingSpinner />
+      </SLoadingContainer>
+    );
+  }
+
   return (
     <SContainer>
       <main>
