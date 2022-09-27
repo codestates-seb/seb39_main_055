@@ -6,8 +6,8 @@ export interface Store {
   updatedAt: string;
   storeStatus: string;
   category: string;
-  longitude: string;
-  latitude: string;
+  longitude: number;
+  latitude: number;
   storeName: string;
   addressName: string;
   body: string;

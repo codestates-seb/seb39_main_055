@@ -26,8 +26,8 @@ interface State {
   storeName: string;
   phone: string;
   homepage: string;
-  longitude: string;
-  latitude: string;
+  longitude: number;
+  latitude: number;
   storeImages: ThreadImages[];
 }
 
