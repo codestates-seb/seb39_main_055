@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import { getPlaceDetail } from "../../../apis/place";
 import { LoadingSpinner, Slider } from "../../../components";
-import { DUMMY_DATA } from "./data";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
 
@@ -53,10 +52,8 @@ export const SLoadingContainer = styled.div`
 `;
 
 const PlaceDetail = () => {
-  // const data = DUMMY_DATA;
-  // const isLoading = false;
   const params = useParams();
-  const { data, isLoading } = useQuery(["place"], () =>
+  const { data, isLoading } = useQuery(["place", params.id], () =>
     getPlaceDetail(params.id as string)
   );
 
