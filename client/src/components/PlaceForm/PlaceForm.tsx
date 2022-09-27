@@ -109,19 +109,20 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     refetch();
   };
 
-  const { refetch, isAddSuccess, isEditSuccess, isLoading } = usePlace(
-    {
-      category: checkboxValue,
-      addressName: addressValue,
-      body: descriptionValue,
-      storeName: nameValue,
-      phone: phoneNumberValue,
-      homepage: homePageValue,
-      storeImages: images,
-    },
-    isEditPage,
-    state?.storeId as string
-  );
+  const { placeData, refetch, isAddSuccess, isEditSuccess, isLoading } =
+    usePlace(
+      {
+        category: checkboxValue,
+        addressName: addressValue,
+        body: descriptionValue,
+        storeName: nameValue,
+        phone: phoneNumberValue,
+        homepage: homePageValue,
+        storeImages: images,
+      },
+      isEditPage,
+      state?.storeId as string
+    );
 
   useEffect(() => {
     if (isEditPage && state) {
@@ -134,10 +135,15 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
       setDescriptionValue(state.body);
     }
 
-    if (isAddSuccess || isEditSuccess) {
-      navigate("/"); // list 페이지 구현되면 수정
+    if (isAddSuccess) {
+      navigate(`/place/${placeData?.storeId}`);
+    }
+
+    if (isEditSuccess) {
+      navigate(`/place/${state?.storeId}`);
     }
   }, [
+    placeData,
     isAddSuccess,
     isEditSuccess,
     navigate,
