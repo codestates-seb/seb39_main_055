@@ -5,6 +5,7 @@ export { default as InteractiveImage } from "./InteractiveImage/InteractiveImage
 export { default as LoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 export * from "./Main";
 export { Modal, useModal } from "./Modal";
+export { default as DeleteModal } from "./Modal/DeleteModal/DeleteModal";
 export { default as PlaceForm } from "./PlaceForm/PlaceForm";
 export { default as SearchAddress } from "./SearchAddress/SearchAddress";
 export { default as SharedLayout } from "./SharedLayout/SharedLayout";
