@@ -19,6 +19,10 @@ interface RecommendProps {
 const Container = styled.div``;
 
 const Image = styled.img`
+  :hover {
+    opacity: 0.7;
+  }
+
   ${mobile(css`
     width: 400px;
     flex-wrap: wrap;
@@ -80,7 +84,11 @@ const ScrollContents = ({
     <Container>
       <section>
         <div>
-          <Image src={image} alt={alt} />
+          <Image
+            onClick={() => window.open(link, "_blank")}
+            src={image}
+            alt={alt}
+          />
         </div>
         <div>
           <Category>{category}</Category>
