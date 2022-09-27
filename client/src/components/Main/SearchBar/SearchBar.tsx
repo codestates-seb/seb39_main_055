@@ -34,6 +34,7 @@ export const SSearchBar = styled.div`
 const SearchBar = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
+  const defaultResultpath = `/search?search=${inputValue}&category=all`;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -41,13 +42,13 @@ const SearchBar = () => {
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue) {
-      navigate(`/search?search=${inputValue}`);
+      navigate(defaultResultpath);
       setInputValue("");
     }
   };
 
   const handleSearchIconClick = () => {
-    if (inputValue) navigate(`/search?search=${inputValue}`);
+    if (inputValue) navigate(defaultResultpath);
   };
 
   return (
