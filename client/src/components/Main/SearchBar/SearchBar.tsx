@@ -12,7 +12,7 @@ export const SSearchBar = styled.div`
   margin: 0 auto;
   margin-top: 100px;
   width: 75%;
-  height: 64px;
+  height: 55px;
   border: 1px solid #707070;
   border-radius: 40px;
   transition: all 0.4s;
@@ -21,6 +21,7 @@ export const SSearchBar = styled.div`
     outline: none;
     border: none;
     width: 90%;
+    font-size: 16px;
   }
 
   & > img {

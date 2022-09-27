@@ -41,6 +41,7 @@ export const SIconList = styled.li`
 `;
 
 export const SImgLink = styled(Link)`
+  width: 105px;
   height: 105px;
   border-radius: 100%;
   border: 2px solid #a4a4a4;
