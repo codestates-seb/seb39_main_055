@@ -27,7 +27,7 @@ public interface UserMapper {
 
         UserResponseDto userResponseDto = new UserResponseDto();
 
-//        userResponseDto.setUserId(user.getUserId());
+        userResponseDto.setUserId(user.getUserId());
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setNickname(user.getNickname());
 //        userResponseDto.setPassword(user.getPassword());
