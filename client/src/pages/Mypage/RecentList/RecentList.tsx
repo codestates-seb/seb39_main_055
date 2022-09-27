@@ -109,6 +109,13 @@ const RecentList = () => {
   const localstorageData = getRecentList
     ? JSON.parse(getRecentList)
     : defaultStorage;
+
+  if (localstorageData.length > 0) {
+    window.localStorage.setItem(
+      "defaultStorage",
+      JSON.stringify(getRecentList)
+    );
+  }
   // console.log(localstorageData);
   return (
     <SContainer>
