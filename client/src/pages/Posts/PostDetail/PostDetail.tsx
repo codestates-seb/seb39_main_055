@@ -139,6 +139,7 @@ export const SListContainer = styled.ul`
 
 const PostDetail = () => {
   const data = detailData;
+  const convertImages = detailData.threadImages.map((image) => image.image);
   const [isLike, setIsLike] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -154,7 +155,7 @@ const PostDetail = () => {
           updatedAt={data.updatedAt}
         />
         <SImageContainer>
-          <Slider imageList={data.threadImages} />
+          <Slider imageList={convertImages} />
         </SImageContainer>
         <SBody>{data.body}</SBody>
         <SLikeContainer isLike={isLike}>
