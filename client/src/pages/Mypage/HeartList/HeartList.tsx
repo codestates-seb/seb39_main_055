@@ -123,7 +123,7 @@ const SRedLikeIcon = styled.span`
   top: 82%;
   right: 7%;
 `;
-console.log(heartDummyData);
+// console.log(heartDummyData);
 
 const HeartList = () => {
   return (

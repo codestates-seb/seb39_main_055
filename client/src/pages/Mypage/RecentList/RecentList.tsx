@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import { mobile, tablet } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
+import { EmptyList, recentPlace } from "./RecentDummyData";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
@@ -102,7 +103,11 @@ const SText = styled.div`
 `;
 
 const RecentList = () => {
-  const defaultStorage = "아직 이용 내역이 없습니다.";
+  // const localstorageData = JSON.parse(
+  //   localStorage.getItem("recentPlace") as string
+  // );
+  const defaultStorage = EmptyList;
+
   // console.log(defaultStorage);
   const getRecentList = window.localStorage.getItem("recentPlace");
 
@@ -113,10 +118,10 @@ const RecentList = () => {
   if (localstorageData.length > 0) {
     window.localStorage.setItem(
       "defaultStorage",
-      JSON.stringify(getRecentList)
+      JSON.stringify(defaultStorage)
     );
   }
-  // console.log(localstorageData);
+  console.log(localstorageData);
   return (
     <SContainer>
       <SHeader>
@@ -124,26 +129,28 @@ const RecentList = () => {
         <div>최근본동반장소</div>
       </SHeader>
       <SItemContainer>
-        {localstorageData.map((place: any) => (
-          <SCardContainer key={place.storeId}>
-            <SCard>
-              <img
-                src={
-                  place.storeImages.length >= 1
-                    ? place.storeImages[0].storeImage
-                    : defaultImg
-                }
-                alt="장소이미지"
-                key={place.storeId}
-              />
-              <STextInfo>
-                <STitle>{place.category}</STitle>
-                <SArea>{place.addressName}</SArea>
-                <SText>{place.storeName}</SText>
-              </STextInfo>
-            </SCard>
-          </SCardContainer>
-        ))}
+        {localstorageData.length > 0
+          ? localstorageData.map((place: any) => (
+              <SCardContainer key={place.storeId}>
+                <SCard>
+                  <img
+                    src={
+                      place.storeImages.length >= 1
+                        ? place.storeImages[0].storeImage
+                        : defaultImg
+                    }
+                    alt="장소이미지"
+                    key={place.storeId}
+                  />
+                  <STextInfo>
+                    <STitle>{place.category}</STitle>
+                    <SArea>{place.addressName}</SArea>
+                    <SText>{place.storeName}</SText>
+                  </STextInfo>
+                </SCard>
+              </SCardContainer>
+            ))
+          : defaultStorage}
       </SItemContainer>
     </SContainer>
   );
