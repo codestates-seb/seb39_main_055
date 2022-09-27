@@ -12,6 +12,7 @@ import {
   Review,
   SearchBar,
 } from "../../components";
+import { menuList } from "../../constants";
 
 const Container = styled.div`
   min-height: inherit;
@@ -60,7 +61,7 @@ const Main = () => {
       <Header />
       <section>
         <SearchBar />
-        <Category />
+        <Category menuList={menuList} />
         {[<Recommend />, <HotPlace />, <Pick />, <Review />].map(
           (component, idx) => (
             <Fade key={idx} direction="left">
