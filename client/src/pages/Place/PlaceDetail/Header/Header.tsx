@@ -3,9 +3,11 @@ import { AiFillStar } from "react-icons/ai";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { HiOutlineHeart } from "react-icons/hi";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import { deletePlace } from "../../../../apis/place";
 import { DeleteModal, useModal } from "../../../../components";
 import { Store } from "../../../../types";
 import { averageStar } from "../../../../utils";
@@ -132,12 +134,15 @@ interface Prop {
 
 const Header = ({ data }: Prop) => {
   // 좋아요 api 연결
-  const [isLike, setIsLike] = useState(false);
+  // const [isLike, setIsLike] = useState(false);
   const navigate = useNavigate();
   const { openModal, closeModal } = useModal();
+  const { mutate } = useMutation(deletePlace, {
+    onSuccess: () => navigate("/place/list"),
+  });
 
   const handleDelete = () => {
-    // 삭제 api 연결
+    mutate(data?.storeId as string);
     closeModal();
   };
 
