@@ -1,3 +1,4 @@
+export { default as Category } from "./Category/Category";
 export { default as Dots } from "./Dots/Dots";
 export { default as CustomEditor } from "./Editor/CustomEditor/CustomEditor";
 export * from "./Form";

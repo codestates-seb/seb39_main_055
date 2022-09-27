@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { mobile, tablet } from "../../../assets";
+import { mobile, tablet } from "../../assets";
 
 export const SCategoryMenu = styled.menu`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
   gap: 20px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 
   ${mobile(css`
     gap: 15px 10px;
@@ -41,8 +41,7 @@ export const SIconList = styled.li`
 `;
 
 export const SImgLink = styled(Link)`
-  width: 100%;
-  height: 130px;
+  height: 105px;
   border-radius: 100%;
   border: 2px solid #a4a4a4;
   transition: 0.5s border;
@@ -63,7 +62,7 @@ export const SImgLink = styled(Link)`
 export const SIconImg = styled.img`
   width: 100%;
   height: 100%;
-  padding: 25px;
+  padding: 20px;
 
   ${mobile(css`
     padding: 15px;
@@ -71,9 +70,9 @@ export const SIconImg = styled.img`
 `;
 
 export const SIconText = styled.span`
-  font-size: 20px;
+  font-size: 18px;
 
   ${mobile(css`
-    font-size: 17px;
+    font-size: 15px;
   `)}
 `;
