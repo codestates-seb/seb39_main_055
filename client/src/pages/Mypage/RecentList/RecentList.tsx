@@ -5,7 +5,6 @@ import styled, { css } from "styled-components";
 import { mobile, tablet } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
-import { recentPlace } from "./RecentDummyData";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
@@ -106,7 +105,7 @@ const RecentList = () => {
   const localstorageData = JSON.parse(
     localStorage.getItem("recentPlace") as string
   );
-  console.log(localstorageData);
+  // console.log(localstorageData);
   return (
     <SContainer>
       <SHeader>
@@ -122,7 +121,7 @@ const RecentList = () => {
                   place.storeImages.length >= 1
                     ? place.storeImages[0].storeImage
                     : defaultImg
-                } // 기본 이미지 수정 예정
+                }
                 alt="장소이미지"
                 key={place.storeId}
               />
