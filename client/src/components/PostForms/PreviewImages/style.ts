@@ -147,3 +147,7 @@ export const SError = styled.div<{ isError: boolean | undefined }>`
   color: #f53a3a;
   font-size: 12px;
 `;
+
+export const SCanvas = styled.canvas`
+  display: none;
+`;

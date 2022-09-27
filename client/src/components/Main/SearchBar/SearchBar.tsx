@@ -12,7 +12,7 @@ export const SSearchBar = styled.div`
   margin: 0 auto;
   margin-top: 100px;
   width: 75%;
-  height: 64px;
+  height: 55px;
   border: 1px solid #707070;
   border-radius: 40px;
   transition: all 0.4s;
@@ -21,6 +21,7 @@ export const SSearchBar = styled.div`
     outline: none;
     border: none;
     width: 90%;
+    font-size: 16px;
   }
 
   & > img {
@@ -33,6 +34,7 @@ export const SSearchBar = styled.div`
 const SearchBar = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
+  const defaultResultpath = `/search?search=${inputValue}&category=all`;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -40,13 +42,13 @@ const SearchBar = () => {
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue) {
-      navigate(`/search?search=${inputValue}`);
+      navigate(defaultResultpath);
       setInputValue("");
     }
   };
 
   const handleSearchIconClick = () => {
-    if (inputValue) navigate(`/search?search=${inputValue}`);
+    if (inputValue) navigate(defaultResultpath);
   };
 
   return (
