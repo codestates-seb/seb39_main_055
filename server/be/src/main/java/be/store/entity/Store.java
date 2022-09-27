@@ -76,4 +76,19 @@ public class Store extends BaseEntity {
             this.status = status;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Store store = (Store) o;
+
+        return storeId.equals(store.storeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return storeId.hashCode();
+    }
 }

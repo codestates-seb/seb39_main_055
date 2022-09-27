@@ -90,7 +90,6 @@ public interface StoreMapper {
     default StoreAndReviewResponseDto storeToStoreAndReviewResponseDto(ReviewService reviewService,HeartService heartService,ReviewMapper reviewMapper, UserMapper userMapper, StoreImageService storeImageService,
                                                                        Store store, Integer reviewPage,Integer reviewSize,String reviewSort){
 
-        System.out.println("여기3");
         StoreAndReviewResponseDto storeAndReviewResponseDto = new StoreAndReviewResponseDto();
         storeAndReviewResponseDto.setStoreId(store.getStoreId());
         storeAndReviewResponseDto.setCreatedAt(store.getCreatedAt());
@@ -108,7 +107,6 @@ public interface StoreMapper {
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(store.getUser());
         storeAndReviewResponseDto.setUser(userResponseDto);
 
-        System.out.println("여기2");
         storeAndReviewResponseDto.setStoreImages(storeImagesToStoreImageResponseDtos(//가게에 대한 이미지 속성 추가
                 storeImageService.findVerifiedStoreImages(store)//해당 스토어의 스토어이미지들 중에서 status가 STORE_IMAGE_EXIST것만 반환
         ));
@@ -120,8 +118,6 @@ public interface StoreMapper {
         storeAndReviewResponseDto.setReviews(new MultiResponseDto<>(
                 reviewMapper.reviewsToReviewResponseDtos(userMapper,reviews),pageReviews
         ));
-
-        System.out.println("여기5");
 
 
         List<Heart> hearts = heartService.findExistHeartsByStore(store);//해당 store의 하트중에 Status가 HEART_EXIST인 하트들만 반환
