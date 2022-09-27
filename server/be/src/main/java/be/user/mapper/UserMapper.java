@@ -7,6 +7,7 @@ import be.user.entity.User;
 import be.user.service.UserService;
 import org.mapstruct.Mapper;
 
+//
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
