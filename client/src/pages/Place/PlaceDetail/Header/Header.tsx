@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 import { deletePlace } from "../../../../apis/place";
 import { DeleteModal, useModal } from "../../../../components";
+import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
 import { averageStar } from "../../../../utils";
 
@@ -136,6 +137,7 @@ const Header = ({ data }: Prop) => {
   // 좋아요 api 연결
   // const [isLike, setIsLike] = useState(false);
   const navigate = useNavigate();
+  const { userInfos } = useAppSelector((state) => state.user);
   const { openModal, closeModal } = useModal();
   const { mutate } = useMutation(deletePlace, {
     onSuccess: () => navigate("/place/list"),
@@ -166,28 +168,30 @@ const Header = ({ data }: Prop) => {
           <FaMapMarkerAlt />
           <span>{data?.addressName}</span>
         </div>
-        <div>
-          <button
-            type="button"
-            onClick={() => navigate("/place/edit", { state: data })}
-          >
-            수정
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              openModal(
-                <DeleteModal
-                  title="매장을 삭제 하시겠습니까?"
-                  onCancel={closeModal}
-                  onDelete={handleDelete}
-                />
-              )
-            }
-          >
-            삭제
-          </button>
-        </div>
+        {userInfos?.email === data?.user.email && (
+          <div>
+            <button
+              type="button"
+              onClick={() => navigate("/place/edit", { state: data })}
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                openModal(
+                  <DeleteModal
+                    title="매장을 삭제 하시겠습니까?"
+                    onCancel={closeModal}
+                    onDelete={handleDelete}
+                  />
+                )
+              }
+            >
+              삭제
+            </button>
+          </div>
+        )}
       </SLocationContainer>
     </SHeader>
   );
