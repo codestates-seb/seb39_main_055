@@ -14,6 +14,7 @@ import {
   Mypage,
   NewPlace,
   NewPost,
+  PlaceDetail,
   PlaceList,
   PostDetail,
   PostList,
@@ -46,6 +47,7 @@ const PlaceRouter = () => {
       <Route path="/new" element={<NewPlace />} />
       <Route path="/list" element={<PlaceList />} />
       <Route path="/edit" element={<EditPlace />} />
+      <Route path="/:id" element={<PlaceDetail />} />
     </Routes>
   );
 };
