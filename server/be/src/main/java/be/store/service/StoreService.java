@@ -15,9 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.lang.Math;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.lang.Math.*;
 
 @Service
 @AllArgsConstructor
@@ -108,7 +111,7 @@ public class StoreService {
     }
 
     public Page<Store> findStores(int page,int size,String sort,String category,Double latitude,Double longitude){
-        System.out.println(sort);
+
         if(sort.equals("createdAt")){//최신순 정렬
             Page<Store> stores = storeRepository.findByCategoryAndStoreStatus(
                     PageRequest.of(page,size, Sort.by(sort).descending()),
@@ -135,6 +138,67 @@ public class StoreService {
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
+
+    }
+
+    public Page<Store> searchStores(Double latitude,Double longitude,String category,String keyword,Integer page,Integer size,String sort){
+
+        String[] keywords = keyword.split(" "); //뛰어쓰기 단위로 키워드 나누기
+        List<Store> searchStoreResult = new ArrayList<>();
+
+
+        if(category.equals("total")){ //전체 카테고리에서 검색
+            for(String keywordElt:keywords){
+                searchStoreResult.addAll(
+                        storeRepository.searchStoreByKeyword(//삭제된 스토어 빼고 해당 카테고리내 전체 검색결과 스토어를 가져옴
+                                keywordElt, Store.StoreStatus.STORE_EXIST.name())
+                ); // 그리고 가져온 List를 searchStoreResult에 합쳐줌
+            }
+        }else{//해당 카테고리에서 검색
+            for(String keywordElt:keywords){
+                searchStoreResult.addAll(
+                        storeRepository.searchStoreByCategoryAndKeyword(//삭제된 스토어 빼고 해당 카테고리내 전체 검색결과 스토어를 가져옴
+                                category,keywordElt, Store.StoreStatus.STORE_EXIST.name())
+                ); // 그리고 가져온 List를 searchStoreResult에 합쳐줌
+            }
+        }
+        searchStoreResult.stream().distinct().collect(Collectors.toList()); // 키워드 검색 결과의 중복 제거
+
+
+
+        Comparator<Store> comparator;
+        if(sort.equals("createdAt")){//최신순 정렬
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+                    return o1.getCreatedAt().isBefore(o2.getCreatedAt())?1:-1;
+                }
+            };
+        }else if(sort.equals("distance")){ //거리순 정렬
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+                    double distance1 = 6371*acos(cos(toRadians(latitude))*cos(toRadians(o1.getLatitude()))
+                            *cos(toRadians(o1.getLongitude()) -toRadians(longitude))+sin(toRadians(latitude))*sin(toRadians(o1.getLatitude())));
+
+                    double distance2 = 6371*acos(cos(toRadians(latitude))*cos(toRadians(o2.getLatitude()))
+                            *cos(toRadians(o2.getLongitude()) -toRadians(longitude))+sin(toRadians(latitude))*sin(toRadians(o2.getLatitude())));
+                    return (distance1>distance2)?1:-1;
+                }
+            };
+        }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
+            throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
+        }
+        Collections.sort(searchStoreResult,comparator);
+
+
+        PageRequest pageRequest =PageRequest.of(page,size);
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), searchStoreResult.size());
+
+        Page<Store> stores = new PageImpl<>(searchStoreResult.subList(start, end), pageRequest, searchStoreResult.size());
+
+        return stores;
 
     }
 

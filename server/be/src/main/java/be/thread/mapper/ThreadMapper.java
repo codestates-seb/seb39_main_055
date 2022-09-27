@@ -50,7 +50,7 @@ public interface ThreadMapper {
     default Thread threadPatchDtoToThread(ThreadService threadService, UserService userService,long threadId, ThreadPatchDto threadPatchDto) {
 
         // 로그인 유저 = thread를 작성한 유저가 아니라면, 예외 처리. (수정 권한이 없기 때문에)
-        if(!userService.getLoginUser().getUserId().equals(threadService.findThreadUser(threadId).getUserId())) {
+        if(userService.getLoginUser().getUserId()!=threadService.findThreadUser(threadId).getUserId()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
         }
 

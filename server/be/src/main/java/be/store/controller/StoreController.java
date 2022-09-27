@@ -79,7 +79,8 @@ public class StoreController {
             message = "숙소,미용,카페,맛집,운동장,동물병원중에 선택해주세요.") @RequestParam("category") String category,
                                     @Positive @RequestParam("page") int page,
                                     @Positive @RequestParam("size") int size,
-                                    @RequestParam("sort") String sort,
+                                    @Pattern(regexp = "(^createdAt$)|(^distance$)",
+                                            message = "createdAt,distance 중에 선택해주세요.") @RequestParam("sort") String sort,
                                     @RequestParam(value = "latitude",required = false) Double latitude,
                                     @RequestParam(value = "longitude",required = false) Double longitude){
         System.out.println(latitude);
@@ -103,13 +104,35 @@ public class StoreController {
                                       @RequestParam("sort") String reviewSort){
 
         Store store = storeService.findVerifiedStore(storeId);
-        System.out.println("여기1");
         return new ResponseEntity<>(new SingleResponseDto<>(
                 mapper.storeToStoreAndReviewResponseDto(reviewService,heartService,reviewMapper,userMapper,storeImageService,
                         store,reviewPage,reviewSize,reviewSort)),
                 HttpStatus.OK);
     }
 
+    /**
+     * 키워드로 카테고리별 스토어 검색 API
+     * **/
+    @GetMapping("/store/search")
+    public ResponseEntity searchStores(@RequestParam("keyword") String keyword,
+                                       @Pattern(regexp = "(^숙소$)|(^미용$)|(^카페$)|(^맛집$)|(^운동장$)|(^동물병원$)|(^total$)",
+                                               message = "숙소,미용,카페,맛집,운동장,동물병원,total 중에 선택해주세요.") @RequestParam("category") String category,
+                                       @Positive @RequestParam("page") Integer page,
+                                       @Positive @RequestParam("size") Integer size,
+                                       @Pattern(regexp = "(^createdAt$)|(^distance$)",
+                                               message = "createdAt,distance 중에 선택해주세요.") @RequestParam("sort") String sort,
+                                       @RequestParam(value = "latitude",required = false) Double latitude,
+                                       @RequestParam(value = "longitude",required = false) Double longitude){
+
+        Page<Store> searchStore = storeService.searchStores(latitude,longitude,category,keyword,page-1,size,sort);
+
+        List<Store> stores = searchStore.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                mapper.storesToStoreResponseDtos(reviewService,heartService,reviewMapper,
+                        userMapper,storeImageService,stores),searchStore),
+                HttpStatus.OK);
+    }
 
 
 }

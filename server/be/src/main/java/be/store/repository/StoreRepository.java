@@ -25,5 +25,17 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
                                                            @Param("category")String category,
                                                            @Param("status")String storeStatus);
 
+    @Query(value = "select * from store s where (s.status= :status and s.category= :category) and " +
+            "(upper(s.name) like upper(concat('%',:keyword,'%')) or " +
+            "upper(s.address_name) like upper(concat('%',:keyword,'%')) or " +
+            "upper(s.body) like upper(concat('%',:keyword,'%')))",nativeQuery = true)
+    List<Store> searchStoreByCategoryAndKeyword(@Param("category") String category,@Param("keyword") String keyword,@Param("status")String storeStatus);
+
+    @Query(value = "select * from store s where (s.status= :status) and " +
+            "(upper(s.name) like upper(concat('%',:keyword,'%')) or " +
+            "upper(s.address_name) like upper(concat('%',:keyword,'%')) or " +
+            "upper(s.body) like upper(concat('%',:keyword,'%')))",nativeQuery = true)
+    List<Store> searchStoreByKeyword(@Param("keyword") String keyword,@Param("status")String storeStatus);
+
 
 }
