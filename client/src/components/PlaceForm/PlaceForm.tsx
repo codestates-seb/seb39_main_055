@@ -4,7 +4,6 @@
 /* eslint-disable no-return-assign */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import usePlace from "../../apis/place/usePlace";
 import { useCheckbox, useValidate } from "../../hooks";
@@ -27,8 +26,8 @@ interface State {
   storeName: string;
   phone: string;
   homepage: string;
-  longitude: string;
-  latitude: string;
+  longitude: number;
+  latitude: number;
   storeImages: ThreadImages[];
 }
 

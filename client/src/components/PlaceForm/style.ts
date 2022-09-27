@@ -48,8 +48,8 @@ export const SCheckboxContainer = styled.div`
 
   & > span {
     flex-basis: 30%;
-    color: #464646;
-    font-size: 16px;
+    color: #161616;
+    font-size: 18px;
     cursor: pointer;
   }
 

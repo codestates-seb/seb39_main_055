@@ -25,11 +25,10 @@ export const SInput = styled.div<{
 }>`
   position: relative;
   flex-basis: ${({ isLabel }) => (isLabel ? "70%" : "100%")};
-  border-bottom: 1px solid #707070;
+  border-bottom: 1px solid #dbdbdb;
 
   & > input {
     width: ${({ isSideButton }) => (isSideButton ? "70%" : "100%")};
-    /* width: 100%; */
     padding: 5px;
     border: none;
     font-size: 16px;
@@ -39,7 +38,7 @@ export const SInput = styled.div<{
 
   & > input::placeholder {
     font-size: 16px;
-    color: #dbdbdb;
+    color: #767676;
   }
 
   & > button {

@@ -1,3 +1,11 @@
+import {
+  beauty,
+  cafe,
+  hospital,
+  hotpension,
+  playground,
+  restaurant,
+} from "../../../assets/images/hotplace";
 import dog from "../../../assets/images/RecommendPage/dog.png";
 import pension from "../../../assets/images/RecommendPage/pension.png";
 import river from "../../../assets/images/RecommendPage/river.png";
@@ -92,4 +100,11 @@ export const DUMMY_BUTTON = [
   },
 ];
 
-export const DUMMY_IMG_LIST = [dog, river, pension, dog, river, pension];
+export const DUMMY_IMG_LIST = [
+  hotpension,
+  beauty,
+  cafe,
+  restaurant,
+  playground,
+  hospital,
+];
