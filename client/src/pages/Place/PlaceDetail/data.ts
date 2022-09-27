@@ -96,5 +96,5 @@ export const DUMMY_DATA: Store = {
       totalPages: 1,
     },
   },
-  // heartUserId: []
+  heartUserId: [3],
 };

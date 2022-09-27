@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { HiOutlineHeart } from "react-icons/hi";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { deletePlace } from "../../../../apis/place";
+import {
+  cancelHeart,
+  deletePlace,
+  registerHeart,
+} from "../../../../apis/place";
 import { DeleteModal, useModal } from "../../../../components";
+import { LoginModal } from "../../../../components/Modal";
+import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
 import { averageStar } from "../../../../utils";
 
@@ -23,7 +29,7 @@ export const SHeader = styled.header`
   }
 `;
 
-export const STitle = styled.div`
+export const STitle = styled.div<{ isLike: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,10 +49,11 @@ export const STitle = styled.div`
   }
 
   & > svg {
-    color: #ffc107;
-    fill: #ffc107;
+    color: ${({ isLike }) => isLike && "#ffc107"};
+    fill: ${({ isLike }) => isLike && "#ffc107"};
     font-size: 32px;
     cursor: pointer;
+    transition: all 0.4s;
   }
 `;
 
@@ -133,24 +140,55 @@ interface Prop {
 }
 
 const Header = ({ data }: Prop) => {
-  // 좋아요 api 연결
-  // const [isLike, setIsLike] = useState(false);
+  const userId = 3;
+  const params = useParams();
   const navigate = useNavigate();
+  const [isLike, setIsLike] = useState(false);
   const { openModal, closeModal } = useModal();
-  const { mutate } = useMutation(deletePlace, {
+  const { userInfos, loginStatus } = useAppSelector((state) => state.user);
+
+  const queryClient = useQueryClient();
+  const { mutate: deletePlaceMutate } = useMutation(deletePlace, {
     onSuccess: () => navigate("/place/list"),
+  });
+  const { mutate: registerHeartMutate } = useMutation(registerHeart, {
+    onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
+  });
+  const { mutate: cancelHeartMutate } = useMutation(cancelHeart, {
+    onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
   });
 
   const handleDelete = () => {
-    mutate(data?.storeId as string);
+    deletePlaceMutate(data?.storeId as string);
     closeModal();
   };
 
+  const handleHeartClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+    if (isLike) {
+      cancelHeartMutate(data?.storeId as string);
+    }
+    if (!isLike) {
+      registerHeartMutate(data?.storeId as string);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.heartUserId.includes(userId)) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+  }, [userId, data]);
+
   return (
     <SHeader>
-      <STitle>
+      <STitle isLike={isLike}>
         <h1>{data?.storeName}</h1>
-        <HiOutlineHeart />
+        <HiOutlineHeart onClick={handleHeartClick} />
       </STitle>
       {/* <p>{data.addressName}</p> */}
       <SScoreContainer>
@@ -166,28 +204,30 @@ const Header = ({ data }: Prop) => {
           <FaMapMarkerAlt />
           <span>{data?.addressName}</span>
         </div>
-        <div>
-          <button
-            type="button"
-            onClick={() => navigate("/place/edit", { state: data })}
-          >
-            수정
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              openModal(
-                <DeleteModal
-                  title="매장을 삭제 하시겠습니까?"
-                  onCancel={closeModal}
-                  onDelete={handleDelete}
-                />
-              )
-            }
-          >
-            삭제
-          </button>
-        </div>
+        {userInfos?.email === data?.user.email && (
+          <div>
+            <button
+              type="button"
+              onClick={() => navigate("/place/edit", { state: data })}
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                openModal(
+                  <DeleteModal
+                    title="매장을 삭제 하시겠습니까?"
+                    onCancel={closeModal}
+                    onDelete={handleDelete}
+                  />
+                )
+              }
+            >
+              삭제
+            </button>
+          </div>
+        )}
       </SLocationContainer>
     </SHeader>
   );

@@ -79,7 +79,7 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
                   latitude: coordinateData.documents[0].y,
                 });
 
-            queryClient.invalidateQueries("place"); // list 구현시 key 수정
+            // queryClient.invalidateQueries("place"); // list 구현시 key 수정
             setIsLoading(false);
           },
         });
