@@ -114,7 +114,7 @@ public class ThreadController {
      * **/
     @GetMapping("user/thread/list")
     public ResponseEntity getThreads(@Positive @RequestParam("page") int page,
-                                    @Positive @RequestParam("size") int size){
+                                     @Positive @RequestParam("size") int size){
 
         Page<Thread> pageThreads = threadService.findThreads(userService,page-1,size);
 
@@ -139,6 +139,22 @@ public class ThreadController {
         return new ResponseEntity<>(new MultiResponseDto<>(
                 threadMapper.threadsTothreadResponseDtos(userMapper, threadImageService, threads),
                 pageThreads), HttpStatus.OK);
+    }
+
+    /**
+     * 댕댕이숲 - 선택한 게시글의 상세페이지 이동 API
+     */
+    @GetMapping("/thread/{thread-id}")
+    public ResponseEntity getThread(@PathVariable("thread-id") @Positive @NotNull Long threadId,
+                                    @Positive @RequestParam("page") Integer replyPage,
+                                    @Positive @RequestParam("size") Integer replySize,
+                                    @RequestParam("sort") String replySort) {
+        Thread thread = threadService.findVerifiedThread(threadId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(
+                threadMapper.threadToThreadAndReplyResponseDto(replyService, likesService, replyMapper, userMapper, threadImageService,
+                        thread, replyPage, replySize, replySort)),
+                HttpStatus.OK);
     }
 
 }

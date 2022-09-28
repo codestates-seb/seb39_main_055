@@ -104,8 +104,16 @@ public class ThreadService {
      */
     public Thread findVerifiedThread(long threadId) {
         Optional<Thread> optionalThread = threadRepository.findById(threadId);
+
+        // DB에 저장된 thread 정보 없으면 예외 발생
         Thread findThread = optionalThread.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.THREAD_NOT_FOUND));
+
+        // 만일 삭제된 thread라면 예외발생
+        if(findThread.getThreadStatus() == Thread.ThreadStatus.THREAD_NOT_EXIST) {
+            throw new BusinessLogicException(ExceptionCode.THREAD_NOT_FOUND);
+        }
+
         return findThread;
     }
 

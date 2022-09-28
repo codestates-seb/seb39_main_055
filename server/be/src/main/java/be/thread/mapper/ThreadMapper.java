@@ -2,19 +2,24 @@ package be.thread.mapper;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.likes.entity.Likes;
 import be.likes.service.LikesService;
+import be.reply.entity.Reply;
 import be.reply.mapper.ReplyMapper;
 import be.reply.service.ReplyService;
+import be.response.MultiResponseDto;
 import be.store.entity.StoreImage;
 import be.thread.dto.*;
 import be.thread.entity.Thread;
 import be.thread.entity.ThreadImage;
 import be.thread.service.ThreadImageService;
 import be.thread.service.ThreadService;
+import be.user.dto.UserResponseDto;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,4 +140,40 @@ public interface ThreadMapper {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    default ThreadAndReplyResponseDto threadToThreadAndReplyResponseDto(
+            ReplyService replyService, LikesService likesService, ReplyMapper replyMapper,
+            UserMapper userMapper, ThreadImageService threadImageService,
+            Thread thread, Integer replyPage, Integer replySize, String replySort) {
+
+        ThreadAndReplyResponseDto threadAndReplyResponseDto = new ThreadAndReplyResponseDto();
+        threadAndReplyResponseDto.setThreadId(thread.getThreadId());
+        threadAndReplyResponseDto.setCreatedAt(thread.getCreatedAt());
+        threadAndReplyResponseDto.setUpdatedAt(thread.getUpdatedAt());
+        threadAndReplyResponseDto.setThreadStatus(thread.getThreadStatus());
+        threadAndReplyResponseDto.setBody(thread.getBody());
+
+        UserResponseDto userResponseDto = userMapper.userToUserResponseDto(thread.getUser());
+        threadAndReplyResponseDto.setUser(userResponseDto);
+
+        threadAndReplyResponseDto.setThreadImages(threadImagesToThreadImageResponseDtos( // thread(게시글)에 대한 이미지 속성 추가
+                threadImageService.findVerifiedThreadImages(thread) // 해당 게시글 속 이미지 중, status가 THREAD_IMAGE_EXIST만 반환
+        ));
+
+        Page<Reply> pageReplies = replyService.findExistRepliesToPaginationAndSort(
+                thread, replyPage, replySize, replySort); //thread의 reply중 status가 true인 것만 페이지네이션 정렬해서 반환
+        List<Reply> replies = pageReplies.getContent();
+        System.out.println(pageReplies.getContent());
+        threadAndReplyResponseDto.setReplies(new MultiResponseDto<>(
+                replyMapper.repliesToReplyResponseDtos(userMapper, replies), pageReplies
+        ));
+
+        List<Likes> likes = likesService.findExistLikesByThread(thread); // 해당 thread의 likes중에 Status가 LIKES_EXIST인 것만 반환
+        List<Long> likesUserId = likes.
+                stream().map(like -> like.getUser().getUserId()).collect(Collectors.toList());
+        threadAndReplyResponseDto.setLikesUserId(likesUserId);
+
+        return threadAndReplyResponseDto;
+    }
+
 }
