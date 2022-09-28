@@ -124,7 +124,7 @@ const SBody2 = styled.div`
   `)}
 `;
 
-const EmptyList = ({ title, body1, body2 }: EmptyProps) => {
+const EmptyListImage = ({ title, body1, body2 }: EmptyProps) => {
   return (
     <SContainer>
       <SIcon src={mascot} alt="마스코트이미지" />
@@ -134,4 +134,4 @@ const EmptyList = ({ title, body1, body2 }: EmptyProps) => {
     </SContainer>
   );
 };
-export default EmptyList;
+export default EmptyListImage;
