@@ -2,7 +2,7 @@
 import { AiFillStar } from "react-icons/ai";
 import styled from "styled-components";
 
-import { User } from "../../../../types";
+import { UserInfos } from "../../../../types";
 
 export const SReviewList = styled.li`
   display: flex;
@@ -66,7 +66,7 @@ export const SDate = styled.p`
 interface Prop {
   storeId: string;
   reviewId: string;
-  user: User;
+  user: UserInfos;
   updatedAt: string;
   body: string;
   score: number;
