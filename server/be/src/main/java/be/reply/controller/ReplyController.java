@@ -59,7 +59,7 @@ public class ReplyController {
         Reply updatedReply = replyService.updateReply(reply);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(replyMapper.replyToReplyResponseDto(userMapper, reply)),
+                new SingleResponseDto<>(replyMapper.replyToReplyResponseDto(userMapper, updatedReply)),
                 HttpStatus.OK);
     }
 
@@ -74,7 +74,7 @@ public class ReplyController {
         Reply deletedReply = replyService.deleteReply(reply);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(replyMapper.replyToReplyResponseDto(userMapper, reply)),
+                new SingleResponseDto<>(replyMapper.replyToReplyResponseDto(userMapper, deletedReply)),
                 HttpStatus.OK);
     }
 
