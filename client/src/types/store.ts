@@ -15,7 +15,7 @@ export interface Store {
   homepage: string;
   storeImages: { storeImage: string }[];
   user: UserInfos;
-  reviews: Review[];
+  reviews: { data: Review[]; pageInfo: PageInfo };
   heartUserId: number[];
 }
 
