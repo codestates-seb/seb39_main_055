@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { addReview } from "../../../../apis/place";
 import { useModal } from "../../../../components";
 import { LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
@@ -61,9 +64,15 @@ const ReviewForm = () => {
   const { openModal } = useModal();
   const { loginStatus } = useAppSelector((state) => state.user);
 
+  const queryClient = useQueryClient();
+  const params = useParams();
   const [validate, setValidate] = useState(true);
   const [ratingIndex, setRatingIndex] = useState(0);
   const [reviewValue, setReviewValue] = useState("");
+
+  const { mutate } = useMutation(addReview, {
+    onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
+  });
 
   const handleFocus = () => {
     if (!loginStatus) {
@@ -73,6 +82,11 @@ const ReviewForm = () => {
 
   const handleSubmit = () => {
     console.log("submit");
+    mutate({
+      storeId: params.id as string,
+      body: reviewValue,
+      score: ratingIndex,
+    });
   };
 
   useEffect(() => {

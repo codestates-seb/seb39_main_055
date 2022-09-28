@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import { getPlaceDetail } from "../../../apis/place";
 import { LoadingSpinner, Slider } from "../../../components";
-import { DUMMY_DATA } from "./data";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
 import ReviewCard from "./ReviewCard/ReviewCard";
@@ -81,6 +80,8 @@ const PlaceDetail = () => {
     );
   }
 
+  console.log(data);
+
   return (
     <SContainer>
       <main>
@@ -102,7 +103,7 @@ const PlaceDetail = () => {
         </SH2>
         <ReviewForm />
         <SReviewListContainer>
-          {DUMMY_DATA.reviews.data.map((data) => (
+          {data?.reviews.data.map((data) => (
             <ReviewCard
               key={data.reviewId}
               storeId={data.storeId}
