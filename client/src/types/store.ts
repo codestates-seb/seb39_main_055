@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { UserInfos } from "./user";
 
 export interface Store {
   storeId: string;
@@ -14,7 +14,7 @@ export interface Store {
   phone: string;
   homepage: string;
   storeImages: { storeImage: string }[];
-  user: User;
+  user: UserInfos;
   reviews: { data: Review[]; pageInfo: PageInfo };
   heartUserId: number[];
 }
@@ -24,7 +24,7 @@ export interface Review {
   createdAt: string;
   updatedAt: string;
   reviewStatus: string;
-  user: User;
+  user: UserInfos;
   storeId: string;
   body: string;
   score: number;

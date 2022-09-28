@@ -67,7 +67,7 @@ const Contents = styled.div`
   `)}
 
   @media screen and (max-width: 1110px) {
-    // flex-direction: column;
+    flex-direction: column;
   }
 `;
 
@@ -79,15 +79,17 @@ const SideContents = styled.span`
   height: 440px;
   width: 20%;
 
+  @media screen and (max-width: 1110px) {
+    height: auto;
+    flex-direction: row;
+    margin-left: 30px;
+  }
+
   ${mobile(css`
     flex-direction: row;
     height: 100px;
+    margin: 0px;
   `)}
-
-  @media screen and (max-width: 1110px) {
-    height: 100px;
-  }
-
   & > img {
     :hover {
       opacity: 0.5;
