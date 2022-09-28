@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { useModal } from "../../../../components";
+import { LoginModal } from "../../../../components/Modal";
+import { useAppSelector } from "../../../../redux";
 import RatingStar from "../RatingStar/RatingStar";
 
 export const STextAreaContainer = styled.div`
@@ -34,36 +37,64 @@ export const STextArea = styled.textarea`
   }
 `;
 
-export const SButton = styled.button<{ isFocus: boolean }>`
+export const SButton = styled.button`
   padding: 10px 20px;
-  color: ${({ isFocus }) => (isFocus ? "#ffffff" : "#161616")};
-  background-color: ${({ isFocus }) => (isFocus ? "#ffc107" : "#dbdbdb")};
+  color: #ffffff;
+  background-color: #ffc107;
   border: none;
   border-radius: 10px;
   font-size: 18px;
   font-family: "ONE-Mobile-Regular";
   transition: all 0.4s;
 
-  &:hover {
+  /* &:hover {
     scale: 1.1;
+  } */
+
+  &:disabled {
+    color: #161616;
+    background-color: #dbdbdb;
   }
 `;
 
 const ReviewForm = () => {
+  const { openModal } = useModal();
+  const { loginStatus } = useAppSelector((state) => state.user);
+
+  const [validate, setValidate] = useState(true);
   const [ratingIndex, setRatingIndex] = useState(0);
   const [reviewValue, setReviewValue] = useState("");
+
+  const handleFocus = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log("submit");
+  };
+
+  useEffect(() => {
+    if (ratingIndex && reviewValue.trim().length > 4) {
+      setValidate(false);
+    } else {
+      setValidate(true);
+    }
+  }, [ratingIndex, reviewValue]);
+
   return (
-    <STextAreaContainer>
+    <STextAreaContainer onFocus={handleFocus}>
       <STextArea
-        placeholder="리뷰를 작성해주세요."
+        placeholder="5글자 이상 작성해주세요."
         value={reviewValue}
         onChange={(e) => setReviewValue(e.target.value)}
-      >
-        asd
-      </STextArea>
+      />
       <div>
         <RatingStar ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
-        <SButton isFocus>입력</SButton>
+        <SButton disabled={validate} onClick={handleSubmit}>
+          입력
+        </SButton>
       </div>
     </STextAreaContainer>
   );

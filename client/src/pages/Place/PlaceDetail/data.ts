@@ -48,7 +48,7 @@ export const DUMMY_DATA: Store = {
         },
         storeId: "4",
         body: "이 동물병원 괜찮아요! 굿! 별점 4점 드립니다",
-        score: 4,
+        score: 2,
       },
       {
         reviewId: "2",
