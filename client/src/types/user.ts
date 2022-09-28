@@ -1,4 +1,5 @@
-export interface User {
+export interface UserInfos {
+  userId: number;
   nickname: string;
   email: string;
   image: string;
@@ -6,4 +7,18 @@ export interface User {
   longitude: number;
   latitude: number;
   userRole: "ROLE_OWNER" | "ROLE_USER";
+  hearts?: unknown[];
+  threads?: unknown[];
 }
+
+export interface User {
+  loginStatus: boolean;
+  userInfos: UserInfos | null;
+  keepLoggedIn: boolean;
+  token: string;
+}
+
+export type EditUserInfosRequest = Pick<
+  UserInfos,
+  "nickname" | "image" | "longitude" | "latitude"
+>;

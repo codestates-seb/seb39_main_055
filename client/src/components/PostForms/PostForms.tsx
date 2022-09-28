@@ -86,7 +86,6 @@ const PostForms = ({
           <PreviewImages
             images={images}
             setImages={setImages}
-            editorRef={editorRef}
             defaultId={defaultId}
             setDefaultId={setDefaultId}
           />

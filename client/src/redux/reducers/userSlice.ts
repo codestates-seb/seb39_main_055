@@ -1,33 +1,13 @@
 import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 
+import { User, UserInfos } from "../../types";
 import { RootState } from "../store";
 
-export interface UserInfosRequest {
-  nickname: string;
-  image: string;
-  latitude: number;
-  longitude: number;
-}
-
-export interface UserInfos extends UserInfosRequest {
-  userStatus: string;
-  userRole: string;
-  email: string;
-  hearts?: unknown[];
-  threads?: unknown[];
-}
-
-interface User {
-  loginStatus: boolean;
-  userInfos: UserInfos | null;
-  keepLoggedIn: boolean;
-  token: string;
-}
-
-const initialUserInfos = {
+const initialUserInfos: UserInfos = {
+  userId: -1,
   nickname: "",
   userStatus: "",
-  userRole: "",
+  userRole: "ROLE_USER",
   email: "",
   image: "",
   latitude: 0,
@@ -87,7 +67,7 @@ const userSlice = createSlice({
     ) => {
       const { latitude, longitude } = payload;
       if (!state.userInfos) {
-        state.userInfos = { ...initialUserInfos, latitude, longitude };
+        state.userInfos = initialUserInfos;
       }
 
       state.userInfos.latitude = latitude;

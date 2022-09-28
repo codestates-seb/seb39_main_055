@@ -3,7 +3,7 @@
 /* eslint-disable no-plusplus */
 import { AxiosError } from "axios";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "react-toastify";
 
 import { ErrorResponse, Store } from "../../types";
@@ -24,7 +24,6 @@ export interface UsePlaceForm {
 }
 
 const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
-  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutate: fileMutate } = useMutation<
@@ -79,7 +78,6 @@ const usePlace = (form: UsePlaceForm, isEditPage: boolean, storeId: string) => {
                   latitude: coordinateData.documents[0].y,
                 });
 
-            queryClient.invalidateQueries("place"); // list 구현시 key 수정
             setIsLoading(false);
           },
         });

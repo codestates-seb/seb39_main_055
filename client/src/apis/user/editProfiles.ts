@@ -1,11 +1,10 @@
 import { useMutation } from "react-query";
 
-import { UserInfos, UserInfosRequest } from "../../redux";
-import { ThreadImages } from "../../types";
+import { EditUserInfosRequest, ThreadImages, UserInfos } from "../../types";
 import { axiosInstance, queryClient } from "../../utils";
 import { uploadImages } from "../post";
 
-export type UserInfosPayload = Omit<UserInfosRequest, "image"> & {
+export type UserInfosPayload = Omit<EditUserInfosRequest, "image"> & {
   image: ThreadImages | string;
 };
 

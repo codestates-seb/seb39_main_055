@@ -6,6 +6,7 @@ export const SBox = styled.div`
   display: flex;
   flex-flow: column nowrap;
   row-gap: 20px;
+  margin-bottom: 100px;
 `;
 
 export const SHeader = styled.header`
@@ -34,6 +35,30 @@ export const SH1 = styled.h1`
   `)}
 `;
 
+export const SP = styled.p<{ showWarning: boolean }>`
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  height: 0;
+  overflow: hidden;
+  transition: 400ms all;
+
+  ${({ showWarning }) =>
+    showWarning &&
+    css`
+      color: #f85a5a;
+      height: 20px;
+    `}
+`;
+
+export const SSpan = styled.span`
+  display: inline-block;
+  font-weight: normal;
+  margin-left: 5px;
+  color: #7a7a7a;
+`;
+
 export const SUList = styled.ul`
   display: grid;
   width: calc(100% - 40px);
@@ -42,6 +67,11 @@ export const SUList = styled.ul`
   align-content: center;
   column-gap: 40px;
   row-gap: 60px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   margin: 20px;
+`;
+
+export const SBottomBox = styled.div`
+  height: 10px;
+  width: 100%;
 `;
