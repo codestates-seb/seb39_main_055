@@ -58,6 +58,10 @@ export const SButton = styled.button`
   &:disabled {
     color: #161616;
     background-color: #dbdbdb;
+
+    &:hover {
+      scale: 1;
+    }
   }
 `;
 

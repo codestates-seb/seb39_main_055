@@ -80,8 +80,6 @@ const PlaceDetail = () => {
     );
   }
 
-  console.log(data);
-
   return (
     <SContainer>
       <main>

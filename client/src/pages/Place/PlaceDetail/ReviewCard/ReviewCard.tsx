@@ -1,8 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import { AiFillStar } from "react-icons/ai";
+import { useMutation, useQueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { deleteReview } from "../../../../apis/place";
 import { Dots } from "../../../../components";
+import { useAppSelector } from "../../../../redux";
 import { UserInfos } from "../../../../types";
 
 export const SReviewList = styled.li`
@@ -87,6 +91,13 @@ const ReviewCard = ({
   body,
   score,
 }: Prop) => {
+  const params = useParams();
+  const { userInfos } = useAppSelector((state) => state.user);
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(deleteReview, {
+    onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
+  });
+
   return (
     <SReviewList>
       <SUserInfo>
@@ -102,11 +113,13 @@ const ReviewCard = ({
             </SStars>
           </div>
         </section>
-        <Dots
-          deleteModalTitle="리뷰를 삭제 하시겠습니까?"
-          onDelete={() => console.log("delete")}
-          onEdit={() => console.log("edit")}
-        />
+        {user.userId === userInfos?.userId && (
+          <Dots
+            deleteModalTitle="리뷰를 삭제 하시겠습니까?"
+            onDelete={() => mutate(reviewId)}
+            onEdit={() => console.log("edit")}
+          />
+        )}
       </SUserInfo>
       <SBody>{body}</SBody>
       <SDate>{updatedAt.slice(0, 10)}</SDate>

@@ -16,3 +16,13 @@ export const addReview = async (payload: {
 
   return data.data;
 };
+
+export const deleteReview = async (reviewId: string): Promise<Review> => {
+  const { data } = await axiosInstance.patch(
+    `v1/user/review/update/${reviewId}`,
+    { reviewStatus: "REVIEW_NOT_EXIST" },
+    { headers: { tokenNeeded: true } }
+  );
+
+  return data.data;
+};
