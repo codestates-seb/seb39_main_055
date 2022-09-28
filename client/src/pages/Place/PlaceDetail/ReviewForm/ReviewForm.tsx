@@ -15,7 +15,7 @@ export const STextAreaContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 20px;
+  padding: 10px 20px;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
 
@@ -27,7 +27,7 @@ export const STextAreaContainer = styled.div`
 
 export const STextArea = styled.textarea`
   width: 100%;
-  min-height: 150px;
+  min-height: 100px;
   outline: none;
   border: none;
   color: #000000;
@@ -47,7 +47,7 @@ export const SButton = styled.button`
   background-color: #ffc107;
   border: none;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 12px;
   font-family: "ONE-Mobile-Regular";
   transition: all 0.4s;
 

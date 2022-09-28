@@ -68,7 +68,7 @@ const RatingStar = ({ ratingIndex, setRatingIndex, data }: Prop) => {
     <SRatingContainer>
       {[1, 2, 3, 4, 5].map((arrayIndex, index) => (
         <SStar
-          size={25}
+          size={20}
           key={`rating_${index}`}
           className={arrayIndex <= ratingIndex ? "active" : "inactive"}
           onClick={() => handleStarClick(arrayIndex)}
