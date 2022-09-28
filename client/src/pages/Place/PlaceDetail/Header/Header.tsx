@@ -143,9 +143,10 @@ export const SLocationContainer = styled.div`
 
 interface Prop {
   data: Store | undefined;
+  reviewRef: React.RefObject<HTMLUListElement>;
 }
 
-const Header = ({ data }: Prop) => {
+const Header = ({ data, reviewRef }: Prop) => {
   const params = useParams();
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState(false);
@@ -203,7 +204,14 @@ const Header = ({ data }: Prop) => {
             ? averageStar(data?.reviews.data as Review[])
             : "0.0(0)"}
         </span>
-        <div>
+        <div
+          onClick={() =>
+            reviewRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            })
+          }
+        >
           <span>리뷰보기</span>
           <MdOutlineKeyboardArrowRight />
         </div>

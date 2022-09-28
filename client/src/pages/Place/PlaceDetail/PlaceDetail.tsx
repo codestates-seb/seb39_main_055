@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -68,6 +69,7 @@ export const SReviewListContainer = styled.ul`
 
 const PlaceDetail = () => {
   const params = useParams();
+  const reviewRef = useRef<HTMLUListElement>(null);
   const { data, isLoading } = useQuery(["place", params.id], () =>
     getPlaceDetail(params.id as string)
   );
@@ -88,7 +90,7 @@ const PlaceDetail = () => {
             imageList={data?.storeImages.map((image) => image.storeImage)}
           />
         </SImagesContainer>
-        <Header data={data} />
+        <Header data={data} reviewRef={reviewRef} />
         <SDescriptionContainer>
           <SH2>시설 개요</SH2>
           <SP>{data?.body}</SP>
@@ -99,12 +101,8 @@ const PlaceDetail = () => {
         <SH2>
           리뷰 <SStrong>{data?.reviews.data.length}</SStrong>
         </SH2>
-        <ReviewForm
-          submitCallback={() => console.log("123")}
-          isEdit={false}
-          data={data}
-        />
-        <SReviewListContainer>
+        <ReviewForm isEdit={false} data={data} />
+        <SReviewListContainer ref={reviewRef}>
           {data?.reviews.data.map((data) => (
             <ReviewCard
               key={data.reviewId}

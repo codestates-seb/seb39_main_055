@@ -67,7 +67,7 @@ export const SButton = styled.button`
 
 interface Prop {
   isEdit: boolean;
-  submitCallback: ({ body, score }: { body: string; score: number }) => void;
+  submitCallback?: ({ body, score }: { body: string; score: number }) => void;
   data?: Store | undefined;
   initialState?: { body: string; score: number };
 }
@@ -121,7 +121,7 @@ const ReviewForm = ({
   };
 
   const handleSubmit = () => {
-    if (isEdit) {
+    if (isEdit && submitCallback) {
       submitCallback({ body: reviewValue, score: ratingIndex });
       return;
     }
