@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +7,7 @@ import { getPlaceDetail } from "../../../apis/place";
 import { LoadingSpinner, Slider } from "../../../components";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
+import ReviewForm from "./ReviewForm/ReviewForm";
 
 export const SContainer = styled.div`
   display: flex;
@@ -51,6 +53,10 @@ export const SLoadingContainer = styled.div`
   height: calc(100vh - 380px);
 `;
 
+export const SStrong = styled.strong`
+  color: #ffc109;
+`;
+
 const PlaceDetail = () => {
   const params = useParams();
   const { data, isLoading } = useQuery(["place", params.id], () =>
@@ -80,7 +86,12 @@ const PlaceDetail = () => {
         </SDescriptionContainer>
         <Info data={data} />
       </main>
-      <section>리뷰</section>
+      <SReviewContainer>
+        <SH2>
+          리뷰 <SStrong>{data?.reviews.data.length}</SStrong>
+        </SH2>
+        <ReviewForm />
+      </SReviewContainer>
     </SContainer>
   );
 };

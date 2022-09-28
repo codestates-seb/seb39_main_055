@@ -25,8 +25,14 @@ export const SHeader = styled.header`
   & > p {
     color: #434343;
     font-size: 26px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
+`;
+
+export const SCategory = styled.p`
+  color: #ffc107 !important;
+  font-size: 26px;
+  margin-bottom: 10px;
 `;
 
 export const STitle = styled.div<{ isLike: boolean }>`
@@ -186,6 +192,7 @@ const Header = ({ data }: Prop) => {
 
   return (
     <SHeader>
+      <SCategory>{data?.category}</SCategory>
       <STitle isLike={isLike}>
         <h1>{data?.storeName}</h1>
         <HiOutlineHeart onClick={handleHeartClick} />

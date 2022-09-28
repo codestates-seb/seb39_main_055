@@ -7,15 +7,15 @@ import styled from "styled-components";
 const SRatingContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 13px 0px;
 
   .active {
     color: #ffc109;
   }
 
   & > p {
-    color: #707070;
     margin-left: 10px;
+    color: #707070;
+    font-size: 14px;
   }
 `;
 
@@ -35,7 +35,7 @@ const RatingStar = ({ ratingIndex, setRatingIndex }: Prop) => {
     <SRatingContainer>
       {[1, 2, 3, 4, 5].map((arrayIndex, index) => (
         <SStar
-          size={30}
+          size={25}
           key={`rating_${index}`}
           className={arrayIndex <= ratingIndex ? "active" : "inactive"}
           onClick={() => setRatingIndex(arrayIndex)}
