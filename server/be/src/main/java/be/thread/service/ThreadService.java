@@ -2,8 +2,6 @@ package be.thread.service;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
-import be.heart.entity.Heart;
-import be.store.entity.StoreImage;
 import be.thread.entity.Thread;
 import be.thread.entity.ThreadImage;
 import be.thread.repository.ThreadRepository;
@@ -142,6 +140,23 @@ public class ThreadService {
                 Thread.ThreadStatus.THREAD_EXIST);
 
         return threads;
+    }
+
+    public Page<Thread> findAllThreads(int page, int size, String sort) {
+
+        if(sort.equals("createdAt")) { // 최신순 정렬
+            Page<Thread> threads = threadRepository.findByThreadStatus(
+                    PageRequest.of(page, size, Sort.by(sort).descending()),
+                    Thread.ThreadStatus.THREAD_EXIST); // 삭제된 댕댕이숲 글을 제외한 전체 게시글을 최신순으로
+
+            System.out.println(threads.getTotalElements());
+            System.out.println(sort);
+
+            return threads;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
+        }
+
     }
 
 }
