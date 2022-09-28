@@ -99,12 +99,15 @@ const PlaceDetail = () => {
         <SH2>
           리뷰 <SStrong>{data?.reviews.data.length}</SStrong>
         </SH2>
-        <ReviewForm data={data} />
+        <ReviewForm
+          submitCallback={() => console.log("123")}
+          isEdit={false}
+          data={data}
+        />
         <SReviewListContainer>
           {data?.reviews.data.map((data) => (
             <ReviewCard
               key={data.reviewId}
-              storeId={data.storeId}
               reviewId={data.reviewId}
               user={data.user}
               updatedAt={data.updatedAt}

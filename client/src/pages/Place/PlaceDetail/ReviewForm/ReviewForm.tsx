@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-return */
 import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -66,17 +66,25 @@ export const SButton = styled.button`
 `;
 
 interface Prop {
-  data: Store | undefined;
+  isEdit: boolean;
+  submitCallback: ({ body, score }: { body: string; score: number }) => void;
+  data?: Store | undefined;
+  initialState?: { body: string; score: number };
 }
 
-const ReviewForm = ({ data }: Prop) => {
+const ReviewForm = ({
+  isEdit,
+  submitCallback,
+  data,
+  initialState = { body: "", score: 0 },
+}: Prop) => {
   const { openModal } = useModal();
   const { loginStatus, userInfos } = useAppSelector((state) => state.user);
 
   const params = useParams();
   const [validate, setValidate] = useState(true);
-  const [ratingIndex, setRatingIndex] = useState(0);
-  const [reviewValue, setReviewValue] = useState("");
+  const [ratingIndex, setRatingIndex] = useState(initialState.score);
+  const [reviewValue, setReviewValue] = useState(initialState.body);
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation(addReview, {
@@ -92,25 +100,31 @@ const ReviewForm = ({ data }: Prop) => {
   );
 
   const handleFocus = () => {
-    if (!loginStatus) {
-      openModal(<LoginModal />);
-      return;
-    }
+    if (!isEdit) {
+      if (!loginStatus) {
+        openModal(<LoginModal />);
+        return;
+      }
 
-    if (userInfos?.userId === data?.user.userId) {
-      openModal(
-        <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
-      );
-      return;
-    }
+      if (userInfos?.userId === data?.user.userId) {
+        openModal(
+          <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
+        );
+        return;
+      }
 
-    if (registerReviewUserList?.includes(userInfos?.userId as number)) {
-      openModal(<ErrorModal body="이미 작성한 리뷰가 존재합니다." />);
-      return;
+      if (registerReviewUserList?.includes(userInfos?.userId as number)) {
+        openModal(<ErrorModal body="이미 작성한 리뷰가 존재합니다." />);
+        return;
+      }
     }
   };
 
   const handleSubmit = () => {
+    if (isEdit) {
+      submitCallback({ body: reviewValue, score: ratingIndex });
+    }
+
     mutate({
       storeId: params.id as string,
       body: reviewValue,
@@ -141,7 +155,7 @@ const ReviewForm = ({ data }: Prop) => {
           setRatingIndex={setRatingIndex}
         />
         <SButton disabled={validate} onClick={handleSubmit}>
-          입력
+          {isEdit ? "수정" : "입력"}
         </SButton>
       </div>
     </STextAreaContainer>

@@ -26,3 +26,19 @@ export const deleteReview = async (reviewId: string): Promise<Review> => {
 
   return data.data;
 };
+
+export const editReview = async (payload: {
+  reviewId: string;
+  body: string;
+  score: number;
+}): Promise<Review> => {
+  const { reviewId, body, score } = payload;
+
+  const { data } = await axiosInstance.patch(
+    `v1/user/review/update/${reviewId}`,
+    { body, score },
+    { headers: { tokenNeeded: true } }
+  );
+
+  return data.data;
+};
