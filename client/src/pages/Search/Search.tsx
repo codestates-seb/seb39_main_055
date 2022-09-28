@@ -33,6 +33,7 @@ const dummy: StoreList[] = [
     phone: "010-1111-1111",
     homepage: "www.test.com",
     user: {
+      userId: 0,
       nickname: "모상빈",
       email: "mosangbin@gmail.com",
       image:
@@ -65,6 +66,7 @@ const dummy: StoreList[] = [
     phone: "010-1234-1234",
     homepage: "http://동작을 점령해버린 숙소.com",
     user: {
+      userId: 0,
       nickname: "psy001",
       email: "psy1@gmail.com",
       image:
@@ -87,6 +89,7 @@ const dummy: StoreList[] = [
         updatedAt: "2022-09-26T17:37:19",
         reviewStatus: "REVIEW_EXIST",
         user: {
+          userId: 0,
           nickname: "psy2인데요",
           email: "psy2@gmail.com",
           image:
@@ -117,6 +120,7 @@ const dummy: StoreList[] = [
     phone: "010-5406-2209",
     homepage: "http://greeda-donghae.co.kr/",
     user: {
+      userId: 0,
       nickname: "모상빈",
       email: "mosangbin@gmail.com",
       image:

@@ -15,6 +15,7 @@ export const DUMMY_DATA: Store = {
   phone: "010-1234-1234",
   homepage: "http://동작을 점령해버린 병원.com",
   user: {
+    userId: 0,
     nickname: "psy001",
     email: "psy1@gmail.com",
     image:
@@ -37,6 +38,7 @@ export const DUMMY_DATA: Store = {
         updatedAt: "2022-09-26T23:32:02",
         reviewStatus: "REVIEW_EXIST",
         user: {
+          userId: 1,
           nickname: "psy4인데요",
           email: "psy4@gmail.com",
           image:
@@ -56,6 +58,7 @@ export const DUMMY_DATA: Store = {
         updatedAt: "2022-09-26T23:32:02",
         reviewStatus: "REVIEW_EXIST",
         user: {
+          userId: 1,
           nickname: "psy4인데요",
           email: "psy4@gmail.com",
           image:
@@ -75,6 +78,7 @@ export const DUMMY_DATA: Store = {
         updatedAt: "2022-09-26T23:32:02",
         reviewStatus: "REVIEW_EXIST",
         user: {
+          userId: 1,
           nickname: "psy4인데요",
           email: "psy4@gmail.com",
           image:
