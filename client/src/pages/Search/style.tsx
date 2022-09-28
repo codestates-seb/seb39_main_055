@@ -34,6 +34,30 @@ export const SH1 = styled.h1`
   `)}
 `;
 
+export const SP = styled.p<{ showWarning: boolean }>`
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  height: 0;
+  overflow: hidden;
+  transition: 400ms all;
+
+  ${({ showWarning }) =>
+    showWarning &&
+    css`
+      color: #f85a5a;
+      height: 20px;
+    `}
+`;
+
+export const SSpan = styled.span`
+  display: inline-block;
+  font-weight: normal;
+  margin-left: 5px;
+  color: #7a7a7a;
+`;
+
 export const SUList = styled.ul`
   display: grid;
   width: calc(100% - 40px);
