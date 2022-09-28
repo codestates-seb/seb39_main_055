@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+import { memo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import MenuIcon from "./MenuIcon";
@@ -17,30 +19,28 @@ interface CategoryProps {
   extraQueryString?: string;
 }
 
-const Category = ({
-  menuList,
-  baseQueryString,
-  extraQueryString,
-}: CategoryProps) => {
-  const [params] = useSearchParams();
+const Category = memo(
+  ({ menuList, baseQueryString, extraQueryString }: CategoryProps) => {
+    const [params] = useSearchParams();
 
-  const baseQuery = baseQueryString ? `${baseQueryString}&` : "";
-  const extraQuery = extraQueryString ? `${extraQueryString}=` : "";
+    const baseQuery = baseQueryString ? `${baseQueryString}&` : "";
+    const extraQuery = extraQueryString ? `${extraQueryString}=` : "";
 
-  return (
-    <SCategoryMenu>
-      {menuList.map(({ menuText, link, img, alt }) => (
-        <MenuIcon
-          menuText={menuText}
-          link={`${baseQuery}${extraQuery}${link}`}
-          img={img}
-          selected={params.get(extraQueryString || "") === link}
-          alt={alt}
-          key={menuText}
-        />
-      ))}
-    </SCategoryMenu>
-  );
-};
+    return (
+      <SCategoryMenu>
+        {menuList.map(({ menuText, link, img, alt }) => (
+          <MenuIcon
+            menuText={menuText}
+            link={`${baseQuery}${extraQuery}${link}`}
+            img={img}
+            selected={params.get(extraQueryString || "") === link}
+            alt={alt}
+            key={menuText}
+          />
+        ))}
+      </SCategoryMenu>
+    );
+  }
+);
 
 export default Category;
