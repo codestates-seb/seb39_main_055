@@ -6,6 +6,7 @@ export const SBox = styled.div`
   display: flex;
   flex-flow: column nowrap;
   row-gap: 20px;
+  margin-bottom: 100px;
 `;
 
 export const SHeader = styled.header`
@@ -66,6 +67,11 @@ export const SUList = styled.ul`
   align-content: center;
   column-gap: 40px;
   row-gap: 60px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   margin: 20px;
+`;
+
+export const SBottomBox = styled.div`
+  height: 1px;
+  width: 100%;
 `;
