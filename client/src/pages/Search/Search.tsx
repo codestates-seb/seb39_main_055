@@ -13,11 +13,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../redux";
-import { PageInfo, Store } from "../../types";
+import { PageInfo, UserInfos } from "../../types";
 import { averageStar, axiosInstance } from "../../utils";
 import { SBottomBox, SBox, SH1, SHeader, SP, SSpan, SUList } from "./style";
 
-const dummy: Store[] = [
+const dummy: StoreList[] = [
   {
     storeId: "8",
     createdAt: "2022-09-27T20:05:11",
@@ -150,8 +150,38 @@ const dummyResponse = (page: number) => {
   });
 };
 
+export interface StoreList {
+  storeId: string;
+  createdAt: string;
+  updatedAt: string;
+  storeStatus: string;
+  category: string;
+  longitude: number;
+  latitude: number;
+  storeName: string;
+  addressName: string;
+  body: string;
+  phone: string;
+  homepage: string;
+  storeImages: { storeImage: string }[];
+  user: UserInfos;
+  reviews: Review[];
+  heartUserId: number[];
+}
+
+export interface Review {
+  reviewId: string;
+  createdAt: string;
+  updatedAt: string;
+  reviewStatus: string;
+  user: UserInfos;
+  storeId: string;
+  body: string;
+  score: number;
+}
+
 interface SearchResponse {
-  data: Store[];
+  data: StoreList[];
   pageInfo: PageInfo;
 }
 
@@ -171,7 +201,7 @@ const INITIAL_LOCATION = {
   latitude: 37.56660794,
 };
 
-const renderPlaceCards = (data: Store[]) => {
+const renderPlaceCards = (data: StoreList[]) => {
   return data.map(
     ({
       storeId,
