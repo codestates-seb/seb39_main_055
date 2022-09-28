@@ -5,6 +5,7 @@ import { mobile, tablet } from "../../../assets";
 import like from "../../../assets/icons/like.png";
 import likeRed from "../../../assets/icons/likeRed.png";
 import user from "../../../assets/images/mypage/user.png";
+import NoImage from "../RecentList/NoImage";
 import { heartDummyData } from "./HeartDummyData";
 
 // interface Props {
@@ -34,7 +35,7 @@ const SContainer = styled.div`
 
   ${mobile(css`
     justify-content: center;
-    width: 260px;
+    width: 250px;
     height: auto;
     padding: 40px 0px 0px 25px;
   `)}
@@ -113,7 +114,7 @@ const SArea = styled.div`
 `;
 
 const SText = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   line-height: 23px;
   color: ${({ theme }) => theme.colors.black500};
 `;
@@ -133,35 +134,43 @@ const HeartList = () => {
         <div>찜</div>
       </SHeader>
       <SItemContainer>
-        {heartDummyData.map((heart: any) => (
-          <SCardContainer key={heart.store.storeId}>
-            <SCard>
-              <CardImage>
-                <img
-                  src={
-                    heart.storeImages.length >= 1
-                      ? heart.storeImages[0].storeImage
-                      : user
-                  } // 기본이미지 수정 필요
-                  alt={heart.store.storeId}
-                />
-                <SRedLikeIcon>
-                  <img alt="빨간하트" src={likeRed} />
-                </SRedLikeIcon>
-              </CardImage>
-              <STextInfo>
-                <STitle>{heart.store.category}</STitle>
-                <SArea>
-                  {heart.store.addressName.length >= 1
-                    ? heart.store.addressName.slice(0, 4)
-                    : null}
-                  {/* splice(" ").slice(0, 4).join(" ")..? 시,구,군까지 출력 */}
-                </SArea>
-                <SText>{heart.store.storeName}</SText>
-              </STextInfo>
-            </SCard>
-          </SCardContainer>
-        ))}
+        {heartDummyData.length > 0 ? (
+          heartDummyData.map((heart: any) => (
+            <SCardContainer key={heart.store.storeId}>
+              <SCard>
+                <CardImage>
+                  <img
+                    src={
+                      heart.storeImages.length >= 1
+                        ? heart.storeImages[0].storeImage
+                        : user
+                    } // 기본이미지 수정 필요
+                    alt={heart.store.storeId}
+                  />
+                  <SRedLikeIcon>
+                    <img alt="빨간하트" src={likeRed} />
+                  </SRedLikeIcon>
+                </CardImage>
+                <STextInfo>
+                  <STitle>{heart.store.category}</STitle>
+                  <SArea>
+                    {heart.store.addressName.length >= 1
+                      ? heart.store.addressName.slice(0, 4)
+                      : null}
+                    {/* splice(" ").slice(0, 4).join(" ")..? 시,구,군까지 출력 */}
+                  </SArea>
+                  <SText>{heart.store.storeName}</SText>
+                </STextInfo>
+              </SCard>
+            </SCardContainer>
+          ))
+        ) : (
+          <NoImage
+            title="찜을 한 펫플레이스가 없습니다."
+            body1="관심있는 펫플레이스를 하트 아이콘을 눌러 '짬'하시면,"
+            body2="더욱 편리하게 이용하실 수 있어요!"
+          />
+        )}
       </SItemContainer>
     </SContainer>
   );
