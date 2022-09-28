@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-return */
 import { useEffect, useState } from "react";
-import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 

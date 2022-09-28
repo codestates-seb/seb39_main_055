@@ -146,7 +146,6 @@ interface Prop {
 }
 
 const Header = ({ data }: Prop) => {
-  const userId = 3;
   const params = useParams();
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState(false);
@@ -183,12 +182,12 @@ const Header = ({ data }: Prop) => {
   };
 
   useEffect(() => {
-    if (data?.heartUserId.includes(userId)) {
+    if (data?.heartUserId.includes(userInfos?.userId as number)) {
       setIsLike(true);
     } else {
       setIsLike(false);
     }
-  }, [userId, data]);
+  }, [userInfos, data]);
 
   return (
     <SHeader>
