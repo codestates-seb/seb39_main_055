@@ -41,6 +41,12 @@ public class ReviewService {
         Optional.ofNullable(review.getReviewStatus())//리뷰 삭제
                 .ifPresent(reviewStatus -> findReview.setReviewStatus(reviewStatus));
 
+        Optional.ofNullable(review.getBody())//리뷰 내용 수정
+                .ifPresent(reviewBody -> findReview.setBody(reviewBody));
+
+        Optional.ofNullable(review.getScore())//리뷰 별점 수정
+                .ifPresent(reviewScore->findReview.setScore(reviewScore));
+
         return findReview;
     }
 
