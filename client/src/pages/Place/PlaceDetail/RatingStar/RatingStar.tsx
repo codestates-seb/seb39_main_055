@@ -39,6 +39,9 @@ interface Prop {
 const RatingStar = ({ ratingIndex, setRatingIndex, data }: Prop) => {
   const { openModal } = useModal();
   const { loginStatus, userInfos } = useAppSelector((state) => state.user);
+  const registerReviewUserList = data?.reviews.data.map(
+    (review) => review.user.userId
+  );
 
   const handleStarClick = (index: number) => {
     if (!loginStatus) {
@@ -50,6 +53,11 @@ const RatingStar = ({ ratingIndex, setRatingIndex, data }: Prop) => {
       openModal(
         <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
       );
+      return;
+    }
+
+    if (registerReviewUserList?.includes(userInfos?.userId as number)) {
+      openModal(<ErrorModal body="이미 작성한 리뷰가 존재합니다." />);
       return;
     }
 

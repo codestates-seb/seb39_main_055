@@ -1,7 +1,7 @@
+/* eslint-disable no-useless-return */
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 
 import { addReview } from "../../../../apis/place";
@@ -30,7 +30,6 @@ export const STextArea = styled.textarea`
   min-height: 150px;
   outline: none;
   border: none;
-  /* border: 1px solid #dbdbdb; */
   color: #000000;
   font-size: 16px;
   font-family: "Noto Sans KR", sans-serif;
@@ -52,9 +51,9 @@ export const SButton = styled.button`
   font-family: "ONE-Mobile-Regular";
   transition: all 0.4s;
 
-  /* &:hover {
+  &:hover {
     scale: 1.1;
-  } */
+  }
 
   &:disabled {
     color: #161616;
@@ -77,17 +76,33 @@ const ReviewForm = ({ data }: Prop) => {
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation(addReview, {
-    onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
+    onSuccess: () => {
+      setReviewValue("");
+      setRatingIndex(0);
+      queryClient.invalidateQueries(["place", params.id]);
+    },
   });
+
+  const registerReviewUserList = data?.reviews.data.map(
+    (review) => review.user.userId
+  );
 
   const handleFocus = () => {
     if (!loginStatus) {
       openModal(<LoginModal />);
+      return;
     }
+
     if (userInfos?.userId === data?.user.userId) {
       openModal(
         <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
       );
+      return;
+    }
+
+    if (registerReviewUserList?.includes(userInfos?.userId as number)) {
+      openModal(<ErrorModal body="이미 작성한 리뷰가 존재합니다." />);
+      return;
     }
   };
 
@@ -108,10 +123,11 @@ const ReviewForm = ({ data }: Prop) => {
   }, [ratingIndex, reviewValue]);
 
   return (
-    <STextAreaContainer onFocus={handleFocus}>
+    <STextAreaContainer>
       <STextArea
         placeholder="리뷰를 작성해주세요."
         value={reviewValue}
+        onFocus={handleFocus}
         onChange={(e) => setReviewValue(e.target.value)}
       />
       <div>
