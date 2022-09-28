@@ -103,24 +103,14 @@ const SText = styled.div`
 `;
 
 const RecentList = () => {
-  // const localstorageData = JSON.parse(
-  //   localStorage.getItem("recentPlace") as string
-  // );
-  const defaultStorage = EmptyList;
-
-  // console.log(defaultStorage);
   const getRecentList = window.localStorage.getItem("recentPlace");
 
-  const localstorageData = getRecentList
-    ? JSON.parse(getRecentList)
-    : defaultStorage;
+  const localstorageData = getRecentList ? (
+    JSON.parse(getRecentList)
+  ) : (
+    <div>최근 본 목록이 없습니다.</div>
+  );
 
-  if (localstorageData.length > 0) {
-    window.localStorage.setItem(
-      "defaultStorage",
-      JSON.stringify(defaultStorage)
-    );
-  }
   console.log(localstorageData);
   return (
     <SContainer>
@@ -150,7 +140,7 @@ const RecentList = () => {
                 </SCard>
               </SCardContainer>
             ))
-          : defaultStorage}
+          : localstorageData}
       </SItemContainer>
     </SContainer>
   );
