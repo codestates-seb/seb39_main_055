@@ -36,21 +36,16 @@ public class ReplyService {
     public Reply updateReply(Reply reply) {
         Reply findReply = findVerifiedReply(reply.getReplyId()); // reply가 DB에 없으면 예외처리.
 
-        // 삭제된 (실제로는 not exist 상태인) reply라면 예외처리.
-        if(findReply.getReplyStatus() == Reply.ReplyStatus.REPLY_NOT_EXIST) {
-            throw new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND);
-        }
-
         log.info("댓글 존재함 {}", reply.getReplyId().toString());
 
         Optional.ofNullable(reply.getBody())
-                .ifPresent(findReply::setBody); // 댓글 내용 수정
+                .ifPresent(replyBody -> findReply.setBody(replyBody)); // 댓글 내용 수정
 
         Optional.ofNullable(reply.getUpdatedAt())
-                .ifPresent(findReply::setUpdatedAt); // 업데이트 날짜 수정
+                .ifPresent(replyUpdateAt -> findReply.setUpdatedAt(replyUpdateAt)); // 업데이트 날짜 수정
 
         Optional.ofNullable(reply.getReplyStatus())
-                .ifPresent(findReply::setReplyStatus); // 댓글 삭제 (실제 삭제가 아니라 replyStatus 변경)
+                .ifPresent(replyStatus -> findReply.setReplyStatus(replyStatus)); // 댓글 삭제 (실제 삭제가 아니라 replyStatus 변경)
 
         return findReply;
     }
@@ -60,8 +55,16 @@ public class ReplyService {
      */
     public Reply findVerifiedReply(long replyId) {
         Optional<Reply> optionalReply = replyRepository.findById(replyId);
+
+        // DB에 저장된 댓글이 없으면 예외 발생
         Reply findReply = optionalReply.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND));
+
+        // 만일 삭제된 댓글일 경우, 예외 발생
+        if(findReply.getReplyStatus()==Reply.ReplyStatus.REPLY_NOT_EXIST) {
+            throw new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND);
+        }
+
         return findReply;
     }
 

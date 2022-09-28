@@ -33,6 +33,7 @@ public interface ReplyMapper {
 
     default ReplyResponseDto replyToReplyResponseDto(UserMapper userMapper, Reply reply) {
         ReplyResponseDto replyResponseDto = new ReplyResponseDto();
+        System.out.println("쓰레드 : " + reply.getThread());
 
         replyResponseDto.setReplyId(reply.getReplyId());
         System.out.println("댓글 ID :" + reply.getReplyId());
@@ -54,7 +55,7 @@ public interface ReplyMapper {
             ReplyService replyService, UserService userService, long replyId, ReplyPatchDto replyPatchDto) {
 
         // 로그인 유저 = reply 작성유저가 아니라면, 예외 처리. (수정 권한이 없기 때문에)
-        if(!userService.getLoginUser().getUserId().equals(replyService.findReplyUser(replyId).getUserId())) {
+        if(userService.getLoginUser() != replyService.findReplyUser(replyId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
         }
 
