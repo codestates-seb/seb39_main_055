@@ -47,6 +47,7 @@ const App = () => {
             <Route path="/place/*" element={<PlaceRouter />} />
             <Route path="/post/*" element={<PostRouter />} />
             <Route path="/search/*" element={<SearchRouter />} />
+            <Route path="/not-found" element={<div>NOT FOUND</div>} />
           </Route>
         </Routes>
       </Modal>
