@@ -15,7 +15,7 @@ import {
 import { DeleteModal, useModal } from "../../../../components";
 import { LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
-import { Store } from "../../../../types";
+import { Review, Store } from "../../../../types";
 import { averageStar } from "../../../../utils";
 
 export const SHeader = styled.header`
@@ -25,8 +25,14 @@ export const SHeader = styled.header`
   & > p {
     color: #434343;
     font-size: 26px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
+`;
+
+export const SCategory = styled.p`
+  color: #ffc107 !important;
+  font-size: 26px;
+  margin-bottom: 10px;
 `;
 
 export const STitle = styled.div<{ isLike: boolean }>`
@@ -186,14 +192,18 @@ const Header = ({ data }: Prop) => {
 
   return (
     <SHeader>
+      <SCategory>{data?.category}</SCategory>
       <STitle isLike={isLike}>
         <h1>{data?.storeName}</h1>
         <HiOutlineHeart onClick={handleHeartClick} />
       </STitle>
       <SScoreContainer>
         <AiFillStar />
-        {/* <span>{data?.reviews.data && averageStar(data?.reviews.data)}</span> */}
-        <span>0.0(0)</span>
+        <span>
+          {(data?.reviews.data.length as number) > 0
+            ? averageStar(data?.reviews.data as Review[])
+            : "0.0(0)"}
+        </span>
         <div>
           <span>리뷰보기</span>
           <MdOutlineKeyboardArrowRight />

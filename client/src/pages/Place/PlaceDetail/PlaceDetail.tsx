@@ -6,6 +6,8 @@ import { getPlaceDetail } from "../../../apis/place";
 import { LoadingSpinner, Slider } from "../../../components";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
+import ReviewCard from "./ReviewCard/ReviewCard";
+import ReviewForm from "./ReviewForm/ReviewForm";
 
 export const SContainer = styled.div`
   display: flex;
@@ -40,6 +42,8 @@ export const SP = styled.p`
 `;
 
 export const SReviewContainer = styled.section`
+  display: flex;
+  flex-direction: column;
   padding: 35px 0;
 `;
 
@@ -49,6 +53,17 @@ export const SLoadingContainer = styled.div`
   align-items: center;
   width: 100%;
   height: calc(100vh - 380px);
+`;
+
+export const SStrong = styled.strong`
+  color: #ffc109;
+`;
+
+export const SReviewListContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 100px;
 `;
 
 const PlaceDetail = () => {
@@ -65,6 +80,8 @@ const PlaceDetail = () => {
     );
   }
 
+  console.log(data);
+
   return (
     <SContainer>
       <main>
@@ -80,7 +97,25 @@ const PlaceDetail = () => {
         </SDescriptionContainer>
         <Info data={data} />
       </main>
-      <section>리뷰</section>
+      <SReviewContainer>
+        <SH2>
+          리뷰 <SStrong>{data?.reviews.data.length}</SStrong>
+        </SH2>
+        <ReviewForm data={data} />
+        <SReviewListContainer>
+          {data?.reviews.data.map((data) => (
+            <ReviewCard
+              key={data.reviewId}
+              storeId={data.storeId}
+              reviewId={data.reviewId}
+              user={data.user}
+              updatedAt={data.updatedAt}
+              body={data.body}
+              score={data.score}
+            />
+          ))}
+        </SReviewListContainer>
+      </SReviewContainer>
     </SContainer>
   );
 };

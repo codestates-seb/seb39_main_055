@@ -1,4 +1,3 @@
-import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import pension from "../../../assets/images/mypage/pension.jpeg";
 import pension2 from "../../../assets/images/mypage/pension2.png";
 import pension3 from "../../../assets/images/mypage/pension3.png";
@@ -6,15 +5,7 @@ import pension4 from "../../../assets/images/mypage/pension4.png";
 import pension5 from "../../../assets/images/mypage/pension5.png";
 import playground1 from "../../../assets/images/mypage/playground1.png";
 import playground2 from "../../../assets/images/mypage/playground2.png";
-// interface Props {
-//   place: {
-//     storeId: string;
-//     category: string;
-//     storeName: string;
-//     addressName: string;
-//     storeImages: { storeImage: string }[];
-//   };
-// }
+
 export const recentPlace = [
   {
     storeId: "1",
@@ -97,20 +88,6 @@ export const recentPlace = [
     storeImages: [
       {
         storeImage: pension3,
-      },
-    ],
-  },
-];
-
-export const EmptyList = [
-  {
-    storeId: "1",
-    category: "앗!",
-    storeName: "최근 본 장소가 없습니다.",
-    addressName: "최근 본 장소가 없습니다.",
-    storeImages: [
-      {
-        storeImage: defaultImg,
       },
     ],
   },
