@@ -101,7 +101,7 @@ const PlaceDetail = () => {
         <SH2>
           리뷰 <SStrong>{data?.reviews.data.length}</SStrong>
         </SH2>
-        <ReviewForm />
+        <ReviewForm data={data} />
         <SReviewListContainer>
           {data?.reviews.data.map((data) => (
             <ReviewCard

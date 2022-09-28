@@ -7,6 +7,7 @@ import { addReview } from "../../../../apis/place";
 import { useModal } from "../../../../components";
 import { LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
+import { Store } from "../../../../types";
 import RatingStar from "../RatingStar/RatingStar";
 
 export const STextAreaContainer = styled.div`
@@ -60,7 +61,11 @@ export const SButton = styled.button`
   }
 `;
 
-const ReviewForm = () => {
+interface Prop {
+  data: Store | undefined;
+}
+
+const ReviewForm = ({ data }: Prop) => {
   const { openModal } = useModal();
   const { loginStatus } = useAppSelector((state) => state.user);
 
@@ -81,7 +86,6 @@ const ReviewForm = () => {
   };
 
   const handleSubmit = () => {
-    console.log("submit");
     mutate({
       storeId: params.id as string,
       body: reviewValue,
