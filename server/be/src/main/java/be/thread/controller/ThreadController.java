@@ -1,5 +1,8 @@
 package be.thread.controller;
 
+import be.likes.service.LikesService;
+import be.reply.mapper.ReplyMapper;
+import be.reply.service.ReplyService;
 import be.response.SingleResponseDto;
 import be.thread.dto.ThreadLikeDto;
 import be.thread.dto.ThreadPatchDto;
@@ -32,6 +35,9 @@ public class ThreadController {
     private final ThreadMapper threadMapper;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final ReplyService replyService;
+    private final ReplyMapper replyMapper;
+    private final LikesService likesService;
     private final ThreadImageService threadImageService;
 
     /**
@@ -45,7 +51,9 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,threadImageService,thread)), HttpStatus.CREATED);
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
+                        replyService, likesService, replyMapper,
+                        userMapper, threadImageService, thread)), HttpStatus.CREATED);
     }
 
     /**
@@ -60,7 +68,9 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,threadImageService, updatedThread)),
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
+                        replyService, likesService, replyMapper,
+                        userMapper,threadImageService, updatedThread)),
                 HttpStatus.OK);
     }
 
@@ -92,7 +102,9 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, threadImageService, deletedThread)),
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
+                        replyService, likesService, replyMapper,
+                        userMapper, threadImageService, deletedThread)),
                 HttpStatus.OK);
     }
 
