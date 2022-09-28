@@ -2,6 +2,18 @@ import styled from "styled-components";
 
 export const SContainer = styled.div`
   position: relative;
+  cursor: pointer;
+
+  & > svg {
+    font-size: 30px;
+    color: #a5a5a5;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      color: #161616;
+    }
+  }
 `;
 
 export const SModalContainer = styled.div`

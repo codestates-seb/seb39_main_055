@@ -5,8 +5,9 @@ import { AiFillStar } from "react-icons/ai";
 import styled from "styled-components";
 
 import { useModal } from "../../../../components";
-import { LoginModal } from "../../../../components/Modal";
+import { ErrorModal, LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
+import { Store } from "../../../../types";
 
 const SRatingContainer = styled.div`
   display: flex;
@@ -30,19 +31,36 @@ const SStar = styled(AiFillStar)`
 `;
 
 interface Prop {
+  data?: Store | undefined;
   ratingIndex: number;
   setRatingIndex: Dispatch<SetStateAction<number>>;
 }
 
-const RatingStar = ({ ratingIndex, setRatingIndex }: Prop) => {
+const RatingStar = ({ ratingIndex, setRatingIndex, data }: Prop) => {
   const { openModal } = useModal();
-  const { loginStatus } = useAppSelector((state) => state.user);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
+  const registerReviewUserList = data?.reviews.data.map(
+    (review) => review.user.userId
+  );
 
   const handleStarClick = (index: number) => {
     if (!loginStatus) {
       openModal(<LoginModal />);
       return;
     }
+
+    if (userInfos?.userId === data?.user.userId) {
+      openModal(
+        <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
+      );
+      return;
+    }
+
+    if (registerReviewUserList?.includes(userInfos?.userId as number)) {
+      openModal(<ErrorModal body="이미 작성한 리뷰가 존재합니다." />);
+      return;
+    }
+
     setRatingIndex(index);
   };
 

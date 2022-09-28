@@ -14,17 +14,6 @@ export const SUtils = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  svg {
-    font-size: 30px;
-    color: #a5a5a5;
-    cursor: pointer;
-    transition: all 0.3s;
-
-    &:hover {
-      color: #161616;
-    }
-  }
 `;
 
 export const SUserInfo = styled.div`
