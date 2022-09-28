@@ -7,7 +7,7 @@ export const SUtils = styled.section`
   margin: 45px 0 50px 0;
 
   svg {
-    font-size: 40px;
+    font-size: 40px !important;
     color: #a5a5a5;
     cursor: pointer;
     transition: all 0.3s;

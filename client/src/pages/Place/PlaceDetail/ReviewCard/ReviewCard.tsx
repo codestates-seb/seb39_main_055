@@ -2,6 +2,7 @@
 import { AiFillStar } from "react-icons/ai";
 import styled from "styled-components";
 
+import { Dots } from "../../../../components";
 import { UserInfos } from "../../../../types";
 
 export const SReviewList = styled.li`
@@ -17,9 +18,15 @@ export const SReviewList = styled.li`
 
 export const SUserInfo = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
-  & > img {
+  & > section {
+    display: flex;
+    align-items: center;
+  }
+
+  & > section > img {
     width: 45px;
     height: 45px;
     margin-right: 15px;
@@ -27,7 +34,7 @@ export const SUserInfo = styled.div`
     object-fit: cover;
   }
 
-  & > div {
+  & > section > div {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -83,16 +90,23 @@ const ReviewCard = ({
   return (
     <SReviewList>
       <SUserInfo>
-        <img src={user.image} alt="profile" />
-        <div>
-          <span>{user.nickname}</span>
-          <SStars>
-            {[...Array(score)].map((_, index) => (
-              <AiFillStar key={index} />
-            ))}
-            <p>{score.toFixed(1)}</p>
-          </SStars>
-        </div>
+        <section>
+          <img src={user.image} alt="profile" />
+          <div>
+            <span>{user.nickname}</span>
+            <SStars>
+              {[...Array(score)].map((_, index) => (
+                <AiFillStar key={index} />
+              ))}
+              <p>{score.toFixed(1)}</p>
+            </SStars>
+          </div>
+        </section>
+        <Dots
+          deleteModalTitle="리뷰를 삭제 하시겠습니까?"
+          onDelete={() => console.log("delete")}
+          onEdit={() => console.log("edit")}
+        />
       </SUserInfo>
       <SBody>{body}</SBody>
       <SDate>{updatedAt.slice(0, 10)}</SDate>
