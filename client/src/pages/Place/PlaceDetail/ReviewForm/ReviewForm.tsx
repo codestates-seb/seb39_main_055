@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 
 import { addReview } from "../../../../apis/place";
 import { useModal } from "../../../../components";
-import { LoginModal } from "../../../../components/Modal";
+import { ErrorModal, LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
 import RatingStar from "../RatingStar/RatingStar";
@@ -67,14 +68,14 @@ interface Prop {
 
 const ReviewForm = ({ data }: Prop) => {
   const { openModal } = useModal();
-  const { loginStatus } = useAppSelector((state) => state.user);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
 
-  const queryClient = useQueryClient();
   const params = useParams();
   const [validate, setValidate] = useState(true);
   const [ratingIndex, setRatingIndex] = useState(0);
   const [reviewValue, setReviewValue] = useState("");
 
+  const queryClient = useQueryClient();
   const { mutate } = useMutation(addReview, {
     onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
   });
@@ -82,6 +83,11 @@ const ReviewForm = ({ data }: Prop) => {
   const handleFocus = () => {
     if (!loginStatus) {
       openModal(<LoginModal />);
+    }
+    if (userInfos?.userId === data?.user.userId) {
+      openModal(
+        <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
+      );
     }
   };
 
@@ -94,7 +100,7 @@ const ReviewForm = ({ data }: Prop) => {
   };
 
   useEffect(() => {
-    if (ratingIndex && reviewValue.trim().length > 4) {
+    if (ratingIndex && reviewValue.trim().length) {
       setValidate(false);
     } else {
       setValidate(true);
@@ -104,12 +110,16 @@ const ReviewForm = ({ data }: Prop) => {
   return (
     <STextAreaContainer onFocus={handleFocus}>
       <STextArea
-        placeholder="5글자 이상 작성해주세요."
+        placeholder="리뷰를 작성해주세요."
         value={reviewValue}
         onChange={(e) => setReviewValue(e.target.value)}
       />
       <div>
-        <RatingStar ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
+        <RatingStar
+          data={data}
+          ratingIndex={ratingIndex}
+          setRatingIndex={setRatingIndex}
+        />
         <SButton disabled={validate} onClick={handleSubmit}>
           입력
         </SButton>
