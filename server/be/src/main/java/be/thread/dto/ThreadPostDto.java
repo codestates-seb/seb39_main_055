@@ -9,8 +9,6 @@ import java.util.List;
 @Getter
 public class ThreadPostDto {
 
-    @Positive
-    private Long threadId;
 
     @NotBlank(message = "내용을 입력해 주세요.")
     private String body;

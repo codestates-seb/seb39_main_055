@@ -95,7 +95,6 @@ public interface ThreadMapper {
 
 
     default ThreadResponseDto threadToThreadResponseDto(
-            ReplyService replyService, LikesService likesService, ReplyMapper replyMapper,
             UserMapper userMapper, ThreadImageService threadImageService, Thread thread) {
 
         ThreadResponseDto threadResponseDto = new ThreadResponseDto();
@@ -119,6 +118,10 @@ public interface ThreadMapper {
         threadResponseDto.setUpdatedAt(thread.getUpdatedAt());
 
         return threadResponseDto;
+    }
+
+    default List<ThreadResponseDto> threadsTothreadResponseDtos(UserMapper userMapper, ThreadImageService threadImageService,List<Thread> threads){
+        return threads.stream().map(thread -> threadToThreadResponseDto(userMapper,threadImageService,thread)).collect(Collectors.toList());
     }
 
     default List<ThreadImageResponseDtos> threadImagesToThreadImageResponseDtos(List<ThreadImage> threadImages) {

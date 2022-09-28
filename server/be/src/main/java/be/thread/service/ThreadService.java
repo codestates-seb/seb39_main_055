@@ -2,13 +2,18 @@ package be.thread.service;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.heart.entity.Heart;
 import be.store.entity.StoreImage;
 import be.thread.entity.Thread;
 import be.thread.entity.ThreadImage;
 import be.thread.repository.ThreadRepository;
 import be.user.entity.User;
+import be.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -127,6 +132,16 @@ public class ThreadService {
         findThread.setThreadStatus(Thread.ThreadStatus.THREAD_NOT_EXIST);
 
         return findThread;
+    }
+
+    public Page<Thread> findThreads(UserService userService,int page,int size){//해당 유저가 쓴 글에 pagination 과 최신순 sort 구현
+        User user = userService.getLoginUser(); //해당 토근의 유저 가져오기
+        Page<Thread> threads = threadRepository.findByUserAndThreadStatus(//삭제된 글 빼고 해당 유저가 쓴 전체 글 가져옴
+                PageRequest.of(page,size, Sort.by("createdAt").descending()),
+                user,
+                Thread.ThreadStatus.THREAD_EXIST);
+
+        return threads;
     }
 
 }
