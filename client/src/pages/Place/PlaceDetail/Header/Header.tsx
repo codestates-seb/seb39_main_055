@@ -15,7 +15,7 @@ import {
 import { DeleteModal, useModal } from "../../../../components";
 import { LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
-import { Store } from "../../../../types";
+import { Review, Store } from "../../../../types";
 import { averageStar } from "../../../../utils";
 
 export const SHeader = styled.header`
@@ -192,8 +192,11 @@ const Header = ({ data }: Prop) => {
       </STitle>
       <SScoreContainer>
         <AiFillStar />
-        {/* <span>{data?.reviews.data && averageStar(data?.reviews.data)}</span> */}
-        <span>0.0(0)</span>
+        <span>
+          {(data?.reviews.data.length as number) > 0
+            ? averageStar(data?.reviews.data as Review[])
+            : "0.0(0)"}
+        </span>
         <div>
           <span>리뷰보기</span>
           <MdOutlineKeyboardArrowRight />
