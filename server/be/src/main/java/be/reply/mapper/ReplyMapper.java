@@ -15,6 +15,9 @@ import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring")
 public interface ReplyMapper {
 
@@ -67,5 +70,12 @@ public interface ReplyMapper {
         return reply;
     }
 
-}
+    default List<ReplyResponseDto> repliesToReplyResponseDtos(UserMapper userMapper, List<Reply> replies) {
+        // 모든 댓글만 가지고 ReplyResponseDtos반환
+        return replies.stream()
+                .filter(reply -> reply != null)
+                .map(reply -> replyToReplyResponseDto(userMapper, reply))
+                .collect(Collectors.toList());
+    }
 
+}

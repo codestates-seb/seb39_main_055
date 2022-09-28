@@ -2,11 +2,16 @@ package be.reply.service;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.likes.repository.LikesRepository;
 import be.reply.entity.Reply;
 import be.reply.repository.ReplyRepository;
+import be.thread.entity.Thread;
 import be.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,6 +23,7 @@ import java.util.Optional;
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
+    private final LikesRepository likesRepository;
 
     /**
      * Reply 작성
@@ -90,5 +96,15 @@ public class ReplyService {
         return findReply;
     }
 
+    public Page<Reply> findExistRepliesToPaginationAndSort(
+            Thread thread, Integer replyPage, Integer replySize, String replySort) { // thread의 reply중 status가 true인 것만 페이지네이션 정렬해서 반환
+        Page<Reply> findReplies = replyRepository.findByThreadAndReplyStatus(
+                PageRequest.of(replyPage-1, replySize, Sort.by(replySort).descending()),
+                thread, Reply.ReplyStatus.REPLY_EXIST
+        );
+        return findReplies;
+    }
+
 }
+
 

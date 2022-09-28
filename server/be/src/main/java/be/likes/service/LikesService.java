@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -70,6 +71,10 @@ public class LikesService {
         if(likes.getTotalElements() == 0) {
             throw new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND);
         }
+    }
+
+    public List<Likes> findExistLikesByThread(Thread thread) { //해당 thread의 likes중에 Status가 LIKES_EXIST인 것만 반환
+        return likesRepository.findByThreadAndLikesStatus(thread, Likes.LikesStatus.LIKES_EXIST);
     }
 
 }
