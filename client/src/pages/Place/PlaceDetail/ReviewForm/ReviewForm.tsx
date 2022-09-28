@@ -1,11 +1,12 @@
+/* eslint-disable no-useless-return */
 import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { addReview } from "../../../../apis/place";
 import { useModal } from "../../../../components";
-import { LoginModal } from "../../../../components/Modal";
+import { ErrorModal, LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
 import RatingStar from "../RatingStar/RatingStar";
@@ -14,7 +15,7 @@ export const STextAreaContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 20px;
+  padding: 10px 20px;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
 
@@ -26,10 +27,9 @@ export const STextAreaContainer = styled.div`
 
 export const STextArea = styled.textarea`
   width: 100%;
-  min-height: 150px;
+  min-height: 100px;
   outline: none;
   border: none;
-  /* border: 1px solid #dbdbdb; */
   color: #000000;
   font-size: 16px;
   font-family: "Noto Sans KR", sans-serif;
@@ -47,45 +47,84 @@ export const SButton = styled.button`
   background-color: #ffc107;
   border: none;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 12px;
   font-family: "ONE-Mobile-Regular";
   transition: all 0.4s;
 
-  /* &:hover {
+  &:hover {
     scale: 1.1;
-  } */
+  }
 
   &:disabled {
     color: #161616;
     background-color: #dbdbdb;
+
+    &:hover {
+      scale: 1;
+    }
   }
 `;
 
 interface Prop {
-  data: Store | undefined;
+  isEdit: boolean;
+  submitCallback: ({ body, score }: { body: string; score: number }) => void;
+  data?: Store | undefined;
+  initialState?: { body: string; score: number };
 }
 
-const ReviewForm = ({ data }: Prop) => {
+const ReviewForm = ({
+  isEdit,
+  submitCallback,
+  data,
+  initialState = { body: "", score: 0 },
+}: Prop) => {
   const { openModal } = useModal();
-  const { loginStatus } = useAppSelector((state) => state.user);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
 
-  const queryClient = useQueryClient();
   const params = useParams();
   const [validate, setValidate] = useState(true);
-  const [ratingIndex, setRatingIndex] = useState(0);
-  const [reviewValue, setReviewValue] = useState("");
+  const [ratingIndex, setRatingIndex] = useState(initialState.score);
+  const [reviewValue, setReviewValue] = useState(initialState.body);
 
+  const queryClient = useQueryClient();
   const { mutate } = useMutation(addReview, {
-    onSuccess: () => queryClient.invalidateQueries(["place", params.id]),
+    onSuccess: () => {
+      setReviewValue("");
+      setRatingIndex(0);
+      queryClient.invalidateQueries(["place", params.id]);
+    },
   });
 
+  const registerReviewUserList = data?.reviews.data.map(
+    (review) => review.user.userId
+  );
+
   const handleFocus = () => {
-    if (!loginStatus) {
-      openModal(<LoginModal />);
+    if (!isEdit) {
+      if (!loginStatus) {
+        openModal(<LoginModal />);
+        return;
+      }
+
+      if (userInfos?.userId === data?.user.userId) {
+        openModal(
+          <ErrorModal body="자신이 등록한 매장에는 리뷰를 등록할 수 없습니다." />
+        );
+        return;
+      }
+
+      if (registerReviewUserList?.includes(userInfos?.userId as number)) {
+        openModal(<ErrorModal body="이미 작성한 리뷰가 존재합니다." />);
+        return;
+      }
     }
   };
 
   const handleSubmit = () => {
+    if (isEdit) {
+      submitCallback({ body: reviewValue, score: ratingIndex });
+    }
+
     mutate({
       storeId: params.id as string,
       body: reviewValue,
@@ -94,7 +133,7 @@ const ReviewForm = ({ data }: Prop) => {
   };
 
   useEffect(() => {
-    if (ratingIndex && reviewValue.trim().length > 4) {
+    if (ratingIndex && reviewValue.trim().length) {
       setValidate(false);
     } else {
       setValidate(true);
@@ -102,16 +141,21 @@ const ReviewForm = ({ data }: Prop) => {
   }, [ratingIndex, reviewValue]);
 
   return (
-    <STextAreaContainer onFocus={handleFocus}>
+    <STextAreaContainer>
       <STextArea
-        placeholder="5글자 이상 작성해주세요."
+        placeholder="리뷰를 작성해주세요."
         value={reviewValue}
+        onFocus={handleFocus}
         onChange={(e) => setReviewValue(e.target.value)}
       />
       <div>
-        <RatingStar ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
+        <RatingStar
+          data={data}
+          ratingIndex={ratingIndex}
+          setRatingIndex={setRatingIndex}
+        />
         <SButton disabled={validate} onClick={handleSubmit}>
-          입력
+          {isEdit ? "수정" : "입력"}
         </SButton>
       </div>
     </STextAreaContainer>
