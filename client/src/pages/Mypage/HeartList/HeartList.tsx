@@ -34,7 +34,7 @@ const SContainer = styled.div`
 
   ${mobile(css`
     justify-content: center;
-    width: 260px;
+    width: 250px;
     height: auto;
     padding: 40px 0px 0px 25px;
   `)}
