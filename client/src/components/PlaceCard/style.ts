@@ -64,6 +64,10 @@ export const SStarSVG = styled(AiFillStar)`
 `;
 
 export const SRatingP = styled.p`
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+  margin-left: 3px;
   font-size: 14px;
   color: ${colors("black250")};
 `;

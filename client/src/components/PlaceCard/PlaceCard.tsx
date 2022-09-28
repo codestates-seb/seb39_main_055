@@ -1,4 +1,3 @@
-import dummyImg from "../../assets/images/test.png";
 import {
   SBar,
   SFooter,
@@ -17,9 +16,9 @@ interface PlaceCardProps {
   image: string;
   alt: string;
   location: string;
-  distance: string;
+  /* distance: string; */
   storeName: string;
-  meanRating: number;
+  averageRating: number;
   reviews: number;
 }
 
@@ -27,25 +26,27 @@ const PlaceCard = ({
   image,
   alt,
   location,
-  distance,
+  /* distance, */
   storeName,
-  meanRating,
+  averageRating,
   reviews,
 }: PlaceCardProps) => {
   return (
     <SList>
-      <SImg src={dummyImg} alt="fgsfg" />
+      <SImg src={image} alt={alt} />
       <SHeader>
         <STopBox>
-          <SH2>경기 가평군</SH2>
+          <SH2>{location}</SH2>
           <SP>12km</SP>
         </STopBox>
-        <SH1>도그더왈츠 애견펜션</SH1>
+        <SH1>{storeName}</SH1>
         <SBar />
       </SHeader>
       <SFooter>
         <SStarSVG />
-        <SRatingP>4.5 (12)</SRatingP>
+        <SRatingP>
+          {averageRating} ({reviews})
+        </SRatingP>
       </SFooter>
     </SList>
   );
