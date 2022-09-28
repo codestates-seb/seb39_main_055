@@ -2,6 +2,9 @@ package be.thread.mapper;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.likes.service.LikesService;
+import be.reply.mapper.ReplyMapper;
+import be.reply.service.ReplyService;
 import be.store.entity.StoreImage;
 import be.thread.dto.*;
 import be.thread.entity.Thread;
@@ -50,7 +53,7 @@ public interface ThreadMapper {
     default Thread threadPatchDtoToThread(ThreadService threadService, UserService userService,long threadId, ThreadPatchDto threadPatchDto) {
 
         // 로그인 유저 = thread를 작성한 유저가 아니라면, 예외 처리. (수정 권한이 없기 때문에)
-        if(userService.getLoginUser().getUserId()!=threadService.findThreadUser(threadId).getUserId()) {
+        if(userService.getLoginUser().getUserId() != threadService.findThreadUser(threadId).getUserId()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
         }
 
@@ -91,7 +94,9 @@ public interface ThreadMapper {
     }
 
 
-    default ThreadResponseDto threadToThreadResponseDto(UserMapper userMapper, ThreadImageService threadImageService,Thread thread) {
+    default ThreadResponseDto threadToThreadResponseDto(
+            ReplyService replyService, LikesService likesService, ReplyMapper replyMapper,
+            UserMapper userMapper, ThreadImageService threadImageService, Thread thread) {
 
         ThreadResponseDto threadResponseDto = new ThreadResponseDto();
 
