@@ -125,4 +125,20 @@ public class ThreadController {
                 pageThreads),HttpStatus.OK);
     }
 
+    /**
+     * 댕댕이숲 - 모든 글 리스트 가져오기 API
+     **/
+    @GetMapping("/thread")
+    public ResponseEntity getAllThreads(@Positive @RequestParam("page") int page,
+                                        @Positive @RequestParam("size") int size,
+                                        @RequestParam("sort") String sort) {
+
+        Page<Thread> pageThreads = threadService.findAllThreads(page-1, size, sort);
+        List<Thread> threads = pageThreads.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                threadMapper.threadsTothreadResponseDtos(userMapper, threadImageService, threads),
+                pageThreads), HttpStatus.OK);
+    }
+
 }
