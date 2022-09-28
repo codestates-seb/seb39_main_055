@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
@@ -47,10 +48,7 @@ const dummy: Store[] = [
           "https://main055.s3.ap-northeast-2.amazonaws.com/user3-b9cedaf17a7f80cb5a0e14e805f8825f1664276710274.png",
       },
     ],
-    reviews: {
-      data: [],
-      pageInfo: { page: 0, size: 0, totalElements: 0, totalPages: 0 },
-    },
+    reviews: [],
     heartUserId: [3],
   },
   {
@@ -82,10 +80,27 @@ const dummy: Store[] = [
           "https://main055.s3.ap-northeast-2.amazonaws.com/user1-nurung1663583751271.png",
       },
     ],
-    reviews: {
-      data: [],
-      pageInfo: { page: 0, size: 0, totalElements: 0, totalPages: 0 },
-    },
+    reviews: [
+      {
+        reviewId: "3",
+        createdAt: "2022-09-26T17:37:19",
+        updatedAt: "2022-09-26T17:37:19",
+        reviewStatus: "REVIEW_EXIST",
+        user: {
+          nickname: "psy2인데요",
+          email: "psy2@gmail.com",
+          image:
+            "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800",
+          userStatus: "USER_EXIST",
+          longitude: 126.75036638,
+          latitude: 37.50265438,
+          userRole: "ROLE_OWNER",
+        },
+        storeId: "1",
+        body: "이 동물병원 괜찮아요! 굿! 별점 5점 드립니다",
+        score: 3,
+      },
+    ],
     heartUserId: [2, 3],
   },
   {
@@ -121,10 +136,7 @@ const dummy: Store[] = [
           "https://main055.s3.ap-northeast-2.amazonaws.com/user3-a48ec27b468b7c211a59f9de185df18f1664273215829.png",
       },
     ],
-    reviews: {
-      data: [],
-      pageInfo: { page: 0, size: 0, totalElements: 0, totalPages: 0 },
-    },
+    reviews: [],
     heartUserId: [3],
   },
 ];
@@ -169,7 +181,7 @@ const renderPlaceCards = (data: Store[]) => {
       reviews,
       heartUserId,
     }) => {
-      const avgRating = Number(averageStar(reviews.data));
+      const avgRating = Number(averageStar(reviews));
       const [province, district] = addressName.match(/(.*?)[시|구]/g)!;
 
       if (province.length < 5) {
@@ -181,12 +193,12 @@ const renderPlaceCards = (data: Store[]) => {
 
       return (
         <PlaceCard
-          image={storeImages[0].storeImage}
+          image={storeImages[0]?.storeImage}
           alt={`${storeName}의 대표 이미지`}
           location={addressName}
           storeName={storeName}
           averageRating={avgRating}
-          reviews={reviews.data.length}
+          reviews={reviews.length}
           key={storeId}
         />
       );

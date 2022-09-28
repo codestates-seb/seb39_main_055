@@ -72,6 +72,6 @@ export const SUList = styled.ul`
 `;
 
 export const SBottomBox = styled.div`
-  height: 1px;
+  height: 10px;
   width: 100%;
 `;
