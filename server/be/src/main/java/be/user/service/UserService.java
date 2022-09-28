@@ -3,6 +3,7 @@ package be.user.service;
 import be.config.auth.PrincipalDetails;
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
+import be.store.service.StoreService;
 import be.user.entity.User;
 import be.user.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -84,7 +85,7 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(User user){
+    public User updateUser(StoreService storeService,User user){
         User findUser = findVerifiedUser(user.getUserId());
         Optional.ofNullable(user.getUpdatedAt())//업데이트 날짜 수정
                 .ifPresent(userUpdatedAt ->findUser.setUpdatedAt(userUpdatedAt));
@@ -105,7 +106,12 @@ public class UserService {
                 .ifPresent(userLatitude ->findUser.setLatitude(userLatitude));
 
         Optional.ofNullable(user.getUserStatus())//유저 탈퇴
-                .ifPresent(userStatus -> findUser.setUserStatus(userStatus));
+                .ifPresent(userStatus -> {
+                    if(findUser.getUserRole().equals("ROLE_OWNER")){ //탈퇴하려는 회원이 오너일때
+                        storeService.deleteTheOwnerStores(findUser);//매개변수로 들어가는 유저가 가지고 있는 Store를 전부 삭제
+                    }
+                    findUser.setUserStatus(userStatus); //유저 탈퇴
+                    });
 
         return findUser;
     }

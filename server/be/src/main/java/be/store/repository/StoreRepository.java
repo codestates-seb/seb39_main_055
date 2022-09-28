@@ -37,5 +37,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "upper(s.body) like upper(concat('%',:keyword,'%')))",nativeQuery = true)
     List<Store> searchStoreByKeyword(@Param("keyword") String keyword,@Param("status")String storeStatus);
 
+    List<Store> findByUserAndStoreStatus(User user, Store.StoreStatus storeStatus);
+
 
 }

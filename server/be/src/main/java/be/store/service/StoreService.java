@@ -152,6 +152,14 @@ public class StoreService {
 
     }
 
+    public void deleteTheOwnerStores(User user){//매개변수로 들어가는 유저가 가지고 있는 Store를 전부 삭제
+        List<Store> stores = storeRepository.findByUserAndStoreStatus(user, Store.StoreStatus.STORE_EXIST);// 해당유저의 존재하는 store 불러옴
+
+        stores.stream().forEach(store -> store.setStoreStatus(Store.StoreStatus.STORE_NOT_EXIST)); //store들 전부 삭제
+
+
+    }
+
     public Page<Store> searchStores(Double latitude,Double longitude,String category,String keyword,Integer page,Integer size,String sort){
 
         String[] keywords = keyword.split(" "); //뛰어쓰기 단위로 키워드 나누기

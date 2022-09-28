@@ -1,11 +1,13 @@
 package be.user.controller;
 
 import be.response.SingleResponseDto;
+import be.store.service.StoreService;
 import be.user.dto.UserPatchDto;
 import be.user.dto.UserPostDto;
 import be.user.entity.User;
 import be.user.mapper.UserMapper;
 import be.user.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +20,17 @@ import javax.validation.Valid;
 @RequestMapping("/v1")
 @Validated
 @Slf4j
+@AllArgsConstructor
 public class UserController {
-    private UserService userService;
-    private UserMapper mapper;
+    private final UserService userService;
+    private final UserMapper mapper;
+    private final StoreService storeService;
 
-    public UserController(UserService userService, UserMapper mapper) {
-        this.userService = userService;
-        this.mapper = mapper;
-    }
+
+//    public UserController(UserService userService, UserMapper mapper) {
+//        this.userService = userService;
+//        this.mapper = mapper;
+//    }
 
     /**
      * 회원가입 API
@@ -59,7 +64,7 @@ public class UserController {
     public ResponseEntity patchUser(@Valid @RequestBody UserPatchDto userPatchDto){
 
         User user = mapper.userPatchDtoToUser(userService,userPatchDto);
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.updateUser(storeService,user);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.userToUserResponseDto(updatedUser)),
