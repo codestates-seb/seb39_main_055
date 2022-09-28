@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { mobile, tablet } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
-import EmptyListImage from "./EmptyListImage";
+import NoImage from "./NoImage";
 import { recentPlace } from "./RecentDummyData";
 
 const SContainer = styled.div`
@@ -109,7 +109,7 @@ const RecentList = () => {
   const localstorageData = getRecentList ? (
     JSON.parse(getRecentList)
   ) : (
-    <EmptyListImage
+    <NoImage
       title="최근 본 동반장소가 없습니다."
       body1="나의 반려동물들과 함께 다닐 수 있는"
       body2="다양한 펫 플레이스를 확인하세요!"

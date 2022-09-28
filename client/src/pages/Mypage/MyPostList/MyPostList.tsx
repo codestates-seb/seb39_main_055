@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
 import photoShoot from "../../../assets/icons/photoShoot.png";
-import user from "../../../assets/images/mypage/user.png";
+import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
+import NoImage from "../RecentList/NoImage";
 import { post } from "./PostDummyData";
 
 // interface Props {
@@ -95,7 +96,7 @@ const STextInfo = styled.div`
 `;
 
 const STitle = styled.div`
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const SCreatedAt = styled.div`
@@ -116,27 +117,37 @@ const MyPostList = () => {
         <div>댕댕이숲</div>
       </SHeader>
       <SItemContainer>
-        {post.map((post: any) => (
-          <SCardContainer key={post.data.threadId}>
-            <SCard>
-              <img
-                src={
-                  post.data.threadImages.length >= 1
-                    ? post.data.threadImages[0].image
-                    : user
-                } // 기본이미지 수정 필요
-                alt={post.data.threadId}
-              />
-              <STextInfo>
-                {/* data.body의 앞부분 일부가 제목으로. */}
-                <STitle>{post.data.body.substring(0, 16)}</STitle>
-                {/* 년,월,일 까지만 출력 */}
-                <SCreatedAt>{post.data.createdAt.substring(0, 10)}</SCreatedAt>
-                <SNickname>{post.data.user.nickname}</SNickname>
-              </STextInfo>
-            </SCard>
-          </SCardContainer>
-        ))}
+        {post.length > 0 ? (
+          post.map((post: any) => (
+            <SCardContainer key={post.data.threadId}>
+              <SCard>
+                <img
+                  src={
+                    post.data.threadImages.length >= 1
+                      ? post.data.threadImages[0].image
+                      : defaultImg
+                  }
+                  alt={post.data.threadId}
+                />
+                <STextInfo>
+                  {/* data.body의 앞부분 일부가 제목으로. */}
+                  <STitle>{post.data.body.substring(0, 16)}</STitle>
+                  {/* 년,월,일 까지만 출력 */}
+                  <SCreatedAt>
+                    {post.data.createdAt.substring(0, 10)}
+                  </SCreatedAt>
+                  <SNickname>{post.data.user.nickname}</SNickname>
+                </STextInfo>
+              </SCard>
+            </SCardContainer>
+          ))
+        ) : (
+          <NoImage
+            title="댕댕이숲에 작성한 게시글이 없습니다."
+            body1="나의 반려동물과 관련하여 소통하며"
+            body2="사람들과 다양한 이야기를 나눠보세요!"
+          />
+        )}
       </SItemContainer>
     </SContainer>
   );
