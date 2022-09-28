@@ -1,112 +1,270 @@
-import { useSearchParams } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef, useState } from "react";
+import { useInfiniteQuery } from "react-query";
+import { Navigate, useSearchParams } from "react-router-dom";
 
-import dummyImg from "../../assets/images/test.png";
 import { Category, PlaceCard, SearchBar } from "../../components";
 import { searchCategories } from "../../constants";
-import { SBox, SH1, SHeader, SUList } from "./style";
+import {
+  changeUserAddress,
+  selectUserInfos,
+  useAppDispatch,
+  useAppSelector,
+} from "../../redux";
+import { PageInfo, Store } from "../../types";
+import { averageStar, axiosInstance } from "../../utils";
+import { SBottomBox, SBox, SH1, SHeader, SP, SSpan, SUList } from "./style";
 
-const dummy = [
+const dummy: Store[] = [
   {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션",
-    meanRating: 4.5,
-    reviews: 12,
+    storeId: "8",
+    createdAt: "2022-09-27T20:05:11",
+    updatedAt: "2022-09-27T20:05:11",
+    storeStatus: "STORE_EXIST",
+    category: "숙소",
+    longitude: 126.770299659574,
+    latitude: 37.6897115089898,
+    storeName: "테스트123123",
+    addressName:
+      "경기 고양시 일산서구 일청로59번길 55 (일산동, 미주8차저층APT)",
+    body: "www.test.comwww.test.comwww.test.com",
+    phone: "010-1111-1111",
+    homepage: "www.test.com",
+    user: {
+      nickname: "모상빈",
+      email: "mosangbin@gmail.com",
+      image:
+        "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800",
+      userStatus: "USER_EXIST",
+      longitude: 127.044744776173,
+      latitude: 37.3044825535735,
+      userRole: "ROLE_OWNER",
+    },
+    storeImages: [
+      {
+        storeImage:
+          "https://main055.s3.ap-northeast-2.amazonaws.com/user3-b9cedaf17a7f80cb5a0e14e805f8825f1664276710274.png",
+      },
+    ],
+    reviews: {
+      data: [],
+      pageInfo: { page: 0, size: 0, totalElements: 0, totalPages: 0 },
+    },
+    heartUserId: [3],
   },
   {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션1",
-    meanRating: 4.5,
-    reviews: 12,
+    storeId: "1",
+    createdAt: "2022-09-26T20:10:50",
+    updatedAt: "2022-09-27T23:57:19",
+    storeStatus: "STORE_EXIST",
+    category: "숙소",
+    longitude: 100.0,
+    latitude: 100.0,
+    storeName: "동작을 점령해버린 숙소! 14호점",
+    addressName: "서울시 동작구 흑석동 123-123",
+    body: "진료 전 메뉴 500원",
+    phone: "010-1234-1234",
+    homepage: "http://동작을 점령해버린 숙소.com",
+    user: {
+      nickname: "psy001",
+      email: "psy1@gmail.com",
+      image:
+        "https://main055.s3.ap-northeast-2.amazonaws.com/user2-e4ebbe042cfb2c8dbdfbb72ee3c764f11664189442402.jpeg",
+      userStatus: "USER_EXIST",
+      longitude: 127.074928451599,
+      latitude: 37.6322400488783,
+      userRole: "ROLE_OWNER",
+    },
+    storeImages: [
+      {
+        storeImage:
+          "https://main055.s3.ap-northeast-2.amazonaws.com/user1-nurung1663583751271.png",
+      },
+    ],
+    reviews: {
+      data: [],
+      pageInfo: { page: 0, size: 0, totalElements: 0, totalPages: 0 },
+    },
+    heartUserId: [2, 3],
   },
   {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션2",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션3",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션4",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션5",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션6",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션7",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션8",
-    meanRating: 4.5,
-    reviews: 12,
-  },
-  {
-    image: dummyImg,
-    alt: "Ff",
-    location: "경기 가평군",
-    distance: "12km",
-    storeName: "도그더왈츠 애견펜션9",
-    meanRating: 4.5,
-    reviews: 12,
+    storeId: "5",
+    createdAt: "2022-09-27T15:28:21",
+    updatedAt: "2022-09-27T19:06:56",
+    storeStatus: "STORE_EXIST",
+    category: "숙소",
+    longitude: 129.116665046345,
+    latitude: 37.5745168573281,
+    storeName: "동해를그리다 펜션",
+    addressName: "강원 동해시 일출로 377 (대진동, Pygmalion Effect)",
+    body: "강원도 동해시에 위치한 [동해를 그리다] 펜션입니다.\n\n도보 5분 거리에 어달 해수욕장과 망상 해수욕장이 인접하여 있어 여름철 신나는 물놀이가 가능하며\n사계절 해변 산책이 가능합니다.\n\n펜션 인근에서 낚시 배 체험이 가능하여,\n사랑하는 가족, 친구들과 함께 보다 즐거운 추억을 쌓으실 수 있습니다.\n\n또한 전 객실 바베큐장 이용이 가능하며, 펜션 내 와이파이 사용이 가능합니다.",
+    phone: "010-5406-2209",
+    homepage: "http://greeda-donghae.co.kr/",
+    user: {
+      nickname: "모상빈",
+      email: "mosangbin@gmail.com",
+      image:
+        "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800",
+      userStatus: "USER_EXIST",
+      longitude: 127.044744776173,
+      latitude: 37.3044825535735,
+      userRole: "ROLE_OWNER",
+    },
+    storeImages: [
+      {
+        storeImage:
+          "https://main055.s3.ap-northeast-2.amazonaws.com/user3-f6c47cfdce686ac947e4b22b65b021c81664264334291.jpeg",
+      },
+      {
+        storeImage:
+          "https://main055.s3.ap-northeast-2.amazonaws.com/user3-a48ec27b468b7c211a59f9de185df18f1664273215829.png",
+      },
+    ],
+    reviews: {
+      data: [],
+      pageInfo: { page: 0, size: 0, totalElements: 0, totalPages: 0 },
+    },
+    heartUserId: [3],
   },
 ];
 
-const Search = () => {
-  const [params] = useSearchParams();
+const dummyResponse = (page: number) => {
+  return new Array(page * 16).fill(0).map((e, i) => {
+    const data = { ...dummy[i % 3] };
+    data.storeId = `${i}`;
 
+    return data;
+  });
+};
+
+interface SearchResponse {
+  data: Store[];
+  pageInfo: PageInfo;
+}
+
+const mappedCategories = {
+  all: "total",
+  room: "숙소",
+  barber: "미용",
+  cafe: "카페",
+  restaurant: "맛집",
+  playground: "운동장",
+  hospital: "동물병원",
+};
+
+const INITIAL_LOCATION = {
+  address: "서울특별시 중구 세종대로 110",
+  longitude: 126.97852781,
+  latitude: 37.56660794,
+};
+
+const renderPlaceCards = (data: Store[]) => {
+  return data.map(
+    ({
+      storeId,
+      addressName,
+      storeName,
+      storeImages,
+      reviews,
+      heartUserId,
+    }) => {
+      const avgRating = Number(averageStar(reviews.data));
+      const [province, district] = addressName.match(/(.*?)[시|구]/g)!;
+
+      if (province.length < 5) {
+        addressName = `${province}${district}`;
+      }
+      if (province.length >= 5) {
+        addressName = province;
+      }
+
+      return (
+        <PlaceCard
+          image={storeImages[0].storeImage}
+          alt={`${storeName}의 대표 이미지`}
+          location={addressName}
+          storeName={storeName}
+          averageRating={avgRating}
+          reviews={reviews.data.length}
+          key={storeId}
+        />
+      );
+    }
+  );
+};
+
+const Search = () => {
+  const dispatch = useAppDispatch();
+  const { nickname, longitude, latitude } =
+    useAppSelector(selectUserInfos) || {};
+  const [params] = useSearchParams();
+  const [locPermission, setLocPermission] = useState(() => {
+    if (!longitude && !nickname) return false;
+    return true;
+  });
   const keyword = params.get("search");
+  const category = params.get("category") || "all";
+
+  const bottom = useRef<HTMLDivElement>(null);
+
+  const { data, isIdle } = useInfiniteQuery<SearchResponse>(
+    ["search", keyword, category, longitude, latitude],
+    async ({ pageParam = 1 }) => {
+      const serverCategory =
+        mappedCategories[category as keyof typeof mappedCategories];
+      const { data } = await axiosInstance(
+        `v1/store/search?keyword=${keyword}&category=${serverCategory}&page=${pageParam}&size=16&sort=${`distance`}&latitude=${latitude}&longitude=${longitude}`
+      );
+
+      return data.data;
+    },
+    {
+      enabled: !!(longitude && latitude),
+      retry: 2,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    if (!longitude || !latitude) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          const { latitude, longitude } = coords;
+
+          dispatch(changeUserAddress({ latitude, longitude }));
+          setLocPermission(true);
+        },
+        (err) => {
+          dispatch(changeUserAddress(INITIAL_LOCATION));
+          setLocPermission(false);
+        },
+        {
+          maximumAge: 1 * 1000, // 1분
+        }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [keyword]);
+
+  if (!(category in mappedCategories)) {
+    return <Navigate to="/not-found" />;
+  }
+
+  const results = data?.pages[0].data || dummyResponse(1);
+
   return (
     <SBox>
       <SHeader>
         <SearchBar />
         <SH1>{`‘${keyword}’에 대한 검색 결과입니다.`}</SH1>
+        <SP showWarning={!locPermission}>
+          위치 정보 권한을 허용해주세요.
+          <SSpan>{`현재 위치: ${INITIAL_LOCATION.address}`}</SSpan>
+        </SP>
         <Category
           menuList={searchCategories}
           baseQueryString={`?search=${keyword}`}
@@ -115,29 +273,13 @@ const Search = () => {
       </SHeader>
 
       <SUList>
-        {dummy.map(
-          ({
-            image,
-            alt,
-            location,
-            distance,
-            storeName,
-            meanRating,
-            reviews,
-          }) => (
-            <PlaceCard
-              image={image}
-              alt={alt}
-              location={location}
-              distance={distance}
-              storeName={storeName}
-              meanRating={meanRating}
-              reviews={reviews}
-              key={storeName}
-            />
-          )
+        {results.length ? (
+          renderPlaceCards(results)
+        ) : (
+          <div>검색 결과가 없습니다.</div>
         )}
       </SUList>
+      <SBottomBox ref={bottom} />
     </SBox>
   );
 };
