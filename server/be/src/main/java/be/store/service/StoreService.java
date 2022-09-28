@@ -45,6 +45,17 @@ public class StoreService {
             throw new BusinessLogicException(ExceptionCode.STORE_EXISTS);
     }
 
+    public void verifyExistStoreThenCheckOwner(Store store1){//이미 등록된 가게인지 확인하고 이미 등록한 가게가 있다면,
+                                                                                    // 해당 등록한 가게의 주인이 아니면 예외 발생,
+        Optional<Store> store = storeRepository.findByLatitudeAndLongitudeAndNameAndStoreStatus(
+                store1.getLatitude(),store1.getLongitude(),store1.getName(),Store.StoreStatus.STORE_EXIST
+        );
+        if(store.isPresent()) { //이미 등록된 가게면
+            if(store.get().getUser() != store1.getUser())// 해당 등록한 가게의 주인이 아니면 예외 발생,
+                throw new BusinessLogicException(ExceptionCode.STORE_EXISTS);
+        }
+    }
+
     public Store findVerifiedStore(long storeId){
         Optional<Store> optionalStore = storeRepository.findById(storeId);
 
@@ -65,7 +76,7 @@ public class StoreService {
     @Transactional
     public Store updateStore(Store store){
 
-        verifyExistStore(store.getLatitude(),store.getLongitude(),store.getName());//이미 등록된 가게인지 확인
+        verifyExistStoreThenCheckOwner(store);//이미 등록된 가게인지 확인
 
         Store findStore = findVerifiedStore(store.getStoreId());//만약 스토어가 DB에 없거나 삭제된 스토어면 예외 발생
 
