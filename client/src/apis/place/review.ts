@@ -32,6 +32,7 @@ export const editReview = async (payload: {
   body: string;
   score: number;
 }): Promise<Review> => {
+  console.log(payload);
   const { reviewId, body, score } = payload;
 
   const { data } = await axiosInstance.patch(

@@ -123,6 +123,7 @@ const ReviewForm = ({
   const handleSubmit = () => {
     if (isEdit) {
       submitCallback({ body: reviewValue, score: ratingIndex });
+      return;
     }
 
     mutate({

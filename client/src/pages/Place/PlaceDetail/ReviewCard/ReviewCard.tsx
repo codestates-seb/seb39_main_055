@@ -97,13 +97,13 @@ const ReviewCard = ({ reviewId, updatedAt, user, body, score }: Prop) => {
 
   const { mutate: editMutate } = useMutation(editReview, {
     onSuccess: () => {
+      setIsEdit(false);
       queryClient.invalidateQueries(["place", params.id]);
     },
   });
 
   const handleEdit = (payload: { body: string; score: number }) => {
     const { body, score } = payload;
-    console.log(payload);
     editMutate({ reviewId, body, score });
   };
 
@@ -133,7 +133,7 @@ const ReviewCard = ({ reviewId, updatedAt, user, body, score }: Prop) => {
       <SBody>
         {isEdit ? (
           <ReviewForm
-            submitCallback={() => handleEdit}
+            submitCallback={(payload) => handleEdit(payload)}
             isEdit
             initialState={{ body, score }}
           />
