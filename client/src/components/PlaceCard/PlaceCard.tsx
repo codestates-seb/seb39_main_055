@@ -1,3 +1,6 @@
+/* eslint-disable react/display-name */
+import { memo } from "react";
+
 import {
   SBar,
   SFooter,
@@ -22,34 +25,36 @@ interface PlaceCardProps {
   reviews: number;
 }
 
-const PlaceCard = ({
-  image,
-  alt,
-  location,
-  /* distance, */
-  storeName,
-  averageRating,
-  reviews,
-}: PlaceCardProps) => {
-  return (
-    <SList>
-      <SImg src={image} alt={alt} />
-      <SHeader>
-        <STopBox>
-          <SH2>{location}</SH2>
-          <SP>12km</SP>
-        </STopBox>
-        <SH1>{storeName}</SH1>
-        <SBar />
-      </SHeader>
-      <SFooter>
-        <SStarSVG />
-        <SRatingP>
-          {averageRating} ({reviews})
-        </SRatingP>
-      </SFooter>
-    </SList>
-  );
-};
+const PlaceCard = memo(
+  ({
+    image,
+    alt,
+    location,
+    /* distance, */
+    storeName,
+    averageRating,
+    reviews,
+  }: PlaceCardProps) => {
+    return (
+      <SList>
+        <SImg src={image} alt={alt} />
+        <SHeader>
+          <STopBox>
+            <SH2>{location}</SH2>
+            <SP>12km</SP>
+          </STopBox>
+          <SH1>{storeName}</SH1>
+          <SBar />
+        </SHeader>
+        <SFooter>
+          <SStarSVG />
+          <SRatingP>
+            {averageRating} ({reviews})
+          </SRatingP>
+        </SFooter>
+      </SList>
+    );
+  }
+);
 
 export default PlaceCard;
