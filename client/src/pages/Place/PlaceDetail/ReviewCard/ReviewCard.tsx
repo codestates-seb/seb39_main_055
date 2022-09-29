@@ -74,6 +74,7 @@ const ReviewCard = ({ reviewId, updatedAt, user, body, score }: Prop) => {
           <ReviewForm
             submitCallback={(payload) => handleEdit(payload)}
             isEdit
+            prevValue={{ body, score }}
             setIsEdit={setIsEdit}
             initialState={{ body, score }}
           />

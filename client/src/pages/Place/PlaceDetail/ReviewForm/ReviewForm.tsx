@@ -14,6 +14,7 @@ interface Prop {
   isEdit: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
   submitCallback?: ({ body, score }: { body: string; score: number }) => void;
+  prevValue?: { body: string; score: number };
   data?: Store | undefined;
   initialState?: { body: string; score: number };
 }
@@ -22,6 +23,7 @@ const ReviewForm = ({
   isEdit,
   setIsEdit,
   submitCallback,
+  prevValue,
   data,
   initialState = { body: "", score: 0 },
 }: Prop) => {
@@ -70,6 +72,11 @@ const ReviewForm = ({
 
   const handleSubmit = () => {
     if (isEdit && submitCallback) {
+      if (ratingIndex === prevValue?.score && reviewValue === prevValue?.body) {
+        openModal(<ErrorModal body="변경된 내용이 없습니다." />);
+        return;
+      }
+
       submitCallback({ body: reviewValue, score: ratingIndex });
       return;
     }

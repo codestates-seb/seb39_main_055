@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-return-assign */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import usePlace from "../../apis/place/hooks/usePlace";
@@ -15,6 +15,7 @@ import {
   urlValidation,
 } from "../../utils";
 import { Checkbox, FileInput, Input, SearchAddress, TextArea } from "..";
+import { ErrorModal, useModal } from "../Modal";
 import PreviewImages from "../PostForms/PreviewImages/PreviewImages";
 import { SButton, SCheckboxContainer, SContainer, SForm } from "./style";
 
@@ -81,8 +82,24 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     setDescriptionValue,
   ] = useValidate(descriptionValidation);
 
+  const { openModal } = useModal();
+  const prevState = useMemo(() => state, [state]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isEditPage) {
+      if (
+        prevState?.storeName === nameValue &&
+        prevState.category === checkboxValue &&
+        prevState.addressName === addressValue &&
+        prevState.phone === phoneNumberValue &&
+        prevState.homepage === homePageValue &&
+        prevState.body === descriptionValue
+      ) {
+        openModal(<ErrorModal body="변경된 내용이 없습니다." />);
+        return;
+      }
+    }
 
     checkName();
     checkRegistration();
