@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import speaker from "../../../assets/icons/speaker.svg";
+import { LoginModal, useModal } from "../../../components";
+import { useAppSelector } from "../../../redux";
 import PostCard from "./PostCard/PostCard";
 import { postData } from "./PostData";
 
@@ -69,6 +71,17 @@ export const SButtonContainer = styled.section`
 
 const PostList = () => {
   const navigate = useNavigate();
+  const { openModal } = useModal();
+  const { loginStatus } = useAppSelector((state) => state.user);
+
+  const handlePostButtonClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+
+    navigate("/post/new");
+  };
 
   return (
     <SContainer>
@@ -77,7 +90,7 @@ const PostList = () => {
         <h1>댕댕이숲</h1>
       </STitleContainer>
       <SButtonContainer>
-        <button type="button" onClick={() => navigate("/post/new")}>
+        <button type="button" onClick={handlePostButtonClick}>
           글 작성
         </button>
       </SButtonContainer>
