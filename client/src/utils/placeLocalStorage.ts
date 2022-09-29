@@ -1,11 +1,11 @@
 import { Store } from "../types";
 
 export const removePlaceFromLocalStorage = () => {
-  localStorage.removeItem("place");
+  localStorage.removeItem("recentPlace");
 };
 
 export const getPlaceFromLocalStorage = (): null | Store[] => {
-  const result = localStorage.getItem("place");
+  const result = localStorage.getItem("recentPlace");
   const place = result ? JSON.parse(result) : null;
   return place;
 };
@@ -16,7 +16,7 @@ export const addPlaceToLocalStorage = (data: Store) => {
   // 로컬 스토리지 데이터가 없을 경우 (첫 방문)
   if (!placeLocalStorageData) {
     placeLocalStorageData = [data];
-    localStorage.setItem("place", JSON.stringify(placeLocalStorageData));
+    localStorage.setItem("recentPlace", JSON.stringify(placeLocalStorageData));
     return;
   }
 
@@ -35,5 +35,5 @@ export const addPlaceToLocalStorage = (data: Store) => {
     placeLocalStorageData.shift();
   }
 
-  localStorage.setItem("place", JSON.stringify(placeLocalStorageData));
+  localStorage.setItem("recentPlace", JSON.stringify(placeLocalStorageData));
 };
