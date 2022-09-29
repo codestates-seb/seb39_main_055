@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { getPostDetail } from "../../../apis";
-import { NoResult, Slider } from "../../../components";
+import { LoadingSpinner, NoResult, Slider } from "../../../components";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -140,6 +140,14 @@ export const SListContainer = styled.ul`
   margin-bottom: 107px;
 `;
 
+export const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 380px);
+`;
+
 const PostDetail = () => {
   const params = useParams();
   const [isLike, setIsLike] = useState(false);
@@ -150,7 +158,11 @@ const PostDetail = () => {
   );
 
   if (isLoading) {
-    return <div>loading</div>;
+    return (
+      <SLoadingContainer>
+        <LoadingSpinner />
+      </SLoadingContainer>
+    );
   }
 
   return (
