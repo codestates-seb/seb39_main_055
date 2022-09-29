@@ -7,7 +7,7 @@ function storeDataTransfromer(storeImages: { storeImage: string }[]) {
   const transformedImgs = storeImages.map(({ storeImage }) => ({
     file: null,
     uri: storeImage,
-    id: storeImage, // 이미지 md5를 직접 계산하기에는 성능 저하 우려가 있어 url로 대신 사용
+    id: storeImage,
   }));
 
   return transformedImgs;

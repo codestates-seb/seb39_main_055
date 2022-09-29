@@ -1,5 +1,16 @@
-import { Review } from "../../types";
+import { Review, Store } from "../../types";
 import { axiosInstance } from "../../utils";
+
+export const getInfiniteReview = async (
+  storeId: string,
+  pageParams: number
+): Promise<{ data: Store; nextPage: number }> => {
+  const { data } = await axiosInstance.get(
+    `v1/store/${storeId}?page=${pageParams}&size=3&sort=createdAt`
+  );
+
+  return { data: data.data, nextPage: pageParams + 1 };
+};
 
 export const addReview = async (payload: {
   storeId: string;

@@ -6,12 +6,16 @@ import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "react-toastify";
 
-import { ErrorResponse, Store } from "../../types";
-import { ThreadImages } from "../../types/threads";
-import { CoordinateResponse, getCoordinate } from "../map/coordinate";
-import { uploadImages } from "../post";
-import { addPlace, AddPlacePayload } from "./addPlace";
-import { editPlace, EditPlacePayload } from "./editPlace";
+import { ErrorResponse, Store } from "../../../types";
+import { ThreadImages } from "../../../types/threads";
+import { CoordinateResponse, getCoordinate } from "../../map/coordinate";
+import { uploadImages } from "../../post";
+import {
+  addPlace,
+  AddPlacePayload,
+  editPlace,
+  EditPlacePayload,
+} from "../place";
 
 export interface UsePlaceForm {
   category: string;

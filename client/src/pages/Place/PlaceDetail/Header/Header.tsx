@@ -5,148 +5,26 @@ import { HiOutlineHeart } from "react-icons/hi";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 
-import {
-  cancelHeart,
-  deletePlace,
-  registerHeart,
-} from "../../../../apis/place";
-import { DeleteModal, useModal } from "../../../../components";
-import { LoginModal } from "../../../../components/Modal";
+import { cancelHeart, deletePlace, registerHeart } from "../../../../apis";
+import { DeleteModal, LoginModal, useModal } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { Review, Store } from "../../../../types";
 import { averageStar } from "../../../../utils";
-
-export const SHeader = styled.header`
-  padding: 35px 0;
-  border-bottom: 1px solid #dbdbdb;
-
-  & > p {
-    color: #434343;
-    font-size: 26px;
-    margin-bottom: 15px;
-  }
-`;
-
-export const SCategory = styled.p`
-  color: #ffc107 !important;
-  font-size: 26px;
-  margin-bottom: 10px;
-`;
-
-export const STitle = styled.div<{ isLike: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-
-  & > h1 {
-    color: #161616;
-    font-size: 36px;
-
-    &:after {
-      content: "";
-      display: block;
-      width: 32px;
-      border-bottom: 3px solid #161616;
-      margin-top: 8px;
-    }
-  }
-
-  & > svg {
-    color: ${({ isLike }) => isLike && "#ffc107"};
-    fill: ${({ isLike }) => isLike && "#ffc107"};
-    font-size: 32px;
-    cursor: pointer;
-    transition: all 0.4s;
-  }
-`;
-
-export const SScoreContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-
-  & > svg {
-    margin-right: 6px;
-    font-size: 26px;
-    color: #ffc107;
-    fill: #ffc107;
-  }
-
-  & > span {
-    margin-right: 20px;
-    color: #707070;
-    font-size: 18px;
-  }
-
-  & > div {
-    display: flex;
-    align-items: center;
-    color: #ffa000;
-    fill: #ffa000;
-    font-size: 18px;
-    cursor: pointer;
-
-    & > svg {
-      font-size: 24px;
-    }
-  }
-`;
-
-export const SLocationContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 40px;
-  color: #707070;
-  font-size: 18px;
-
-  & > div:first-child {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    & > svg {
-      fill: #707070;
-      font-size: 30px;
-    }
-
-    & > span {
-      vertical-align: middle;
-    }
-  }
-
-  & > div:last-child {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    & > button {
-      width: 60px;
-      height: 28px;
-      color: #161616;
-      background-color: inherit;
-      border: 1px solid #161616;
-      border-radius: 20px;
-      font-size: 16px;
-      transition: all 0.4s;
-
-      &:hover {
-        background-color: #ffc107;
-        border-color: #ffc107;
-      }
-    }
-  }
-`;
+import {
+  SCategory,
+  SHeader,
+  SLocationContainer,
+  SScoreContainer,
+  STitle,
+} from "./style";
 
 interface Prop {
   data: Store | undefined;
+  reviewRef: React.RefObject<HTMLUListElement>;
 }
 
-const Header = ({ data }: Prop) => {
-  const userId = 3;
+const Header = ({ data, reviewRef }: Prop) => {
   const params = useParams();
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState(false);
@@ -183,12 +61,12 @@ const Header = ({ data }: Prop) => {
   };
 
   useEffect(() => {
-    if (data?.heartUserId.includes(userId)) {
+    if (data?.heartUserId.includes(userInfos?.userId as number)) {
       setIsLike(true);
     } else {
       setIsLike(false);
     }
-  }, [userId, data]);
+  }, [userInfos, data]);
 
   return (
     <SHeader>
@@ -204,7 +82,14 @@ const Header = ({ data }: Prop) => {
             ? averageStar(data?.reviews.data as Review[])
             : "0.0(0)"}
         </span>
-        <div>
+        <div
+          onClick={() =>
+            reviewRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            })
+          }
+        >
           <span>리뷰보기</span>
           <MdOutlineKeyboardArrowRight />
         </div>
