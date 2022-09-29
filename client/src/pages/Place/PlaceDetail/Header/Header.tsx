@@ -55,11 +55,11 @@ export const STitle = styled.div<{ isLike: boolean }>`
   }
 
   & > svg {
-    color: ${({ isLike }) => isLike && "#ffc107"};
-    fill: ${({ isLike }) => isLike && "#ffc107"};
+    color: ${({ isLike }) => isLike && "#ff3737"};
+    fill: ${({ isLike }) => isLike && "#ff3737"};
     font-size: 32px;
     cursor: pointer;
-    transition: all 0.4s;
+    transition: all 0.2s;
   }
 `;
 
