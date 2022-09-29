@@ -4,8 +4,10 @@
 import { useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Navigate, useSearchParams } from "react-router-dom";
+import styled from "styled-components";
 
-import { Category, PlaceCard } from "../../components";
+import { Category, Circle, PlaceCard, Rectangle } from "../../components";
+import { Skelcontainer } from "../../components/Skeleton/styles";
 import { searchCategories } from "../../constants";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { PageInfo, UserInfos } from "../../types";
@@ -84,10 +86,13 @@ const renderPlaceCards = (
       );
       const [province, district] = addressName.match(/(.*?)[시|구]/g)!;
 
-      if (province.length < 5) {
+      // 특별시, 광역시는 "구"까지 주소를 자름(ex. 서울시 중구, 대전시 대덕구)
+      // 특별시, 광역시의 addressName은 OO시로 표현되므로 province 길이가 3 이하
+      if (province.length <= 3) {
         addressName = `${province}${district}`;
       }
-      if (province.length >= 5) {
+      // 도 내의 일반 시는 "시"까지 주소를 자름(ex. 경기도 성남시)
+      if (province.length > 3) {
         addressName = province;
       }
 
@@ -107,32 +112,50 @@ const renderPlaceCards = (
   );
 };
 
+const Skeleton = styled(Skelcontainer)`
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 8px;
+`;
+
+const SkeletonFooter = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: 4px;
+`;
+
 const Search = () => {
   const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
   const [params] = useSearchParams();
+  const bottom = useRef<HTMLDivElement>(null);
+  const size = useRef(16);
 
   const keyword = params.get("search");
   const category = params.get("category") || "all";
 
-  const bottom = useRef<HTMLDivElement>(null);
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
     useInfiniteQuery<SearchResponse, unknown, StoreList>(
       ["search", keyword, category, longitude, latitude],
       async ({ pageParam = 1 }) => {
+        if (!(category in mappedCategories)) return;
+
+        // 카테고리: 클라이언트의 category 쿼리 스트링과 서버 API 요청 URL이 다른 부분 맞춰줌
         const serverCategory =
           mappedCategories[category as keyof typeof mappedCategories];
         const { data } = await axiosInstance(
-          `v1/store/search?keyword=${keyword}&category=${serverCategory}&page=${pageParam}&size=16&sort=${`distance`}&latitude=${latitude}&longitude=${longitude}`
+          `v1/store/search?keyword=${keyword}&category=${serverCategory}&page=${pageParam}&size=${
+            size.current
+          }&sort=${`distance`}&latitude=${latitude}&longitude=${longitude}`
         );
 
         return data;
       },
       {
-        enabled: !!(longitude && latitude),
+        enabled: true /* !!(longitude && latitude) */,
         retry: 2,
         refetchOnWindowFocus: false,
-        getNextPageParam: ({ pageInfo }) => {
+        getNextPageParam: (data, alldata) => {
+          const { pageInfo } = data;
           const { page, totalPages } = pageInfo;
           let nextPage: number | undefined = page + 1;
 
@@ -143,10 +166,13 @@ const Search = () => {
           return nextPage;
         },
         select: (data) => {
+          // UI에 나타낼 때, 서버 데이터의 data 속성만 필요하지만 아무 처리 없이 사용할 경우,
+          // data.pages[i].data로 데이터를 맵핑해야 해 번거로워짐
           const transformedPages = data.pages.map(({ data }) => data).flat();
 
           return { ...data, pages: transformedPages };
         },
+        onSettled: (data) => console.log(data),
       }
     );
 
@@ -172,7 +198,14 @@ const Search = () => {
   }, [hasNextPage]);
 
   const results = data?.pages || [];
+  const places = isFetching
+    ? results.concat(new Array(size.current).fill(0))
+    : results;
 
+  console.log(isFetching);
+  console.log(results);
+
+  // 유저가 존재하지 않는 카테고리로 주소를 변경하면 NotFound 페이지로 이동
   if (!(category in mappedCategories)) {
     return <Navigate to="/not-found" />;
   }
@@ -196,6 +229,15 @@ const Search = () => {
         ) : (
           <div>검색 결과가 없습니다.</div>
         )}
+        <Skeleton width="100%" height="340px">
+          <Rectangle width="100%" height="235px" />
+          <Rectangle width="60%" height="20px" />
+          <Rectangle width="100%" height="40px" />
+          <SkeletonFooter>
+            {/* <Circle width="" height="" radius="20px" /> */}
+            <Rectangle width="20%" height="20px" />
+          </SkeletonFooter>
+        </Skeleton>
       </SUList>
       <SBottomBox ref={bottom} />
     </SBox>

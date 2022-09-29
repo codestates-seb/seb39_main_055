@@ -12,4 +12,5 @@ export { default as PlaceCard } from "./PlaceCard/PlaceCard";
 export { default as PlaceForm } from "./PlaceForm/PlaceForm";
 export { default as SearchAddress } from "./SearchAddress/SearchAddress";
 export { default as SharedLayout } from "./SharedLayout/SharedLayout";
+export { Circle, Rectangle, Skeleton } from "./Skeleton/Skeleton";
 export { default as Slider } from "./Slider/Slider";

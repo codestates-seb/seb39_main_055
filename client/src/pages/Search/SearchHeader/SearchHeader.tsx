@@ -4,8 +4,7 @@ import { memo, ReactNode } from "react";
 import { SearchBar } from "../../../components";
 import { useGeolocation } from "../../../hooks";
 import { INITIAL_LOCATION } from "../../../redux";
-import { SSpan } from "../style";
-import { SHeader, SP } from "./style";
+import { SaBox, SaP, SbP, SHeader, SLocSVG, SWarningBox } from "./style";
 
 interface SearchHeaderProps {
   resultHeader: ReactNode;
@@ -19,10 +18,18 @@ const SearchHeader = memo(({ resultHeader, category }: SearchHeaderProps) => {
     <SHeader>
       <SearchBar />
       {resultHeader}
-      <SP showWarning={!locPermission}>
-        위치 정보를 기준으로 장소를 검색합니다.
-        <SSpan>{`기본값: ${INITIAL_LOCATION.address}`}</SSpan>
-      </SP>
+      <SWarningBox showWarning={!locPermission}>
+        <SaBox>
+          <SLocSVG />
+          <SaP>
+            펫플레이스 검색에 위치 정보를 사용합니다. 위치 정보 권한을
+            확인해주세요.
+          </SaP>
+        </SaBox>
+
+        <SbP>{`검색 기준 위치: ${INITIAL_LOCATION.address}`}</SbP>
+      </SWarningBox>
+
       {category}
     </SHeader>
   );
