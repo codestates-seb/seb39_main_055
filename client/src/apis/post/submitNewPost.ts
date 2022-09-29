@@ -1,6 +1,5 @@
 import { ThreadForm, ThreadPostRequest } from "../../types";
-import { axiosInstance } from "../../utils";
-import { isArrayOfString } from "../../utils/type-guards";
+import { axiosInstance, isArrayOfString } from "../../utils";
 import uploadImages from "./uploadImages";
 
 export const threadImgTransformer = (data: ThreadPostRequest) => {

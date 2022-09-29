@@ -1,52 +1,53 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 
 import {
   changeUserAddress,
+  selectUser,
   selectUserInfos,
   useAppDispatch,
   useAppSelector,
 } from "../redux";
 
-const INITIAL_LOCATION = {
-  address: "서울특별시 중구 세종대로 110",
-  longitude: 126.97852781,
-  latitude: 37.56660794,
-};
-
-const useGeolocation: () => [
-  boolean,
-  { address: string; longitude: number; latitude: number }
-] = () => {
+const useGeolocation: () => [boolean] = () => {
   const dispatch = useAppDispatch();
-  const { nickname, longitude, latitude } =
-    useAppSelector(selectUserInfos) || {};
+  const { loginStatus } = useAppSelector(selectUser);
+  const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
   const [locPermission, setLocPermission] = useState(() => {
-    if (!longitude && !nickname) return false;
+    if (!loginStatus) return false;
+    // 로그인 상태에서는 유저의 위치 정보가 존재하므로 위치 정보 권한이 부여된 것으로 판단
     return true;
   });
-
   useEffect(() => {
-    if (!longitude || !latitude) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          const { latitude, longitude } = coords;
+    // 로그인 상태에서는 회원 정보의 위,경도를 이용
+    if (loginStatus) return;
 
-          dispatch(changeUserAddress({ latitude, longitude }));
-          setLocPermission(true);
-        },
-        (err) => {
-          dispatch(changeUserAddress(INITIAL_LOCATION));
-          setLocPermission(false);
-        },
-        {
-          maximumAge: 1 * 1000, // 1분
-        }
-      );
-    }
+    const watcherId = navigator.geolocation.watchPosition(
+      ({ coords }) => {
+        const { latitude: currentLat, longitude: currentLon } = coords;
+
+        if (currentLat === latitude && currentLon === longitude) return;
+
+        dispatch(
+          changeUserAddress({ latitude: currentLat, longitude: currentLon })
+        );
+        setLocPermission(true);
+      },
+      (err) => {
+        if (longitude || latitude) return;
+
+        setLocPermission(false);
+      },
+      {
+        maximumAge: 60 * 1000, // 1분
+      }
+    );
+
+    return () => navigator.geolocation.clearWatch(watcherId);
   }, [longitude, latitude]);
 
-  return [locPermission, INITIAL_LOCATION];
+  return [locPermission];
 };
 
 export default useGeolocation;
