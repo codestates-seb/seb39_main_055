@@ -97,6 +97,10 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
   const handleSubmit = () => {
     submitCallback(replyValue);
     setReplyValue("");
+
+    if (setIsEdit) {
+      setIsEdit(false);
+    }
   };
 
   useEffect(() => {

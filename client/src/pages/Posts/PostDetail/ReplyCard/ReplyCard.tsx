@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 
-import { deleteReply } from "../../../../apis";
+import { deleteReply, editReply } from "../../../../apis";
 import { Dots } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { Reply } from "../../../../types";
@@ -21,6 +21,10 @@ const ReplyCard = ({ reply }: Prop) => {
   const { userInfos } = useAppSelector((state) => state.user);
 
   const { mutate: deleteReplyMutate } = useMutation(deleteReply, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+
+  const { mutate: editReplyMutate } = useMutation(editReply, {
     onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
   });
 
@@ -46,7 +50,9 @@ const ReplyCard = ({ reply }: Prop) => {
             isEdit
             setIsEdit={setIsEdit}
             body={reply?.body}
-            submitCallback={() => console.log("asd")}
+            submitCallback={(body) =>
+              editReplyMutate({ body, replyId: reply?.replyId })
+            }
           />
         ) : (
           reply?.body
