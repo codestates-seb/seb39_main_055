@@ -12,10 +12,9 @@ interface Prop {
 
 const UserCard = ({ data }: Prop) => {
   const navigate = useNavigate();
-  // const { mutate } = useMutation(() => deletePost(threadId), {
-  //   onSuccess: () => navigate("/post/list"),
-  //   onError: () => console.log("에러"),
-  // });
+  const { mutate } = useMutation(deletePost, {
+    onSuccess: () => navigate("/post/list"),
+  });
 
   return (
     <SUtils>
@@ -35,7 +34,7 @@ const UserCard = ({ data }: Prop) => {
             },
           })
         }
-        onDelete={() => console.log("delete")}
+        onDelete={() => mutate(data?.threadId as number)}
       />
     </SUtils>
   );

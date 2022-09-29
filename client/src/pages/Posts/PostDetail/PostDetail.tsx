@@ -1,3 +1,4 @@
+import parse from "html-react-parser";
 import { useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
 import { useQuery } from "react-query";
@@ -6,7 +7,6 @@ import styled from "styled-components";
 
 import { getPostDetail } from "../../../apis";
 import { Slider } from "../../../components";
-import { detailData } from "./data";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -48,7 +48,7 @@ export const SImageContainer = styled.section`
   }
 `;
 
-export const SBody = styled.p`
+export const SBody = styled.div`
   margin: 100px 0;
   color: #161616;
   font-size: 18px;
@@ -141,14 +141,17 @@ export const SListContainer = styled.ul`
 `;
 
 const PostDetail = () => {
-  // const data = detailData;
   const params = useParams();
   const [isLike, setIsLike] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
 
-  const { data } = useQuery(["post", params.id], () =>
+  const { data, isLoading } = useQuery(["post", params.id], () =>
     getPostDetail(Number(params.id))
   );
+
+  if (isLoading) {
+    return <div>loading</div>;
+  }
 
   return (
     <SContainer>
@@ -156,11 +159,9 @@ const PostDetail = () => {
         <h1>댕댕이숲</h1>
         <UserCard data={data} />
         <SImageContainer>
-          <Slider
-            imageList={detailData.threadImages.map((image) => image.image)}
-          />
+          <Slider imageList={data?.threadImages?.map((image) => image.image)} />
         </SImageContainer>
-        <SBody>{data?.body}</SBody>
+        <SBody>{parse(data?.body as string)}</SBody>
         <SLikeContainer isLike={isLike}>
           <HiOutlineHeart onClick={() => setIsLike((prev) => !prev)} />
           <span>{data?.likesUserId.length}</span>

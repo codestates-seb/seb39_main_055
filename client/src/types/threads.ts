@@ -8,7 +8,7 @@ export interface Thread {
   threadStatus: "THREAD_EXIST" | "THREAD_NOT_FOUND";
   body: string;
   user: UserInfos;
-  threadImages: ThreadImageResponse;
+  threadImages: ThreadImageResponse[];
   replies: { data: Reply[]; pageInfo: PageInfo };
   likesUserId: number[];
 }
