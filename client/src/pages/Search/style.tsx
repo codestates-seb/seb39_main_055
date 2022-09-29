@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { mobile, tablet } from "../../assets";
+import { colors, mobile, tablet } from "../../assets";
 
 export const SBox = styled.div`
   display: flex;
@@ -42,4 +42,18 @@ export const SUList = styled.ul`
 export const SBottomBox = styled.div`
   height: 10px;
   width: 100%;
+`;
+
+export const SNoResultBox = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px;
+  height: 500px;
+  width: 100%;
+`;
+
+export const SH2 = styled.h2`
+  color: ${colors("black300")};
 `;

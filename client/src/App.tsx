@@ -21,7 +21,7 @@ const App = () => {
   const { loginStatus } = useAppSelector(selectUser);
 
   // 메인 페이지 로드 후 로그인 상태 확인
-  useQuery(["authUser", loginStatus], fetchUserInfos, {
+  useQuery(["userInfos", loginStatus], fetchUserInfos, {
     enabled: loginStatus,
     staleTime: 6 * 60 * 1000, // 6시간
     refetchOnWindowFocus: false,
