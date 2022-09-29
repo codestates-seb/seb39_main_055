@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { getPostDetail } from "../../../apis";
 import { Slider } from "../../../components";
 import { detailData } from "./data";
 import ReplyCard from "./ReplyCard/ReplyCard";
@@ -138,35 +141,34 @@ export const SListContainer = styled.ul`
 `;
 
 const PostDetail = () => {
-  const data = detailData;
+  // const data = detailData;
+  const params = useParams();
   const [isLike, setIsLike] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+
+  const { data } = useQuery(["post", params.id], () =>
+    getPostDetail(Number(params.id))
+  );
 
   return (
     <SContainer>
       <SMainContainer>
         <h1>댕댕이숲</h1>
-        <UserCard
-          threadId={data.threadId}
-          threadImages={data.threadImages}
-          body={data.body}
-          user={data.user}
-          updatedAt={data.updatedAt}
-        />
+        <UserCard data={data} />
         <SImageContainer>
           <Slider
             imageList={detailData.threadImages.map((image) => image.image)}
           />
         </SImageContainer>
-        <SBody>{data.body}</SBody>
+        <SBody>{data?.body}</SBody>
         <SLikeContainer isLike={isLike}>
           <HiOutlineHeart onClick={() => setIsLike((prev) => !prev)} />
-          <span>{data.likes}</span>
+          <span>{data?.likesUserId.length}</span>
         </SLikeContainer>
       </SMainContainer>
       <SCommentHeader>
         <span>댓글</span>
-        <span>{data.replyList.length}</span>
+        <span>{data?.replies.pageInfo.totalElements}</span>
       </SCommentHeader>
       <SInputContainer isFocus={isFocus}>
         <input
@@ -178,14 +180,8 @@ const PostDetail = () => {
         <button type="button">입력</button>
       </SInputContainer>
       <SListContainer>
-        {data.replyList.map((reply) => (
-          <ReplyCard
-            key={reply.replyId}
-            replyId={reply.replyId}
-            replyBody={reply.replyBody}
-            createdAt={reply.createdAt}
-            user={reply.user}
-          />
+        {data?.replies.data?.map((reply) => (
+          <ReplyCard key={reply.replyId} reply={reply} />
         ))}
       </SListContainer>
     </SContainer>

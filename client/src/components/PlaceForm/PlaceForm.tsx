@@ -2,7 +2,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-return-assign */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import usePlace from "../../apis/place/hooks/usePlace";

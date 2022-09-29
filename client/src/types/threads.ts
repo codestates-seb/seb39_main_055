@@ -9,7 +9,7 @@ export interface Thread {
   body: string;
   user: UserInfos;
   threadImages: ThreadImageResponse;
-  replies: { data: Reply; pageInfo: PageInfo };
+  replies: { data: Reply[]; pageInfo: PageInfo };
   likesUserId: number[];
 }
 

@@ -2,42 +2,32 @@ import { useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
 
 import { Dots } from "../../../../components";
+import { Reply } from "../../../../types";
 import { SBody, SBottom, SList, SUserInfo, SUtils } from "./style";
 
 interface Prop {
-  replyId: string;
-  replyBody: string;
-  createdAt: string;
-  user: {
-    ninkname: string;
-    email: string;
-    image: string;
-    userStatus: string;
-    longitude: string;
-    latitude: string;
-    userRole: string;
-  };
+  reply: Reply;
 }
 
-const ReplyCard = ({ replyId, replyBody, createdAt, user }: Prop) => {
+const ReplyCard = ({ reply }: Prop) => {
   const [isLike, setIsLike] = useState(false);
 
   return (
     <SList>
       <SUtils>
         <SUserInfo>
-          <img src={user.image} alt="profile" />
-          <span>{user.ninkname}</span>
+          <img src={reply?.user.image} alt="profile" />
+          <span>{reply?.user.nickname}</span>
         </SUserInfo>
         <Dots
           deleteModalTitle="댓글을 삭제하시겠습니까?"
-          onEdit={() => console.log(replyId)}
-          onDelete={() => console.log(replyId)}
+          onEdit={() => console.log("수정")}
+          onDelete={() => console.log("삭제")}
         />
       </SUtils>
-      <SBody>{replyBody}</SBody>
+      <SBody>{reply?.body}</SBody>
       <SBottom isLike={isLike}>
-        <span>{createdAt}</span>
+        <span>{reply?.updatedAt}</span>
         <div onClick={() => setIsLike((prev) => !prev)}>
           <HiOutlineHeart />
           <span>좋아요</span>
