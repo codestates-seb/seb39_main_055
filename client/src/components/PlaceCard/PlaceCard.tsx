@@ -19,7 +19,7 @@ interface PlaceCardProps {
   image: string;
   alt: string;
   location: string;
-  /* distance: string; */
+  distance: number;
   storeName: string;
   averageRating: number;
   reviews: number;
@@ -30,7 +30,7 @@ const PlaceCard = memo(
     image,
     alt,
     location,
-    /* distance, */
+    distance,
     storeName,
     averageRating,
     reviews,
@@ -41,7 +41,7 @@ const PlaceCard = memo(
         <SHeader>
           <STopBox>
             <SH2>{location}</SH2>
-            <SP>12km</SP>
+            <SP>{distance}km</SP>
           </STopBox>
           <SH1>{storeName}</SH1>
           <SBar />
