@@ -26,11 +26,16 @@ const Dots = ({ deleteModalTitle, onEdit, onDelete }: Prop) => {
     closeModal();
   };
 
+  const handleEdit = () => {
+    onEdit();
+    setIsTabOpen(false);
+  };
+
   return (
     <SContainer>
       <TbDots onClick={() => setIsTabOpen((prev) => !prev)} />
       <STab isOpen={isTabOpen} ref={tabRef}>
-        <div onClick={() => onEdit()}>수정</div>
+        <div onClick={handleEdit}>수정</div>
         <div
           onClick={() =>
             openModal(
