@@ -6,7 +6,7 @@ export const getDateToString = (value: string) => {
     (today.getTime() - timeValue.getTime()) / 1000 / 60
   );
   if (betweenTime < 60) {
-    return `${betweenTime}분 전`;
+    return `${betweenTime + 1}분 전`;
   }
 
   const betweenTimeHour = Math.floor(betweenTime / 60);
