@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { deletePost } from "../../../../apis";
 import { Dots } from "../../../../components";
 import { Thread } from "../../../../types";
+import { getDateToString } from "../../../../utils";
 import { SUserInfo, SUtils } from "./style";
 
 interface Prop {
@@ -21,7 +22,7 @@ const UserCard = ({ data }: Prop) => {
       <SUserInfo>
         <img src={data?.user.image} alt="profile" />
         <span>{data?.user.nickname}</span>
-        <span>{data?.updatedAt}</span>
+        <span>{getDateToString(data?.updatedAt as string)}</span>
       </SUserInfo>
       <Dots
         deleteModalTitle="댕댕이 숲의 기록을 삭제하시겠습니까?"
