@@ -123,32 +123,73 @@ public class StoreService {
 
     public Page<Store> findStores(int page,int size,String sort,String category,Double latitude,Double longitude){
 
+        List<Store> stores = storeRepository.findByCategoryAndStoreStatus(
+                category,
+                Store.StoreStatus.STORE_EXIST); //삭제된 스토어 뺴고 전체 스토어가져옴
+
+        Comparator<Store> comparator;
         if(sort.equals("createdAt")){//최신순 정렬
-            Page<Store> stores = storeRepository.findByCategoryAndStoreStatus(
-                    PageRequest.of(page,size, Sort.by(sort).descending()),
-                    category,
-                    Store.StoreStatus.STORE_EXIST); //삭제된 스토어 뺴고 전체 스토어 최신순으로 가져옴
-
-            System.out.println(stores.getTotalElements());
-            System.out.println(sort);
-
-            return stores;
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+                    return o1.getCreatedAt().isBefore(o2.getCreatedAt())?1:-1;
+                }
+            };
         }else if(sort.equals("distance")){ //거리순 정렬
-            List<Store> findAllStore = storeRepository.findByCategoryAndStoreStatusSortByDistance(
-                    longitude,
-                    latitude,
-                    category,
-                    Store.StoreStatus.STORE_EXIST.toString()); //삭제된 스토어 뺴고 전체 스토어 최신순으로 가져옴
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+                    double distance1 = 6371*acos(cos(toRadians(latitude))*cos(toRadians(o1.getLatitude()))
+                            *cos(toRadians(o1.getLongitude()) -toRadians(longitude))+sin(toRadians(latitude))*sin(toRadians(o1.getLatitude())));
 
-            PageRequest pageRequest =PageRequest.of(page,size);
-            int start = (int)pageRequest.getOffset();
-            int end = Math.min((start + pageRequest.getPageSize()), findAllStore.size());
-            Page<Store> stores = new PageImpl<>(findAllStore.subList(start, end), pageRequest, findAllStore.size());
+                    double distance2 = 6371*acos(cos(toRadians(latitude))*cos(toRadians(o2.getLatitude()))
+                            *cos(toRadians(o2.getLongitude()) -toRadians(longitude))+sin(toRadians(latitude))*sin(toRadians(o2.getLatitude())));
+                    return (distance1>distance2)?1:-1;
+                }
+            };
+        }
+        else if(sort.equals("score")){// 평균 별점 순
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
 
-            return stores;
+                    Double mean1;
+                    Double mean2;
+                    if(o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size()==0){ // 해당 score의 리뷰수가 0일때
+                        mean1=0.; //해당 store의 평균 리뷰의 스코어는 0
+                    }else{// 해당 score의 리뷰수가 0이 아닐때 -> 평균 구해줌
+                        Integer reviewScoreSum1 = o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).map(review -> review.getScore()).mapToInt(Integer::intValue).sum();
+                        mean1 = reviewScoreSum1/(double)(o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                                collect(Collectors.toList()).size());
+                    }
+
+                    if(o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size()==0){// 해당 score의 리뷰수가 0일때
+                        mean2=0.;//해당 store의 평균 리뷰의 스코어는 0
+                    }else{// 해당 score의 리뷰수가 0이 아닐때 -> 평균 구해줌
+                        Integer reviewScoreSum2 = o2.getReviews().stream().map(review -> review.getScore()).mapToInt(Integer::intValue).sum();
+                        mean2 = reviewScoreSum2/(double)(o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                                collect(Collectors.toList()).size());
+                    }
+
+
+                    return (mean1<mean2)?1:-1;
+                }
+            };
+
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
+        Collections.sort(stores,comparator);
+
+
+        PageRequest pageRequest =PageRequest.of(page,size);
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), stores.size());
+        Page<Store> pagingStores = new PageImpl<>(stores.subList(start, end), pageRequest, stores.size());
+
+        return pagingStores;
 
     }
 
@@ -205,6 +246,36 @@ public class StoreService {
                     return (distance1>distance2)?1:-1;
                 }
             };
+        }else if(sort.equals("score")){//평균 별점 순
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+
+                    Double mean1;
+                    Double mean2;
+                    if(o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size()==0){ // 해당 score의 리뷰수가 0일때
+                        mean1=0.; //해당 store의 평균 리뷰의 스코어는 0
+                    }else{// 해당 score의 리뷰수가 0이 아닐때 -> 평균 구해줌
+                        Integer reviewScoreSum1 = o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).map(review -> review.getScore()).mapToInt(Integer::intValue).sum();
+                        mean1 = reviewScoreSum1/(double)(o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                                collect(Collectors.toList()).size());
+                    }
+
+                    if(o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size()==0){// 해당 score의 리뷰수가 0일때
+                        mean2=0.;//해당 store의 평균 리뷰의 스코어는 0
+                    }else{// 해당 score의 리뷰수가 0이 아닐때 -> 평균 구해줌
+                        Integer reviewScoreSum2 = o2.getReviews().stream().map(review -> review.getScore()).mapToInt(Integer::intValue).sum();
+                        mean2 = reviewScoreSum2/(double)(o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                                collect(Collectors.toList()).size());
+                    }
+
+
+                    return (mean1<mean2)?1:-1;
+                }
+            };
+
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
