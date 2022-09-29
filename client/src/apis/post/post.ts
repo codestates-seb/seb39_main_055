@@ -9,10 +9,14 @@ export const getPostDetail = async (postId: number): Promise<Thread> => {
 };
 
 export const deletePost = async (postId: number): Promise<Thread> => {
-  const { data } = await axiosInstance.patch(`/v1/user/thread/${postId}`, {
-    headers: {
-      tokenNeeded: true,
-    },
-  });
+  const { data } = await axiosInstance.patch(
+    `/v1/user/thread/${postId}`,
+    {},
+    {
+      headers: {
+        tokenNeeded: true,
+      },
+    }
+  );
   return data.data;
 };
