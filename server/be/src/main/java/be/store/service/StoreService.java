@@ -178,6 +178,19 @@ public class StoreService {
                 }
             };
 
+        }else if(sort.equals("reviewCount")){//리뷰수 순 정렬
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+
+                    Integer count1 = o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size();
+                    Integer count2 = o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size();
+
+                    return (count1<count2)?1:-1;
+                }
+            };
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
@@ -276,6 +289,19 @@ public class StoreService {
                 }
             };
 
+        }else if(sort.equals("reviewCount")){//리뷰수 순 정렬
+            comparator = new Comparator<Store>() {
+                @Override
+                public int compare(Store o1, Store o2) {
+
+                    Integer count1 = o1.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size();
+                    Integer count2 = o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
+                            collect(Collectors.toList()).size();
+
+                    return (count1<count2)?1:-1;
+                }
+            };
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
