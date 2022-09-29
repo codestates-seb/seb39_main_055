@@ -23,6 +23,7 @@ interface PlaceCardProps {
   storeName: string;
   averageRating: number;
   reviews: number;
+  storeId: string;
 }
 
 const PlaceCard = memo(
@@ -34,6 +35,7 @@ const PlaceCard = memo(
     storeName,
     averageRating,
     reviews,
+    storeId,
   }: PlaceCardProps) => {
     return (
       <SList>

@@ -15,7 +15,7 @@ import { selectUserInfos, useAppSelector } from "../../redux";
 import { PageInfo, UserInfos } from "../../types";
 import { averageStar, axiosInstance, calculateDistance } from "../../utils";
 import SearchHeader from "./SearchHeader/SearchHeader";
-import { SBottomBox, SBox, SH1, SUList } from "./style";
+import { SBottomBox, SBox, SH1, SH2, SNoResultBox, SUList } from "./style";
 
 export interface StoreList {
   storeId: string;
@@ -109,31 +109,18 @@ const renderPlaceCards = (
         averageRating={avgRating}
         reviews={reviews.length}
         distance={distance}
+        storeId={storeId}
         key={storeId}
       />
     );
   });
 };
 
-const SNoResultBox = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  row-gap: 20px;
-  height: 500px;
-  width: 100%;
-`;
-
-const SH2 = styled.h2`
-  color: ${colors("black300")};
-`;
-
 const NoResult = () => {
   return (
     <SNoResultBox>
       <SH2>검색 결과가 없습니다.</SH2>
-      <img src={Logo} alt="dsgsd" width="55px" />
+      <img src={Logo} alt="메인 로고" width="55px" />
     </SNoResultBox>
   );
 };

@@ -8,15 +8,15 @@ const checkDifference = (
   threadId: number
 ) => {
   const difference: Partial<ThreadPostRequest> = {};
-  const formerPayload = queryClient.getQueryData<ThreadPostResponse>([
+  const cachedPayload = queryClient.getQueryData<ThreadPostResponse>([
     "post",
     `${threadId}`,
   ]);
 
-  const isImageModified = formerPayload?.threadImages.some(
+  const isImageModified = cachedPayload?.threadImages.some(
     ({ image }, i) => image !== threadImages[i]
   );
-  const isBodyModified = formerPayload?.body !== body;
+  const isBodyModified = cachedPayload?.body !== body;
 
   if (isBodyModified) {
     difference.body = body;
