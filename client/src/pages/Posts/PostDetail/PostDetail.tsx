@@ -9,6 +9,7 @@ import {
   cancelPostHeart,
   getPostDetail,
   registerPostHeart,
+  registerReply,
 } from "../../../apis";
 import {
   LoadingSpinner,
@@ -177,6 +178,9 @@ const PostDetail = () => {
   const { mutate: cancelHeartMutate } = useMutation(cancelPostHeart, {
     onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
   });
+  const { mutate: registerReplyMutate } = useMutation(registerReply, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
 
   const handleHeartClick = () => {
     if (!loginStatus) {
@@ -235,7 +239,11 @@ const PostDetail = () => {
         <span>댓글</span>
         <span>{data?.replies.pageInfo.totalElements}</span>
       </SCommentHeader>
-      <PostForm submitCallback={() => console.log("submit")} />
+      <PostForm
+        submitCallback={(body) =>
+          registerReplyMutate({ postId: Number(params.id), body })
+        }
+      />
       <SListContainer>
         {data?.replies.data?.map((reply) => (
           <ReplyCard key={reply.replyId} reply={reply} />

@@ -75,7 +75,7 @@ export const SCancelButton = styled.button`
 `;
 
 interface Prop {
-  submitCallback: () => void;
+  submitCallback: (body: string) => void;
 }
 
 const PostForm = ({ submitCallback }: Prop) => {
@@ -108,7 +108,7 @@ const PostForm = ({ submitCallback }: Prop) => {
       />
       <div>
         {/* <SCancelButton>취소</SCancelButton> */}
-        <SButton disabled={validate} onClick={submitCallback}>
+        <SButton disabled={validate} onClick={() => submitCallback(replyValue)}>
           입력
         </SButton>
       </div>
