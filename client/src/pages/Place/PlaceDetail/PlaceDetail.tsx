@@ -2,15 +2,12 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-unused-expressions */
-import React, { useRef } from "react";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPlaceDetail, usePlaceDetail } from "../../../apis/place";
+import { usePlaceDetail } from "../../../apis/place";
 import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
-import { Store } from "../../../types";
-import { axiosInstance } from "../../../utils";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
 import ReviewCard from "./ReviewCard/ReviewCard";

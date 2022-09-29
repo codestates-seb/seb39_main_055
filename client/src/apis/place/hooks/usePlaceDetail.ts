@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery } from "react-query";
 
-import { getPlaceDetail } from "../placeDetail";
+import { getPlaceDetail } from "../place";
 import { getInfiniteReview } from "../review";
 
 export const usePlaceDetail = (storeId: string) => {

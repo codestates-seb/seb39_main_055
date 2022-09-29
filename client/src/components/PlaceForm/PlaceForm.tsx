@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import usePlace from "../../apis/place/usePlace";
+import usePlace from "../../apis/place/hooks/usePlace";
 import { useCheckbox, useValidate } from "../../hooks";
 import { ThreadImages } from "../../types";
 import {
