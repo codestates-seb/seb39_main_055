@@ -6,7 +6,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { getPostDetail } from "../../../apis";
-import { Slider } from "../../../components";
+import { NoResult, Slider } from "../../../components";
+import { ThreadImages } from "../../../types";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -158,9 +159,19 @@ const PostDetail = () => {
       <SMainContainer>
         <h1>댕댕이숲</h1>
         <UserCard data={data} />
-        <SImageContainer>
-          <Slider imageList={data?.threadImages?.map((image) => image.image)} />
-        </SImageContainer>
+        {(data?.threadImages?.length as number) > 0 ? (
+          <SImageContainer>
+            <Slider
+              imageList={data?.threadImages?.map((image) => image.image)}
+            />
+          </SImageContainer>
+        ) : (
+          <NoResult
+            title="등록된 이미지가 없습니다."
+            comment1="댕냥이 자랑, 고민거리, 산책친구 등"
+            comment2="다양한 이야기를 댕댕이 숲에 외쳐보세요!"
+          />
+        )}
         <SBody>{parse(data?.body as string)}</SBody>
         <SLikeContainer isLike={isLike}>
           <HiOutlineHeart onClick={() => setIsLike((prev) => !prev)} />

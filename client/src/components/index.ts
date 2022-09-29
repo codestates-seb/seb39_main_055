@@ -8,6 +8,7 @@ export * from "./Main";
 export { Modal, useModal } from "./Modal";
 export * from "./Modal";
 export { default as DeleteModal } from "./Modal/DeleteModal/DeleteModal";
+export { default as NoResult } from "./NoResult/NoResult";
 export { default as PlaceCard } from "./PlaceCard/PlaceCard";
 export { default as PlaceForm } from "./PlaceForm/PlaceForm";
 export { default as SearchAddress } from "./SearchAddress/SearchAddress";
