@@ -4,14 +4,14 @@ import { HiOutlineHeart } from "react-icons/hi";
 import { Dots } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { Reply } from "../../../../types";
-import { SBody, SBottom, SList, SUserInfo, SUtils } from "./style";
+import { getDateToString } from "../../../../utils";
+import { SBody, SList, SUserInfo, SUtils } from "./style";
 
 interface Prop {
   reply: Reply;
 }
 
 const ReplyCard = ({ reply }: Prop) => {
-  const [isLike, setIsLike] = useState(false);
   const { userInfos } = useAppSelector((state) => state.user);
 
   return (
@@ -20,6 +20,7 @@ const ReplyCard = ({ reply }: Prop) => {
         <SUserInfo>
           <img src={reply?.user.image} alt="profile" />
           <span>{reply?.user.nickname}</span>
+          <span>{getDateToString(reply?.updatedAt)}</span>
         </SUserInfo>
         {userInfos?.userId === reply.user.userId && (
           <Dots
@@ -30,13 +31,6 @@ const ReplyCard = ({ reply }: Prop) => {
         )}
       </SUtils>
       <SBody>{reply?.body}</SBody>
-      <SBottom isLike={isLike}>
-        <span>{reply?.updatedAt}</span>
-        <div onClick={() => setIsLike((prev) => !prev)}>
-          <HiOutlineHeart />
-          <span>좋아요</span>
-        </div>
-      </SBottom>
     </SList>
   );
 };
