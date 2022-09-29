@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { InfiniteQueryObserverResult } from "react-query";
 
 import { Buttton, Spinner } from "./style";
 
@@ -8,7 +9,7 @@ export interface ButtonProps {
   bgColor?: string;
   hoverColor?: string;
   textColor?: string;
-  onClick?: () => void | Promise<void>;
+  onClick?: () => void | Promise<void> | Promise<InfiniteQueryObserverResult>;
   polymorphic?: "li" | "div" | "a";
   isPending?: boolean;
   isError?: boolean;

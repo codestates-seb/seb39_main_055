@@ -1,6 +1,10 @@
 export * from "./averageStar";
 export * from "./axiosInstance";
+export { default as calculateDistance } from "./calculateDistance";
+export * from "./compareImageList";
+export * from "./dateFormat";
 export * from "./imageProcessor";
+export * from "./placeLocalStorage";
 export * from "./queryClient";
-export { isKeyOf } from "./type-guards";
+export { isArrayOfString, isKeyOf } from "./type-guards";
 export * from "./validation";

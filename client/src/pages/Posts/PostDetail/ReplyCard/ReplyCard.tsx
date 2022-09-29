@@ -1,48 +1,63 @@
 import { useState } from "react";
-import { HiOutlineHeart } from "react-icons/hi";
+import { useMutation, useQueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 
+import { deleteReply, editReply } from "../../../../apis";
 import { Dots } from "../../../../components";
-import { SBody, SBottom, SList, SUserInfo, SUtils } from "./style";
+import { useAppSelector } from "../../../../redux";
+import { Reply } from "../../../../types";
+import { getDateToString } from "../../../../utils";
+import PostForm from "../PostForm/PostForm";
+import { SBody, SList, SUserInfo, SUtils } from "./style";
 
 interface Prop {
-  replyId: string;
-  replyBody: string;
-  createdAt: string;
-  user: {
-    ninkname: string;
-    email: string;
-    image: string;
-    userStatus: string;
-    longitude: string;
-    latitude: string;
-    userRole: string;
-  };
+  reply: Reply;
 }
 
-const ReplyCard = ({ replyId, replyBody, createdAt, user }: Prop) => {
-  const [isLike, setIsLike] = useState(false);
+const ReplyCard = ({ reply }: Prop) => {
+  const params = useParams();
+  const queryClient = useQueryClient();
+  const [isEdit, setIsEdit] = useState(false);
+  const { userInfos } = useAppSelector((state) => state.user);
+
+  const { mutate: deleteReplyMutate } = useMutation(deleteReply, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+
+  const { mutate: editReplyMutate } = useMutation(editReply, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
 
   return (
     <SList>
       <SUtils>
         <SUserInfo>
-          <img src={user.image} alt="profile" />
-          <span>{user.ninkname}</span>
+          <img src={reply?.user.image} alt="profile" />
+          <span>{reply?.user.nickname}</span>
+          <span>{getDateToString(reply?.updatedAt)}</span>
         </SUserInfo>
-        <Dots
-          deleteModalTitle="댓글을 삭제하시겠습니까?"
-          onEdit={() => console.log(replyId)}
-          onDelete={() => console.log(replyId)}
-        />
+        {userInfos?.userId === reply.user.userId && (
+          <Dots
+            deleteModalTitle="댓글을 삭제하시겠습니까?"
+            onEdit={() => setIsEdit(true)}
+            onDelete={() => deleteReplyMutate(reply?.replyId)}
+          />
+        )}
       </SUtils>
-      <SBody>{replyBody}</SBody>
-      <SBottom isLike={isLike}>
-        <span>{createdAt}</span>
-        <div onClick={() => setIsLike((prev) => !prev)}>
-          <HiOutlineHeart />
-          <span>좋아요</span>
-        </div>
-      </SBottom>
+      <SBody>
+        {isEdit ? (
+          <PostForm
+            isEdit
+            setIsEdit={setIsEdit}
+            body={reply?.body}
+            submitCallback={(body) =>
+              editReplyMutate({ body, replyId: reply?.replyId })
+            }
+          />
+        ) : (
+          reply?.body
+        )}
+      </SBody>
     </SList>
   );
 };

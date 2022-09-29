@@ -19,6 +19,7 @@ export const SImg = styled.img`
 `;
 
 export const SHeader = styled.header`
+  flex: 1 0 60px;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 10px;
@@ -31,12 +32,17 @@ export const STopBox = styled.div`
 `;
 
 export const SH2 = styled.h2`
+  display: flex;
+  align-items: center;
   color: ${colors("orange500")};
   font-size: 15px;
   font-weight: bold;
+  height: 16px;
 `;
 
 export const SP = styled.p`
+  display: flex;
+  align-items: center;
   color: ${colors("black250")};
   font-size: 12px;
 `;

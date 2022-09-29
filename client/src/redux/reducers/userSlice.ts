@@ -3,21 +3,27 @@ import { createSlice, PayloadAction, Reducer } from "@reduxjs/toolkit";
 import { User, UserInfos } from "../../types";
 import { RootState } from "../store";
 
-const initialUserInfos: UserInfos = {
+export const INITIAL_LOCATION = {
+  address: "서울특별시 중구 세종대로 110",
+  longitude: 126.97852781,
+  latitude: 37.56660794,
+};
+
+export const initialUserInfos: UserInfos = {
   userId: -1,
   nickname: "",
   userStatus: "",
   userRole: "ROLE_USER",
   email: "",
   image: "",
-  latitude: 0,
-  longitude: 0,
+  latitude: INITIAL_LOCATION.latitude,
+  longitude: INITIAL_LOCATION.longitude,
 };
 
-const initialUser: User = {
+export const initialUser: User = {
   loginStatus: false,
   keepLoggedIn: false,
-  userInfos: null,
+  userInfos: initialUserInfos,
   token: "",
 };
 

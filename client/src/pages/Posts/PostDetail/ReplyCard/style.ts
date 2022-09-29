@@ -4,9 +4,9 @@ export const SList = styled.li`
   border-bottom: 1px solid #bdbdbd;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   min-height: 150px;
-  padding-bottom: 40px;
+  padding-bottom: 30px;
 `;
 
 export const SUtils = styled.section`
@@ -32,35 +32,15 @@ export const SUserInfo = styled.div`
     font-size: 16px;
     color: #161616;
   }
+
+  & > span:last-child {
+    color: #a5a5a5;
+    font-size: 14px;
+  }
 `;
 
-export const SBody = styled.p`
+export const SBody = styled.div`
   flex-grow: 1;
   line-height: 35px;
-`;
-
-export const SBottom = styled.section<{ isLike: boolean }>`
-  flex-basis: 15px;
-  display: flex;
-  align-items: center;
-  gap: 17px;
-  color: #a5a5a5;
-  font-size: 14px;
-
-  & > div {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-
-    & > svg {
-      margin-right: 2px;
-      font-size: 15px;
-      color: ${({ isLike }) => isLike && "red"};
-      fill: ${({ isLike }) => isLike && "red"};
-    }
-
-    & > span {
-      padding-top: 2px;
-    }
-  }
+  white-space: pre-wrap;
 `;

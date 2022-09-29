@@ -1,20 +1,12 @@
 import styled, { css } from "styled-components";
 
-import { mobile, tablet } from "../../assets";
+import { colors, mobile, tablet } from "../../assets";
 
 export const SBox = styled.div`
   display: flex;
   flex-flow: column nowrap;
   row-gap: 20px;
   margin-bottom: 100px;
-`;
-
-export const SHeader = styled.header`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  row-gap: 20px;
-  margin-bottom: 40px;
 `;
 
 export const SH1 = styled.h1`
@@ -35,30 +27,6 @@ export const SH1 = styled.h1`
   `)}
 `;
 
-export const SP = styled.p<{ showWarning: boolean }>`
-  display: flex;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  height: 0;
-  overflow: hidden;
-  transition: 400ms all;
-
-  ${({ showWarning }) =>
-    showWarning &&
-    css`
-      color: #f85a5a;
-      height: 20px;
-    `}
-`;
-
-export const SSpan = styled.span`
-  display: inline-block;
-  font-weight: normal;
-  margin-left: 5px;
-  color: #7a7a7a;
-`;
-
 export const SUList = styled.ul`
   display: grid;
   width: calc(100% - 40px);
@@ -74,4 +42,18 @@ export const SUList = styled.ul`
 export const SBottomBox = styled.div`
   height: 10px;
   width: 100%;
+`;
+
+export const SNoResultBox = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px;
+  height: 500px;
+  width: 100%;
+`;
+
+export const SH2 = styled.h2`
+  color: ${colors("black300")};
 `;

@@ -22,11 +22,10 @@ export const SUserInfo = styled.section`
   display: flex;
   align-items: center;
   gap: 15px;
-  font-family: "Noto Sans KR", sans-serif;
 
   & > img {
-    width: 68px;
-    height: 68px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
   }

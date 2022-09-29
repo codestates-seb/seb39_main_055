@@ -48,8 +48,14 @@ const Navbar = () => {
             댕댕이숲
           </button>
           <SHamberger onClick={() => handleTabClick()}>
-            <img src={userInfos ? userInfos?.image : profile} alt="profile" />
-            {loginStatus && <span>{userInfos?.nickname}님</span>}
+            {loginStatus ? (
+              <>
+                <img src={userInfos?.image} alt="profile" />
+                <span>{userInfos?.nickname}</span>
+              </>
+            ) : (
+              <img src={profile} alt="profile" />
+            )}
           </SHamberger>
           <STab
             isOpen={tabIsOpen}

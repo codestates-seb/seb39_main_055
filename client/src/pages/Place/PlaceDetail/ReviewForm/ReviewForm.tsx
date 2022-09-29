@@ -1,80 +1,29 @@
 /* eslint-disable no-useless-return */
 import { useEffect, useState } from "react";
-import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 
-import { addReview } from "../../../../apis/place";
-import { useModal } from "../../../../components";
-import { ErrorModal, LoginModal } from "../../../../components/Modal";
+import { addReview } from "../../../../apis";
+import { ErrorModal, LoginModal, useModal } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
 import RatingStar from "../RatingStar/RatingStar";
-
-export const STextAreaContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 10px 20px;
-  border: 1px solid #dbdbdb;
-  border-radius: 10px;
-
-  & > div:last-child {
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
-export const STextArea = styled.textarea`
-  width: 100%;
-  min-height: 100px;
-  outline: none;
-  border: none;
-  color: #000000;
-  font-size: 16px;
-  font-family: "Noto Sans KR", sans-serif;
-  resize: none;
-
-  &::placeholder {
-    font-size: 16px;
-    color: #767676;
-  }
-`;
-
-export const SButton = styled.button`
-  padding: 10px 20px;
-  color: #ffffff;
-  background-color: #ffc107;
-  border: none;
-  border-radius: 10px;
-  font-size: 12px;
-  font-family: "ONE-Mobile-Regular";
-  transition: all 0.4s;
-
-  &:hover {
-    scale: 1.1;
-  }
-
-  &:disabled {
-    color: #161616;
-    background-color: #dbdbdb;
-
-    &:hover {
-      scale: 1;
-    }
-  }
-`;
+import { SButton, SCancelButton, STextArea, STextAreaContainer } from "./style";
 
 interface Prop {
   isEdit: boolean;
-  submitCallback: ({ body, score }: { body: string; score: number }) => void;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+  submitCallback?: ({ body, score }: { body: string; score: number }) => void;
+  prevValue?: { body: string; score: number };
   data?: Store | undefined;
   initialState?: { body: string; score: number };
 }
 
 const ReviewForm = ({
   isEdit,
+  setIsEdit,
   submitCallback,
+  prevValue,
   data,
   initialState = { body: "", score: 0 },
 }: Prop) => {
@@ -92,6 +41,7 @@ const ReviewForm = ({
       setReviewValue("");
       setRatingIndex(0);
       queryClient.invalidateQueries(["place", params.id]);
+      queryClient.invalidateQueries(["review", params.id]);
     },
   });
 
@@ -121,8 +71,14 @@ const ReviewForm = ({
   };
 
   const handleSubmit = () => {
-    if (isEdit) {
+    if (isEdit && submitCallback) {
+      if (ratingIndex === prevValue?.score && reviewValue === prevValue?.body) {
+        openModal(<ErrorModal body="변경된 내용이 없습니다." />);
+        return;
+      }
+
       submitCallback({ body: reviewValue, score: ratingIndex });
+      return;
     }
 
     mutate({
@@ -154,9 +110,14 @@ const ReviewForm = ({
           ratingIndex={ratingIndex}
           setRatingIndex={setRatingIndex}
         />
-        <SButton disabled={validate} onClick={handleSubmit}>
-          {isEdit ? "수정" : "입력"}
-        </SButton>
+        <div>
+          {isEdit && setIsEdit && (
+            <SCancelButton onClick={() => setIsEdit(false)}>취소</SCancelButton>
+          )}
+          <SButton disabled={validate} onClick={handleSubmit}>
+            {isEdit ? "수정" : "입력"}
+          </SButton>
+        </div>
       </div>
     </STextAreaContainer>
   );

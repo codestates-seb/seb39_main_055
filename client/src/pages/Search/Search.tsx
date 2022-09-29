@@ -1,158 +1,21 @@
-/* eslint-disable consistent-return */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable consistent-return */
+import { useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Navigate, useSearchParams } from "react-router-dom";
+import styled from "styled-components";
 
-import { Category, PlaceCard, SearchBar } from "../../components";
+import { colors } from "../../assets";
+import Logo from "../../assets/images/logo/logo2.png";
+import { Category, PlaceCard, PlaceSkeleton } from "../../components";
 import { searchCategories } from "../../constants";
-import {
-  changeUserAddress,
-  selectUserInfos,
-  useAppDispatch,
-  useAppSelector,
-} from "../../redux";
+import { selectUserInfos, useAppSelector } from "../../redux";
 import { PageInfo, UserInfos } from "../../types";
-import { averageStar, axiosInstance } from "../../utils";
-import { SBottomBox, SBox, SH1, SHeader, SP, SSpan, SUList } from "./style";
-
-const dummy: StoreList[] = [
-  {
-    storeId: "8",
-    createdAt: "2022-09-27T20:05:11",
-    updatedAt: "2022-09-27T20:05:11",
-    storeStatus: "STORE_EXIST",
-    category: "숙소",
-    longitude: 126.770299659574,
-    latitude: 37.6897115089898,
-    storeName: "테스트123123",
-    addressName:
-      "경기 고양시 일산서구 일청로59번길 55 (일산동, 미주8차저층APT)",
-    body: "www.test.comwww.test.comwww.test.com",
-    phone: "010-1111-1111",
-    homepage: "www.test.com",
-    user: {
-      userId: 0,
-      nickname: "모상빈",
-      email: "mosangbin@gmail.com",
-      image:
-        "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800",
-      userStatus: "USER_EXIST",
-      longitude: 127.044744776173,
-      latitude: 37.3044825535735,
-      userRole: "ROLE_OWNER",
-    },
-    storeImages: [
-      {
-        storeImage:
-          "https://main055.s3.ap-northeast-2.amazonaws.com/user3-b9cedaf17a7f80cb5a0e14e805f8825f1664276710274.png",
-      },
-    ],
-    reviews: [],
-    heartUserId: [3],
-  },
-  {
-    storeId: "1",
-    createdAt: "2022-09-26T20:10:50",
-    updatedAt: "2022-09-27T23:57:19",
-    storeStatus: "STORE_EXIST",
-    category: "숙소",
-    longitude: 100.0,
-    latitude: 100.0,
-    storeName: "동작을 점령해버린 숙소! 14호점",
-    addressName: "서울시 동작구 흑석동 123-123",
-    body: "진료 전 메뉴 500원",
-    phone: "010-1234-1234",
-    homepage: "http://동작을 점령해버린 숙소.com",
-    user: {
-      userId: 0,
-      nickname: "psy001",
-      email: "psy1@gmail.com",
-      image:
-        "https://main055.s3.ap-northeast-2.amazonaws.com/user2-e4ebbe042cfb2c8dbdfbb72ee3c764f11664189442402.jpeg",
-      userStatus: "USER_EXIST",
-      longitude: 127.074928451599,
-      latitude: 37.6322400488783,
-      userRole: "ROLE_OWNER",
-    },
-    storeImages: [
-      {
-        storeImage:
-          "https://main055.s3.ap-northeast-2.amazonaws.com/user1-nurung1663583751271.png",
-      },
-    ],
-    reviews: [
-      {
-        reviewId: "3",
-        createdAt: "2022-09-26T17:37:19",
-        updatedAt: "2022-09-26T17:37:19",
-        reviewStatus: "REVIEW_EXIST",
-        user: {
-          userId: 0,
-          nickname: "psy2인데요",
-          email: "psy2@gmail.com",
-          image:
-            "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800",
-          userStatus: "USER_EXIST",
-          longitude: 126.75036638,
-          latitude: 37.50265438,
-          userRole: "ROLE_OWNER",
-        },
-        storeId: "1",
-        body: "이 동물병원 괜찮아요! 굿! 별점 5점 드립니다",
-        score: 3,
-      },
-    ],
-    heartUserId: [2, 3],
-  },
-  {
-    storeId: "5",
-    createdAt: "2022-09-27T15:28:21",
-    updatedAt: "2022-09-27T19:06:56",
-    storeStatus: "STORE_EXIST",
-    category: "숙소",
-    longitude: 129.116665046345,
-    latitude: 37.5745168573281,
-    storeName: "동해를그리다 펜션",
-    addressName: "강원 동해시 일출로 377 (대진동, Pygmalion Effect)",
-    body: "강원도 동해시에 위치한 [동해를 그리다] 펜션입니다.\n\n도보 5분 거리에 어달 해수욕장과 망상 해수욕장이 인접하여 있어 여름철 신나는 물놀이가 가능하며\n사계절 해변 산책이 가능합니다.\n\n펜션 인근에서 낚시 배 체험이 가능하여,\n사랑하는 가족, 친구들과 함께 보다 즐거운 추억을 쌓으실 수 있습니다.\n\n또한 전 객실 바베큐장 이용이 가능하며, 펜션 내 와이파이 사용이 가능합니다.",
-    phone: "010-5406-2209",
-    homepage: "http://greeda-donghae.co.kr/",
-    user: {
-      userId: 0,
-      nickname: "모상빈",
-      email: "mosangbin@gmail.com",
-      image:
-        "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800",
-      userStatus: "USER_EXIST",
-      longitude: 127.044744776173,
-      latitude: 37.3044825535735,
-      userRole: "ROLE_OWNER",
-    },
-    storeImages: [
-      {
-        storeImage:
-          "https://main055.s3.ap-northeast-2.amazonaws.com/user3-f6c47cfdce686ac947e4b22b65b021c81664264334291.jpeg",
-      },
-      {
-        storeImage:
-          "https://main055.s3.ap-northeast-2.amazonaws.com/user3-a48ec27b468b7c211a59f9de185df18f1664273215829.png",
-      },
-    ],
-    reviews: [],
-    heartUserId: [3],
-  },
-];
-
-const dummyResponse = (page: number) => {
-  return new Array(page * 16).fill(0).map((e, i) => {
-    const data = { ...dummy[i % 3] };
-    data.storeId = `${i}`;
-
-    return data;
-  });
-};
+import { averageStar, axiosInstance, calculateDistance } from "../../utils";
+import SearchHeader from "./SearchHeader/SearchHeader";
+import { SBottomBox, SBox, SH1, SH2, SNoResultBox, SUList } from "./style";
 
 export interface StoreList {
   storeId: string;
@@ -199,132 +62,178 @@ const mappedCategories = {
   hospital: "동물병원",
 };
 
-const INITIAL_LOCATION = {
-  address: "서울특별시 중구 세종대로 110",
-  longitude: 126.97852781,
-  latitude: 37.56660794,
-};
+type UserCoordinate = [number | undefined, number | undefined];
 
-const renderPlaceCards = (data: StoreList[]) => {
-  return data.map(
-    ({
+const renderPlaceCards = (
+  data: StoreList[] | number[],
+  [userLat, userLon]: UserCoordinate
+) => {
+  return data.map((e, i) => {
+    if (typeof e === "number") return <PlaceSkeleton key={i} />;
+
+    const {
       storeId,
-      addressName,
       storeName,
       storeImages,
       reviews,
       heartUserId,
-    }) => {
-      const avgRating = Number(averageStar(reviews));
-      const [province, district] = addressName.match(/(.*?)[시|구]/g)!;
+      longitude,
+      latitude,
+    } = e;
+    let { addressName } = e;
+    if (!userLat || !userLon) return;
 
-      if (province.length < 5) {
-        addressName = `${province}${district}`;
-      }
-      if (province.length >= 5) {
-        addressName = province;
-      }
+    const avgRating = Number(averageStar(reviews));
+    const distance = calculateDistance(
+      [userLat, userLon],
+      [latitude, longitude]
+    );
+    const [province, district] = addressName.match(/(.*?)[시|구]/g)!;
 
-      return (
-        <PlaceCard
-          image={storeImages[0]?.storeImage}
-          alt={`${storeName}의 대표 이미지`}
-          location={addressName}
-          storeName={storeName}
-          averageRating={avgRating}
-          reviews={reviews.length}
-          key={storeId}
-        />
-      );
+    // 특별시, 광역시는 "구"까지 주소를 자름(ex. 서울시 중구, 대전시 대덕구)
+    // 특별시, 광역시의 addressName은 OO시로 표현되므로 province 길이가 3 이하
+    if (province.length <= 3) {
+      addressName = `${province}${district}`;
     }
+    // 도 내의 일반 시는 "시"까지 주소를 자름(ex. 경기도 성남시)
+    if (province.length > 3) {
+      addressName = province;
+    }
+
+    return (
+      <PlaceCard
+        image={storeImages[0]?.storeImage}
+        alt={`${storeName}의 대표 이미지`}
+        location={addressName}
+        storeName={storeName}
+        averageRating={avgRating}
+        reviews={reviews.length}
+        distance={distance}
+        storeId={storeId}
+        key={storeId}
+      />
+    );
+  });
+};
+
+const NoResult = () => {
+  return (
+    <SNoResultBox>
+      <SH2>검색 결과가 없습니다.</SH2>
+      <img src={Logo} alt="메인 로고" width="55px" />
+    </SNoResultBox>
   );
 };
 
 const Search = () => {
-  const dispatch = useAppDispatch();
-  const { nickname, longitude, latitude } =
-    useAppSelector(selectUserInfos) || {};
+  const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
   const [params] = useSearchParams();
-  const [locPermission, setLocPermission] = useState(() => {
-    if (!longitude && !nickname) return false;
-    return true;
-  });
+  const bottom = useRef<HTMLDivElement>(null);
+  const size = useRef(16);
+  const allResults = useRef<StoreList[] | undefined>();
+
   const keyword = params.get("search");
   const category = params.get("category") || "all";
 
-  const bottom = useRef<HTMLDivElement>(null);
-
-  const { data, isIdle } = useInfiniteQuery<SearchResponse>(
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
+    SearchResponse,
+    unknown,
+    StoreList
+  >(
     ["search", keyword, category, longitude, latitude],
     async ({ pageParam = 1 }) => {
+      if (!(category in mappedCategories)) return;
+
+      // 카테고리: 클라이언트의 category 쿼리 스트링과 서버 API 요청 URL이 다른 부분 맞춰줌
       const serverCategory =
         mappedCategories[category as keyof typeof mappedCategories];
       const { data } = await axiosInstance(
-        `v1/store/search?keyword=${keyword}&category=${serverCategory}&page=${pageParam}&size=16&sort=${`distance`}&latitude=${latitude}&longitude=${longitude}`
+        `v1/store/search?keyword=${keyword}&category=${serverCategory}&page=${pageParam}&size=${
+          size.current
+        }&sort=${`distance`}&latitude=${latitude}&longitude=${longitude}`
       );
 
-      return data.data;
+      return data;
     },
     {
       enabled: !!(longitude && latitude),
       retry: 2,
       refetchOnWindowFocus: false,
+      getNextPageParam: ({ pageInfo }) => {
+        const { page, totalPages } = pageInfo;
+        let nextPage: number | undefined = page + 1;
+
+        if (nextPage > totalPages) {
+          nextPage = undefined;
+        }
+
+        return nextPage;
+      },
+      select: (data) => {
+        // UI에 나타낼 때, 서버 데이터의 data 속성만 필요하지만 아무 처리 없이 사용할 경우,
+        // data.pages[i].data로 데이터를 맵핑해야 해 번거로워짐
+        const transformedPages = data.pages.map(({ data }) => data).flat();
+
+        return { ...data, pages: transformedPages };
+      },
+      onSettled: (data) => {
+        const { pages } = data || {};
+        if (category === "all") {
+          allResults.current = pages;
+        }
+      },
     }
   );
 
   useEffect(() => {
-    if (!longitude || !latitude) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          const { latitude, longitude } = coords;
-
-          dispatch(changeUserAddress({ latitude, longitude }));
-          setLocPermission(true);
-        },
-        (err) => {
-          dispatch(changeUserAddress(INITIAL_LOCATION));
-          setLocPermission(false);
-        },
-        {
-          maximumAge: 1 * 1000, // 1분
-        }
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
+    window.scrollTo({ top: 155, behavior: "smooth" });
   }, [keyword]);
 
+  useEffect(() => {
+    if (!bottom.current) return;
+
+    const options = {
+      rootMargin: "50px",
+    };
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    }, options);
+
+    io.observe(bottom.current);
+
+    return () => io.disconnect();
+  }, [hasNextPage]);
+
+  const results = data?.pages || [];
+  const places =
+    isFetching && allResults.current?.length
+      ? results.concat(new Array(size.current / 2).fill(0))
+      : results;
+
+  // 유저가 존재하지 않는 카테고리로 주소를 변경하면 NotFound 페이지로 이동
   if (!(category in mappedCategories)) {
     return <Navigate to="/not-found" />;
   }
 
-  const results = data?.pages[0].data || dummyResponse(1);
-
   return (
     <SBox>
-      <SHeader>
-        <SearchBar />
-        <SH1>{`‘${keyword}’에 대한 검색 결과입니다.`}</SH1>
-        <SP showWarning={!locPermission}>
-          위치 정보 권한을 허용해주세요.
-          <SSpan>{`현재 위치: ${INITIAL_LOCATION.address}`}</SSpan>
-        </SP>
-        <Category
-          menuList={searchCategories}
-          baseQueryString={`?search=${keyword}`}
-          extraQueryString="category"
-        />
-      </SHeader>
-
-      <SUList>
-        {results.length ? (
-          renderPlaceCards(results)
-        ) : (
-          <div>검색 결과가 없습니다.</div>
-        )}
-      </SUList>
+      <SearchHeader
+        resultHeader={<SH1>{`‘${keyword}’에 대한 검색 결과입니다.`}</SH1>}
+        category={
+          <Category
+            menuList={searchCategories}
+            baseQueryString={`?search=${keyword}`}
+            extraQueryString="category"
+          />
+        }
+      />
+      {places.length ? (
+        <SUList>{renderPlaceCards(places, [latitude, longitude])}</SUList>
+      ) : (
+        <NoResult />
+      )}
       <SBottomBox ref={bottom} />
     </SBox>
   );
