@@ -9,14 +9,6 @@ export const SBox = styled.div`
   margin-bottom: 100px;
 `;
 
-export const SHeader = styled.header`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  row-gap: 20px;
-  margin-bottom: 40px;
-`;
-
 export const SH1 = styled.h1`
   font-size: 34px;
   line-height: 3.5rem;
@@ -33,23 +25,6 @@ export const SH1 = styled.h1`
     font-size: 25px;
     margin: 10px;
   `)}
-`;
-
-export const SP = styled.p<{ showWarning: boolean }>`
-  display: flex;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  height: 0;
-  overflow: hidden;
-  transition: 400ms all;
-
-  ${({ showWarning }) =>
-    showWarning &&
-    css`
-      color: #f85a5a;
-      height: 20px;
-    `}
 `;
 
 export const SSpan = styled.span`
