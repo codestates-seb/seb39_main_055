@@ -21,7 +21,7 @@ export const SSearchBar = styled.div`
     outline: none;
     border: none;
     width: 90%;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   & > img {
@@ -57,6 +57,7 @@ const SearchBar = () => {
         value={inputValue}
         onChange={handleInputChange}
         onKeyPress={handleInputKeyPress}
+        placeholder="반려 동물과 함께하고 싶은 장소를 검색하세요."
       />
       <img src={search} alt="search" onClick={handleSearchIconClick} />
     </SSearchBar>
