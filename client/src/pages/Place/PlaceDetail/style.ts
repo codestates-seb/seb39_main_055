@@ -18,6 +18,7 @@ export const SImagesContainer = styled.section`
 export const SDescriptionContainer = styled.div`
   border-bottom: 1px solid #dbdbdb;
   padding: 35px 0;
+  white-space: pre-wrap;
 `;
 
 export const SH2 = styled.h2`
