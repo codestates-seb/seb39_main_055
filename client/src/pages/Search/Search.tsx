@@ -108,8 +108,7 @@ const renderPlaceCards = (
 };
 
 const Search = () => {
-  const { nickname, longitude, latitude } =
-    useAppSelector(selectUserInfos) || {};
+  const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
   const [params] = useSearchParams();
 
   const keyword = params.get("search");
