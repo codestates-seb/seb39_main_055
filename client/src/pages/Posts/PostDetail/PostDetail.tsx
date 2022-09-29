@@ -18,6 +18,7 @@ import {
   useModal,
 } from "../../../components";
 import { useAppSelector } from "../../../redux";
+import PostForm from "./PostForm/PostForm";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -94,6 +95,7 @@ export const SLikeContainer = styled.section<{ isLike: boolean }>`
 
 export const SCommentHeader = styled.header`
   margin-top: 55px;
+  margin-bottom: 20px;
   font-size: 18px;
 
   & > span:first-child {
@@ -161,16 +163,14 @@ export const SLoadingContainer = styled.div`
 
 const PostDetail = () => {
   const params = useParams();
+  const queryClient = useQueryClient();
   const [isLike, setIsLike] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
   const { userInfos, loginStatus } = useAppSelector((state) => state.user);
   const { openModal } = useModal();
 
-  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["post", params.id], () =>
     getPostDetail(Number(params.id))
   );
-
   const { mutate: registerHeartMutate } = useMutation(registerPostHeart, {
     onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
   });
@@ -235,15 +235,7 @@ const PostDetail = () => {
         <span>댓글</span>
         <span>{data?.replies.pageInfo.totalElements}</span>
       </SCommentHeader>
-      <SInputContainer isFocus={isFocus}>
-        <input
-          type="text"
-          placeholder="다양한 이야기를 공유해주세요 :)"
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-        />
-        <button type="button">입력</button>
-      </SInputContainer>
+      <PostForm submitCallback={() => console.log("submit")} />
       <SListContainer>
         {data?.replies.data?.map((reply) => (
           <ReplyCard key={reply.replyId} reply={reply} />
