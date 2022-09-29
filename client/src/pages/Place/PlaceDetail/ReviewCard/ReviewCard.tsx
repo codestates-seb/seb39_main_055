@@ -4,7 +4,7 @@ import { AiFillStar } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 
-import { deleteReview, editReview } from "../../../../apis/place";
+import { deleteReview, editReview } from "../../../../apis";
 import { Dots } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { UserInfos } from "../../../../types";

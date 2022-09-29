@@ -2,11 +2,9 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 
-import { addReview } from "../../../../apis/place";
-import { useModal } from "../../../../components";
-import { ErrorModal, LoginModal } from "../../../../components/Modal";
+import { addReview } from "../../../../apis";
+import { ErrorModal, LoginModal, useModal } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
 import RatingStar from "../RatingStar/RatingStar";
