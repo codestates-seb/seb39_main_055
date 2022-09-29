@@ -27,7 +27,7 @@ export const STextAreaContainer = styled.div`
 
 export const STextArea = styled.textarea`
   width: 100%;
-  min-height: 100px;
+  min-height: 125px;
   outline: none;
   border: none;
   color: #000000;
@@ -65,8 +65,25 @@ export const SButton = styled.button`
   }
 `;
 
+export const SCancelButton = styled.button`
+  padding: 10px 20px;
+  margin-right: 10px;
+  color: #161616;
+  background-color: #dbdbdb;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: "ONE-Mobile-Regular";
+  transition: all 0.4s;
+
+  &:hover {
+    scale: 1.1;
+  }
+`;
+
 interface Prop {
   isEdit: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
   submitCallback?: ({ body, score }: { body: string; score: number }) => void;
   data?: Store | undefined;
   initialState?: { body: string; score: number };
@@ -74,6 +91,7 @@ interface Prop {
 
 const ReviewForm = ({
   isEdit,
+  setIsEdit,
   submitCallback,
   data,
   initialState = { body: "", score: 0 },
@@ -156,9 +174,14 @@ const ReviewForm = ({
           ratingIndex={ratingIndex}
           setRatingIndex={setRatingIndex}
         />
-        <SButton disabled={validate} onClick={handleSubmit}>
-          {isEdit ? "수정" : "입력"}
-        </SButton>
+        <div>
+          {isEdit && setIsEdit && (
+            <SCancelButton onClick={() => setIsEdit(false)}>취소</SCancelButton>
+          )}
+          <SButton disabled={validate} onClick={handleSubmit}>
+            {isEdit ? "수정" : "입력"}
+          </SButton>
+        </div>
       </div>
     </STextAreaContainer>
   );
