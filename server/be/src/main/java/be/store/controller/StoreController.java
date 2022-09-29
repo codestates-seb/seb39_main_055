@@ -79,8 +79,8 @@ public class StoreController {
             message = "숙소,미용,카페,맛집,운동장,동물병원중에 선택해주세요.") @RequestParam("category") String category,
                                     @Positive @RequestParam("page") int page,
                                     @Positive @RequestParam("size") int size,
-                                    @Pattern(regexp = "(^createdAt$)|(^distance$)|(^score$)",
-                                            message = "createdAt,distance 중에 선택해주세요.") @RequestParam("sort") String sort,
+                                    @Pattern(regexp = "(^createdAt$)|(^distance$)|(^score$)|(^reviewCount$)",
+                                            message = "createdAt,distance,score,reviewCount 중에 선택해주세요.") @RequestParam("sort") String sort,
                                     @RequestParam(value = "latitude",required = false) Double latitude,
                                     @RequestParam(value = "longitude",required = false) Double longitude){
         System.out.println(latitude);
@@ -119,8 +119,8 @@ public class StoreController {
                                                message = "숙소,미용,카페,맛집,운동장,동물병원,total 중에 선택해주세요.") @RequestParam("category") String category,
                                        @Positive @RequestParam("page") Integer page,
                                        @Positive @RequestParam("size") Integer size,
-                                       @Pattern(regexp = "(^createdAt$)|(^distance$)|(^score$)",
-                                               message = "createdAt,distance 중에 선택해주세요.") @RequestParam("sort") String sort,
+                                       @Pattern(regexp = "(^createdAt$)|(^distance$)|(^score$)|(^reviewCount$)",
+                                               message = "createdAt,distance,score,reviewCount 중에 선택해주세요.") @RequestParam("sort") String sort,
                                        @RequestParam(value = "latitude",required = false) Double latitude,
                                        @RequestParam(value = "longitude",required = false) Double longitude){
 
