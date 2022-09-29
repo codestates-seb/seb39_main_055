@@ -8,7 +8,7 @@ import { ThemeProvider } from "styled-components";
 
 import App from "./App";
 import { GlobalStyle, theme } from "./assets";
-import { RootState, setupStore } from "./redux";
+import { initialUser, initialUserInfos, RootState, setupStore } from "./redux";
 import { queryClient } from "./utils";
 
 const currentUserToken = JSON.parse(
@@ -19,11 +19,11 @@ const preloadedState: PreloadedState<RootState> = currentUserToken
       user: {
         loginStatus: true,
         keepLoggedIn: true,
-        userInfos: null,
+        userInfos: initialUserInfos,
         token: currentUserToken,
       },
     }
-  : {};
+  : { user: initialUser };
 export const store = setupStore(preloadedState);
 
 ReactDOM.render(
