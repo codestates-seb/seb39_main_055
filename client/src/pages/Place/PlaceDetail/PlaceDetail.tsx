@@ -2,11 +2,12 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-unused-expressions */
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { usePlaceDetail } from "../../../apis";
 import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
+import { addPlaceToLocalStorage } from "../../../utils";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
 import ReviewCard from "./ReviewCard/ReviewCard";
@@ -34,8 +35,15 @@ const PlaceDetail = () => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isSuccess,
     reviewData,
   } = usePlaceDetail(params.id as string);
+
+  useEffect(() => {
+    if (isSuccess && detailData) {
+      addPlaceToLocalStorage(detailData);
+    }
+  }, [isSuccess, detailData]);
 
   if (isLoading) {
     return (

@@ -4,9 +4,11 @@ import { getPlaceDetail } from "../place";
 import { getInfiniteReview } from "../review";
 
 export const usePlaceDetail = (storeId: string) => {
-  const { data: detailData, isLoading } = useQuery(["place", storeId], () =>
-    getPlaceDetail(storeId)
-  );
+  const {
+    data: detailData,
+    isLoading,
+    isSuccess,
+  } = useQuery(["place", storeId], () => getPlaceDetail(storeId));
 
   const {
     data: reviewData,
@@ -33,6 +35,7 @@ export const usePlaceDetail = (storeId: string) => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isSuccess,
     reviewData,
   };
 };
