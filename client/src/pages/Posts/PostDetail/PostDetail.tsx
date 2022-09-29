@@ -1,12 +1,23 @@
 import parse from "html-react-parser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPostDetail } from "../../../apis";
-import { LoadingSpinner, NoResult, Slider } from "../../../components";
+import {
+  cancelPostHeart,
+  getPostDetail,
+  registerPostHeart,
+} from "../../../apis";
+import {
+  LoadingSpinner,
+  LoginModal,
+  NoResult,
+  Slider,
+  useModal,
+} from "../../../components";
+import { useAppSelector } from "../../../redux";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -152,10 +163,41 @@ const PostDetail = () => {
   const params = useParams();
   const [isLike, setIsLike] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+  const { userInfos, loginStatus } = useAppSelector((state) => state.user);
+  const { openModal } = useModal();
 
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["post", params.id], () =>
     getPostDetail(Number(params.id))
   );
+
+  const { mutate: registerHeartMutate } = useMutation(registerPostHeart, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+  const { mutate: cancelHeartMutate } = useMutation(cancelPostHeart, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+
+  const handleHeartClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+
+    if (!isLike) {
+      registerHeartMutate(data?.threadId as number);
+    } else {
+      cancelHeartMutate(data?.threadId as number);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.likesUserId.includes(userInfos?.userId as number)) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+  }, [userInfos, data]);
 
   if (isLoading) {
     return (
@@ -185,7 +227,7 @@ const PostDetail = () => {
         )}
         <SBody>{parse(data?.body as string)}</SBody>
         <SLikeContainer isLike={isLike}>
-          <HiOutlineHeart onClick={() => setIsLike((prev) => !prev)} />
+          <HiOutlineHeart onClick={handleHeartClick} />
           <span>{data?.likesUserId.length}</span>
         </SLikeContainer>
       </SMainContainer>

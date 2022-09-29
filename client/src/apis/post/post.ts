@@ -20,3 +20,25 @@ export const deletePost = async (postId: number): Promise<Thread> => {
   );
   return data.data;
 };
+
+export const registerPostHeart = async (postId: number): Promise<Thread> => {
+  const { data } = await axiosInstance.post(
+    `v1/user/likes/register`,
+    { threadId: postId },
+    {
+      headers: { tokenNeeded: true },
+    }
+  );
+  return data.data;
+};
+
+export const cancelPostHeart = async (postId: number): Promise<Thread> => {
+  const { data } = await axiosInstance.patch(
+    `v1/user/likes/cancel`,
+    { threadId: postId, likesStatus: "LIKES_NOT_EXIST" },
+    {
+      headers: { tokenNeeded: true },
+    }
+  );
+  return data.data;
+};
