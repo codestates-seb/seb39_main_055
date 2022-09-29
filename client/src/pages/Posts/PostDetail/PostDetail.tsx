@@ -203,6 +203,7 @@ const PostDetail = () => {
         <span>{data?.replies.pageInfo.totalElements}</span>
       </SCommentHeader>
       <PostForm
+        isEdit={false}
         submitCallback={(body) =>
           registerReplyMutate({ postId: Number(params.id), body })
         }

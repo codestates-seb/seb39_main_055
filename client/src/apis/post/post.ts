@@ -55,3 +55,25 @@ export const registerReply = async (payload: {
   );
   return data.data;
 };
+
+export const editReply = async (payload: {
+  replyId: number;
+  body: string;
+}): Promise<Reply> => {
+  const { replyId, body } = payload;
+  const { data } = await axiosInstance.patch(
+    `/v1/user/reply/${replyId}`,
+    { body },
+    { headers: { tokenNeeded: true } }
+  );
+  return data.data;
+};
+
+export const deleteReply = async (replyId: number): Promise<Reply> => {
+  const { data } = await axiosInstance.patch(
+    `/v1/user/reply/delete/${replyId}`,
+    { replyStatus: "REPLY_NOT_EXIST" },
+    { headers: { tokenNeeded: true } }
+  );
+  return data.data;
+};

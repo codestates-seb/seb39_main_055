@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { HiOutlineHeart } from "react-icons/hi";
+import { useMutation, useQueryClient } from "react-query";
+import { useParams } from "react-router-dom";
 
+import { deleteReply } from "../../../../apis";
 import { Dots } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { Reply } from "../../../../types";
 import { getDateToString } from "../../../../utils";
+import PostForm from "../PostForm/PostForm";
 import { SBody, SList, SUserInfo, SUtils } from "./style";
 
 interface Prop {
@@ -12,7 +15,14 @@ interface Prop {
 }
 
 const ReplyCard = ({ reply }: Prop) => {
+  const params = useParams();
+  const queryClient = useQueryClient();
+  const [isEdit, setIsEdit] = useState(false);
   const { userInfos } = useAppSelector((state) => state.user);
+
+  const { mutate: deleteReplyMutate } = useMutation(deleteReply, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
 
   return (
     <SList>
@@ -25,12 +35,23 @@ const ReplyCard = ({ reply }: Prop) => {
         {userInfos?.userId === reply.user.userId && (
           <Dots
             deleteModalTitle="댓글을 삭제하시겠습니까?"
-            onEdit={() => console.log("수정")}
-            onDelete={() => console.log("삭제")}
+            onEdit={() => setIsEdit(true)}
+            onDelete={() => deleteReplyMutate(reply?.replyId)}
           />
         )}
       </SUtils>
-      <SBody>{reply?.body}</SBody>
+      <SBody>
+        {isEdit ? (
+          <PostForm
+            isEdit
+            setIsEdit={setIsEdit}
+            body={reply?.body}
+            submitCallback={() => console.log("asd")}
+          />
+        ) : (
+          reply?.body
+        )}
+      </SBody>
     </SList>
   );
 };

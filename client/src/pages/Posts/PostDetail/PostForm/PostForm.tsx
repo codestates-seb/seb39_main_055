@@ -25,7 +25,8 @@ export const STextArea = styled.textarea`
   border: none;
   color: #000000;
   font-size: 16px;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "ONE-Mobile-Regular";
+  line-height: 30px;
   resize: none;
 
   &::placeholder {
@@ -75,12 +76,15 @@ export const SCancelButton = styled.button`
 `;
 
 interface Prop {
+  isEdit: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+  body?: string;
   submitCallback: (body: string) => void;
 }
 
-const PostForm = ({ submitCallback }: Prop) => {
+const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
   const [validate, setValidate] = useState(false);
-  const [replyValue, setReplyValue] = useState("");
+  const [replyValue, setReplyValue] = useState(body);
   const { loginStatus } = useAppSelector((state) => state.user);
   const { openModal } = useModal();
 
@@ -112,7 +116,9 @@ const PostForm = ({ submitCallback }: Prop) => {
         onChange={(e) => setReplyValue(e.target.value)}
       />
       <div>
-        {/* <SCancelButton>취소</SCancelButton> */}
+        {isEdit && setIsEdit && (
+          <SCancelButton onClick={() => setIsEdit(false)}>취소</SCancelButton>
+        )}
         <SButton disabled={validate} onClick={handleSubmit}>
           입력
         </SButton>
