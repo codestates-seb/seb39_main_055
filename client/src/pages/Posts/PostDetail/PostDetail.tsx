@@ -1,12 +1,25 @@
 import parse from "html-react-parser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPostDetail } from "../../../apis";
-import { Slider } from "../../../components";
+import {
+  cancelPostHeart,
+  getPostDetail,
+  registerPostHeart,
+  registerReply,
+} from "../../../apis";
+import {
+  LoadingSpinner,
+  LoginModal,
+  NoResult,
+  Slider,
+  useModal,
+} from "../../../components";
+import { useAppSelector } from "../../../redux";
+import PostForm from "./PostForm/PostForm";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -22,7 +35,7 @@ export const SContainer = styled.div`
 export const SMainContainer = styled.main`
   display: flex;
   flex-direction: column;
-  margin-top: 150px;
+  margin-top: 100px;
   border-bottom: 3px solid #dbdbdb;
 
   & > h1 {
@@ -49,7 +62,7 @@ export const SImageContainer = styled.section`
 `;
 
 export const SBody = styled.div`
-  margin: 100px 0;
+  margin: 45px 0;
   color: #161616;
   font-size: 18px;
   line-height: 35px;
@@ -83,6 +96,7 @@ export const SLikeContainer = styled.section<{ isLike: boolean }>`
 
 export const SCommentHeader = styled.header`
   margin-top: 55px;
+  margin-bottom: 20px;
   font-size: 18px;
 
   & > span:first-child {
@@ -95,62 +109,69 @@ export const SCommentHeader = styled.header`
   }
 `;
 
-export const SInputContainer = styled.section<{ isFocus: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 52px;
-  margin-top: 18px;
-  margin-bottom: 55px;
-  padding: 5px 10px;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-
-  & > input {
-    width: 90%;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 15px;
-    font-family: "ONE-Mobile-Regular";
-
-    &::placeholder {
-      color: #dbdbdb;
-      font-family: "ONE-Mobile-Regular";
-    }
-  }
-
-  & > button {
-    width: 65px;
-    height: 100%;
-    color: ${({ isFocus }) => (isFocus ? "#ffffff" : "#161616")};
-    background-color: ${({ isFocus }) => (isFocus ? "#ffc107" : "#dbdbdb")};
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-family: "ONE-Mobile-Regular";
-    transition: all 0.4s;
-  }
-`;
-
 export const SListContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  margin-top: 50px;
   margin-bottom: 107px;
+`;
+
+export const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 380px);
 `;
 
 const PostDetail = () => {
   const params = useParams();
+  const queryClient = useQueryClient();
   const [isLike, setIsLike] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
+  const { userInfos, loginStatus } = useAppSelector((state) => state.user);
+  const { openModal } = useModal();
 
   const { data, isLoading } = useQuery(["post", params.id], () =>
     getPostDetail(Number(params.id))
   );
+  const { mutate: registerHeartMutate } = useMutation(registerPostHeart, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+  const { mutate: cancelHeartMutate } = useMutation(cancelPostHeart, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+  const { mutate: registerReplyMutate } = useMutation(registerReply, {
+    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+  });
+
+  const handleHeartClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+
+    if (!isLike) {
+      registerHeartMutate(data?.threadId as number);
+    } else {
+      cancelHeartMutate(data?.threadId as number);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.likesUserId.includes(userInfos?.userId as number)) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+  }, [userInfos, data]);
 
   if (isLoading) {
-    return <div>loading</div>;
+    return (
+      <SLoadingContainer>
+        <LoadingSpinner />
+      </SLoadingContainer>
+    );
   }
 
   return (
@@ -158,12 +179,22 @@ const PostDetail = () => {
       <SMainContainer>
         <h1>댕댕이숲</h1>
         <UserCard data={data} />
-        <SImageContainer>
-          <Slider imageList={data?.threadImages?.map((image) => image.image)} />
-        </SImageContainer>
+        {(data?.threadImages?.length as number) > 0 ? (
+          <SImageContainer>
+            <Slider
+              imageList={data?.threadImages?.map((image) => image.image)}
+            />
+          </SImageContainer>
+        ) : (
+          <NoResult
+            title="등록된 이미지가 없습니다."
+            comment1="댕냥이 자랑, 고민거리, 산책친구 등"
+            comment2="다양한 이야기를 댕댕이 숲에 외쳐보세요!"
+          />
+        )}
         <SBody>{parse(data?.body as string)}</SBody>
         <SLikeContainer isLike={isLike}>
-          <HiOutlineHeart onClick={() => setIsLike((prev) => !prev)} />
+          <HiOutlineHeart onClick={handleHeartClick} />
           <span>{data?.likesUserId.length}</span>
         </SLikeContainer>
       </SMainContainer>
@@ -171,15 +202,12 @@ const PostDetail = () => {
         <span>댓글</span>
         <span>{data?.replies.pageInfo.totalElements}</span>
       </SCommentHeader>
-      <SInputContainer isFocus={isFocus}>
-        <input
-          type="text"
-          placeholder="다양한 이야기를 공유해주세요 :)"
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-        />
-        <button type="button">입력</button>
-      </SInputContainer>
+      <PostForm
+        isEdit={false}
+        submitCallback={(body) =>
+          registerReplyMutate({ postId: Number(params.id), body })
+        }
+      />
       <SListContainer>
         {data?.replies.data?.map((reply) => (
           <ReplyCard key={reply.replyId} reply={reply} />

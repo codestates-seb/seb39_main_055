@@ -26,7 +26,7 @@ export const STextArea = styled.textarea`
 
   &::placeholder {
     font-size: 16px;
-    color: #767676;
+    color: #dbdbdb;
   }
 `;
 
