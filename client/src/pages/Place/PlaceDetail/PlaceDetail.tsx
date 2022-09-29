@@ -1,10 +1,16 @@
-import { useRef } from "react";
-import { useQuery } from "react-query";
+/* eslint-disable no-unsafe-optional-chaining */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-unused-expressions */
+import React, { useRef } from "react";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { getPlaceDetail } from "../../../apis/place";
-import { LoadingSpinner, Slider } from "../../../components";
+import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
+import { Store } from "../../../types";
+import { axiosInstance } from "../../../utils";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
 import ReviewCard from "./ReviewCard/ReviewCard";
@@ -67,11 +73,46 @@ export const SReviewListContainer = styled.ul`
   margin-top: 100px;
 `;
 
+export const SButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+`;
+
 const PlaceDetail = () => {
   const params = useParams();
   const reviewRef = useRef<HTMLUListElement>(null);
   const { data, isLoading } = useQuery(["place", params.id], () =>
     getPlaceDetail(params.id as string)
+  );
+
+  const infiniteReview = async (
+    pageParams: number
+  ): Promise<{ data: Store; nextPage: number }> => {
+    const { data } = await axiosInstance.get(
+      `v1/store/${params.id}?page=${pageParams}&size=3&sort=createdAt`
+    );
+
+    return { data: data.data, nextPage: pageParams + 1 };
+  };
+
+  const {
+    data: reviewData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    ["review", params.id],
+    ({ pageParam = 1 }) => infiniteReview(pageParam),
+    {
+      getNextPageParam: (lastPage) => {
+        const { totalPages } = lastPage.data.reviews.pageInfo;
+        if (lastPage.nextPage <= totalPages) {
+          return lastPage.nextPage;
+        }
+        return undefined;
+      },
+    }
   );
 
   if (isLoading) {
@@ -99,21 +140,36 @@ const PlaceDetail = () => {
       </main>
       <SReviewContainer>
         <SH2>
-          리뷰 <SStrong>{data?.reviews.data.length}</SStrong>
+          리뷰{" "}
+          <SStrong>
+            {reviewData?.pages[0].data.reviews.pageInfo.totalElements}
+          </SStrong>
         </SH2>
         <ReviewForm isEdit={false} data={data} />
         <SReviewListContainer ref={reviewRef}>
-          {data?.reviews.data.map((data) => (
-            <ReviewCard
-              key={data.reviewId}
-              reviewId={data.reviewId}
-              user={data.user}
-              updatedAt={data.updatedAt}
-              body={data.body}
-              score={data.score}
-            />
-          ))}
+          {reviewData?.pages.map((page, index) => {
+            return page?.data.reviews.data.map((data) => (
+              <ReviewCard
+                key={data.reviewId}
+                reviewId={data.reviewId}
+                user={data.user}
+                updatedAt={data.updatedAt}
+                body={data.body}
+                score={data.score}
+              />
+            ));
+          })}
         </SReviewListContainer>
+        {hasNextPage && (
+          <SButtonContainer>
+            <ButtonWhite
+              onClick={() => fetchNextPage()}
+              isPending={isFetchingNextPage}
+            >
+              리뷰 더 보기
+            </ButtonWhite>
+          </SButtonContainer>
+        )}
       </SReviewContainer>
     </SContainer>
   );

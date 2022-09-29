@@ -91,7 +91,7 @@ const ReviewForm = ({
     onSuccess: () => {
       setReviewValue("");
       setRatingIndex(0);
-      queryClient.invalidateQueries(["place", params.id]);
+      queryClient.invalidateQueries(["review", params.id]);
     },
   });
 
