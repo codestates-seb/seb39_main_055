@@ -92,12 +92,16 @@ const ReviewCard = ({ reviewId, updatedAt, user, body, score }: Prop) => {
   const queryClient = useQueryClient();
 
   const { mutate: deleteMutate } = useMutation(deleteReview, {
-    onSuccess: () => queryClient.invalidateQueries(["review", params.id]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["place", params.id]);
+      queryClient.invalidateQueries(["review", params.id]);
+    },
   });
 
   const { mutate: editMutate } = useMutation(editReview, {
     onSuccess: () => {
       setIsEdit(false);
+      queryClient.invalidateQueries(["place", params.id]);
       queryClient.invalidateQueries(["review", params.id]);
     },
   });

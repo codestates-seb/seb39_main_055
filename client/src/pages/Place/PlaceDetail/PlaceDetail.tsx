@@ -7,7 +7,7 @@ import { useInfiniteQuery, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPlaceDetail } from "../../../apis/place";
+import { getPlaceDetail, usePlaceDetail } from "../../../apis/place";
 import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
 import { Store } from "../../../types";
 import { axiosInstance } from "../../../utils";
@@ -51,7 +51,7 @@ export const SP = styled.p`
 export const SReviewContainer = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 35px 0;
+  padding: 40px 0;
 `;
 
 export const SLoadingContainer = styled.div`
@@ -82,38 +82,15 @@ export const SButtonContainer = styled.div`
 const PlaceDetail = () => {
   const params = useParams();
   const reviewRef = useRef<HTMLUListElement>(null);
-  const { data, isLoading } = useQuery(["place", params.id], () =>
-    getPlaceDetail(params.id as string)
-  );
-
-  const infiniteReview = async (
-    pageParams: number
-  ): Promise<{ data: Store; nextPage: number }> => {
-    const { data } = await axiosInstance.get(
-      `v1/store/${params.id}?page=${pageParams}&size=3&sort=createdAt`
-    );
-
-    return { data: data.data, nextPage: pageParams + 1 };
-  };
 
   const {
-    data: reviewData,
+    detailData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery(
-    ["review", params.id],
-    ({ pageParam = 1 }) => infiniteReview(pageParam),
-    {
-      getNextPageParam: (lastPage) => {
-        const { totalPages } = lastPage.data.reviews.pageInfo;
-        if (lastPage.nextPage <= totalPages) {
-          return lastPage.nextPage;
-        }
-        return undefined;
-      },
-    }
-  );
+    isLoading,
+    reviewData,
+  } = usePlaceDetail(params.id as string);
 
   if (isLoading) {
     return (
@@ -128,15 +105,15 @@ const PlaceDetail = () => {
       <main>
         <SImagesContainer>
           <Slider
-            imageList={data?.storeImages.map((image) => image.storeImage)}
+            imageList={detailData?.storeImages.map((image) => image.storeImage)}
           />
         </SImagesContainer>
-        <Header data={data} reviewRef={reviewRef} />
+        <Header data={detailData} reviewRef={reviewRef} />
         <SDescriptionContainer>
           <SH2>시설 개요</SH2>
-          <SP>{data?.body}</SP>
+          <SP>{detailData?.body}</SP>
         </SDescriptionContainer>
-        <Info data={data} />
+        <Info data={detailData} />
       </main>
       <SReviewContainer>
         <SH2>
@@ -145,7 +122,7 @@ const PlaceDetail = () => {
             {reviewData?.pages[0].data.reviews.pageInfo.totalElements}
           </SStrong>
         </SH2>
-        <ReviewForm isEdit={false} data={data} />
+        <ReviewForm isEdit={false} data={detailData} />
         <SReviewListContainer ref={reviewRef}>
           {reviewData?.pages.map((page, index) => {
             return page?.data.reviews.data.map((data) => (
