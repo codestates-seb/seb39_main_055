@@ -19,9 +19,18 @@ const useGeolocation: () => [boolean] = () => {
     // 로그인 상태에서는 유저의 위치 정보가 존재하므로 위치 정보 권한이 부여된 것으로 판단
     return true;
   });
+
   useEffect(() => {
     // 로그인 상태에서는 회원 정보의 위,경도를 이용
     if (loginStatus) return;
+
+    (async () => {
+      const permissionStatus = await navigator.permissions.query({
+        name: "geolocation",
+      });
+
+      setLocPermission(permissionStatus.state === "granted");
+    })();
 
     const watcherId = navigator.geolocation.watchPosition(
       ({ coords }) => {
