@@ -35,7 +35,7 @@ export const SContainer = styled.div`
 export const SMainContainer = styled.main`
   display: flex;
   flex-direction: column;
-  margin-top: 150px;
+  margin-top: 100px;
   border-bottom: 3px solid #dbdbdb;
 
   & > h1 {
@@ -109,48 +109,11 @@ export const SCommentHeader = styled.header`
   }
 `;
 
-export const SInputContainer = styled.section<{ isFocus: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 52px;
-  margin-top: 18px;
-  margin-bottom: 55px;
-  padding: 5px 10px;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-
-  & > input {
-    width: 90%;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 15px;
-    font-family: "ONE-Mobile-Regular";
-
-    &::placeholder {
-      color: #dbdbdb;
-      font-family: "ONE-Mobile-Regular";
-    }
-  }
-
-  & > button {
-    width: 65px;
-    height: 100%;
-    color: ${({ isFocus }) => (isFocus ? "#ffffff" : "#161616")};
-    background-color: ${({ isFocus }) => (isFocus ? "#ffc107" : "#dbdbdb")};
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-family: "ONE-Mobile-Regular";
-    transition: all 0.4s;
-  }
-`;
-
 export const SListContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  margin-top: 50px;
   margin-bottom: 107px;
 `;
 

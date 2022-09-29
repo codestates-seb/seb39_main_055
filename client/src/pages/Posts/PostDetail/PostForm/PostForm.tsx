@@ -90,6 +90,11 @@ const PostForm = ({ submitCallback }: Prop) => {
     }
   };
 
+  const handleSubmit = () => {
+    submitCallback(replyValue);
+    setReplyValue("");
+  };
+
   useEffect(() => {
     if (loginStatus && replyValue.trim().length > 0) {
       setValidate(false);
@@ -108,7 +113,7 @@ const PostForm = ({ submitCallback }: Prop) => {
       />
       <div>
         {/* <SCancelButton>취소</SCancelButton> */}
-        <SButton disabled={validate} onClick={() => submitCallback(replyValue)}>
+        <SButton disabled={validate} onClick={handleSubmit}>
           입력
         </SButton>
       </div>
