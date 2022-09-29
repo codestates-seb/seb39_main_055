@@ -6,8 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { Modal, SharedLayout } from "./components";
-import { Login, Main, Mypage, Signup } from "./pages";
-import EditMyInfos from "./pages/Mypage/EditMyInfos/EditMyInfos";
+import { Main } from "./pages";
 import {
   initializeUserInfos,
   logOutUser,
@@ -29,13 +28,10 @@ const App = () => {
     onSuccess: (data) => {
       dispatch(initializeUserInfos(data));
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
       dispatch(logOutUser());
     },
   });
-
-  console.log("loginStatus 상태 확인", loginStatus);
 
   return (
     <>
