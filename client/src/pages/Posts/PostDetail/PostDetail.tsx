@@ -7,7 +7,6 @@ import styled from "styled-components";
 
 import { getPostDetail } from "../../../apis";
 import { NoResult, Slider } from "../../../components";
-import { ThreadImages } from "../../../types";
 import ReplyCard from "./ReplyCard/ReplyCard";
 import UserCard from "./UserCard/UserCard";
 
@@ -50,7 +49,7 @@ export const SImageContainer = styled.section`
 `;
 
 export const SBody = styled.div`
-  margin: 100px 0;
+  margin: 45px 0;
   color: #161616;
   font-size: 18px;
   line-height: 35px;
