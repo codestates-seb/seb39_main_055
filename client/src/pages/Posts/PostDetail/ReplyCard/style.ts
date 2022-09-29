@@ -42,4 +42,5 @@ export const SUserInfo = styled.div`
 export const SBody = styled.div`
   flex-grow: 1;
   line-height: 35px;
+  white-space: pre-wrap;
 `;
