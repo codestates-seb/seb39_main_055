@@ -26,8 +26,13 @@ const localStorageHandler: CaseHandler = {
     if (!keepLoggedIn) return next(action);
     localStorage.setItem("currentUser", JSON.stringify(token));
   },
-  "user/logOutUser": (storeAPI, next, action) => {
+  "user/logOutUser": () => {
     localStorage.removeItem("currentUser");
+  },
+  "user/changeLocationPermission": (storeAPI, next, action) => {
+    const { payload } = action;
+
+    localStorage.setItem("locationPermission", payload);
   },
 };
 
