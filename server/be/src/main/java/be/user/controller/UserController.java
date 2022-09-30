@@ -2,6 +2,8 @@ package be.user.controller;
 
 import be.response.SingleResponseDto;
 import be.store.service.StoreService;
+import be.user.dto.AccessTokenDto;
+import be.user.dto.RefreshTokenDto;
 import be.user.dto.UserPatchDto;
 import be.user.dto.UserPostDto;
 import be.user.entity.User;
@@ -15,6 +17,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1")
@@ -60,7 +64,7 @@ public class UserController {
     /**
      * 회원정보 수정 API
      * **/
-    @PatchMapping("user/update")
+    @PatchMapping("/user/update")
     public ResponseEntity patchUser(@Valid @RequestBody UserPatchDto userPatchDto){
 
         User user = mapper.userPatchDtoToUser(userService,userPatchDto);
@@ -70,5 +74,26 @@ public class UserController {
                 new SingleResponseDto<>(mapper.userToUserResponseDto(updatedUser)),
                 HttpStatus.OK);
     }
+
+    /**
+     * 어세스 토큰 재발급 API
+     * **/
+    @PostMapping("/token-refresh")
+    public ResponseEntity getToken(@RequestBody RefreshTokenDto refreshToken){
+        log.info("getToken 컨트롤러 실행");
+
+        String accessToken = userService.createAccessToken(refreshToken.getRefreshToken());
+
+        AccessTokenDto accessTokenDto = new AccessTokenDto();
+
+        accessTokenDto.setAccessToken(accessToken);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(accessTokenDto),
+                HttpStatus.OK
+        );
+    }
+
+
 
 }

@@ -1,28 +1,33 @@
-package be.config.auth;
+package be.config.auth.userdetails;
 
+import be.config.auth.userdetails.MemberDetails;
 import be.user.entity.User;
 import be.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class PrincipalDetailService implements UserDetailsService {
+@Component
+@AllArgsConstructor
+@Slf4j
+public class MemberDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+//    private final CustomAuthorityUtils authorityUtils;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        System.out.println("PrincipalDetailsService : 진입");
+        log.info("MemberDetailsService : 진입");
         Optional<User> userEntity  = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
 
 
-        return new PrincipalDetails(userEntity.get());
+        return new MemberDetails(userEntity.get());
     }
+
+
 }

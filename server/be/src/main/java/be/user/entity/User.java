@@ -50,6 +50,9 @@ public class User extends BaseEntity {
     @Column(nullable = true)
     private String userRole;
 
+    @Column(nullable = true)
+    private String refreshToken;
+
     @Column(nullable = false,columnDefinition = "TEXT")
     private String image;
 
