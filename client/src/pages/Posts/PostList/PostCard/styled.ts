@@ -26,6 +26,10 @@ export const SImgContainer = styled.section`
   border-radius: 17px;
   flex-basis: 260px;
 
+  & > div {
+    width: 260px;
+  }
+
   & > img {
     width: 260px;
     height: 100%;
@@ -36,6 +40,10 @@ export const SImgContainer = styled.section`
   @media screen and (max-width: 800px) {
     width: 100%;
     height: 60%;
+
+    & > div {
+      width: 100%;
+    }
 
     & > img {
       width: 100%;

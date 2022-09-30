@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
+import defaultImg from "../../../../assets/images/logo/logo_gary.jpg";
+import { NoResult } from "../../../../components";
+import { Post } from "../../../../types";
 import {
   SBody,
   SCard,
@@ -10,54 +13,38 @@ import {
 } from "./styled";
 
 interface Prop {
-  postId: string;
-  postImage: {
-    threadImageId: string;
-    image: string;
-    threadImageStatus: string;
-  }[];
-  userImage: string;
-  nickName: string;
-  updatedAt: string;
-  body: string;
-  likes: number;
-  comments: number;
+  data: Post;
 }
 
-const PostCard = ({
-  postId,
-  postImage,
-  userImage,
-  nickName,
-  updatedAt,
-  body,
-  likes,
-  comments,
-}: Prop) => {
+const PostCard = ({ data }: Prop) => {
   const navigate = useNavigate();
 
   return (
-    <SCard onClick={() => navigate(`/post/${postId}`)}>
+    <SCard onClick={() => navigate(`/post/${data?.threadId}`)}>
       <SImgContainer>
-        {/** 빈 배열일 경우 기본 이미지로 수정 */}
-        <img src={postImage[0].image} alt="cat" />
+        {data?.threadImages.length ? (
+          <img src={data?.threadImages[0].image} alt="unknown" />
+        ) : (
+          <NoResult title="설정한 대표 이미지가 없습니다." height="100%" />
+        )}
       </SImgContainer>
       <SMainContainer>
         <SInfo>
-          <img src={userImage} alt="profile" />
-          <span>{nickName}</span>
-          <span>{updatedAt}</span>
+          <img src={data?.user.image} alt="profile" />
+          <span>{data?.user.nickname}</span>
+          <span>{data?.updatedAt}</span>
         </SInfo>
         <SBody>
-          <p>{body}</p>
+          <p>{data?.body}</p>
         </SBody>
         <SLike>
           <span>
-            좋아요 <strong>{likes}</strong>
+            좋아요 <strong>{data?.likes}</strong>
           </span>
           <span>·</span>
           <span>
-            댓글 <strong>{comments}</strong>
+            {/* 댓글 <strong>{data?.replies.data.length}</strong> */}
+            댓글 <strong>{0}</strong>
           </span>
         </SLike>
       </SMainContainer>
