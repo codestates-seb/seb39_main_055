@@ -1,79 +1,8 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 
-import { LoginModal, useModal } from "../../../../components";
+import { ErrorModal, LoginModal, useModal } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
-
-export const STextAreaContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 10px 20px;
-  border: 1px solid #dbdbdb;
-  border-radius: 10px;
-
-  & > div:last-child {
-    display: flex;
-    justify-content: end;
-  }
-`;
-
-export const STextArea = styled.textarea`
-  width: 100%;
-  min-height: 125px;
-  outline: none;
-  border: none;
-  color: #000000;
-  font-size: 16px;
-  font-family: "ONE-Mobile-Regular";
-  line-height: 30px;
-  resize: none;
-
-  &::placeholder {
-    font-size: 16px;
-    color: #dbdbdb;
-  }
-`;
-
-export const SButton = styled.button`
-  padding: 10px 20px;
-  color: #ffffff;
-  background-color: #ffc107;
-  border: none;
-  border-radius: 10px;
-  font-size: 12px;
-  font-family: "ONE-Mobile-Regular";
-  transition: all 0.4s;
-
-  &:hover {
-    scale: 1.1;
-  }
-
-  &:disabled {
-    color: #161616;
-    background-color: #dbdbdb;
-
-    &:hover {
-      scale: 1;
-    }
-  }
-`;
-
-export const SCancelButton = styled.button`
-  padding: 10px 20px;
-  margin-right: 10px;
-  color: #161616;
-  background-color: #dbdbdb;
-  border: none;
-  border-radius: 10px;
-  font-size: 12px;
-  font-family: "ONE-Mobile-Regular";
-  transition: all 0.4s;
-
-  &:hover {
-    scale: 1.1;
-  }
-`;
+import { SButton, SCancelButton, STextArea, STextAreaContainer } from "./style";
 
 interface Prop {
   isEdit: boolean;
@@ -95,12 +24,13 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
   };
 
   const handleSubmit = () => {
-    submitCallback(replyValue);
-    setReplyValue("");
-
-    if (setIsEdit) {
-      setIsEdit(false);
+    if (isEdit && body === replyValue) {
+      openModal(<ErrorModal body="변경된 내용이 없습니다." />);
+      return;
     }
+
+    submitCallback(replyValue.trim());
+    setReplyValue("");
   };
 
   useEffect(() => {
@@ -114,7 +44,7 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
   return (
     <STextAreaContainer>
       <STextArea
-        placeholder="리뷰를 작성해주세요."
+        placeholder="다양한 이야기를 공유해주세요 :)"
         value={replyValue}
         onFocus={handleFocus}
         onChange={(e) => setReplyValue(e.target.value)}
@@ -124,7 +54,7 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
           <SCancelButton onClick={() => setIsEdit(false)}>취소</SCancelButton>
         )}
         <SButton disabled={validate} onClick={handleSubmit}>
-          입력
+          {isEdit ? "수정" : "입력"}
         </SButton>
       </div>
     </STextAreaContainer>

@@ -21,11 +21,18 @@ const ReplyCard = ({ reply }: Prop) => {
   const { userInfos } = useAppSelector((state) => state.user);
 
   const { mutate: deleteReplyMutate } = useMutation(deleteReply, {
-    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", Number(params.id)]);
+      queryClient.invalidateQueries(["reply", Number(params.id)]);
+    },
   });
 
   const { mutate: editReplyMutate } = useMutation(editReply, {
-    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", Number(params.id)]);
+      queryClient.invalidateQueries(["reply", Number(params.id)]);
+      setIsEdit(false);
+    },
   });
 
   return (
