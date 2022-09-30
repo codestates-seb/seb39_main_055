@@ -6,6 +6,17 @@ import restaurant from "../assets/images/main-menu/4.png";
 import playground from "../assets/images/main-menu/5.png";
 import hospital from "../assets/images/main-menu/6.png";
 
+// 클라이언트 카테고리명과 서버 API 카테고리면 매칭
+export const mappedCategories = {
+  all: "total",
+  room: "숙소",
+  barber: "미용",
+  cafe: "카페",
+  restaurant: "맛집",
+  playground: "운동장",
+  hospital: "동물병원",
+};
+
 export const searchCategories = [
   {
     img: all,
