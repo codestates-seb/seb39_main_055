@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
@@ -8,7 +9,6 @@ import { mappedCategories } from "../../constants";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { PageInfo, UserInfos } from "../../types";
 import { averageStar, axiosInstance, calculateDistance } from "../../utils";
-import NoResult from "../NoResult/NoResult";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
 import { NoSearchResult, SBottomBox, SUList } from "./style";
