@@ -1,5 +1,15 @@
-import { Reply, Thread } from "../../types";
+import { PageInfo, Post, Reply, Thread } from "../../types";
 import { axiosInstance } from "../../utils";
+
+export const getPostList = async (
+  pageParams: number
+): Promise<{ data: Post; pageInfo: PageInfo; nextPage: number }> => {
+  const { data } = await axiosInstance.get(
+    `/v1/thread?page=${pageParams}&size=10&sort=createdAt`
+  );
+
+  return { data: data.data, pageInfo: data.pageInfo, nextPage: pageParams + 1 };
+};
 
 export const getPostDetail = async (postId: number): Promise<Thread> => {
   const { data } = await axiosInstance.get(
