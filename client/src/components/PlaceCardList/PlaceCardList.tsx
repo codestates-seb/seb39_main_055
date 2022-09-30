@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
-import { useEffect, useRef } from "react";
-import { useInfiniteQuery } from "react-query";
-
-import { mappedCategories } from "../../constants";
+import useListPlaces from "../../apis/place/useListPlaces";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { PageInfo, UserInfos } from "../../types";
-import { averageStar, axiosInstance, calculateDistance } from "../../utils";
+import { averageStar, calculateDistance } from "../../utils";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
 import { NoSearchResult, SBottomBox, SUList } from "./style";
@@ -102,86 +97,25 @@ const renderPlaceCards = (
   });
 };
 
+type QueryFn<T> = (
+  pageParam: number,
+  category: string,
+  extrArgs: T
+) => Promise<StoreList[]>;
+
 interface ResultListProps {
-  keyword: string;
   category: string;
+  keyword?: string;
 }
 const PlaceList = ({ keyword, category }: ResultListProps) => {
-  const bottom = useRef<HTMLDivElement>(null);
-  const size = useRef(16);
-  const allResults = useRef<StoreList[] | undefined>();
   const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
-    SearchResponse,
-    unknown,
-    StoreList
-  >(
-    ["search", keyword, category, longitude, latitude],
-    async ({ pageParam = 1 }) => {
-      if (!(category in mappedCategories)) return;
-
-      // 카테고리: 클라이언트의 category 쿼리 스트링과 서버 API 요청 URL이 다른 부분 맞춰줌
-      const serverCategory =
-        mappedCategories[category as keyof typeof mappedCategories];
-      const { data } = await axiosInstance(
-        `v1/store/search?keyword=${keyword}&category=${serverCategory}&page=${pageParam}&size=${
-          size.current
-        }&sort=${`distance`}&latitude=${latitude}&longitude=${longitude}`
-      );
-
-      return data;
-    },
-    {
-      enabled: !!(longitude && latitude),
-      retry: 2,
-      refetchOnWindowFocus: false,
-      getNextPageParam: ({ pageInfo }) => {
-        const { page, totalPages } = pageInfo;
-        let nextPage: number | undefined = page + 1;
-
-        if (nextPage > totalPages) {
-          nextPage = undefined;
-        }
-
-        return nextPage;
-      },
-      select: (data) => {
-        // UI에 나타낼 때, 서버 데이터의 data 속성만 필요하지만 아무 처리 없이 사용할 경우,
-        // data.pages[i].data로 데이터를 맵핑해야 해 번거로워짐
-        const transformedPages = data.pages.map(({ data }) => data).flat();
-
-        return { ...data, pages: transformedPages };
-      },
-      onSettled: (data) => {
-        const { pages } = data || {};
-        if (category === "all") {
-          allResults.current = pages;
-        }
-      },
-    }
-  );
-
-  useEffect(() => {
-    if (!bottom.current) return;
-
-    const options = {
-      rootMargin: "50px",
-    };
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    }, options);
-
-    io.observe(bottom.current);
-
-    return () => io.disconnect();
-  }, [hasNextPage]);
+  const { data, allResults, isFetching, bottomRef, itemsPerPage } =
+    useListPlaces({ category, longitude, latitude, keyword });
 
   const results = data?.pages || [];
   const places =
     isFetching && allResults.current?.length
-      ? results.concat(new Array(size.current).fill(0))
+      ? results.concat(new Array(itemsPerPage.current).fill(0))
       : results;
 
   return (
@@ -191,7 +125,7 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
       ) : (
         <NoSearchResult title="검색 결과가 없습니다." height="650px" />
       )}
-      <SBottomBox ref={bottom} />
+      <SBottomBox ref={bottomRef} />
     </>
   );
 };
