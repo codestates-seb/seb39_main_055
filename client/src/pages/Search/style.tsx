@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { colors, mobile, tablet } from "../../assets";
+import { mobile, tablet } from "../../assets";
 
 export const SBox = styled.div`
   display: flex;
@@ -25,35 +25,4 @@ export const SH1 = styled.h1`
     font-size: 25px;
     margin: 10px;
   `)}
-`;
-
-export const SUList = styled.ul`
-  display: grid;
-  width: calc(100% - 40px);
-  height: max-content;
-  justify-items: center;
-  align-content: center;
-  column-gap: 40px;
-  row-gap: 60px;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  margin: 20px;
-`;
-
-export const SBottomBox = styled.div`
-  height: 10px;
-  width: 100%;
-`;
-
-export const SNoResultBox = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  row-gap: 20px;
-  height: 500px;
-  width: 100%;
-`;
-
-export const SH2 = styled.h2`
-  color: ${colors("black300")};
 `;

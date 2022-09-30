@@ -63,3 +63,15 @@ export interface ThreadErrorResponse {
   status: number;
   violationErrors: null;
 }
+
+export interface Post {
+  threadId: number;
+  createdAt: string;
+  updatedAt: string;
+  threadStatus: "THREAD_EXIST" | "THREAD_NOT_FOUND";
+  body: string;
+  user: UserInfos;
+  threadImages: ThreadImageResponse[];
+  replies: { data: Reply[]; pageInfo: PageInfo };
+  likes: number;
+}

@@ -1,9 +1,19 @@
-import { Reply, Thread } from "../../types";
+import { PageInfo, Post, Reply, Thread } from "../../types";
 import { axiosInstance } from "../../utils";
+
+export const getPostList = async (
+  pageParams: number
+): Promise<{ data: Post; pageInfo: PageInfo; nextPage: number }> => {
+  const { data } = await axiosInstance.get(
+    `/v1/thread?page=${pageParams}&size=10&sort=createdAt`
+  );
+
+  return { data: data.data, pageInfo: data.pageInfo, nextPage: pageParams + 1 };
+};
 
 export const getPostDetail = async (postId: number): Promise<Thread> => {
   const { data } = await axiosInstance.get(
-    `/v1/thread/${postId}?page=1&size=100&sort=createdAt`
+    `/v1/thread/${postId}?page=1&size=3&sort=createdAt`
   );
   return data.data;
 };
@@ -41,6 +51,17 @@ export const cancelPostHeart = async (postId: number): Promise<Thread> => {
     }
   );
   return data.data;
+};
+
+export const getInfiniteReply = async (
+  postId: number,
+  pageParams: number
+): Promise<{ data: Thread; nextPage: number }> => {
+  const { data } = await axiosInstance.get(
+    `/v1/thread/${postId}?page=${pageParams}&size=3&sort=createdAt`
+  );
+
+  return { data: data.data, nextPage: pageParams + 1 };
 };
 
 export const registerReply = async (payload: {

@@ -19,7 +19,7 @@ export interface EditPlacePayload extends AddPlacePayload {
 
 export const getPlaceDetail = async (storeId: string): Promise<Store> => {
   const { data } = await axiosInstance.get(
-    `v1/store/${storeId}?page=1&size=100&sort=createdAt`
+    `v1/store/${storeId}?page=1&size=3&sort=createdAt`
   );
   return data.data;
 };

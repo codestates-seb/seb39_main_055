@@ -1,8 +1,13 @@
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
+import { getThreadList } from "../../../apis/user/threadList";
 import { mobile, tablet } from "../../../assets";
 import photoShoot from "../../../assets/icons/photoShoot.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
+import { LoadingSpinner } from "../../../components";
+import { useAppSelector } from "../../../redux";
 import NoImage from "../RecentList/NoImage";
 import { post } from "./PostDummyData";
 
@@ -22,6 +27,7 @@ const SContainer = styled.div`
   overflow-x: hidden;
   flex-direction: column;
   width: 100%;
+  cursor: pointer;
 
   height: auto;
   padding: 20px 40px 80px 40px;
@@ -43,7 +49,7 @@ const SContainer = styled.div`
 const SItemContainer = styled.div`
   width: 690px;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 `;
 
 const SHeader = styled.div`
@@ -53,6 +59,7 @@ const SHeader = styled.div`
   width: auto;
   padding-left: 10px;
   gap: 5px;
+  margin-bottom: 15px;
 
   & > img {
     width: 24px;
@@ -77,6 +84,10 @@ const SCard = styled.div`
   margin: 5px;
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.colors.black050};
+
+  :hover {
+    opacity: 0.6;
+  }
 
   & > img {
     object-fit: cover;
@@ -109,7 +120,42 @@ const SNickname = styled.div`
   line-height: 23px;
   color: ${({ theme }) => theme.colors.orange500};
 `;
+
+const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 const MyPostList = () => {
+  const cutStringLength = (str: string, maxLength: number) => {
+    if (str === undefined || str === null) {
+      return "";
+    }
+    if (str.length > maxLength) {
+      str = `${str.substring(0, maxLength)}...`;
+    }
+    return str;
+  };
+
+  const { userInfos } = useAppSelector((state) => state.user);
+  const { data, isLoading } = useQuery(
+    ["thread", userInfos?.userId],
+    getThreadList,
+    { retry: 1, cacheTime: 0 }
+  );
+  if (isLoading) {
+    return (
+      <SContainer>
+        <SLoadingContainer>
+          <LoadingSpinner />
+        </SLoadingContainer>
+      </SContainer>
+    );
+  }
+
   return (
     <SContainer>
       <SHeader>
@@ -117,8 +163,8 @@ const MyPostList = () => {
         <div>댕댕이숲</div>
       </SHeader>
       <SItemContainer>
-        {post.length > 0 ? (
-          post.map((post: any) => (
+        {(data?.length as number) > 0 ? (
+          data?.map((post: any) => (
             <SCardContainer key={post.data.threadId}>
               <SCard>
                 <img
@@ -131,7 +177,7 @@ const MyPostList = () => {
                 />
                 <STextInfo>
                   {/* data.body의 앞부분 일부가 제목으로. */}
-                  <STitle>{post.data.body.substring(0, 16)}</STitle>
+                  <STitle>{cutStringLength(post.data.body, 13)}</STitle>
                   {/* 년,월,일 까지만 출력 */}
                   <SCreatedAt>
                     {post.data.createdAt.substring(0, 10)}
