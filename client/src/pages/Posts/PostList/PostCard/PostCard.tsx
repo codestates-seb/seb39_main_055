@@ -1,3 +1,4 @@
+import parse from "html-react-parser";
 import { useNavigate } from "react-router-dom";
 
 import { NoResult } from "../../../../components";
@@ -34,7 +35,7 @@ const PostCard = ({ data }: Prop) => {
           <span>{data?.updatedAt}</span>
         </SInfo>
         <SBody>
-          <p>{data?.body}</p>
+          <p>{parse(data?.body)}</p>
         </SBody>
         <SLike>
           <span>
