@@ -54,7 +54,7 @@ const useGeolocation: () => [boolean] = () => {
     );
 
     return () => navigator.geolocation.clearWatch(watcherId);
-  }, [longitude, latitude]);
+  }, [longitude, latitude, loginStatus]);
 
   return [locPermission];
 };
