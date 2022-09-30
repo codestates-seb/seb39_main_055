@@ -1,17 +1,24 @@
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import {
   cancelPostHeart,
+  getInfiniteReply,
   getPostDetail,
   registerPostHeart,
   registerReply,
 } from "../../../apis";
 import {
+  ButtonWhite,
   LoadingSpinner,
   LoginModal,
   NoResult,
@@ -114,7 +121,7 @@ export const SListContainer = styled.ul`
   flex-direction: column;
   gap: 40px;
   margin-top: 50px;
-  margin-bottom: 107px;
+  margin-bottom: 50px;
 `;
 
 export const SLoadingContainer = styled.div`
@@ -123,6 +130,12 @@ export const SLoadingContainer = styled.div`
   align-items: center;
   width: 100%;
   height: calc(100vh - 380px);
+`;
+
+export const SButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
 `;
 
 const PostDetail = () => {
@@ -142,7 +155,10 @@ const PostDetail = () => {
     onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
   });
   const { mutate: registerReplyMutate } = useMutation(registerReply, {
-    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", params.id]);
+      queryClient.invalidateQueries(["reply", params.id]);
+    },
   });
 
   const handleHeartClick = () => {
@@ -165,6 +181,25 @@ const PostDetail = () => {
       setIsLike(false);
     }
   }, [userInfos, data]);
+
+  const {
+    data: replyData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    ["reply", params.id],
+    ({ pageParam = 1 }) => getInfiniteReply(Number(params.id), pageParam),
+    {
+      getNextPageParam: (lastPage) => {
+        const { totalPages } = lastPage.data.replies.pageInfo;
+        if (lastPage.nextPage <= totalPages) {
+          return lastPage.nextPage;
+        }
+        return undefined;
+      },
+    }
+  );
 
   if (isLoading) {
     return (
@@ -209,10 +244,19 @@ const PostDetail = () => {
         }
       />
       <SListContainer>
-        {data?.replies.data?.map((reply) => (
-          <ReplyCard key={reply.replyId} reply={reply} />
-        ))}
+        {replyData?.pages.map((page) => {
+          return page?.data.replies.data.map((data) => (
+            <ReplyCard key={data.replyId} reply={data} />
+          ));
+        })}
       </SListContainer>
+      {hasNextPage && (
+        <SButtonContainer>
+          <ButtonWhite onClick={fetchNextPage} isPending={isFetchingNextPage}>
+            더 보기
+          </ButtonWhite>
+        </SButtonContainer>
+      )}
     </SContainer>
   );
 };

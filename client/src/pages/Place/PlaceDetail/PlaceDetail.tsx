@@ -77,7 +77,7 @@ const PlaceDetail = () => {
         </SH2>
         <ReviewForm isEdit={false} data={detailData} />
         <SReviewListContainer ref={reviewRef}>
-          {reviewData?.pages.map((page, index) => {
+          {reviewData?.pages.map((page) => {
             return page?.data.reviews.data.map((data) => (
               <ReviewCard
                 key={data.reviewId}
