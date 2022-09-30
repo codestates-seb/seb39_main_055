@@ -1,7 +1,10 @@
 import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { colors } from "../../assets";
+
+const LIST_BREAK_POINT = "580px";
 
 export const SList = styled.li`
   display: flex;
@@ -12,10 +15,20 @@ export const SList = styled.li`
   min-width: 200px;
 `;
 
-export const SImg = styled.img`
+export const SaLink = styled(Link)`
+  flex: 1 1 240px;
   width: 100%;
-  height: 240px;
-  object-fit: cover;
+  overflow: hidden;
+`;
+
+export const SImg = styled.img`
+  max-height: 100%;
+  object-fit: contain;
+
+  @media screen and (max-width: ${LIST_BREAK_POINT}) {
+    max-height: max-content;
+    max-width: 100%;
+  }
 `;
 
 export const SHeader = styled.header`
