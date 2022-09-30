@@ -147,8 +147,6 @@ const SLoadingContainer = styled.div`
   height: 100%;
 `;
 
-// console.log(heartDummyData);
-
 const HeartList = () => {
   const cutStringLength = (str: string, maxLength: number) => {
     if (str === undefined || str === null) {

@@ -155,7 +155,6 @@ const MyPostList = () => {
       </SContainer>
     );
   }
-  // console.log(data);
 
   return (
     <SContainer>
