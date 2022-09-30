@@ -161,7 +161,6 @@ const HeartList = () => {
   };
 
   const { userInfos } = useAppSelector((state) => state.user);
-  const params = useParams();
   const { data, isLoading } = useQuery(
     ["heart", userInfos?.userId],
     getHeartList,

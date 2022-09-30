@@ -141,7 +141,6 @@ const MyPostList = () => {
   };
 
   const { userInfos } = useAppSelector((state) => state.user);
-  const params = useParams();
   const { data, isLoading } = useQuery(
     ["thread", userInfos?.userId],
     getThreadList,
