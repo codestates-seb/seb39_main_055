@@ -1,30 +1,49 @@
+/* eslint-disable react/no-unescaped-entities */
 import styled from "styled-components";
 
-import { colors } from "../../assets";
-import Logo from "../../assets/images/logo/logo2.png";
+import logo from "../../assets/images/logo/logo-cat.svg";
 
-export const SNoResultBox = styled.div`
+export const SContainer = styled.div<{ height: string }>`
   display: flex;
-  flex-flow: column nowrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: 20px;
-  height: 700px;
-  width: 100%;
+  height: ${({ height }) => height};
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  color: #707070;
+
+  & > img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+
+  & > p:nth-child(2) {
+    color: #161616 !important;
+    font-size: 16px;
+  }
+
+  & > P {
+    margin-bottom: 10px;
+  }
 `;
 
-export const SH2 = styled.h2`
-  color: ${colors("black300")};
-`;
-interface NoResultProps {
+interface Prop {
   title: string;
+  comment1?: string;
+  comment2?: string;
+  height?: string;
 }
-const NoResult = ({ title = "결과가 없습니다." }: NoResultProps) => {
+
+const NoResult = ({ title, comment1, comment2, height = "500px" }: Prop) => {
   return (
-    <SNoResultBox>
-      <SH2>{title}</SH2>
-      <img src={Logo} alt="메인 로고" width="55px" />
-    </SNoResultBox>
+    <SContainer height={height}>
+      <img src={logo} alt="noResult" />
+      <p>{title}</p>
+      {comment1 && <p>{comment1}</p>}
+      {comment2 && <p>{comment2}</p>}
+    </SContainer>
   );
 };
 

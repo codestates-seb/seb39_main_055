@@ -9,6 +9,7 @@ import ScrollContents from "./ScrollContents";
 const Container = styled.div`
   height: 851px;
   position: relative;
+  cursor: pointer;
 
   ${mobile(css`
     width: 100%;

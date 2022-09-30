@@ -22,6 +22,7 @@ const SContainer = styled.div`
   overflow-x: hidden;
   flex-direction: column;
   width: 100%;
+  cursor: pointer;
 
   height: auto;
   padding: 20px 40px 80px 40px;
@@ -43,7 +44,7 @@ const SContainer = styled.div`
 const SItemContainer = styled.div`
   width: 690px;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 `;
 
 const SHeader = styled.div`
@@ -53,6 +54,7 @@ const SHeader = styled.div`
   width: auto;
   padding-left: 10px;
   gap: 5px;
+  margin-bottom: 15px;
 
   & > img {
     width: 24px;
@@ -77,6 +79,10 @@ const SCard = styled.div`
   margin: 5px;
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.colors.black050};
+
+  :hover {
+    opacity: 0.6;
+  }
 
   & > img {
     object-fit: cover;
@@ -110,6 +116,16 @@ const SNickname = styled.div`
   color: ${({ theme }) => theme.colors.orange500};
 `;
 const MyPostList = () => {
+  const cutStringLength = (str: string, maxLength: number) => {
+    if (str === undefined || str === null) {
+      return "";
+    }
+    if (str.length > maxLength) {
+      str = `${str.substring(0, maxLength)}...`;
+    }
+    return str;
+  };
+
   return (
     <SContainer>
       <SHeader>
@@ -131,7 +147,7 @@ const MyPostList = () => {
                 />
                 <STextInfo>
                   {/* data.body의 앞부분 일부가 제목으로. */}
-                  <STitle>{post.data.body.substring(0, 16)}</STitle>
+                  <STitle>{cutStringLength(post.data.body, 13)}</STitle>
                   {/* 년,월,일 까지만 출력 */}
                   <SCreatedAt>
                     {post.data.createdAt.substring(0, 10)}

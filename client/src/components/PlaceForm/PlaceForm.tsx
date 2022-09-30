@@ -9,6 +9,7 @@ import usePlace from "../../apis/place/hooks/usePlace";
 import { useCheckbox, useValidate } from "../../hooks";
 import { ThreadImages } from "../../types";
 import {
+  compareImageList,
   descriptionValidation,
   notBlank,
   phoneNumberValidation,
@@ -94,7 +95,8 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
         prevState.addressName === addressValue &&
         prevState.phone === phoneNumberValue &&
         prevState.homepage === homePageValue &&
-        prevState.body === descriptionValue
+        prevState.body === descriptionValue &&
+        compareImageList(prevState.storeImages, images)
       ) {
         openModal(<ErrorModal body="변경된 내용이 없습니다." />);
         return;
