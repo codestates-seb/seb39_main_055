@@ -16,12 +16,11 @@ import { menuList } from "../../constants";
 
 const Container = styled.div`
   min-height: inherit;
-  padding-top: 700px;
+  padding-top: 650px;
 
   & > section {
     display: flex;
     flex-direction: column;
-    /* gap: 300px; */
 
     & > div:nth-child(1) {
       margin-bottom: 70px;
@@ -46,12 +45,31 @@ const Container = styled.div`
     & > div:nth-child(6) {
       margin-bottom: 180px;
     }
-  }
 
-  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
-    & > section {
-      gap: 100px;
-      padding: 0 20px;
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+      & > div:nth-child(1) {
+        margin-bottom: 100px;
+      }
+
+      & > menu:nth-child(2) {
+        margin-bottom: 150px;
+      }
+
+      & > div:nth-child(3) {
+        margin-bottom: 150px;
+      }
+
+      & > div:nth-child(4) {
+        margin-bottom: 150px;
+      }
+
+      & > div:nth-child(5) {
+        margin-bottom: 150px;
+      }
+
+      & > div:nth-child(6) {
+        margin-bottom: 150px;
+      }
     }
   }
 `;
