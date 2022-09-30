@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,10 +11,6 @@ const Search = () => {
 
   const keyword = params.get("search");
   const category = params.get("category") || "all";
-
-  useEffect(() => {
-    window.scrollTo({ top: 155, behavior: "smooth" });
-  }, [keyword]);
 
   if (keyword === null) {
     toast.error("유효하지 않은 접근입니다.");
