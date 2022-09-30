@@ -26,8 +26,8 @@ const SContainer = styled.div`
     justify-content: flex-start;
     gap: 10px;
   `)}
-
-  & > h1 {
+  &
+    > h1 {
     font-size: 42px;
     font-weight: bold;
     ${mobile(css`
@@ -101,6 +101,7 @@ const SMyInfo = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  cursor: pointer;
 
   ${mobile(css`
     flex-direction: row;
@@ -288,9 +289,9 @@ const Resignation = styled.div`
 const Mypage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
-  }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
+  // }, []);
 
   const localstorageData = JSON.parse(
     localStorage.getItem("recentPlace") as string
@@ -311,11 +312,12 @@ const Mypage = () => {
                 글 작성하기
                 <MdArrowForwardIos />
               </WritePost>
-              <RegistCompany onClick={() => navigate("/signup")}>
+              {/* 롤에따라 매장등록하기/업주등록하기로 바뀔것 */}
+              <RegistCompany onClick={() => navigate("/place/new")}>
                 업주등록하기
                 <MdArrowForwardIos />
               </RegistCompany>
-              <EditUserInfo onClick={() => navigate("/login")}>
+              <EditUserInfo onClick={() => navigate("/mypage/edit")}>
                 회원정보수정
                 <MdArrowForwardIos />
               </EditUserInfo>

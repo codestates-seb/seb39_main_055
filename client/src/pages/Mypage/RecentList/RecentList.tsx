@@ -14,6 +14,8 @@ const SContainer = styled.div`
   overflow-x: hidden;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 40px;
+  cursor: pointer;
 
   height: auto;
   padding: 20px 40px 20px 40px;
@@ -26,7 +28,7 @@ const SContainer = styled.div`
 
   ${mobile(css`
     justify-content: center;
-    width: 260px;
+    width: 250px;
     height: auto;
     padding: 40px 0px 0px 25px;
   `)}
@@ -35,7 +37,7 @@ const SContainer = styled.div`
 const SItemContainer = styled.div`
   width: 690px;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 `;
 
 const SHeader = styled.div`
@@ -45,6 +47,7 @@ const SHeader = styled.div`
   width: auto;
   padding-left: 10px;
   gap: 5px;
+  margin-bottom: 15px;
 
   & > img {
     width: 24px;
@@ -70,6 +73,10 @@ const SCard = styled.div`
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.colors.black050};
 
+  :hover {
+    opacity: 0.6;
+  }
+
   & > img {
     object-fit: cover;
     justify-content: space-between;
@@ -87,23 +94,33 @@ const STextInfo = styled.div`
   gap: 4px;
 `;
 
-const STitle = styled.div`
+const SCategory = styled.div`
   font-weight: bold;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.orange500};
 `;
 
-const SArea = styled.div`
+const SAddress = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black400};
 `;
 
-const SText = styled.div`
+const SStoreName = styled.div`
   font-size: 16px;
   line-height: 23px;
 `;
 
 const RecentList = () => {
+  const cutStringLength = (str: string, maxLength: number) => {
+    if (str === undefined || str === null) {
+      return "";
+    }
+    if (str.length > maxLength) {
+      str = `${str.substring(0, maxLength)}...`;
+    }
+    return str;
+  };
+
   const getRecentList = window.localStorage.getItem("recentPlace");
 
   const localstorageData = getRecentList ? (
@@ -138,9 +155,11 @@ const RecentList = () => {
                     key={place.storeId}
                   />
                   <STextInfo>
-                    <STitle>{place.category}</STitle>
-                    <SArea>{place.addressName}</SArea>
-                    <SText>{place.storeName}</SText>
+                    <SCategory>{place.category}</SCategory>
+                    <SAddress>{place.addressName}</SAddress>
+                    <SStoreName>
+                      {cutStringLength(place.storeName, 13)}
+                    </SStoreName>
                   </STextInfo>
                 </SCard>
               </SCardContainer>

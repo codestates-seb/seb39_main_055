@@ -1,10 +1,17 @@
 import { CgFontSpacing } from "react-icons/cg";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
+import { getHeartList } from "../../../apis/user/heartList";
 import { mobile, tablet } from "../../../assets";
 import like from "../../../assets/icons/like.png";
 import likeRed from "../../../assets/icons/likeRed.png";
-import user from "../../../assets/images/mypage/user.png";
+import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
+import { LoadingSpinner } from "../../../components";
+import { useAppSelector } from "../../../redux";
+import { Store } from "../../../types";
+import { axiosInstance } from "../../../utils";
 import NoImage from "../RecentList/NoImage";
 import { heartDummyData } from "./HeartDummyData";
 
@@ -23,6 +30,8 @@ const SContainer = styled.div`
   overflow-x: hidden;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 40px;
+  cursor: pointer;
 
   height: auto;
   padding: 80px 40px 20px 40px;
@@ -44,7 +53,7 @@ const SContainer = styled.div`
 const SItemContainer = styled.div`
   width: 690px;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 `;
 
 const SHeader = styled.div`
@@ -54,6 +63,7 @@ const SHeader = styled.div`
   width: auto;
   padding-left: 10px;
   gap: 5px;
+  margin-bottom: 15px;
 
   & > img {
     width: 24px;
@@ -78,6 +88,10 @@ const SCard = styled.div`
   margin: 5px;
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.colors.black050};
+
+  :hover {
+    opacity: 0.6;
+  }
 `;
 
 const CardImage = styled.div`
@@ -124,9 +138,43 @@ const SRedLikeIcon = styled.span`
   top: 82%;
   right: 7%;
 `;
+
+const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 380px);
+`;
+
 // console.log(heartDummyData);
 
 const HeartList = () => {
+  const cutStringLength = (str: string, maxLength: number) => {
+    if (str === undefined || str === null) {
+      return "";
+    }
+    if (str.length > maxLength) {
+      str = `${str.substring(0, maxLength)}...`;
+    }
+    return str;
+  };
+
+  const { userInfos } = useAppSelector((state) => state.user);
+  const params = useParams();
+  const { data, isLoading } = useQuery(
+    ["heart", userInfos?.userId],
+    getHeartList
+  );
+  console.log(params);
+  if (isLoading) {
+    return (
+      <SLoadingContainer>
+        <LoadingSpinner />
+      </SLoadingContainer>
+    );
+  }
+  // console.log(data);
   return (
     <SContainer>
       <SHeader>
@@ -134,8 +182,8 @@ const HeartList = () => {
         <div>찜</div>
       </SHeader>
       <SItemContainer>
-        {heartDummyData.length > 0 ? (
-          heartDummyData.map((heart: any) => (
+        {(data?.length as number) > 0 ? (
+          data?.map((heart: any) => (
             <SCardContainer key={heart.store.storeId}>
               <SCard>
                 <CardImage>
@@ -143,8 +191,8 @@ const HeartList = () => {
                     src={
                       heart.storeImages.length >= 1
                         ? heart.storeImages[0].storeImage
-                        : user
-                    } // 기본이미지 수정 필요
+                        : defaultImg
+                    }
                     alt={heart.store.storeId}
                   />
                   <SRedLikeIcon>
@@ -159,7 +207,7 @@ const HeartList = () => {
                       : null}
                     {/* splice(" ").slice(0, 4).join(" ")..? 시,구,군까지 출력 */}
                   </SArea>
-                  <SText>{heart.store.storeName}</SText>
+                  <SText>{cutStringLength(heart.store.storeName, 13)}</SText>
                 </STextInfo>
               </SCard>
             </SCardContainer>
@@ -175,5 +223,4 @@ const HeartList = () => {
     </SContainer>
   );
 };
-
 export default HeartList;
