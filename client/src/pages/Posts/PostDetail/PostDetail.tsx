@@ -1,22 +1,10 @@
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import {
-  cancelPostHeart,
-  getInfiniteReply,
-  getPostDetail,
-  registerPostHeart,
-  registerReply,
-} from "../../../apis";
+import { usePostDetail } from "../../../apis";
 import {
   ButtonWhite,
   LoadingSpinner,
@@ -140,26 +128,21 @@ export const SButtonContainer = styled.div`
 
 const PostDetail = () => {
   const params = useParams();
-  const queryClient = useQueryClient();
+  const { openModal } = useModal();
   const [isLike, setIsLike] = useState(false);
   const { userInfos, loginStatus } = useAppSelector((state) => state.user);
-  const { openModal } = useModal();
 
-  const { data, isLoading } = useQuery(["post", params.id], () =>
-    getPostDetail(Number(params.id))
-  );
-  const { mutate: registerHeartMutate } = useMutation(registerPostHeart, {
-    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
-  });
-  const { mutate: cancelHeartMutate } = useMutation(cancelPostHeart, {
-    onSuccess: () => queryClient.invalidateQueries(["post", params.id]),
-  });
-  const { mutate: registerReplyMutate } = useMutation(registerReply, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["post", params.id]);
-      queryClient.invalidateQueries(["reply", params.id]);
-    },
-  });
+  const {
+    data,
+    isLoading,
+    registerHeartMutate,
+    cancelHeartMutate,
+    registerReplyMutate,
+    replyData,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = usePostDetail(Number(params.id));
 
   const handleHeartClick = () => {
     if (!loginStatus) {
@@ -181,25 +164,6 @@ const PostDetail = () => {
       setIsLike(false);
     }
   }, [userInfos, data]);
-
-  const {
-    data: replyData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery(
-    ["reply", params.id],
-    ({ pageParam = 1 }) => getInfiniteReply(Number(params.id), pageParam),
-    {
-      getNextPageParam: (lastPage) => {
-        const { totalPages } = lastPage.data.replies.pageInfo;
-        if (lastPage.nextPage <= totalPages) {
-          return lastPage.nextPage;
-        }
-        return undefined;
-      },
-    }
-  );
 
   if (isLoading) {
     return (

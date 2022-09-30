@@ -22,15 +22,15 @@ const ReplyCard = ({ reply }: Prop) => {
 
   const { mutate: deleteReplyMutate } = useMutation(deleteReply, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post", params.id]);
-      queryClient.invalidateQueries(["reply", params.id]);
+      queryClient.invalidateQueries(["post", Number(params.id)]);
+      queryClient.invalidateQueries(["reply", Number(params.id)]);
     },
   });
 
   const { mutate: editReplyMutate } = useMutation(editReply, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post", params.id]);
-      queryClient.invalidateQueries(["reply", params.id]);
+      queryClient.invalidateQueries(["post", Number(params.id)]);
+      queryClient.invalidateQueries(["reply", Number(params.id)]);
       setIsEdit(false);
     },
   });
