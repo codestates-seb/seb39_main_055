@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { NoResult } from "../../../../components";
 import { Post } from "../../../../types";
+import { getDateToString } from "../../../../utils";
 import {
   SBody,
   SCard,
@@ -32,10 +33,10 @@ const PostCard = ({ data }: Prop) => {
         <SInfo>
           <img src={data?.user.image} alt="profile" />
           <span>{data?.user.nickname}</span>
-          <span>{data?.updatedAt}</span>
+          <span>{getDateToString(data?.updatedAt)}</span>
         </SInfo>
         <SBody>
-          <p>{parse(data?.body)}</p>
+          <div>{parse(data?.body)}</div>
         </SBody>
         <SLike>
           <span>

@@ -60,6 +60,10 @@ export const SMainContainer = styled.section`
   justify-content: space-between;
   gap: 10px;
   padding: 10px;
+
+  @media screen and (max-width: 800px) {
+    padding-bottom: 0;
+  }
 `;
 
 export const SInfo = styled.div`
@@ -98,6 +102,10 @@ export const SBody = styled.div`
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  @media screen and (max-width: 800px) {
+    -webkit-line-clamp: 3;
+  }
 `;
 
 export const SLike = styled.div`
