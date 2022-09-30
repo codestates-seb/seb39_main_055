@@ -114,7 +114,7 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
   return (
     <STextAreaContainer>
       <STextArea
-        placeholder="리뷰를 작성해주세요."
+        placeholder="다양한 이야기를 공유해주세요 :)"
         value={replyValue}
         onFocus={handleFocus}
         onChange={(e) => setReplyValue(e.target.value)}
