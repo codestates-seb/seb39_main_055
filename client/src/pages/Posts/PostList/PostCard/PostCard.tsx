@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import defaultImg from "../../../../assets/images/logo/logo_gary.jpg";
 import { NoResult } from "../../../../components";
 import { Post } from "../../../../types";
 import {

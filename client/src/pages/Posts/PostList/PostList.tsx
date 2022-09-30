@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +5,10 @@ import styled from "styled-components";
 
 import { getPostList } from "../../../apis";
 import speaker from "../../../assets/icons/speaker.svg";
-import { LoginModal, useModal } from "../../../components";
+import { LoadingSpinner, LoginModal, useModal } from "../../../components";
+import { useIntersect } from "../../../hooks";
 import { useAppSelector } from "../../../redux";
 import PostCard from "./PostCard/PostCard";
-import { postData } from "./PostData";
 
 export const SContainer = styled.div`
   display: flex;
@@ -73,20 +72,9 @@ export const SButtonContainer = styled.section`
   }
 `;
 
-const useIntersection = (
-  callback: IntersectionObserverCallback,
-  options?: IntersectionObserverInit
-) => {
-  const target = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(target.current as HTMLDivElement);
-    return () => observer.disconnect();
-  }, [callback, options]);
-
-  return target;
-};
+export const SFetchContainer = styled.section`
+  margin-bottom: 70px;
+`;
 
 const PostList = () => {
   const navigate = useNavigate();
@@ -102,60 +90,18 @@ const PostList = () => {
     navigate("/post/new");
   };
 
-  type IntersectHandler = (
-    entry: IntersectionObserverEntry,
-    observer: IntersectionObserver
-  ) => void;
-
-  const useIntersect = (
-    onIntersect: IntersectHandler,
-    options?: IntersectionObserverInit
-  ) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const callback = useCallback(
-      (
-        entries: IntersectionObserverEntry[],
-        observer: IntersectionObserver
-      ) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) onIntersect(entry, observer);
-        });
-      },
-      [onIntersect]
-    );
-
-    useEffect(() => {
-      if (!ref.current) return;
-
-      const observer = new IntersectionObserver(callback, options);
-      observer.observe(ref.current);
-
-      return () => observer.disconnect();
-    }, [ref, options, callback]);
-
-    return ref;
-  };
-
-  const useFetchPostList = () => {
-    const { data, hasNextPage, isFetching, fetchNextPage, isLoading } =
-      useInfiniteQuery("post", ({ pageParam = 1 }) => getPostList(pageParam), {
-        getNextPageParam: (lastPage) => {
-          const { totalPages } = lastPage.pageInfo;
-          if (lastPage.nextPage <= totalPages) {
-            return lastPage.nextPage;
-          }
-          return undefined;
-        },
-        onSuccess: (data) => console.log(data),
-      });
-
-    return { data, hasNextPage, isFetching, fetchNextPage, isLoading };
-  };
-
   const { data, hasNextPage, isFetching, fetchNextPage, isLoading } =
-    useFetchPostList();
+    useInfiniteQuery("post", ({ pageParam = 1 }) => getPostList(pageParam), {
+      getNextPageParam: (lastPage) => {
+        const { totalPages } = lastPage.pageInfo;
+        if (lastPage.nextPage <= totalPages) {
+          return lastPage.nextPage;
+        }
+        return undefined;
+      },
+    });
 
-  const ref = useIntersect(async (entry, observer) => {
+  const target = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
     if (hasNextPage && !isFetching) {
       fetchNextPage();
@@ -166,8 +112,6 @@ const PostList = () => {
     () => (data ? data.pages.flatMap(({ data }) => data) : []),
     [data]
   );
-
-  console.log(list);
 
   if (isLoading) {
     return <div>Loading</div>;
@@ -189,7 +133,12 @@ const PostList = () => {
           <PostCard key={data?.threadId} data={data} />
         ))}
       </SListContainer>
-      <div ref={ref}>target</div>
+      <div ref={target} />
+      {isFetching && (
+        <SFetchContainer>
+          <LoadingSpinner />
+        </SFetchContainer>
+      )}
     </SContainer>
   );
 };
