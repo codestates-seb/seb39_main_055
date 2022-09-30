@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { LoginModal, useModal } from "../../../../components";
+import { ErrorModal, LoginModal, useModal } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 
 export const STextAreaContainer = styled.div`
@@ -95,7 +95,12 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
   };
 
   const handleSubmit = () => {
-    submitCallback(replyValue);
+    if (isEdit && body === replyValue) {
+      openModal(<ErrorModal body="변경된 내용이 없습니다." />);
+      return;
+    }
+
+    submitCallback(replyValue.trim());
     setReplyValue("");
   };
 
@@ -120,7 +125,7 @@ const PostForm = ({ isEdit, setIsEdit, body = "", submitCallback }: Prop) => {
           <SCancelButton onClick={() => setIsEdit(false)}>취소</SCancelButton>
         )}
         <SButton disabled={validate} onClick={handleSubmit}>
-          입력
+          {isEdit ? "수정" : "입력"}
         </SButton>
       </div>
     </STextAreaContainer>
