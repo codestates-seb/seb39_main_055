@@ -1,8 +1,13 @@
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
+import { getThreadList } from "../../../apis/user/threadList";
 import { mobile, tablet } from "../../../assets";
 import photoShoot from "../../../assets/icons/photoShoot.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
+import { LoadingSpinner } from "../../../components";
+import { useAppSelector } from "../../../redux";
 import NoImage from "../RecentList/NoImage";
 import { post } from "./PostDummyData";
 
@@ -115,6 +120,15 @@ const SNickname = styled.div`
   line-height: 23px;
   color: ${({ theme }) => theme.colors.orange500};
 `;
+
+const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 const MyPostList = () => {
   const cutStringLength = (str: string, maxLength: number) => {
     if (str === undefined || str === null) {
@@ -126,6 +140,23 @@ const MyPostList = () => {
     return str;
   };
 
+  const { userInfos } = useAppSelector((state) => state.user);
+  const { data, isLoading } = useQuery(
+    ["thread", userInfos?.userId],
+    getThreadList,
+    { retry: 1, cacheTime: 0 }
+  );
+  if (isLoading) {
+    return (
+      <SContainer>
+        <SLoadingContainer>
+          <LoadingSpinner />
+        </SLoadingContainer>
+      </SContainer>
+    );
+  }
+  // console.log(data);
+
   return (
     <SContainer>
       <SHeader>
@@ -133,8 +164,8 @@ const MyPostList = () => {
         <div>댕댕이숲</div>
       </SHeader>
       <SItemContainer>
-        {post.length > 0 ? (
-          post.map((post: any) => (
+        {(data?.length as number) > 0 ? (
+          data?.map((post: any) => (
             <SCardContainer key={post.data.threadId}>
               <SCard>
                 <img
