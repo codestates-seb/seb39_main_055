@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import logo from "../../assets/images/logo/logo-cat.svg";
 
-export const SContainer = styled.div<{ height: string }>`
+export const SContainer = styled.section<{ height: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,8 +19,8 @@ export const SContainer = styled.div<{ height: string }>`
     margin-bottom: 20px;
   }
 
-  & > p:nth-child(2) {
-    color: #161616 !important;
+  & > h1 {
+    color: #161616;
     font-size: 16px;
   }
 
@@ -34,13 +34,20 @@ interface Prop {
   comment1?: string;
   comment2?: string;
   height?: string;
+  className?: string;
 }
 
-const NoResult = ({ title, comment1, comment2, height = "500px" }: Prop) => {
+const NoResult = ({
+  title,
+  comment1,
+  comment2,
+  height = "500px",
+  className,
+}: Prop) => {
   return (
-    <SContainer height={height}>
+    <SContainer height={height} className={className}>
       <img src={logo} alt="noResult" />
-      <p>{title}</p>
+      <h1>{title}</h1>
       {comment1 && <p>{comment1}</p>}
       {comment2 && <p>{comment2}</p>}
     </SContainer>

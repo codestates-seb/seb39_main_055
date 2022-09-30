@@ -11,7 +11,7 @@ import { averageStar, axiosInstance, calculateDistance } from "../../utils";
 import NoResult from "../NoResult/NoResult";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
-import { SBottomBox, SUList } from "./style";
+import { NoSearchResult, SBottomBox, SUList } from "./style";
 
 export interface Review {
   reviewId: string;
@@ -189,7 +189,7 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
       {isFetching || places.length ? (
         <SUList>{renderPlaceCards(places, [latitude, longitude])}</SUList>
       ) : (
-        <NoResult title="검색 결과가 없습니다." />
+        <NoSearchResult title="검색 결과가 없습니다." height="650px" />
       )}
       <SBottomBox ref={bottom} />
     </>
