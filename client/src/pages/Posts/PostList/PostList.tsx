@@ -1,9 +1,8 @@
 import { useMemo } from "react";
-import { useInfiniteQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPostList, usePostList } from "../../../apis";
+import { usePostList } from "../../../apis";
 import speaker from "../../../assets/icons/speaker.svg";
 import { LoadingSpinner, LoginModal, useModal } from "../../../components";
 import { useIntersect } from "../../../hooks";
