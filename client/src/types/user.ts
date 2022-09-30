@@ -13,6 +13,7 @@ export interface UserInfos {
 
 export interface User {
   loginStatus: boolean;
+  locationPermission: boolean;
   userInfos: UserInfos | null;
   keepLoggedIn: boolean;
   token: string;
