@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { getPostList } from "../../../apis";
+import { getPostList, usePostList } from "../../../apis";
 import speaker from "../../../assets/icons/speaker.svg";
 import { LoadingSpinner, LoginModal, useModal } from "../../../components";
 import { useIntersect } from "../../../hooks";
@@ -89,15 +89,6 @@ const PostList = () => {
   const { openModal } = useModal();
   const { loginStatus } = useAppSelector((state) => state.user);
 
-  const handlePostButtonClick = () => {
-    if (!loginStatus) {
-      openModal(<LoginModal />);
-      return;
-    }
-
-    navigate("/post/new");
-  };
-
   const {
     data,
     hasNextPage,
@@ -105,15 +96,12 @@ const PostList = () => {
     isLoading,
     isFetching,
     isFetchingNextPage,
-  } = useInfiniteQuery("post", ({ pageParam = 1 }) => getPostList(pageParam), {
-    getNextPageParam: (lastPage) => {
-      const { totalPages } = lastPage.pageInfo;
-      if (lastPage.nextPage <= totalPages) {
-        return lastPage.nextPage;
-      }
-      return undefined;
-    },
-  });
+  } = usePostList();
+
+  const postList = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data) : []),
+    [data]
+  );
 
   const observedTarget = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -122,10 +110,14 @@ const PostList = () => {
     }
   });
 
-  const postList = useMemo(
-    () => (data ? data.pages.flatMap(({ data }) => data) : []),
-    [data]
-  );
+  const handlePostButtonClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+
+    navigate("/post/new");
+  };
 
   return (
     <SContainer>
