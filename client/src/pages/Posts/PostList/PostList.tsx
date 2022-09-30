@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -72,6 +72,14 @@ export const SButtonContainer = styled.section`
   }
 `;
 
+export const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 800px);
+`;
+
 export const SFetchContainer = styled.section`
   margin-bottom: 70px;
 `;
@@ -90,32 +98,34 @@ const PostList = () => {
     navigate("/post/new");
   };
 
-  const { data, hasNextPage, isFetching, fetchNextPage, isLoading } =
-    useInfiniteQuery("post", ({ pageParam = 1 }) => getPostList(pageParam), {
-      getNextPageParam: (lastPage) => {
-        const { totalPages } = lastPage.pageInfo;
-        if (lastPage.nextPage <= totalPages) {
-          return lastPage.nextPage;
-        }
-        return undefined;
-      },
-    });
+  const {
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isLoading,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery("post", ({ pageParam = 1 }) => getPostList(pageParam), {
+    getNextPageParam: (lastPage) => {
+      const { totalPages } = lastPage.pageInfo;
+      if (lastPage.nextPage <= totalPages) {
+        return lastPage.nextPage;
+      }
+      return undefined;
+    },
+  });
 
-  const target = useIntersect(async (entry, observer) => {
+  const observedTarget = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
     if (hasNextPage && !isFetching) {
       fetchNextPage();
     }
   });
 
-  const list = useMemo(
+  const postList = useMemo(
     () => (data ? data.pages.flatMap(({ data }) => data) : []),
     [data]
   );
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
 
   return (
     <SContainer>
@@ -129,12 +139,16 @@ const PostList = () => {
         </button>
       </SButtonContainer>
       <SListContainer>
-        {list.map((data) => (
-          <PostCard key={data?.threadId} data={data} />
-        ))}
+        {isLoading ? (
+          <SLoadingContainer>
+            <LoadingSpinner />
+          </SLoadingContainer>
+        ) : (
+          postList.map((data) => <PostCard key={data?.threadId} data={data} />)
+        )}
       </SListContainer>
-      <div ref={target} />
-      {isFetching && (
+      <div ref={observedTarget} />
+      {isFetchingNextPage && (
         <SFetchContainer>
           <LoadingSpinner />
         </SFetchContainer>
