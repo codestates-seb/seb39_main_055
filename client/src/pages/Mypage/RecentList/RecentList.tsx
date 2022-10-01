@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
@@ -111,6 +112,8 @@ const SStoreName = styled.div`
 `;
 
 const RecentList = () => {
+  const navigate = useNavigate();
+
   const cutStringLength = (str: string, maxLength: number) => {
     if (str === undefined || str === null) {
       return "";
@@ -153,6 +156,7 @@ const RecentList = () => {
                     }
                     alt="장소이미지"
                     key={place.storeId}
+                    onClick={() => navigate("/place/{storeId}")}
                   />
                   <STextInfo>
                     <SCategory>{place.category}</SCategory>
