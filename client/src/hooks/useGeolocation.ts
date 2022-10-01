@@ -12,7 +12,9 @@ import {
   useAppSelector,
 } from "../redux";
 
-const useGeolocation: () => [boolean] = () => {
+type UseGeolocationReturn = () => [boolean];
+
+const useGeolocation: UseGeolocationReturn = () => {
   const dispatch = useAppDispatch();
   const permissionRef = useRef<PermissionStatus>();
   const { loginStatus, locationPermission } = useAppSelector(selectUser);

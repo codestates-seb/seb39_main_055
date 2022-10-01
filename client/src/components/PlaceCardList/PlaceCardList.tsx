@@ -1,5 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable consistent-return */
+import { MutableRefObject } from "react";
+
 import useListPlaces from "../../apis/place/useListPlaces";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { PageInfo, UserInfos } from "../../types";
@@ -97,11 +99,37 @@ const renderPlaceCards = (
   });
 };
 
-type QueryFn<T> = (
-  pageParam: number,
-  category: string,
-  extrArgs: T
-) => Promise<StoreList[]>;
+function matchDataToStatus(
+  isFetching: boolean,
+  result: StoreList[] | undefined,
+  allResult: MutableRefObject<StoreList[] | undefined>,
+  itemsPerPage: MutableRefObject<number>
+) {
+  const { current } = allResult;
+  // 로딩중임을 알려줄 Skeleton을 보여주기 위해 더미 배열 덧붙임
+  const dummyArr = new Array(itemsPerPage.current).fill(0);
+  const data = result || [];
+
+  // 전체 결과(allResults.current)가 없으면 다른 카테고리에서 로딩중 Skeleton을 덧붙일 필요가 없음
+  if (current && !current.length) return [];
+  if (!isFetching) return data;
+
+  // 1. 컴포넌트가 마운트될 때(result === undefined), 2. API 응답을 기다릴 때, 로딩중 Skeleton을 덧붙임
+  return data.concat(dummyArr);
+}
+
+function errorHandler(result: StoreList[], isError: boolean) {
+  let title = "";
+
+  if (isError) {
+    title = "알 수 없는 오류가 발생했습니다. (¯―¯٥)";
+  }
+  if (!isError && result) {
+    title = "검색 결과가 없습니다. (⚲_⚲)";
+  }
+
+  return <NoSearchResult title={title} height="650px" />;
+}
 
 interface ResultListProps {
   category: string;
@@ -109,21 +137,17 @@ interface ResultListProps {
 }
 const PlaceList = ({ keyword, category }: ResultListProps) => {
   const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
-  const { data, allResults, isFetching, bottomRef, itemsPerPage } =
+  const { items, allResult, isFetching, isError, bottomRef, itemsPerPage } =
     useListPlaces({ category, longitude, latitude, keyword });
 
-  const results = data?.pages || [];
-  const places =
-    isFetching && allResults.current?.length
-      ? results.concat(new Array(itemsPerPage.current).fill(0))
-      : results;
+  const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
 
   return (
     <>
-      {isFetching || places.length ? (
+      {places.length > 0 ? (
         <SUList>{renderPlaceCards(places, [latitude, longitude])}</SUList>
       ) : (
-        <NoSearchResult title="검색 결과가 없습니다." height="650px" />
+        errorHandler(places, isError)
       )}
       <SBottomBox ref={bottomRef} />
     </>
