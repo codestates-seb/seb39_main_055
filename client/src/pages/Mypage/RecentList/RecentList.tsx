@@ -147,7 +147,7 @@ const RecentList = () => {
         {localstorageData.length > 0
           ? localstorageData.map((place: any) => (
               <SCardContainer key={place.storeId}>
-                <SCard>
+                <SCard onClick={() => navigate("/place/{storeId}")}>
                   <img
                     src={
                       place.storeImages.length >= 1
@@ -156,7 +156,6 @@ const RecentList = () => {
                     }
                     alt="장소이미지"
                     key={place.storeId}
-                    onClick={() => navigate("/place/{storeId}")}
                   />
                   <STextInfo>
                     <SCategory>{place.category}</SCategory>
