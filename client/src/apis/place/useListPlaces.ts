@@ -59,55 +59,54 @@ const useListPlaces = ({
 }: UseListPlacesParams) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const itemsPerPage = useRef(16);
-  const allResults = useRef<StoreList[] | undefined>();
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
-    SearchResponse,
-    unknown,
-    StoreList
-  >(
-    ["placeList", keyword, category, longitude, latitude],
-    async ({ pageParam = 1 }) => {
-      if (!(category in mappedCategories)) return;
+  const allResult = useRef<StoreList[] | undefined>();
+  const { data, fetchNextPage, hasNextPage, isFetching, isError } =
+    useInfiniteQuery<SearchResponse, unknown, StoreList>(
+      ["placeList", keyword, category, longitude, latitude],
+      async ({ pageParam = 1 }) => {
+        if (!(category in mappedCategories)) return;
 
-      const keywordParam = keyword ? `/search?keyword=${keyword}&` : "?";
-      // 카테고리: 클라이언트의 category 쿼리 스트링과 서버 API 요청 URL이 다른 부분 맞춰줌
-      const serverCategory =
-        mappedCategories[category as keyof typeof mappedCategories];
-      const { data } = await axiosInstance(
-        `v1/store${keywordParam}category=${serverCategory}&page=${pageParam}&size=${itemsPerPage.current}&sort=${sort}&latitude=${latitude}&longitude=${longitude}`
-      );
+        const keywordParam = keyword ? `/search?keyword=${keyword}&` : "?";
+        // 카테고리: 클라이언트의 category 쿼리 스트링과 서버 API 요청 URL이 다른 부분 맞춰줌
+        const serverCategory =
+          mappedCategories[category as keyof typeof mappedCategories];
+        const { data } = await axiosInstance(
+          `v1/store${keywordParam}category=${serverCategory}&page=${pageParam}&size=${itemsPerPage.current}&sort=${sort}&latitude=${latitude}&longitude=${longitude}`
+        );
 
-      return data;
-    },
-    {
-      enabled: !!(longitude && latitude),
-      retry: 2,
-      refetchOnWindowFocus: false,
-      getNextPageParam: ({ pageInfo }) => {
-        const { page, totalPages } = pageInfo;
-        let nextPage: number | undefined = page + 1;
-
-        if (nextPage > totalPages) {
-          nextPage = undefined;
-        }
-
-        return nextPage;
+        return data;
       },
-      select: (data) => {
-        // UI에 나타낼 때, 서버 데이터의 data 속성만 필요하지만 아무 처리 없이 사용할 경우,
-        // data.pages[i].data로 데이터를 맵핑해야 해 번거로워짐
-        const transformedPages = data.pages.map(({ data }) => data).flat();
+      {
+        enabled: !!(longitude && latitude),
+        retry: 2,
+        refetchOnWindowFocus: false,
+        getNextPageParam: ({ pageInfo }) => {
+          const { page, totalPages } = pageInfo;
+          let nextPage: number | undefined = page + 1;
 
-        return { ...data, pages: transformedPages };
-      },
-      onSettled: (data) => {
-        const { pages } = data || {};
-        if (category === "all") {
-          allResults.current = pages;
-        }
-      },
-    }
-  );
+          if (nextPage > totalPages) {
+            nextPage = undefined;
+          }
+
+          return nextPage;
+        },
+        select: (data) => {
+          // UI에 나타낼 때, 서버 데이터의 data 속성만 필요하지만 아무 처리 없이 사용할 경우,
+          // data.pages[i].data로 데이터를 맵핑해야 해 번거로워짐
+          const transformedPages = data.pages.map(({ data }) => data).flat();
+
+          return { ...data, pages: transformedPages };
+        },
+        onSettled: (data) => {
+          const { pages } = data || {};
+
+          // allResults: 전체 검색 결과를 저장해 검색 결과가 없으면 다른 카테고리에서 로딩 Skeleton을 보여주지 않도록 함
+          if (category === "all") {
+            allResult.current = pages;
+          }
+        },
+      }
+    );
 
   useEffect(() => {
     if (!bottomRef.current) return;
@@ -126,11 +125,14 @@ const useListPlaces = ({
     return () => io.disconnect();
   }, [hasNextPage]);
 
+  const items = data?.pages;
+
   return {
-    data,
-    allResults,
+    items,
+    allResult,
     hasNextPage,
     isFetching,
+    isError,
     bottomRef,
     itemsPerPage,
   };
