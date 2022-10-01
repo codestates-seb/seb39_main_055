@@ -1,7 +1,3 @@
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable no-unused-expressions */
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
