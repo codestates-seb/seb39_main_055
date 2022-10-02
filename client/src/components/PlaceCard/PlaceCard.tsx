@@ -1,7 +1,9 @@
 /* eslint-disable react/display-name */
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 import {
+  SaLink,
   SBar,
   SFooter,
   SH1,
@@ -37,15 +39,21 @@ const PlaceCard = memo(
     reviews,
     storeId,
   }: PlaceCardProps) => {
+    const storeLink = `/place/${storeId}`;
+
     return (
       <SList>
-        <SImg src={image} alt={alt} />
+        <SaLink to={storeLink}>
+          <SImg src={image} alt={alt} />
+        </SaLink>
         <SHeader>
           <STopBox>
             <SH2>{location}</SH2>
             <SP>{distance}km</SP>
           </STopBox>
-          <SH1>{storeName}</SH1>
+          <Link to={storeLink}>
+            <SH1>{storeName}</SH1>
+          </Link>
           <SBar />
         </SHeader>
         <SFooter>

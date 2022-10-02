@@ -4,6 +4,7 @@ export { default as calculateDistance } from "./calculateDistance";
 export * from "./compareImageList";
 export * from "./dateFormat";
 export * from "./imageProcessor";
+export { default as localStorageParser } from "./localStorageParser";
 export * from "./placeLocalStorage";
 export * from "./queryClient";
 export { isArrayOfString, isKeyOf } from "./type-guards";

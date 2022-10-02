@@ -23,6 +23,7 @@ export const initialUserInfos: UserInfos = {
 export const initialUser: User = {
   loginStatus: false,
   keepLoggedIn: false,
+  locationPermission: false,
   userInfos: initialUserInfos,
   token: "",
 };
@@ -79,13 +80,9 @@ const userSlice = createSlice({
       state.userInfos.latitude = latitude;
       state.userInfos.longitude = longitude;
     },
-    /* changeUserInfos: (
-      state,
-      { payload }: PayloadAction<Partial<UserInfos>>
-    ) => {
-      const modified = { ...state.userInfos, ...payload };
-      state.userInfos = { ...state.userInfos, ...payload };
-    }, */
+    changeLocationPermission: (state, { payload }: PayloadAction<boolean>) => {
+      state.locationPermission = payload;
+    },
     logOutUser: () => {
       return initialUser;
     },
@@ -101,6 +98,7 @@ export const {
   changeUserNickname,
   changeUserImage,
   changeUserAddress,
+  changeLocationPermission,
   logOutUser,
 } = userSlice.actions;
 export const userReducer: Reducer<typeof initialUser> = userSlice.reducer;

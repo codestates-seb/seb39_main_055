@@ -6,7 +6,6 @@ export const SBox = styled.div`
   display: flex;
   flex-flow: column nowrap;
   row-gap: 20px;
-  margin-bottom: 100px;
 `;
 
 export const SH1 = styled.h1`
