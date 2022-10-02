@@ -33,6 +33,15 @@ export const SInfoContainer = styled.div`
       color: #434343;
       font-size: 18px;
     }
+
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+      flex-direction: column;
+      margin-bottom: 25px;
+
+      & > span:first-child {
+        margin-bottom: 10px;
+      }
+    }
   }
 `;
 

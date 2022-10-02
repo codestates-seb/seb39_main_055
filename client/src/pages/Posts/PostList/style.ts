@@ -6,7 +6,7 @@ export const SContainer = styled.div`
   align-items: center;
   min-height: calc(100vh - 380px);
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1160px) {
     padding: 20px;
   }
 `;
@@ -58,6 +58,12 @@ export const SButtonContainer = styled.section`
       color: #ffffff;
       background-color: #ffc107;
       border-color: #ffc107;
+    }
+
+    @media screen and (max-width: 800px) {
+      width: 70px;
+      height: 45px;
+      font-size: 14px;
     }
   }
 `;

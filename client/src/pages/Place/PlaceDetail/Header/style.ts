@@ -7,21 +7,25 @@ export const SHeader = styled.header`
   & > p {
     color: #434343;
     font-size: 26px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    & > p {
+      font-size: 22px;
+    }
   }
 `;
 
 export const SCategory = styled.p`
   color: #ffc107 !important;
-  font-size: 26px;
-  margin-bottom: 10px;
 `;
 
 export const STitle = styled.div<{ isLike: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 
   & > h1 {
     color: #161616;
@@ -43,12 +47,18 @@ export const STitle = styled.div<{ isLike: boolean }>`
     cursor: pointer;
     transition: all 0.2s;
   }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    & > h1 {
+      font-size: 28px;
+    }
+  }
 `;
 
 export const SScoreContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   & > svg {
     margin-right: 6px;
