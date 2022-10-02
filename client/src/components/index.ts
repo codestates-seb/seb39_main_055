@@ -15,7 +15,6 @@ export { default as PlaceCard } from "./PlaceCard/PlaceCard";
 export { default as PlaceCardList } from "./PlaceCardList/PlaceCardList";
 export { default as PlaceCardListHeader } from "./PlaceCardList/PlaceCardListHeader/PlaceCardListHeader";
 export { default as PlaceForm } from "./PlaceForm/PlaceForm";
-export { default as PlaceList } from "./PlaceList/PlaceList";
 export { default as PreviewImage } from "./ProfileImage/ProfileImage";
 export { default as SearchAddress } from "./SearchAddress/SearchAddress";
 export { default as SharedLayout } from "./SharedLayout/SharedLayout";
