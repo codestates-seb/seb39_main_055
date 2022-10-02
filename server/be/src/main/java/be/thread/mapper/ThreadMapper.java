@@ -159,6 +159,7 @@ public interface ThreadMapper {
                 .stream()
                 .map(threadImage -> {
                     ThreadImageResponseDtos threadImageResponseDtos = new ThreadImageResponseDtos();
+                    threadImageResponseDtos.setThreadImageId(threadImage.getThreadImageId());
                     threadImageResponseDtos.setThreadImage(threadImage.getImage());
                     threadImageResponseDtos.setThreadImageStatus(threadImage.getThreadImageStatus());
                     return threadImageResponseDtos;
