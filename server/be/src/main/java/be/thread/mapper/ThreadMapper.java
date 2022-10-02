@@ -4,6 +4,7 @@ import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
 import be.likes.entity.Likes;
 import be.likes.service.LikesService;
+import be.reply.dto.ReplyResponseDto;
 import be.reply.entity.Reply;
 import be.reply.mapper.ReplyMapper;
 import be.reply.service.ReplyService;
@@ -99,46 +100,69 @@ public interface ThreadMapper {
     }
 
 
-    default ThreadResponseDto threadToThreadResponseDto(
-            UserMapper userMapper, ThreadImageService threadImageService, Thread thread) {
+    default ThreadResponseDto threadToThreadResponseDto(ReplyService replyService,
+                                                        LikesService likesService,
+                                                        ReplyMapper replyMapper,
+                                                        UserMapper userMapper,
+                                                        ThreadImageService threadImageService,
+                                                        Thread thread) {
 
         ThreadResponseDto threadResponseDto = new ThreadResponseDto();
+
+        // Thread -> ThreadResponseDto
+        threadResponseDto.setThreadId(thread.getThreadId());
+        threadResponseDto.setThreadStatus(thread.getThreadStatus());
+        threadResponseDto.setBody(thread.getBody());
+        threadResponseDto.setCreatedAt(thread.getCreatedAt());
+        threadResponseDto.setUpdatedAt(thread.getUpdatedAt());
+
+        // thread 작성자 추가
+        UserResponseDto userResponseDto = userMapper.userToUserResponseDto(thread.getUser());
+        threadResponseDto.setUser(userResponseDto);
 
         // threadImage 추가. 단, 이미지가 없으면 본문(body)만 response로 전달되어야 함.
         threadResponseDto.setThreadImages(threadImagesToThreadImageResponseDtos(
                 threadImageService.findVerifiedThreadImages(thread)
         ));
 
-        // Thread -> ThreadResponseDto
-        threadResponseDto.setThreadId(thread.getThreadId());
-        threadResponseDto.setThreadStatus(thread.getThreadStatus());
-        threadResponseDto.setBody(thread.getBody());
+        // 댓글 추가
+        List<ReplyResponseDto> replyResponseDtos
+                = replyMapper.repliesToExistReplyResponseDtos(replyService, userMapper, thread.getReplies());
+        threadResponseDto.setReplies(replyResponseDtos);
 
-        // thread 작성자 추가
-        User user = thread.getUser();
-        threadResponseDto.setUser(userMapper.userToUserResponseDto(user));
+        // 좋아요
+        List<Likes> likes = likesService.findExistLikesByThread(thread);
+        List<Long> likesUserId = likes.stream()
+                .map(like -> like.getUser().getUserId())
+                .collect(Collectors.toList());
+        threadResponseDto.setLikesUserId(likesUserId);
 
-        // 작성일자, 수정일자 추가
-        threadResponseDto.setCreatedAt(thread.getCreatedAt());
-        threadResponseDto.setUpdatedAt(thread.getUpdatedAt());
-
+        System.out.println(threadResponseDto);
         return threadResponseDto;
     }
 
-    default List<ThreadResponseDto> threadsTothreadResponseDtos(UserMapper userMapper, ThreadImageService threadImageService,List<Thread> threads){
-        return threads.stream().map(thread -> threadToThreadResponseDto(userMapper,threadImageService,thread)).collect(Collectors.toList());
+    default List<ThreadResponseDto> threadsTothreadResponseDtos(ReplyService replyService,
+                                                                LikesService likesService,
+                                                                ReplyMapper replyMapper,
+                                                                UserMapper userMapper,
+                                                                ThreadImageService threadImageService,
+                                                                List<Thread> threads){
+        return threads.stream()
+                .map(thread -> threadToThreadResponseDto(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread))
+                .collect(Collectors.toList());
     }
 
     default List<ThreadImageResponseDtos> threadImagesToThreadImageResponseDtos(List<ThreadImage> threadImages) {
         return threadImages
                 .stream()
-                .map(threadImage -> ThreadImageResponseDtos
-                        .builder()
-                        .threadImageId(threadImage.getThreadImageId())
-                        .image(threadImage.getImage())
-                        .threadImageStatus(threadImage.getThreadImageStatus())
-                        .build())
-                .collect(Collectors.toList());
+                .map(threadImage -> {
+                    ThreadImageResponseDtos threadImageResponseDtos = new ThreadImageResponseDtos();
+                    threadImageResponseDtos.setThreadImage(threadImage.getImage());
+                    threadImageResponseDtos.setThreadImageStatus(threadImage.getThreadImageStatus());
+                    return threadImageResponseDtos;
+                }).collect(Collectors.toList());
     }
 
     default ThreadAndReplyResponseDto threadToThreadAndReplyResponseDto(

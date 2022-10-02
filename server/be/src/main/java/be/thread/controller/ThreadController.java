@@ -56,7 +56,9 @@ public class ThreadController {
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
                 new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
-                        userMapper, threadImageService, thread)), HttpStatus.CREATED);
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread)),
+                HttpStatus.CREATED);
     }
 
     /**
@@ -72,7 +74,8 @@ public class ThreadController {
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
                 new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
-                        userMapper,threadImageService, updatedThread)),
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread)),
                 HttpStatus.OK);
     }
 
@@ -99,13 +102,15 @@ public class ThreadController {
                                        @Valid @RequestBody ThreadPatchDto threadPatchDto) {
         // Request를 처리하기 위한 객체 생성. / 객체를 생성하는 메서드는 threadService에서 정의, 생성 메서드의 매개변수 생성은 mapper에서 만든다.
         // 실제로 삭제하는 것이 아니라 threadStatus를 THREAD_NOT_EXIST로 변경하는 것.
-        Thread thread = threadMapper.threadPatchDtoToThread(threadService, userService, threadId, threadPatchDto);
+        Thread thread = threadMapper.threadPatchDtoToThread(
+                threadService, userService, threadId, threadPatchDto);
         Thread deletedThread = threadService.deleteThread(thread);
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
                 new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
-                        userMapper, threadImageService, deletedThread)),
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread)),
                 HttpStatus.OK);
     }
 
@@ -121,7 +126,9 @@ public class ThreadController {
         List<Thread> threads = pageThreads.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(
-                threadMapper.threadsTothreadResponseDtos(userMapper,threadImageService,threads),
+                threadMapper.threadsTothreadResponseDtos(
+                        replyService, likesService, replyMapper,
+                        userMapper, threadImageService, threads),
                 pageThreads),HttpStatus.OK);
     }
 
@@ -137,7 +144,9 @@ public class ThreadController {
         List<Thread> threads = pageThreads.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(
-                threadMapper.threadsTothreadResponseDtos(userMapper, threadImageService, threads),
+                threadMapper.threadsTothreadResponseDtos(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, threads),
                 pageThreads), HttpStatus.OK);
     }
 
@@ -152,8 +161,9 @@ public class ThreadController {
         Thread thread = threadService.findVerifiedThread(threadId);
 
         return new ResponseEntity<>(new SingleResponseDto<>(
-                threadMapper.threadToThreadAndReplyResponseDto(replyService, likesService, replyMapper, userMapper, threadImageService,
-                        thread, replyPage, replySize, replySort)),
+                threadMapper.threadToThreadAndReplyResponseDto(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread, replyPage, replySize, replySort)),
                 HttpStatus.OK);
     }
 
