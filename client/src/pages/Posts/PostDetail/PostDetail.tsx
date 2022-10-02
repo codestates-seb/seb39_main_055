@@ -83,7 +83,7 @@ const PostDetail = () => {
         {(data?.threadImages?.length as number) > 0 ? (
           <SImageContainer>
             <Slider
-              imageList={data?.threadImages?.map((image) => image.image)}
+              imageList={data?.threadImages?.map((image) => image.threadImage)}
             />
           </SImageContainer>
         ) : (

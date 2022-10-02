@@ -30,7 +30,7 @@ export interface ThreadImages {
 }
 
 export interface ThreadImageResponse {
-  image: string;
+  threadImage: string;
   threadImageId: number;
   threadImageStatus: string;
 }

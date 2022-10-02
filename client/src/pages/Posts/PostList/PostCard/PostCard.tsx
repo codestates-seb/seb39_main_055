@@ -26,12 +26,12 @@ interface Prop {
 
 const PostCard = ({ data }: Prop) => {
   const navigate = useNavigate();
-  console.log(data);
+
   return (
     <SCard onClick={() => navigate(`/post/${data?.threadId}`)}>
       <SImgContainer>
         {data?.threadImages.length ? (
-          <img src={data?.threadImages[0].image} alt="unknown" />
+          <img src={data?.threadImages[0].threadImage} alt="unknown" />
         ) : (
           <NoResult title="설정한 대표 이미지가 없습니다." height="100%" />
         )}
