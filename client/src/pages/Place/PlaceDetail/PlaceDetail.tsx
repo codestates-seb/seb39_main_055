@@ -5,6 +5,7 @@ import { usePlaceDetail } from "../../../apis";
 import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
 import { addPlaceToLocalStorage } from "../../../utils";
 import Header from "./Header/Header";
+import { ImageGrid } from "./ImageGrid";
 import Info from "./Info/Info";
 import ReviewCard from "./ReviewCard/ReviewCard";
 import ReviewForm from "./ReviewForm/ReviewForm";
@@ -53,7 +54,10 @@ const PlaceDetail = () => {
     <SContainer>
       <main>
         <SImagesContainer>
-          <Slider
+          {/* <Slider
+            imageList={detailData?.storeImages.map((image) => image.storeImage)}
+          /> */}
+          <ImageGrid
             imageList={detailData?.storeImages.map((image) => image.storeImage)}
           />
         </SImagesContainer>
