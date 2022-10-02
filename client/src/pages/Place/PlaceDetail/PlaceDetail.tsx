@@ -2,10 +2,10 @@ import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { usePlaceDetail } from "../../../apis";
-import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
+import { ButtonWhite, LoadingSpinner } from "../../../components";
+import { ImageGrid } from "../../../components/ImageGrid/ImageGrid";
 import { addPlaceToLocalStorage } from "../../../utils";
 import Header from "./Header/Header";
-import { ImageGrid } from "./ImageGrid";
 import Info from "./Info/Info";
 import ReviewCard from "./ReviewCard/ReviewCard";
 import ReviewForm from "./ReviewForm/ReviewForm";
@@ -54,9 +54,6 @@ const PlaceDetail = () => {
     <SContainer>
       <main>
         <SImagesContainer>
-          {/* <Slider
-            imageList={detailData?.storeImages.map((image) => image.storeImage)}
-          /> */}
           <ImageGrid
             imageList={detailData?.storeImages.map((image) => image.storeImage)}
           />

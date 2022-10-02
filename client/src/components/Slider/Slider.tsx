@@ -8,9 +8,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 export const Wrapper = styled.div<{ height: string }>`
   height: ${({ height }) => height};
+  border-radius: 12px;
 
   .swiper {
     height: inherit;
+    border-radius: 12px;
   }
 
   .swiper-slide img {
@@ -39,7 +41,7 @@ interface Props {
 const Slider: React.FC<Props> = ({ imageList, height = "inherit" }) => {
   return (
     <Wrapper height={height}>
-      <Swiper spaceBetween={30} navigation modules={[Navigation]}>
+      <Swiper navigation modules={[Navigation]}>
         {imageList?.map((image, index) => (
           <SwiperSlide key={index}>
             <img src={image} alt="animals" />
