@@ -9,11 +9,11 @@ import { ThemeProvider } from "styled-components";
 import App from "./App";
 import { GlobalStyle, theme } from "./assets";
 import { initialUser, initialUserInfos, RootState, setupStore } from "./redux";
-import { queryClient } from "./utils";
+import { localStorageParser, queryClient } from "./utils";
 
-const currentUserToken = JSON.parse(
-  localStorage.getItem("currentUser") || "null"
-);
+const currentUserToken = localStorageParser<string>("currentUser");
+const locationPermission = !!localStorageParser<boolean>("locationPermission");
+
 const preloadedState: PreloadedState<RootState> = currentUserToken
   ? {
       user: {
@@ -21,9 +21,11 @@ const preloadedState: PreloadedState<RootState> = currentUserToken
         keepLoggedIn: true,
         userInfos: initialUserInfos,
         token: currentUserToken,
+        locationPermission,
       },
     }
-  : { user: initialUser };
+  : { user: { ...initialUser, locationPermission } };
+
 export const store = setupStore(preloadedState);
 
 ReactDOM.render(

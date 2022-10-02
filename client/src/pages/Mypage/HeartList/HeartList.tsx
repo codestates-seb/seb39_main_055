@@ -144,10 +144,8 @@ const SLoadingContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: calc(100vh - 380px);
+  height: 100%;
 `;
-
-// console.log(heartDummyData);
 
 const HeartList = () => {
   const cutStringLength = (str: string, maxLength: number) => {
@@ -161,17 +159,18 @@ const HeartList = () => {
   };
 
   const { userInfos } = useAppSelector((state) => state.user);
-  const params = useParams();
   const { data, isLoading } = useQuery(
     ["heart", userInfos?.userId],
-    getHeartList
+    getHeartList,
+    { retry: 1, cacheTime: 0 }
   );
-  console.log(params);
   if (isLoading) {
     return (
-      <SLoadingContainer>
-        <LoadingSpinner />
-      </SLoadingContainer>
+      <SContainer>
+        <SLoadingContainer>
+          <LoadingSpinner />
+        </SLoadingContainer>
+      </SContainer>
     );
   }
   // console.log(data);
@@ -183,14 +182,14 @@ const HeartList = () => {
       </SHeader>
       <SItemContainer>
         {(data?.length as number) > 0 ? (
-          data?.map((heart: any) => (
+          data?.map((heart) => (
             <SCardContainer key={heart.store.storeId}>
               <SCard>
                 <CardImage>
                   <img
                     src={
-                      heart.storeImages.length >= 1
-                        ? heart.storeImages[0].storeImage
+                      heart.store.storeImages.length >= 1
+                        ? heart.store.storeImages[0].storeImage
                         : defaultImg
                     }
                     alt={heart.store.storeId}

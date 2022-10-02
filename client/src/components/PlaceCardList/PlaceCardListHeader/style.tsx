@@ -1,12 +1,18 @@
 import { IoLocationOutline } from "react-icons/io5";
 import styled, { css } from "styled-components";
 
+import { SearchBar as Search } from "../../Main";
+
 export const SHeader = styled.header`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   row-gap: 20px;
   margin-bottom: 40px;
+`;
+
+export const SearchBar = styled(Search)`
+  margin-top: 65px;
 `;
 
 export const SWarningBox = styled.div<{ showWarning: boolean }>`
