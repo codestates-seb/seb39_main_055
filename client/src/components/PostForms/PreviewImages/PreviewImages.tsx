@@ -144,7 +144,7 @@ const PreviewImages = ({
           <SMore />
         </SaButton>
         <SError isError={isError}>
-          <p>대표사진을 등록해주세요.</p>
+          <p>대표사진을 5장 이상 등록해주세요.</p>
         </SError>
       </SaBox>
       <SThumbnailUList>

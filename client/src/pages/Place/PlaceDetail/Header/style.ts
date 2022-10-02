@@ -120,10 +120,13 @@ export const SLocationContainer = styled.div`
       height: 28px;
       color: #161616;
       background-color: inherit;
-      border: 1px solid #161616;
+      border: none;
+      /* border: 1px solid #161616; */
       border-radius: 20px;
       font-size: 16px;
       transition: all 0.4s;
+      box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
+        1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
       &:hover {
         background-color: #ffc107;
