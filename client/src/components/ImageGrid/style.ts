@@ -30,7 +30,7 @@ export const SContainer = styled.div`
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 200px;
+    grid-auto-rows: 100px;
 
     & > img:first-child {
       border-radius: 20px 20px 0 0;
@@ -64,7 +64,6 @@ export const SButton = styled.button`
   transition: all 0.4s;
 
   &:hover {
-    scale: 1.1;
     background-color: #ffc107;
   }
 `;
