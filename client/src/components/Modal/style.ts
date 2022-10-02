@@ -55,7 +55,7 @@ export const ModalMain = styled.div`
     minHeight,
     isMount,
     position = { x: "50%", y: "50%" },
-    borderRadius = "10px",
+    borderRadius = "12px",
     boxShadow,
   }: ModalMainProps) => css`
     min-width: ${minWidth};

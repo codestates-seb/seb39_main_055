@@ -110,12 +110,12 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     checkHomePage();
     checkDescription();
 
-    if (!images.length) {
+    if (images.length < 5) {
       setImagesError(true);
     }
 
     if (
-      !images.length ||
+      images.length < 5 ||
       !notBlank(nameValue) ||
       !notBlank(addressValue) ||
       (!isEditPage && !notBlank(registrationValue)) ||
