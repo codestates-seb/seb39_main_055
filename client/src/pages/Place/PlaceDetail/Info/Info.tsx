@@ -33,6 +33,20 @@ export const SInfoContainer = styled.div`
       color: #434343;
       font-size: 18px;
     }
+
+    & > a {
+      color: #434343;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+      flex-direction: column;
+      margin-bottom: 25px;
+
+      & > span:first-child {
+        margin-bottom: 10px;
+      }
+    }
   }
 `;
 
@@ -46,11 +60,13 @@ const Info = ({ data }: Prop) => {
       <SH2>기본 정보</SH2>
       <div>
         <span>전화</span>
-        <span>{data?.phone}</span>
+        <a href={`tel:${data?.phone}`}>{data?.phone}</a>
       </div>
       <div>
         <span>홈페이지</span>
-        <span>{data?.homepage}</span>
+        <a href={data?.homepage} target="_blank" rel="noreferrer">
+          {data?.homepage}
+        </a>
       </div>
       <div>
         <span>주소</span>

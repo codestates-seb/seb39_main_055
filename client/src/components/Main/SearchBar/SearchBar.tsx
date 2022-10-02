@@ -31,7 +31,11 @@ export const SSearchBar = styled.div`
   }
 `;
 
-const SearchBar = () => {
+interface SearchBarProps {
+  className?: string;
+}
+
+const SearchBar = ({ className }: SearchBarProps) => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const defaultResultpath = `/search?search=${inputValue}&category=all`;
@@ -52,7 +56,7 @@ const SearchBar = () => {
   };
 
   return (
-    <SSearchBar>
+    <SSearchBar className={className}>
       <input
         value={inputValue}
         onChange={handleInputChange}

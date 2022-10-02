@@ -8,6 +8,7 @@ import { useModal } from "../../../../components";
 import { ErrorModal, LoginModal } from "../../../../components/Modal";
 import { useAppSelector } from "../../../../redux";
 import { Store } from "../../../../types";
+import { convertScoreToComment } from "../../../../utils";
 
 const SRatingContainer = styled.div`
   display: flex;
@@ -74,19 +75,7 @@ const RatingStar = ({ ratingIndex, setRatingIndex, data }: Prop) => {
           onClick={() => handleStarClick(arrayIndex)}
         />
       ))}
-      <p>
-        {ratingIndex === 5
-          ? "아주 좋아요"
-          : ratingIndex === 4
-          ? "맘에 들어요"
-          : ratingIndex === 3
-          ? "보통이에요"
-          : ratingIndex === 2
-          ? "그냥 그래요"
-          : ratingIndex === 1
-          ? "별로에요"
-          : "별점을 남겨주세요."}
-      </p>
+      <p>{convertScoreToComment(ratingIndex)}</p>
     </SRatingContainer>
   );
 };

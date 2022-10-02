@@ -1,12 +1,9 @@
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable no-unused-expressions */
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { usePlaceDetail } from "../../../apis";
-import { ButtonWhite, LoadingSpinner, Slider } from "../../../components";
+import { ButtonWhite, LoadingSpinner } from "../../../components";
+import { ImageGrid } from "../../../components/ImageGrid/ImageGrid";
 import { addPlaceToLocalStorage } from "../../../utils";
 import Header from "./Header/Header";
 import Info from "./Info/Info";
@@ -57,7 +54,7 @@ const PlaceDetail = () => {
     <SContainer>
       <main>
         <SImagesContainer>
-          <Slider
+          <ImageGrid
             imageList={detailData?.storeImages.map((image) => image.storeImage)}
           />
         </SImagesContainer>

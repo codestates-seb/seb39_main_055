@@ -196,7 +196,7 @@ const SBorderLine = styled.span`
   `)}
 `;
 
-const WritePost = styled.div`
+const SWritePost = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 10px 0px;
@@ -220,7 +220,7 @@ const WritePost = styled.div`
   `)}
 `;
 
-const EditUserInfo = styled.div`
+const SEditUserInfo = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 10px 0px;
@@ -242,7 +242,7 @@ const EditUserInfo = styled.div`
   `)}
 `;
 
-const RegistCompany = styled.div`
+const SRegistCompany = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 10px 0px;
@@ -264,7 +264,7 @@ const RegistCompany = styled.div`
   `)}
 `;
 
-const Resignation = styled.div`
+const SResignation = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 10px 0px;
@@ -285,7 +285,6 @@ const Resignation = styled.div`
     flex-wrap: wrap;
   `)}
 `;
-
 const Mypage = () => {
   const navigate = useNavigate();
 
@@ -304,27 +303,27 @@ const Mypage = () => {
         <SMyInfoContainer>
           <SMyInfo>
             <SUserImg>
-              <img alt="예시" src={user} />
-              <div>Jin 님</div>
+              <img alt="유저사진" src={user} />
+              <div>JIN님</div>
             </SUserImg>
             <SLinkContainer>
-              <WritePost onClick={() => navigate("/post/new")}>
+              <SWritePost onClick={() => navigate("/post/new")}>
                 글 작성하기
                 <MdArrowForwardIos />
-              </WritePost>
+              </SWritePost>
               {/* 롤에따라 매장등록하기/업주등록하기로 바뀔것 */}
-              <RegistCompany onClick={() => navigate("/place/new")}>
+              <SRegistCompany onClick={() => navigate("/place/new")}>
                 업주등록하기
                 <MdArrowForwardIos />
-              </RegistCompany>
-              <EditUserInfo onClick={() => navigate("/mypage/edit")}>
+              </SRegistCompany>
+              <SEditUserInfo onClick={() => navigate("/mypage/edit")}>
                 회원정보수정
                 <MdArrowForwardIos />
-              </EditUserInfo>
-              <Resignation onClick={() => navigate("/.")}>
+              </SEditUserInfo>
+              <SResignation onClick={() => navigate("/.")}>
                 회원탈퇴
                 <MdArrowForwardIos />
-              </Resignation>
+              </SResignation>
             </SLinkContainer>
           </SMyInfo>
         </SMyInfoContainer>

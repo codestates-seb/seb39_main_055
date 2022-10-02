@@ -7,21 +7,25 @@ export const SHeader = styled.header`
   & > p {
     color: #434343;
     font-size: 26px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    & > p {
+      font-size: 22px;
+    }
   }
 `;
 
 export const SCategory = styled.p`
   color: #ffc107 !important;
-  font-size: 26px;
-  margin-bottom: 10px;
 `;
 
 export const STitle = styled.div<{ isLike: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 
   & > h1 {
     color: #161616;
@@ -43,12 +47,22 @@ export const STitle = styled.div<{ isLike: boolean }>`
     cursor: pointer;
     transition: all 0.2s;
   }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
+
+    & > h1 {
+      font-size: 28px;
+    }
+  }
 `;
 
 export const SScoreContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   & > svg {
     margin-right: 6px;
@@ -110,10 +124,13 @@ export const SLocationContainer = styled.div`
       height: 28px;
       color: #161616;
       background-color: inherit;
-      border: 1px solid #161616;
+      border: none;
+      /* border: 1px solid #161616; */
       border-radius: 20px;
       font-size: 16px;
       transition: all 0.4s;
+      box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
+        1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
       &:hover {
         background-color: #ffc107;

@@ -11,7 +11,6 @@ export const SContainer = styled.div`
 `;
 
 export const SImagesContainer = styled.section`
-  height: 600px;
   margin-top: 80px;
 `;
 

@@ -35,7 +35,7 @@ const App = () => {
 
   return (
     <>
-      <Modal width="600px" height="max-content" borderRadius="3px" background>
+      <Modal width="600px" height="max-content" borderRadius="12px" background>
         <Routes>
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Main />} />

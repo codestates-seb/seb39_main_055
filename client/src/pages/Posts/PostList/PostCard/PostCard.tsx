@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { NoResult } from "../../../../components";
 import { Post } from "../../../../types";
+import { getDateToString } from "../../../../utils";
 import {
   SBody,
   SCard,
@@ -23,7 +24,7 @@ const PostCard = ({ data }: Prop) => {
     <SCard onClick={() => navigate(`/post/${data?.threadId}`)}>
       <SImgContainer>
         {data?.threadImages.length ? (
-          <img src={data?.threadImages[0].image} alt="unknown" />
+          <img src={data?.threadImages[0].threadImage} alt="unknown" />
         ) : (
           <NoResult title="설정한 대표 이미지가 없습니다." height="100%" />
         )}
@@ -32,19 +33,18 @@ const PostCard = ({ data }: Prop) => {
         <SInfo>
           <img src={data?.user.image} alt="profile" />
           <span>{data?.user.nickname}</span>
-          <span>{data?.updatedAt}</span>
+          <span>{getDateToString(data?.updatedAt)}</span>
         </SInfo>
         <SBody>
-          <p>{parse(data?.body)}</p>
+          <div>{parse(data?.body)}</div>
         </SBody>
         <SLike>
           <span>
-            좋아요 <strong>{data?.likes}</strong>
+            좋아요 <strong>{data?.likesUserId.length}</strong>
           </span>
           <span>·</span>
           <span>
-            {/* 댓글 <strong>{data?.replies.data.length}</strong> */}
-            댓글 <strong>{0}</strong>
+            댓글 <strong>{data?.replies.length}</strong>
           </span>
         </SLike>
       </SMainContainer>
