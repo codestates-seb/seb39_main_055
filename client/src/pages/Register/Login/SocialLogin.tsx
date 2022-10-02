@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { colors } from "../../../assets";
@@ -52,13 +53,17 @@ const SSocialBox = styled.div`
 `;
 
 const SocialLogin = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    window.location.href = "http://soyoungp.shop/login/oauth2/code/google";
+  };
   return (
     <SSection>
       <SH3>SNS로 간편하게 시작하기</SH3>
       <SSocialBox>
         <NaverImg />
         <KakaoImg />
-        <GoogleSVG viewBox="4 4 38 38" />
+        <GoogleSVG viewBox="4 4 38 38" onClick={handleClick} />
       </SSocialBox>
     </SSection>
   );

@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useSignup } from "../../../apis/user/signup";
-import { Input, SearchAddress } from "../../../components";
+import defaultImg from "../../../assets/images/mypage/user.png";
+import { Input, PreviewImage, SearchAddress } from "../../../components";
 import { useValidate } from "../../../hooks";
 import {
   emailValidation,
@@ -78,6 +79,12 @@ const Signup = () => {
     }
   }, [isSuccess, navigate]);
 
+  const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
+    defaultImg
+  );
+
+  console.log(profileImg);
+
   return (
     <SContainer>
       <h1>회원가입</h1>
@@ -86,6 +93,12 @@ const Signup = () => {
         <div onClick={() => setIsGuest(true)}>일반회원</div>
       </SRole>
       <form onSubmit={handleSubmit}>
+        <PreviewImage
+          id="프로필사진"
+          label="사진 변경"
+          imgUrl={profileImg as string}
+          setImgUrl={setProfileImg}
+        />
         <Input
           label="이름"
           id="이름"
