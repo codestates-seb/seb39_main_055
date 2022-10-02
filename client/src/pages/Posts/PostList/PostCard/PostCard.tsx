@@ -2,7 +2,14 @@ import parse from "html-react-parser";
 import { useNavigate } from "react-router-dom";
 
 import { NoResult } from "../../../../components";
-import { Post } from "../../../../types";
+import {
+  Post,
+  Reply,
+  Thread,
+  ThreadImages,
+  User,
+  UserInfos,
+} from "../../../../types";
 import { getDateToString } from "../../../../utils";
 import {
   SBody,
@@ -19,7 +26,7 @@ interface Prop {
 
 const PostCard = ({ data }: Prop) => {
   const navigate = useNavigate();
-
+  console.log(data);
   return (
     <SCard onClick={() => navigate(`/post/${data?.threadId}`)}>
       <SImgContainer>
@@ -40,12 +47,11 @@ const PostCard = ({ data }: Prop) => {
         </SBody>
         <SLike>
           <span>
-            좋아요 <strong>{data?.likes}</strong>
+            좋아요 <strong>{data?.likesUserId.length}</strong>
           </span>
           <span>·</span>
           <span>
-            {/* 댓글 <strong>{data?.replies.data.length}</strong> */}
-            댓글 <strong>{0}</strong>
+            댓글 <strong>{data?.replies.length}</strong>
           </span>
         </SLike>
       </SMainContainer>
