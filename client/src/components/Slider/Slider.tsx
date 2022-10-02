@@ -6,8 +6,8 @@ import styled from "styled-components";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-export const Wrapper = styled.div`
-  height: inherit;
+export const Wrapper = styled.div<{ height: string }>`
+  height: ${({ height }) => height};
 
   .swiper {
     height: inherit;
@@ -33,11 +33,12 @@ export const Wrapper = styled.div`
 
 interface Props {
   imageList: Array<string> | undefined;
+  height?: string;
 }
 
-const Slider: React.FC<Props> = ({ imageList }) => {
+const Slider: React.FC<Props> = ({ imageList, height = "inherit" }) => {
   return (
-    <Wrapper>
+    <Wrapper height={height}>
       <Swiper spaceBetween={30} navigation modules={[Navigation]}>
         {imageList?.map((image, index) => (
           <SwiperSlide key={index}>
