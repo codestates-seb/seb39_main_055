@@ -145,28 +145,31 @@ const RecentList = () => {
       </SHeader>
       <SItemContainer>
         {localstorageData.length > 0
-          ? localstorageData.map((place: any) => (
-              <SCardContainer key={place.storeId}>
-                <SCard onClick={() => navigate("/place/{storeId}")}>
-                  <img
-                    src={
-                      place.storeImages.length >= 1
-                        ? place.storeImages[0].storeImage
-                        : defaultImg
-                    }
-                    alt="장소이미지"
-                    key={place.storeId}
-                  />
-                  <STextInfo>
-                    <SCategory>{place.category}</SCategory>
-                    <SAddress>{place.addressName}</SAddress>
-                    <SStoreName>
-                      {cutStringLength(place.storeName, 13)}
-                    </SStoreName>
-                  </STextInfo>
-                </SCard>
-              </SCardContainer>
-            ))
+          ? localstorageData
+              .slice(0)
+              .reverse()
+              .map((place: any) => (
+                <SCardContainer key={place.storeId}>
+                  <SCard onClick={() => navigate("/place/{storeId}")}>
+                    <img
+                      src={
+                        place.storeImages.length >= 1
+                          ? place.storeImages[0].storeImage
+                          : defaultImg
+                      }
+                      alt="장소이미지"
+                      key={place.storeId}
+                    />
+                    <STextInfo>
+                      <SCategory>{place.category}</SCategory>
+                      <SAddress>{place.addressName}</SAddress>
+                      <SStoreName>
+                        {cutStringLength(place.storeName, 13)}
+                      </SStoreName>
+                    </STextInfo>
+                  </SCard>
+                </SCardContainer>
+              ))
           : localstorageData}
       </SItemContainer>
     </SContainer>
