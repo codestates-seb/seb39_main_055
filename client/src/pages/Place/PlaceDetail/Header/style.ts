@@ -49,6 +49,10 @@ export const STitle = styled.div<{ isLike: boolean }>`
   }
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
+
     & > h1 {
       font-size: 28px;
     }
