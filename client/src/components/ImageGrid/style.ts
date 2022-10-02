@@ -64,7 +64,6 @@ export const SButton = styled.button`
   transition: all 0.4s;
 
   &:hover {
-    scale: 1.1;
     background-color: #ffc107;
   }
 `;
