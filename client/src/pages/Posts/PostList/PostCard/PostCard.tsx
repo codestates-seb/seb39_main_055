@@ -2,14 +2,7 @@ import parse from "html-react-parser";
 import { useNavigate } from "react-router-dom";
 
 import { NoResult } from "../../../../components";
-import {
-  Post,
-  Reply,
-  Thread,
-  ThreadImages,
-  User,
-  UserInfos,
-} from "../../../../types";
+import { Post } from "../../../../types";
 import { getDateToString } from "../../../../utils";
 import {
   SBody,
