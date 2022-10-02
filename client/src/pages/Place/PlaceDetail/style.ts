@@ -13,6 +13,10 @@ export const SContainer = styled.div`
 export const SImagesContainer = styled.section`
   height: 600px;
   margin-top: 80px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.tablet}) {
+    height: 400px;
+  }
 `;
 
 export const SDescriptionContainer = styled.div`

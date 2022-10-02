@@ -30,7 +30,7 @@ export interface ThreadImages {
 }
 
 export interface ThreadImageResponse {
-  image: string;
+  threadImage: string;
   threadImageId: number;
   threadImageStatus: string;
 }
@@ -66,12 +66,11 @@ export interface ThreadErrorResponse {
 
 export interface Post {
   threadId: number;
+  body: string;
   createdAt: string;
   updatedAt: string;
-  threadStatus: "THREAD_EXIST" | "THREAD_NOT_FOUND";
-  body: string;
-  user: UserInfos;
+  likesUserId: number[];
+  replies: Reply[];
   threadImages: ThreadImageResponse[];
-  replies: { data: Reply[]; pageInfo: PageInfo };
-  likes: number;
+  user: UserInfos;
 }

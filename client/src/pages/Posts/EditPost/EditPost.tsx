@@ -18,10 +18,10 @@ function threadDataTransfromer({
   threadImages,
   threadId,
 }: ThreadPartialData) {
-  const transformedImgs = threadImages.map(({ image }) => ({
+  const transformedImgs = threadImages.map(({ threadImage }) => ({
     file: null,
-    uri: image,
-    id: image, // 서로 다른 이미지가 하나의 AWS url로 대응되지 않기 때문에 별도의 계산이 필요한 md5 대신 사용
+    uri: threadImage,
+    id: threadImage, // 서로 다른 이미지가 하나의 AWS url로 대응되지 않기 때문에 별도의 계산이 필요한 md5 대신 사용
   }));
 
   return { body, threadImages: transformedImgs, threadId };
