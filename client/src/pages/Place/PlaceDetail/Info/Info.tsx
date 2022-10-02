@@ -60,7 +60,7 @@ const Info = ({ data }: Prop) => {
       <SH2>기본 정보</SH2>
       <div>
         <span>전화</span>
-        <span>{data?.phone}</span>
+        <a href={`tel:${data?.phone}`}>{data?.phone}</a>
       </div>
       <div>
         <span>홈페이지</span>
