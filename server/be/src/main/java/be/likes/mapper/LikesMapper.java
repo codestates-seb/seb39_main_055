@@ -48,8 +48,8 @@ public interface LikesMapper {
         likesResponseDto.setCreatedAt(likes.getCreatedAt());
 
         ThreadResponseDto threadResponseDto = threadMapper.threadToThreadResponseDto(
-                 userMapper, threadImageService,
-                likes.getThread());
+                replyService, likesService, replyMapper, userMapper,
+                threadImageService, likes.getThread());
         likesResponseDto.setThread(threadResponseDto);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(likes.getUser());

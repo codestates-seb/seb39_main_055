@@ -15,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -105,6 +107,9 @@ public class ReplyService {
         return findReplies;
     }
 
+    public List<Reply> findExistReplies(List<Reply> replies) { // reply중 status가 true인 것만 반환
+        return replies.stream().map(reply -> replyRepository.findByReplyIdAndReplyStatus(
+                reply.getReplyId(), Reply.ReplyStatus.REPLY_EXIST)).collect(Collectors.toList());
+    }
+
 }
-
-

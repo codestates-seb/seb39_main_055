@@ -10,4 +10,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     Page<Reply> findByThreadAndReplyStatus(Pageable pageable, Thread thread, Reply.ReplyStatus replyStatus);
 
+    Reply findByReplyIdAndReplyStatus(Long replyId, Reply.ReplyStatus replyStatus);
 }
+
