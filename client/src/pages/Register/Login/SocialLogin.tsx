@@ -55,8 +55,10 @@ const SSocialBox = styled.div`
 const SocialLogin = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    window.location.href = "http://soyoungp.shop/login/oauth2/code/google";
+    window.location.href =
+      "https://soyoungp.shop/login/oauth2/code/google?redirect_url=http://localhost:3000/oauth/redirect";
   };
+
   return (
     <SSection>
       <SH3>SNS로 간편하게 시작하기</SH3>
