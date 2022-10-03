@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 public class UserPatchDto {
@@ -22,6 +23,9 @@ public class UserPatchDto {
     private Double latitude;
 
     private String image;
+
+    @Pattern(regexp = "(^ROLE_USER$)|(^ROLE_OWNER$)",message = "ROLE_USER or ROLE_OWNER중에 선택해주세요")
+    private String userRole;
 
     //회원 탈퇴
     private User.UserStatus userStatus;

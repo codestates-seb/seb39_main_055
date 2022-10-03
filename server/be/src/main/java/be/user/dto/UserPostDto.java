@@ -27,13 +27,15 @@ public class UserPostDto {
     @NotBlank(message = "비밀번호를 입력해주세요")
     private String password;
 
-    @NotNull(message = "경도를 입력해주세요")
-    private Double longitude;
+//    @NotNull(message = "경도를 입력해주세요")
+//    private Double longitude;
+//
+//    @NotNull(message = "위도를 입력해주세요")
+//    private Double latitude;
 
-    @NotNull(message = "위도를 입력해주세요")
-    private Double latitude;
+    private String image;
 
-    @NotBlank(message = "유저의 권한을 입력해주세요[ROLE_USER/ROLE_OWNER]")
-    @Pattern(regexp = "(^ROLE_USER$)|(^ROLE_OWNER$)",message = "ROLE_USER or ROLE_OWNER중에 선택해주세요")
-    private String userRole;
+//    @NotBlank(message = "유저의 권한을 입력해주세요[ROLE_USER/ROLE_OWNER]")
+//    @Pattern(regexp = "(^ROLE_USER$)|(^ROLE_OWNER$)",message = "ROLE_USER or ROLE_OWNER중에 선택해주세요")
+//    private String userRole;
 }

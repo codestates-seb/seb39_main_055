@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         log.info("JwtAuthenticationFilter : "+userLoginDto);
 
-        userService.verifyExistUserByEmail(userLoginDto.getEmail()); //현재 활동중인 유저중 email 파라미터로 조회
+        userService.verifyExistUserByEmailAndOriginal(userLoginDto.getEmail()); //현재 활동중인 일반 회원가입으로 가입한 유저중 email 파라미터로 조회
         // DB에 없는 유저거나 이전에 탈퇴한 유저면 예외처리함
 
         //(3-3)User email과 Password 정보를 포함한 UsernamePasswordAuthenticationToken을 생성

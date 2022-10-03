@@ -50,6 +50,9 @@ public class User extends BaseEntity {
     @Column(nullable = true)
     private String userRole;
 
+    @Column(nullable = false)
+    private String socialLogin;
+
     @Column(nullable = true)
     private String refreshToken;
 

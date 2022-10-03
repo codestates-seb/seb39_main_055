@@ -51,13 +51,13 @@ public class AwsS3Service {
 
 
 
-    public List<String> uploadFile(long userId,List<MultipartFile> multipartFiles) {
+    public List<String> uploadFile(List<MultipartFile> multipartFiles) {
 
         List<String> fileUrls = new ArrayList<>();
 
         for(MultipartFile multipartFile:multipartFiles){
             validateFileExists(multipartFile); // 첨부된 파일 중 null인지 확인
-            String fileName = CommonUtils.buildFileName(userId,multipartFile.getOriginalFilename());
+            String fileName = CommonUtils.buildFileName(multipartFile.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(multipartFile.getContentType());
 
