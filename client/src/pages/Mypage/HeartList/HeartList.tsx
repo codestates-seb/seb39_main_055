@@ -1,6 +1,6 @@
 import { CgFontSpacing } from "react-icons/cg";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { getHeartList } from "../../../apis/user/heartList";
@@ -144,10 +144,14 @@ const SLoadingContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 33%;
+  ${mobile(css`
+    margin-top: 50px;
+  `)}
 `;
-
+//
 const HeartList = () => {
+  const navigate = useNavigate();
   const cutStringLength = (str: string, maxLength: number) => {
     if (str === undefined || str === null) {
       return "";
@@ -162,15 +166,13 @@ const HeartList = () => {
   const { data, isLoading } = useQuery(
     ["heart", userInfos?.userId],
     getHeartList,
-    { retry: 1, cacheTime: 0 }
+    { retry: false, cacheTime: 0 }
   );
   if (isLoading) {
     return (
-      <SContainer>
-        <SLoadingContainer>
-          <LoadingSpinner />
-        </SLoadingContainer>
-      </SContainer>
+      <SLoadingContainer>
+        <LoadingSpinner />
+      </SLoadingContainer>
     );
   }
   // console.log(data);
@@ -184,7 +186,7 @@ const HeartList = () => {
         {(data?.length as number) > 0 ? (
           data?.map((heart) => (
             <SCardContainer key={heart.store.storeId}>
-              <SCard>
+              <SCard onClick={() => navigate("/place/{storeId}")}>
                 <CardImage>
                   <img
                     src={
