@@ -75,7 +75,7 @@ public class ThreadController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
                         replyService, likesService, replyMapper, userMapper,
-                        threadImageService, thread)),
+                        threadImageService, updatedThread)),
                 HttpStatus.OK);
     }
 
@@ -110,7 +110,7 @@ public class ThreadController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
                         replyService, likesService, replyMapper, userMapper,
-                        threadImageService, thread)),
+                        threadImageService, deletedThread)),
                 HttpStatus.OK);
     }
 

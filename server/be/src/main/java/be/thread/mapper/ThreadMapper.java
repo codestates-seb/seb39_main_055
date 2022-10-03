@@ -117,7 +117,7 @@ public interface ThreadMapper {
         threadResponseDto.setUpdatedAt(thread.getUpdatedAt());
 
         // thread 작성자 추가
-        UserResponseDto userResponseDto = userMapper.userToUserResponseDto(thread.getUser());
+        UserResponseDto userResponseDto = userMapper.   userToUserResponseDto(thread.getUser());
         threadResponseDto.setUser(userResponseDto);
 
         // threadImage 추가. 단, 이미지가 없으면 본문(body)만 response로 전달되어야 함.
