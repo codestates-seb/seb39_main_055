@@ -42,6 +42,10 @@ export const SStars = styled.div`
 
   & > svg {
     margin-right: 2px;
+    color: #dbdbdb;
+  }
+
+  & > .active {
     color: #ffc109;
   }
 

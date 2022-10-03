@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
@@ -8,6 +9,7 @@ import { deleteReview, editReview } from "../../../../apis";
 import { Dots } from "../../../../components";
 import { useAppSelector } from "../../../../redux";
 import { UserInfos } from "../../../../types";
+import { convertScoreToComment } from "../../../../utils";
 import ReviewForm from "../ReviewForm/ReviewForm";
 import { SBody, SDate, SReviewList, SStars, SUserInfo } from "./style";
 
@@ -54,10 +56,13 @@ const ReviewCard = ({ reviewId, updatedAt, user, body, score }: Prop) => {
           <div>
             <span>{user.nickname}</span>
             <SStars>
-              {[...Array(score)].map((_, index) => (
-                <AiFillStar key={index} />
+              {[...Array(5)].map((_, index) => (
+                <AiFillStar
+                  key={index}
+                  className={index + 1 <= score ? "active" : "inactive"}
+                />
               ))}
-              <p>{score.toFixed(1)}</p>
+              <p>{convertScoreToComment(score)}</p>
             </SStars>
           </div>
         </section>
