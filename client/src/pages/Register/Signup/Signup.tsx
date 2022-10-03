@@ -2,18 +2,19 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useSignup } from "../../../apis/user/signup";
+import { signupUser } from "../../../apis/user/signup";
 import defaultImg from "../../../assets/images/mypage/user.png";
-import { Input, PreviewImage, SearchAddress } from "../../../components";
+import { Input, PreviewImage } from "../../../components";
 import { useValidate } from "../../../hooks";
+import { ThreadImages } from "../../../types/threads";
 import {
   emailValidation,
   nickNameValidation,
-  notBlank,
   passwordValidation,
 } from "../../../utils/validation";
 import {
@@ -24,33 +25,27 @@ import {
   SHideButton,
   ShowSVG,
   SPWBox,
-  SRole,
 } from "./style";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [isGuest, setIsGuest] = useState(false);
+  const imgFile = useRef<ThreadImages | string>(defaultImg);
   const [isHidden, setIsHidden] = useState(true);
+  const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
+    defaultImg
+  );
   const [nameValue, nameError, handleName, checkName] =
     useValidate(nickNameValidation);
   const [emailValue, emailError, handleEmail, checkEmail] =
     useValidate(emailValidation);
-  const [
-    addressValue,
-    addressError,
-    handleAddress,
-    checkAddress,
-    setAddressValue,
-    setAddressError,
-  ] = useValidate(notBlank);
   const [passwordValue, passwordError, handlePassword, checkPassword] =
     useValidate(passwordValidation);
 
-  const { refetch, isSuccess } = useSignup(addressValue, {
-    email: emailValue,
-    password: passwordValue,
-    nickname: nameValue,
-    userRole: isGuest ? "ROLE_USER" : "ROLE_OWNER",
+  const { mutate } = useMutation(signupUser, {
+    onSuccess: () => {
+      toast.success("회원가입을 축하합니다 !");
+      navigate("/login");
+    },
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,54 +53,41 @@ const Signup = () => {
     checkName();
     checkEmail();
     checkPassword();
-    checkAddress();
 
     if (
       !nickNameValidation(nameValue) ||
       !emailValidation(emailValue) ||
-      !passwordValidation(passwordValue) ||
-      !notBlank(addressValue)
+      !passwordValidation(passwordValue)
     ) {
       return;
     }
 
-    refetch();
+    mutate({
+      nickname: nameValue,
+      email: emailValue,
+      password: passwordValue,
+      image: imgFile.current,
+    });
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/login");
-      toast.success("회원가입을 축하합니다 !");
-    }
-  }, [isSuccess, navigate]);
-
-  const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
-    defaultImg
-  );
-
-  console.log(profileImg);
 
   return (
     <SContainer>
       <h1>회원가입</h1>
-      <SRole isGuest={isGuest}>
-        <div onClick={() => setIsGuest(false)}>기업회원</div>
-        <div onClick={() => setIsGuest(true)}>일반회원</div>
-      </SRole>
       <form onSubmit={handleSubmit}>
         <PreviewImage
           id="프로필사진"
           label="사진 변경"
           imgUrl={profileImg as string}
           setImgUrl={setProfileImg}
+          imgFile={imgFile}
         />
         <Input
-          label="이름"
-          id="이름"
+          label="닉네임"
+          id="닉네임"
           value={nameValue}
           isError={nameError}
           errorMsg="두 글자 이상 입력해주세요."
-          placeholder="이름을 입력해주세요."
+          placeholder="닉네임을 입력해주세요."
           onChange={(e) => handleName(e)}
         />
         <Input
@@ -133,22 +115,6 @@ const Signup = () => {
             {isHidden ? <HideSVG /> : <ShowSVG />}
           </SHideButton>
         </SPWBox>
-        <Input
-          label="주소"
-          id="주소"
-          value={addressValue}
-          isError={addressError}
-          errorMsg="주소를 입력해주세요."
-          placeholder="주소를 입력해주세요."
-          sideButton={
-            <SearchAddress
-              setValue={setAddressValue}
-              setError={setAddressError}
-            />
-          }
-          readOnly
-          onChange={(e) => handleAddress(e)}
-        />
         <SButtonContainer>
           <SButton>회원가입</SButton>
         </SButtonContainer>
