@@ -204,7 +204,7 @@ const HeartList = () => {
                   <STitle>{heart.store.category}</STitle>
                   <SArea>
                     {heart.store.addressName.length >= 1
-                      ? heart.store.addressName.slice(0, 4)
+                      ? heart.store.addressName.slice(0, 11)
                       : null}
                     {/* splice(" ").slice(0, 4).join(" ")..? 시,구,군까지 출력 */}
                   </SArea>
