@@ -178,27 +178,25 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
-        // 현재 활동중인 유저의 이미 등록된 이메일인지 확인
-        verifyExistsEmail(user.getEmail());
+        // 현재 활동중인 일반 회원가입으로 가입한 유저의 이미 등록된 이메일인지 확인
+        verifyExistsEmailByOriginal(user.getEmail());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        //처음 회원가입 하고나서는 기본이미지가 기본프로필사진
-        user.setImage("https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800");
 
         return userRepository.save(user);
 
     }
 
-    private void verifyExistsEmail(String email) { // 현재 활동중인 유저의 이미 등록된 이메일인지 확인
-        Optional<User> user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+    private void verifyExistsEmailByOriginal(String email) { // 현재 활동중인 일반 회원가입으로 가입한 유저의 이미 등록된 이메일인지 확인
+        Optional<User> user = userRepository.findByEmailAndUserStatusAndSocialLogin(email, User.UserStatus.USER_EXIST,"original");
         if (user.isPresent()){
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
         }
     }
 
-    public void verifyExistUserByEmail(String email) { //현재 활동중인 유저중 email 파라미터로 조회
-        Optional<User> user = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+    public void verifyExistUserByEmailAndOriginal(String email) { //현재 활동중인 일반 회원가입으로 가입한 유저중 email 파라미터로 조회
+        Optional<User> user = userRepository.findByEmailAndUserStatusAndSocialLogin(email, User.UserStatus.USER_EXIST,"original");
         if (user.isEmpty()){//DB에 없는 유저거나 이전에 탈퇴한 유저면 예외처리함
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
@@ -240,6 +238,9 @@ public class UserService {
                     }
                     findUser.setUserStatus(userStatus); //유저 탈퇴
                 });
+
+        Optional.ofNullable(user.getUserRole())//유저 권한 수정
+                .ifPresent(userRole ->findUser.setUserRole(userRole));
 
         return findUser;
     }

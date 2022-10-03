@@ -67,10 +67,7 @@ package be.config;
 
 import be.config.auth.filter.JwtAuthenticationFilter;
 import be.config.auth.filter.JwtExceptionFilter;
-import be.config.auth.handler.MemberAccessDeniedHandler;
-import be.config.auth.handler.MemberAuthenticationEntryPoint;
-import be.config.auth.handler.MemberAuthenticationFailureHandler;
-import be.config.auth.handler.MemberAuthenticationSuccessHandler;
+import be.config.auth.handler.*;
 import be.utils.jwt.JwtTokenizer;
 import be.config.auth.filter.JwtVerificationFilter;
 import be.user.repository.UserRepository;
@@ -92,13 +89,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfig{
+public class SecurityConfig {
 
     private final JwtTokenizer jwtTokenizer;
 
     private final UserService userService;
 
     private final UserRepository userRepository;
+
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
@@ -126,6 +125,10 @@ public class SecurityConfig{
                         .antMatchers("/v1/owner/**")
                         .access("hasRole('ROLE_OWNER')")
                         .anyRequest().permitAll())
+                .oauth2Login(oauth2 -> {
+                    oauth2.userInfoEndpoint().userService(customOAuth2UserService);
+                    oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, userService,userRepository));
+                })
                 .build();
 
 

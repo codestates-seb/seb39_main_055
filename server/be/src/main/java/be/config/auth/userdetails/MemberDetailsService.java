@@ -23,7 +23,7 @@ public class MemberDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("MemberDetailsService : 진입");
-        Optional<User> userEntity  = userRepository.findByEmailAndUserStatus(email, User.UserStatus.USER_EXIST);
+        Optional<User> userEntity  = userRepository.findByEmailAndUserStatusAndSocialLogin(email, User.UserStatus.USER_EXIST,"original");
 
 
         return new MemberDetails(userEntity.get());
