@@ -30,13 +30,8 @@ const uploadImages = async (images: ThreadImages[]) => {
   if (pendingUploadIdx < 1) return images.map(({ uri }) => uri);
 
   const { data } = await axiosInstance.post<AxiosResponse<string[]>>(
-    "/v1/user/upload",
-    formData,
-    {
-      headers: {
-        tokenNeeded: true,
-      },
-    }
+    "/v1/upload",
+    formData
   );
 
   return images.map(({ uri }, i) => {

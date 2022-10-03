@@ -1,8 +1,8 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 
-import { axiosInstance } from "../../utils";
+import { ThreadImages } from "../../types/threads";
+import { extractImageInfos } from "../../utils";
 
 export const SPreview = styled.div`
   width: 200px;
@@ -31,6 +31,7 @@ export const SContainer = styled.div`
     color: #707070;
     cursor: pointer;
     transition: all 0.4s;
+    font-size: 12px;
 
     &:hover {
       color: #ffffff;
@@ -43,42 +44,23 @@ export const SContainer = styled.div`
     display: none;
   }
 `;
-
-export const getImgUrl = async (files: FileList): Promise<string[]> => {
-  const formData = new FormData();
-
-  for (let i = 0; i < files.length; i++) {
-    formData.append("files", files[i]);
-  }
-
-  const { data } = await axiosInstance.post("/v1/user/upload", formData, {
-    headers: {
-      tokenNeeded: true,
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
-  return data.data;
-};
-
 interface Prop {
   id: string;
   label: string;
   imgUrl: string;
   setImgUrl: React.Dispatch<React.SetStateAction<string | ArrayBuffer | null>>;
+  imgFile: React.MutableRefObject<string | ThreadImages>;
 }
 
-const ProfileImage = ({ id, label, imgUrl, setImgUrl }: Prop) => {
-  const encodeFileToBase64 = (fileBlob: Blob) => {
-    console.log(fileBlob);
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise<void>((resolve) => {
-      reader.onload = () => {
-        setImgUrl(reader.result);
-        resolve();
-      };
-    });
+const ProfileImage = ({ id, label, imgUrl, setImgUrl, imgFile }: Prop) => {
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const image = e.target.files;
+    if (!image?.length) return;
+
+    const imageInfos = (await extractImageInfos([...image]))[0];
+
+    imgFile.current = imageInfos;
+    setImgUrl(imageInfos.uri);
   };
 
   return (
@@ -90,9 +72,8 @@ const ProfileImage = ({ id, label, imgUrl, setImgUrl }: Prop) => {
       <input
         type="file"
         id={id}
-        onChange={(e) => {
-          encodeFileToBase64((e.target.files as FileList)[0]);
-        }}
+        accept="image/*"
+        onChange={(e) => handleImageChange(e)}
       />
     </SContainer>
   );
