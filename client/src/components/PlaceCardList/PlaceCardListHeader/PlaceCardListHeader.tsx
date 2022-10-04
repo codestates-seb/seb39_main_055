@@ -17,15 +17,16 @@ interface PlaceListHeaderProps {
   title: ReactNode;
   category: ReactNode;
   filter?: ReactNode;
+  showSearchBar?: boolean;
 }
 
 const PlaceListHeader = memo(
-  ({ title, category, filter }: PlaceListHeaderProps) => {
+  ({ title, category, filter, showSearchBar = true }: PlaceListHeaderProps) => {
     const [locPermission] = useGeolocation();
 
     return (
       <SHeader>
-        <SearchBar />
+        {showSearchBar && <SearchBar />}
         {title}
         <SWarningBox showWarning={!locPermission}>
           <SaBox>
