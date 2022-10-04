@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 
+import { blink } from "./animation";
 import { Skelcontainer, SkeletonDefaultProps, SkelItemDefault } from "./styles";
 
 type CircleProps = Partial<SkeletonDefaultProps> & {
@@ -14,8 +15,12 @@ export interface SkeletonProps {
   animation?: "blink" | "wave";
 }
 
-export const Rectangle = styled(SkelItemDefault)`
+export const Rectangle = styled.div<SkeletonDefaultProps>`
   border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  animation: ${blink} 1.5s ease infinite;
 
   ${({ width, height }) =>
     width &&

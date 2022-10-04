@@ -43,8 +43,6 @@ export const SkelItemDefault = styled.div<SkeletonDefaultProps>`
   overflow: hidden;
   background-color: #f5f5f5;
 
-  // TODO: wave가 자식 컴포넌트들 안에서 잘리도록
-
   ${({ animation }) =>
     animation === "blink"
       ? css`
