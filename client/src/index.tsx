@@ -20,7 +20,8 @@ const preloadedState: PreloadedState<RootState> = currentUserToken
         loginStatus: true,
         keepLoggedIn: true,
         userInfos: initialUserInfos,
-        token: currentUserToken,
+        accessToken: currentUserToken,
+        refreshToken: "",
         locationPermission,
       },
     }

@@ -16,7 +16,8 @@ export interface User {
   locationPermission: boolean;
   userInfos: UserInfos | null;
   keepLoggedIn: boolean;
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export type EditUserInfosRequest = Pick<

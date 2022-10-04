@@ -39,14 +39,14 @@ function authorizationSetter(config: AxiosRequestConfig) {
 
   const { user } = store.getState();
 
-  if (!user.token) {
+  if (!user.accessToken) {
     throw new Error(
       "유저 인증 정보가 존재하지 않습니다. 토큰을 보내기 전에 로그인 상태를 확인하세요."
     );
   }
 
   delete header.tokenNeeded;
-  header.Authorization = user.token;
+  header.Authorization = user.accessToken;
 
   return config;
 }

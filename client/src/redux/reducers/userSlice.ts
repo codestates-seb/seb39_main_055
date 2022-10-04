@@ -25,38 +25,35 @@ export const initialUser: User = {
   keepLoggedIn: false,
   locationPermission: false,
   userInfos: initialUserInfos,
-  token: "",
+  accessToken: "",
+  refreshToken: "",
 };
 
-/* function removeOptionals<T>(obj): obj is NonNullable<T> {
-  const filtered = {};
-  Object.entries(obj).filter(([key, value]) => {
-    if (value === undefined) return false;
-    return true;
-  });
-} */
-
-type LogInPayload = Pick<User, "token" | "keepLoggedIn">;
+type LogInPayload = Pick<User, "accessToken" | "refreshToken" | "keepLoggedIn">;
 
 const userSlice = createSlice({
   name: "user",
   initialState: initialUser,
   reducers: {
     logInUser: (state, { payload }: PayloadAction<LogInPayload>) => {
-      const { token, keepLoggedIn } = payload;
+      const { accessToken, refreshToken, keepLoggedIn } = payload;
 
       if (keepLoggedIn) {
         state.keepLoggedIn = true;
       }
-      state.token = token;
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
       state.loginStatus = true;
     },
     initializeUserInfos: (state, { payload }: PayloadAction<UserInfos>) => {
       const { latitude, longitude } = payload;
 
       if (!latitude || !longitude) {
-        payload.latitude = INITIAL_LOCATION.latitude;
-        payload.longitude = INITIAL_LOCATION.longitude;
+        const { latitude: currentLat, longitude: currentLon } =
+          state.userInfos || initialUserInfos;
+
+        payload.latitude = currentLat;
+        payload.longitude = currentLon;
       }
       state.userInfos = { ...payload, hearts: [], threads: [] };
     },

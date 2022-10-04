@@ -26,9 +26,9 @@ interface ErrorResponse {
 
 const handleLogin = async ({ email, password }: LoginForm) => {
   const { headers } = await axiosInstance.post("/login", { email, password });
-  const { authorization: token } = headers;
+  const { authorization: accessToken, refresh: refreshToken } = headers;
 
-  return token;
+  return { accessToken, refreshToken };
 };
 
 export const fetchUserInfos = async () => {
@@ -50,12 +50,12 @@ export default function useLogin() {
   const dispatch = useAppDispatch();
   const [errMsg, setErrMsg] = useState("");
   const { mutate, isLoading, isSuccess, isError } = useMutation<
-    string,
+    { accessToken: string; refreshToken: string },
     AxiosError<ErrorResponse>,
     LoginForm
   >((form) => handleLogin(form), {
-    onSuccess: async (token, { keepLoggedIn }) => {
-      dispatch(logInUser({ token, keepLoggedIn }));
+    onSuccess: async ({ accessToken, refreshToken }, { keepLoggedIn }) => {
+      dispatch(logInUser({ accessToken, refreshToken, keepLoggedIn }));
 
       const userInfos = await fetchUserInfos();
       dispatch(initializeUserInfos(userInfos));
