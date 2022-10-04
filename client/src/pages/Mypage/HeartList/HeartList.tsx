@@ -166,6 +166,7 @@ const HeartList = () => {
       </SLoadingContainer>
     );
   }
+  //
   // console.log(data);
   return (
     <SContainer>
