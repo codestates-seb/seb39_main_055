@@ -54,9 +54,10 @@ const SSocialBox = styled.div`
 
 const SocialLogin = () => {
   const navigate = useNavigate();
+
   const handleClick = () => {
     window.location.href =
-      "https://soyoungp.shop/login/oauth2/code/google?redirect_url=http://localhost:3000/oauth/redirect";
+      "https://soyoungp.shop/oauth2/authorization/google?redirect_uri=http://localhost:3000/login/oauth";
   };
 
   return (
