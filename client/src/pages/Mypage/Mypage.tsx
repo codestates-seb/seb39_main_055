@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import { mobile, tablet } from "../../assets";
 import user from "../../assets/images/mypage/user.png";
 import { useModal } from "../../components";
-import ResignModal from "../../components/Modal/ResignModal/ResignModal";
+// import ResignModal from "../../components/Modal/ResignModal/ResignModal";
 import { logInUser, logOutUser, useAppSelector } from "../../redux";
 import HeartList from "./HeartList/HeartList";
 import MyPostList from "./MyPostList/MyPostList";
