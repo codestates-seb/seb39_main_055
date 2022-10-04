@@ -21,10 +21,10 @@ const middlewares: Middleware[] = [];
 
 const localStorageHandler: CaseHandler = {
   "user/initializeUserInfos": (storeAPI, next, action) => {
-    const { keepLoggedIn, token } = storeAPI.getState().user;
+    const { keepLoggedIn, accessToken } = storeAPI.getState().user;
 
     if (!keepLoggedIn) return next(action);
-    localStorage.setItem("currentUser", JSON.stringify(token));
+    localStorage.setItem("currentUser", JSON.stringify(accessToken));
   },
   "user/logOutUser": () => {
     localStorage.removeItem("currentUser");
