@@ -15,15 +15,6 @@ import { axiosInstance } from "../../../utils";
 import NoImage from "../RecentList/NoImage";
 import { heartDummyData } from "./HeartDummyData";
 
-// interface Props {
-//   storeId: number;
-//   image: string;
-//   category: string;
-//   storeName: string;
-//   addressName: string;
-//   storeImages: { storeImage: string }[];
-// }
-
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
   display: flex;
@@ -78,7 +69,7 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  width: 100%;
+  // width: 100%;
   height: auto;
 `;
 
@@ -149,7 +140,7 @@ const SLoadingContainer = styled.div`
     margin-top: 50px;
   `)}
 `;
-//
+
 const HeartList = () => {
   const navigate = useNavigate();
   const cutStringLength = (str: string, maxLength: number) => {

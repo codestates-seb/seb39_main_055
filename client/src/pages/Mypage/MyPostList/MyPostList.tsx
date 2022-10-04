@@ -1,3 +1,4 @@
+import parse from "html-react-parser";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
@@ -65,7 +66,7 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  width: 100%;
+  // width: 100%;
   height: auto;
 `;
 
@@ -139,6 +140,7 @@ const MyPostList = () => {
     getThreadList,
     { retry: false, cacheTime: 3000 }
   );
+  console.log(data);
   if (isLoading) {
     return (
       <SLoadingContainer>
@@ -156,24 +158,20 @@ const MyPostList = () => {
       <SItemContainer>
         {(data?.length as number) > 0 ? (
           data?.map((post: any) => (
-            <SCardContainer key={post.data.thread.threadId}>
+            <SCardContainer key={post.threadId}>
               <SCard onClick={() => navigate("/post/{threadId}")}>
                 <img
                   src={
-                    post.data.thread.threadImages.length >= 1
-                      ? post.data.thread.threadImages[0].threadImage
+                    post.threadImages.length >= 1
+                      ? post.threadImages[0].image
                       : defaultImg
                   }
-                  alt={post.data.threadId}
+                  alt={post.threadId}
                 />
                 <STextInfo>
-                  {/* data.body의 앞부분 일부가 제목으로. */}
-                  <STitle>{cutStringLength(post.data.thread.body, 13)}</STitle>
-                  {/* 년,월,일 까지만 출력 */}
-                  <SCreatedAt>
-                    {post.data.createdAt.substring(0, 10)}
-                  </SCreatedAt>
-                  <SNickname>{post.data.user.nickname}</SNickname>
+                  <STitle>{parse(post.body as string)}</STitle>
+                  <SCreatedAt>{post.createdAt.substring(0, 10)}</SCreatedAt>
+                  <SNickname>{post.user.nickname}</SNickname>
                 </STextInfo>
               </SCard>
             </SCardContainer>
