@@ -62,16 +62,16 @@ public class LikesService {
                 PageRequest.of(page, size, Sort.by("createdAt").descending()),
                 user,
                 Likes.LikesStatus.LIKES_EXIST);
-        verifiedNoLikes(likes); // findAllLikes 안에 반환된 데이터가 없으면 예외 발생
+//        verifiedNoLikes(likes); // findAllLikes 안에 반환된 데이터가 없으면 예외 발생
 
         return likes;
     }
 
-    private void verifiedNoLikes(Page<Likes> likes) {
-        if(likes.getTotalElements() == 0) {
-            throw new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND);
-        }
-    }
+//    private void verifiedNoLikes(Page<Likes> likes) {
+//        if(likes.getTotalElements() == 0) {
+//            throw new BusinessLogicException(ExceptionCode.LIKES_NOT_FOUND);
+//        }
+//    }
 
     public List<Likes> findExistLikesByThread(Thread thread) { //해당 thread의 likes중에 Status가 LIKES_EXIST인 것만 반환
         return likesRepository.findByThreadAndLikesStatus(thread, Likes.LikesStatus.LIKES_EXIST);

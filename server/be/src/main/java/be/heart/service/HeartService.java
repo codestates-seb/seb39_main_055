@@ -48,16 +48,16 @@ public class HeartService {
                 PageRequest.of(page,size, Sort.by("createdAt").descending()),
                 user,
                 Heart.HeartStatus.HEART_EXIST);
-        verifiedNoHeart(hearts);//findAllHeart안의 반환된 데이터가 없으면 예외발생
+//        verifiedNoHeart(hearts);//findAllHeart안의 반환된 데이터가 없으면 예외발생
 
         return hearts;
     }
 
-    private void verifiedNoHeart(Page<Heart> hearts){
-        if(hearts.getTotalElements()==0){
-            throw new BusinessLogicException(ExceptionCode.HEART_NOT_FOUND);
-        }
-    }
+//    private void verifiedNoHeart(Page<Heart> hearts){
+//        if(hearts.getTotalElements()==0){
+//            throw new BusinessLogicException(ExceptionCode.HEART_NOT_FOUND);
+//        }
+//    }
 
     private Heart findExistHeart(User user, Store store){//등록된 하트면 반환->등록된 하트가 아니면 에러!
 
