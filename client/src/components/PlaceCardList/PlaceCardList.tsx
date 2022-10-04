@@ -1,14 +1,30 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable consistent-return */
-import { MutableRefObject } from "react";
+import {
+  MouseEvent,
+  MutableRefObject,
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
+import { BsFilter } from "react-icons/bs";
 
 import useListPlaces from "../../apis/place/useListPlaces";
 import { selectUserInfos, useAppSelector } from "../../redux";
-import { PageInfo, UserInfos } from "../../types";
-import { averageStar, calculateDistance } from "../../utils";
+import { UserInfos } from "../../types";
+import { averageStar, calculateDistance, isKeyOf } from "../../utils";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
-import { NoSearchResult, SBottomBox, SUList } from "./style";
+import {
+  NoSearchResult,
+  SBottomBox,
+  SButton,
+  SFilterUList,
+  SList,
+  SSection,
+  SUList,
+} from "./style";
 
 export interface Review {
   reviewId: string;
@@ -40,16 +56,12 @@ export interface StoreList {
   heartUserId: number[];
 }
 
-interface SearchResponse {
-  data: StoreList[];
-  pageInfo: PageInfo;
-}
-
 type UserCoordinate = [number | undefined, number | undefined];
 
 const renderPlaceCards = (
   data: StoreList[] | number[],
-  [userLat, userLon]: UserCoordinate
+  [userLat, userLon]: UserCoordinate,
+  userId = -1
 ) => {
   return data.map((e, i) => {
     if (typeof e === "number") return <PlaceSkeleton key={i} />;
@@ -65,7 +77,7 @@ const renderPlaceCards = (
     } = e;
     let { addressName } = e;
     if (!userLat || !userLon) return;
-
+    const heartUserList = new Set(heartUserId);
     const avgRating = Number(averageStar(reviews));
     const distance = calculateDistance(
       [userLat, userLon],
@@ -83,18 +95,22 @@ const renderPlaceCards = (
       addressName = province;
     }
 
+    const isLiked = heartUserList.has(userId);
+
     return (
-      <PlaceCard
-        image={storeImages[0]?.storeImage}
-        alt={`${storeName}의 대표 이미지`}
-        location={addressName}
-        storeName={storeName}
-        averageRating={avgRating}
-        reviews={reviews.length}
-        distance={distance}
-        storeId={storeId}
-        key={storeId}
-      />
+      <Suspense fallback={<PlaceSkeleton />} key={storeId}>
+        <PlaceCard
+          image={storeImages[0]?.storeImage}
+          alt={`${storeName}의 대표 이미지`}
+          location={addressName}
+          storeName={storeName}
+          averageRating={avgRating}
+          reviews={reviews.length}
+          distance={distance}
+          storeId={storeId}
+          key={storeId}
+        />
+      </Suspense>
     );
   });
 };
@@ -131,26 +147,67 @@ function errorHandler(result: StoreList[], isError: boolean) {
   return <NoSearchResult title={title} height="650px" />;
 }
 
+const sortOptions = {
+  거리순: "distance",
+  최신순: "createdAt",
+};
+
 interface ResultListProps {
   category: string;
   keyword?: string;
 }
 const PlaceList = ({ keyword, category }: ResultListProps) => {
-  const { longitude, latitude } = useAppSelector(selectUserInfos) || {};
+  const [filterMount, setFilterMount] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [sort, setSort] = useState<"distance" | "createdAt">();
+  const { longitude, latitude, userId } = useAppSelector(selectUserInfos) || {};
   const { items, allResult, isFetching, isError, bottomRef, itemsPerPage } =
-    useListPlaces({ category, longitude, latitude, keyword });
+    useListPlaces({ category, longitude, latitude, keyword, sort });
+
+  const handleSort = (e: MouseEvent) => {
+    if (!(e.target instanceof Element) || !e.target.textContent) return;
+    const sort = e.target.textContent;
+
+    if (isKeyOf(sort, sortOptions)) {
+      setSort(sortOptions[sort] as "distance" | "createdAt");
+    }
+    toggleFilterList();
+  };
+
+  const toggleFilterList = () => {
+    if (!filterMount) {
+      setFilterMount(true);
+      setTimeout(() => setFilterOpen(true), 0);
+      return;
+    }
+    setFilterOpen(false);
+    setTimeout(() => setFilterMount(false), 400);
+  };
 
   const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
+  console.log("🟡 - PlaceList - places", places);
 
   return (
-    <>
+    <SSection>
+      <SButton type="button" onClick={toggleFilterList}>
+        <BsFilter />
+        필터
+      </SButton>
+      {filterMount && (
+        <SFilterUList isOpen={filterOpen} onClick={handleSort}>
+          <SList>거리순</SList>
+          <SList>최신순</SList>
+        </SFilterUList>
+      )}
       {places.length > 0 ? (
-        <SUList>{renderPlaceCards(places, [latitude, longitude])}</SUList>
+        <SUList>
+          {renderPlaceCards(places, [latitude, longitude], userId)}
+        </SUList>
       ) : (
         errorHandler(places, isError)
       )}
       <SBottomBox ref={bottomRef} />
-    </>
+    </SSection>
   );
 };
 
