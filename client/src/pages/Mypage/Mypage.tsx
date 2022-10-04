@@ -298,7 +298,7 @@ const Mypage = () => {
   const navigate = useNavigate();
   const { userInfos } = useAppSelector((state) => state.user);
   const { openModal } = useModal();
-
+  //
   // useEffect(() => {
   //   localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
   // }, []);
