@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../assets";
 import user from "../../assets/images/mypage/user.png";
+import { useModal } from "../../components";
+import ResignModal from "../../components/Modal/ResignModal/ResignModal";
+import { logInUser, logOutUser, useAppSelector } from "../../redux";
 import HeartList from "./HeartList/HeartList";
 import MyPostList from "./MyPostList/MyPostList";
 import { recentPlace } from "./RecentList/RecentDummyData";
@@ -121,8 +124,13 @@ const SUserImg = styled.div`
   justify-content: center;
 
   & > img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+
     ${mobile(css`
-      width: 60px;
+      width: 80px;
+      height: 80px;
       margin-left: 25px;
     `)}
   }
@@ -285,12 +293,21 @@ const SResignation = styled.div`
     flex-wrap: wrap;
   `)}
 `;
+
 const Mypage = () => {
   const navigate = useNavigate();
+  const { userInfos } = useAppSelector((state) => state.user);
+  const { openModal } = useModal();
 
   // useEffect(() => {
   //   localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
   // }, []);
+
+  // useEffect(() => {
+  //   if (loginStatus(false)) {
+  //     return navigate("/");
+  //   }
+  // }, [logInUser]);
 
   const localstorageData = JSON.parse(
     localStorage.getItem("recentPlace") as string
@@ -303,8 +320,9 @@ const Mypage = () => {
         <SMyInfoContainer>
           <SMyInfo>
             <SUserImg>
-              <img alt="유저사진" src={user} />
-              <div>JIN님</div>
+              {/* 사진 등록 여부에 따라 디폴트사진/유저사진변경 */}
+              <img alt="유저사진" src={userInfos?.image} />
+              <div>{userInfos?.nickname} 님</div>
             </SUserImg>
             <SLinkContainer>
               <SWritePost onClick={() => navigate("/post/new")}>
@@ -320,7 +338,7 @@ const Mypage = () => {
                 회원정보수정
                 <MdArrowForwardIos />
               </SEditUserInfo>
-              <SResignation onClick={() => navigate("/.")}>
+              <SResignation onClick={() => openModal(<ResignModal />)}>
                 회원탈퇴
                 <MdArrowForwardIos />
               </SResignation>

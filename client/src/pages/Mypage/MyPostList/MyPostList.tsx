@@ -1,5 +1,6 @@
+import parse from "html-react-parser";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { getThreadList } from "../../../apis/user/threadList";
@@ -7,20 +8,11 @@ import { mobile, tablet } from "../../../assets";
 import photoShoot from "../../../assets/icons/photoShoot.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { LoadingSpinner } from "../../../components";
+import useAppContext from "../../../components/Modal/useAppContext";
 import { useAppSelector } from "../../../redux";
 import NoImage from "../RecentList/NoImage";
 import { post } from "./PostDummyData";
 
-// interface Props {
-//   threadId: number;
-//   // eslint-disable-next-line react/no-unused-prop-types
-//   threadImages: { image: string }[];
-//   image: string;
-//   body: string;
-//   createdAt: string;
-//   nickname: string;
-// }
-// data.body(앞글자 일부를 제목으로?), createdAt, user.nickname user.image 필요
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
   display: flex;
@@ -74,7 +66,7 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  width: 100%;
+  // width: 100%;
   height: auto;
 `;
 
@@ -126,10 +118,12 @@ const SLoadingContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 33%;
 `;
 
 const MyPostList = () => {
+  const navigate = useNavigate();
+
   const cutStringLength = (str: string, maxLength: number) => {
     if (str === undefined || str === null) {
       return "";
@@ -144,15 +138,14 @@ const MyPostList = () => {
   const { data, isLoading } = useQuery(
     ["thread", userInfos?.userId],
     getThreadList,
-    { retry: 1, cacheTime: 0 }
+    { retry: false, cacheTime: 3000 }
   );
+  console.log(data);
   if (isLoading) {
     return (
-      <SContainer>
-        <SLoadingContainer>
-          <LoadingSpinner />
-        </SLoadingContainer>
-      </SContainer>
+      <SLoadingContainer>
+        <LoadingSpinner />
+      </SLoadingContainer>
     );
   }
 
@@ -165,24 +158,20 @@ const MyPostList = () => {
       <SItemContainer>
         {(data?.length as number) > 0 ? (
           data?.map((post: any) => (
-            <SCardContainer key={post.data.threadId}>
-              <SCard>
+            <SCardContainer key={post.threadId}>
+              <SCard onClick={() => navigate("/post/{threadId}")}>
                 <img
                   src={
-                    post.data.threadImages.length >= 1
-                      ? post.data.threadImages[0].image
+                    post.threadImages.length >= 1
+                      ? post.threadImages[0].image
                       : defaultImg
                   }
-                  alt={post.data.threadId}
+                  alt={post.threadId}
                 />
                 <STextInfo>
-                  {/* data.body의 앞부분 일부가 제목으로. */}
-                  <STitle>{cutStringLength(post.data.body, 13)}</STitle>
-                  {/* 년,월,일 까지만 출력 */}
-                  <SCreatedAt>
-                    {post.data.createdAt.substring(0, 10)}
-                  </SCreatedAt>
-                  <SNickname>{post.data.user.nickname}</SNickname>
+                  <STitle>{parse(post.body as string)}</STitle>
+                  <SCreatedAt>{post.createdAt.substring(0, 10)}</SCreatedAt>
+                  <SNickname>{post.user.nickname}</SNickname>
                 </STextInfo>
               </SCard>
             </SCardContainer>
