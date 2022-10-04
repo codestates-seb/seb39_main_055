@@ -39,7 +39,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => {
-              navigate("/place/list");
+              navigate("/place/list?category=room");
             }}
           >
             펫플레이스
