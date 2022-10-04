@@ -47,9 +47,6 @@ const useGeolocation: UseGeolocationReturn = () => {
   }, [locationPermission]);
 
   useEffect(() => {
-    // 로그인 상태에서는 회원 정보의 위,경도를 이용
-    if (loginStatus) return;
-
     const watcherId = navigator.geolocation.watchPosition(
       ({ coords }) => {
         const { latitude: currentLat, longitude: currentLon } = coords;

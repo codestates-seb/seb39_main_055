@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchUserInfos } from "./apis/user/login";
 import { Modal, SharedLayout } from "./components";
-import { Main } from "./pages";
+import { Main, Oauth } from "./pages";
 import {
   initializeUserInfos,
   logOutUser,
@@ -37,6 +37,7 @@ const App = () => {
     <>
       <Modal width="600px" height="max-content" borderRadius="12px" background>
         <Routes>
+          <Route path="/login/oauth" element={<Oauth />} />
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Main />} />
             <Route path="/*" element={<UserRouter />} />

@@ -52,6 +52,12 @@ const userSlice = createSlice({
       state.loginStatus = true;
     },
     initializeUserInfos: (state, { payload }: PayloadAction<UserInfos>) => {
+      const { latitude, longitude } = payload;
+
+      if (!latitude || !longitude) {
+        payload.latitude = INITIAL_LOCATION.latitude;
+        payload.longitude = INITIAL_LOCATION.longitude;
+      }
       state.userInfos = { ...payload, hearts: [], threads: [] };
     },
     changeUserNickname: (state, { payload }: PayloadAction<string>) => {

@@ -1,5 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
+import axios from "axios";
 import { memo } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 import {
@@ -40,6 +43,28 @@ const PlaceCard = memo(
     storeId,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
+    const { data } = useQuery(
+      ["place", "mainPicture", storeId],
+      async () => {
+        const { data } = await axios.get(
+          "https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg",
+          {
+            responseType: "blob",
+          }
+        );
+
+        const imageURL = URL.createObjectURL(data);
+
+        return imageURL;
+      },
+      { suspense: true }
+    );
+
+    /* useEffect(() => {
+      if (!data) return;
+
+      return () => URL.revokeObjectURL(data);
+    }, [data]); */
 
     return (
       <SList>
