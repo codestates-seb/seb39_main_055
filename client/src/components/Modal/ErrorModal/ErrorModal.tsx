@@ -35,16 +35,24 @@ export const Scontainer = styled.div`
 
 interface Prop {
   body: string;
+  callback?: () => void;
 }
 
-const ErrorModal = ({ body }: Prop) => {
+const ErrorModal = ({ body, callback }: Prop) => {
   const { closeModal } = useModal();
+
+  const handleConfirm = () => {
+    if (callback) {
+      callback();
+    }
+    closeModal();
+  };
 
   return (
     <Scontainer>
       <MdOutlineError />
       <p>{body}</p>
-      <button type="button" onClick={closeModal}>
+      <button type="button" onClick={handleConfirm}>
         확인
       </button>
     </Scontainer>
