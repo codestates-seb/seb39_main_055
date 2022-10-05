@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 
 import { getPlaceList } from "../../../apis";
-import { DUMMY_BUTTON, DUMMY_CATEGORY_LIST, DUMMY_IMG_LIST } from "./data";
+import { DUMMY_BUTTON, DUMMY_CATEGORY_LIST } from "./data";
 import PlaceCard from "./PlaceCard/PlaceCard";
 import {
   Container,
@@ -16,12 +16,10 @@ import {
 
 const HotPlace = () => {
   const [buttonIndex, setButtonIndex] = useState<string | number>(0);
-  const [imageIndex, setImageIndex] = useState(0);
 
   const handleBtnClick: React.MouseEventHandler<HTMLButtonElement> = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setImageIndex(Number((event.target as HTMLButtonElement).value));
     setButtonIndex(Number((event.target as HTMLButtonElement).value));
   };
 
@@ -38,7 +36,9 @@ const HotPlace = () => {
       </header>
       <SSection>
         <SImgContainer>
-          <img src={DUMMY_IMG_LIST[imageIndex]} alt="hotel" />
+          {data && data[0] && (
+            <img src={data[0].storeImages[0].storeImage} alt="hotel" />
+          )}
         </SImgContainer>
         <SMainContainer>
           <SButtonContainer>
