@@ -7,6 +7,7 @@ export { default as NewPlace } from "./Place/NewPlace/NewPlace";
 export * from "./Posts";
 export { default as EditPost } from "./Posts/EditPost/EditPost";
 export { default as NewPost } from "./Posts/NewPost/NewPost";
+export { default as Business } from "./Register/Business/Business";
 export { default as Login } from "./Register/Login/Login";
 export { default as Signup } from "./Register/Signup/Signup";
 export { default as Search } from "./Search/Search";
