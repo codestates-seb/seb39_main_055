@@ -3,11 +3,14 @@
 /* eslint-disable consistent-return */
 import { MouseEvent, MutableRefObject, Suspense, useState } from "react";
 import { BsSortDown } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import useListPlaces from "../../apis/place/useListPlaces";
+import { useCloseElement } from "../../hooks";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { Review, UserInfos } from "../../types";
 import { averageStar, calculateDistance, isKeyOf } from "../../utils";
+import { ErrorModal, LoginModal, useModal } from "../Modal";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
 import {
@@ -16,8 +19,6 @@ import {
   SButton,
   SButtonBox,
   SFilterUList,
-  SLink,
-  SList,
   SSection,
   SUList,
 } from "./style";
@@ -143,8 +144,7 @@ interface ResultListProps {
   keyword?: string;
 }
 const PlaceList = ({ keyword, category }: ResultListProps) => {
-  const [filterMount, setFilterMount] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [isTabOpen, setIsTabOpen, tabRef] = useCloseElement();
   const [sort, setSort] = useState<"distance" | "createdAt">();
   const { longitude, latitude, userId } = useAppSelector(selectUserInfos) || {};
   const { items, allResult, isFetching, isError, bottomRef, itemsPerPage } =
@@ -161,33 +161,49 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
   };
 
   const toggleFilterList = () => {
-    if (!filterMount) {
-      setFilterMount(true);
-      setTimeout(() => setFilterOpen(true), 0);
-      return;
-    }
-    setFilterOpen(false);
-    setTimeout(() => setFilterMount(false), 400);
+    setIsTabOpen((prev) => !prev);
   };
 
   const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
 
+  const navigate = useNavigate();
+  const { openModal } = useModal();
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
+
+  const handleNewPlaceClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+
+    if (userInfos?.userRole === "ROLE_USER") {
+      openModal(
+        <ErrorModal
+          body="매장을 등록하려면 사업자 등록이 필요합니다."
+          buttonText="사업자 등록하기"
+          callback={() => navigate("/business")}
+        />
+      );
+      return;
+    }
+
+    navigate("/place/new");
+  };
+
   return (
     <SSection>
       <SButtonBox>
-        <SLink to="/">업주 등록</SLink>
+        <SButton onClick={handleNewPlaceClick}>매장 등록</SButton>
         <SButton type="button" onClick={toggleFilterList}>
           <BsSortDown />
           필터
         </SButton>
       </SButtonBox>
 
-      {filterMount && (
-        <SFilterUList isOpen={filterOpen} onClick={handleSort}>
-          <SList>거리순</SList>
-          <SList>최신순</SList>
-        </SFilterUList>
-      )}
+      <SFilterUList isOpen={isTabOpen} onClick={handleSort} ref={tabRef}>
+        <li>거리순</li>
+        <li>최신순</li>
+      </SFilterUList>
       {places.length > 0 ? (
         <SUList>
           {renderPlaceCards(places, [latitude, longitude], userId)}

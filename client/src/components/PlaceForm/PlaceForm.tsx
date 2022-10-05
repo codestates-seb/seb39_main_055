@@ -15,7 +15,7 @@ import {
   phoneNumberValidation,
   urlValidation,
 } from "../../utils";
-import { Checkbox, FileInput, Input, SearchAddress, TextArea } from "..";
+import { Checkbox, Input, SearchAddress, TextArea } from "..";
 import { ErrorModal, useModal } from "../Modal";
 import PreviewImages from "../PostForms/PreviewImages/PreviewImages";
 import { SButton, SCheckboxContainer, SContainer, SForm } from "./style";
