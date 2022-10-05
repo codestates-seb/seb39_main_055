@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import styled from "styled-components";
 
 import {
   Category,
@@ -9,11 +8,7 @@ import {
   PlaceCardListHeader,
 } from "../../../components";
 import { placeListCategories } from "../../../constants";
-
-const SH1 = styled.h1`
-  font-size: 32px;
-  margin: 60px 0px 40px 0px;
-`;
+import { SBox, SH1 } from "./style";
 
 const PlaceList = () => {
   const [params, setParams] = useSearchParams();
@@ -28,7 +23,7 @@ const PlaceList = () => {
   }, [category]);
 
   return (
-    <div>
+    <SBox>
       <PlaceCardListHeader
         title={<SH1>펫 플레이스</SH1>}
         category={
@@ -37,7 +32,7 @@ const PlaceList = () => {
         showSearchBar={false}
       />
       <PlaceCardList category={category} />
-    </div>
+    </SBox>
   );
 };
 

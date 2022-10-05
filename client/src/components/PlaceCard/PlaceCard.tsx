@@ -1,11 +1,13 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
 import axios from "axios";
-import { memo, useLayoutEffect, useRef } from "react";
+import { memo, useEffect, useLayoutEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 import {
+  EmptyHeartSVG,
+  FillHeartSVG,
   SaLink,
   SBar,
   SFooter,
@@ -29,6 +31,7 @@ interface PlaceCardProps {
   averageRating: number;
   reviews: number;
   storeId: string;
+  isLiked: boolean;
 }
 
 const PlaceCard = memo(
@@ -41,6 +44,7 @@ const PlaceCard = memo(
     averageRating,
     reviews,
     storeId,
+    isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
     const imageRef = useRef<HTMLImageElement>(null);
@@ -62,19 +66,20 @@ const PlaceCard = memo(
       { suspense: true }
     );
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       if (!imageRef.current) return;
 
-      const { naturalHeight, naturalWidth } = imageRef.current || {
+      const imageEl = imageRef.current;
+      const { naturalHeight, naturalWidth, offsetHeight } = imageEl || {
         naturalHeight: 1,
         naturalWidth: 0,
       };
       const ratio = naturalWidth / naturalHeight;
-
+      console.log(naturalHeight, offsetHeight);
       // 사진 비율이 16:9가 아닐 때, max-width: 100%로 해줘야 부모 요소에 꽉참
       if (ratio < 1.5) {
-        imageRef.current.style.maxWidth = "100%";
-        imageRef.current.style.maxHeight = "max-content";
+        imageEl.style.maxWidth = "100%";
+        imageEl.style.maxHeight = "max-content";
       }
     }, []);
 
@@ -83,6 +88,8 @@ const PlaceCard = memo(
         <SaLink to={storeLink}>
           <SImg src={image} alt={alt} ref={imageRef} />
         </SaLink>
+        {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
+
         <SHeader>
           <STopBox>
             <SH2>{location}</SH2>
@@ -93,6 +100,7 @@ const PlaceCard = memo(
           </Link>
           <SBar />
         </SHeader>
+
         <SFooter>
           <SStarSVG />
           <SRatingP>

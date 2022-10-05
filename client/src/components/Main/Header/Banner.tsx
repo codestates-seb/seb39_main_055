@@ -25,6 +25,7 @@ const Banner = ({ image, summary, place, link }: BannerProps) => {
       <SLink to={link}>
         <SImg src={image} />
       </SLink>
+
       <SSection>
         <SH1>{summary}</SH1>
         <SH2>{place}</SH2>
