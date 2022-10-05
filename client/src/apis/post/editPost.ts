@@ -13,9 +13,11 @@ const checkDifference = (
     `${threadId}`,
   ]);
 
-  const isImageModified = cachedPayload?.threadImages.some(
-    ({ threadImage }, i) => threadImage !== threadImages[i]
-  );
+  const isImageModified =
+    cachedPayload?.threadImages.length !== threadImages.length ||
+    cachedPayload?.threadImages.some(
+      ({ threadImage }, i) => threadImage !== threadImages[i]
+    );
   const isBodyModified = cachedPayload?.body !== body;
 
   if (isBodyModified) {
