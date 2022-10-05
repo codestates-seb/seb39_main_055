@@ -58,7 +58,7 @@ type Social = "google" | "naver" | "kakao";
 
 const SocialLogin = () => {
   const handleSocialLoginClick = (type: Social) => {
-    window.location.href = `https://soyoungp.shop/oauth2/authorization/${type}?redirect_uri=http://localhost:3000/login/oauth`;
+    window.location.href = `https://soyoungpp.shop/oauth2/authorization/${type}?redirect_uri=http://localhost:3000/login/oauth`;
   };
 
   return (
