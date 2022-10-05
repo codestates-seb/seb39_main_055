@@ -18,7 +18,7 @@ const SContainer = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  margin: 100px 0px 200px 0px;
+  margin: 100px 0px 100px 0px;
   align-items: center;
   gap: 24px;
   min-height: calc(100vh - 380px);
