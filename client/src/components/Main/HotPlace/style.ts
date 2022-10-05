@@ -53,21 +53,6 @@ export const SImgContainer = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: fadein 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-  }
-
-  @keyframes fadein {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
   }
 
   @media screen and (max-width: 1000px) {

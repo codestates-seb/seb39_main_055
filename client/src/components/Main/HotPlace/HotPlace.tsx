@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 
-import { DUMMY_BUTTON, DUMMY_DATA, DUMMY_IMG_LIST } from "./data";
+import { getPlaceList } from "../../../apis";
+import { DUMMY_BUTTON, DUMMY_CATEGORY_LIST, DUMMY_IMG_LIST } from "./data";
 import PlaceCard from "./PlaceCard/PlaceCard";
 import {
   Container,
@@ -13,27 +15,20 @@ import {
 } from "./style";
 
 const HotPlace = () => {
-  const [data, setData] = useState(DUMMY_DATA);
   const [buttonIndex, setButtonIndex] = useState<string | number>(0);
   const [imageIndex, setImageIndex] = useState(0);
-  const isLoading = false;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setImageIndex((prev) =>
-        prev === DUMMY_IMG_LIST.length - 1 ? 0 : prev + 1
-      );
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const handleBtnClick: React.MouseEventHandler<HTMLButtonElement> = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log((event.target as HTMLButtonElement).value);
+    setImageIndex(Number((event.target as HTMLButtonElement).value));
     setButtonIndex(Number((event.target as HTMLButtonElement).value));
   };
+
+  const { data, isLoading } = useQuery(
+    ["hotPlace", DUMMY_CATEGORY_LIST[buttonIndex as number]],
+    () => getPlaceList(DUMMY_CATEGORY_LIST[buttonIndex as number])
+  );
 
   return (
     <Container>
@@ -65,12 +60,13 @@ const HotPlace = () => {
             {isLoading ? (
               <SLoading />
             ) : (
-              data.map((el) => (
+              data?.map((store) => (
                 <PlaceCard
-                  key={el.id}
-                  img={el.img}
-                  location={el.location}
-                  name={el.name}
+                  key={store.storeId}
+                  storeId={store.storeId}
+                  img={store.storeImages[0].storeImage}
+                  location={store.addressName}
+                  name={store.storeName}
                 />
               ))
             )}
