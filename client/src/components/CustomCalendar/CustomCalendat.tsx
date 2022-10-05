@@ -65,7 +65,6 @@ export const SError = styled.p<{ isError: boolean }>`
 `;
 
 interface Prop {
-  value: string;
   setValue: React.Dispatch<
     React.SetStateAction<{
       value: string;
@@ -75,7 +74,7 @@ interface Prop {
   isError: boolean;
 }
 
-const CustomCalendat = ({ value, isError, setValue }: Prop) => {
+const CustomCalendat = ({ isError, setValue }: Prop) => {
   const [startDate, setStartDate] = useState<null | Date>(null);
 
   const handleDateClick = (date: Date) => {
@@ -85,11 +84,9 @@ const CustomCalendat = ({ value, isError, setValue }: Prop) => {
       .replace(/-/g, "");
 
     setStartDate(date);
-    setValue((prev) => {
-      return {
-        ...prev,
-        value: convertDate,
-      };
+    setValue({
+      value: convertDate,
+      isError: false,
     });
   };
 
