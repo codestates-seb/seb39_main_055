@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   :root {
-    --toastify-toast-width: 400px;
+    --toastify-toast-width: 450px;
   }
 
   html,
