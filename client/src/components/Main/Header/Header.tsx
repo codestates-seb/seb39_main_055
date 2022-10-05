@@ -26,12 +26,6 @@ const SHeader = styled.header`
 
 const carouselItems = [
   {
-    image: Img2,
-    summary: "반려동물을 위한 호텔",
-    place: "부산 해운대 ‘더 펫텔 프리미엄 스위트’",
-    link: "/place/list",
-  },
-  {
     image: Img3,
     summary: "산속에서 반려동물과 함께 힐링을",
     place: "충주 ‘켄싱턴리조트 충주’",
@@ -47,6 +41,12 @@ const carouselItems = [
     image: Img5,
     summary: "반려견과 함께 즐기는 호캉스",
     place: "서울 중구 ‘프레이저 플레이스 센트럴 서울’",
+    link: "/place/list",
+  },
+  {
+    image: Img2,
+    summary: "반려동물을 위한 호텔",
+    place: "부산 해운대 ‘더 펫텔 프리미엄 스위트’",
     link: "/place/list",
   },
 ];

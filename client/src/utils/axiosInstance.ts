@@ -48,7 +48,7 @@ async function authorizationSetter(config: AxiosRequestConfig) {
     );
   }
   if (isTokenExpired(accessToken)) {
-    accessToken = await renewAccessToken(refreshToken);
+    accessToken = (await renewAccessToken(refreshToken)) as string;
   }
   // Store에 accessToken을 "Bearer" 없이 저장했을 때
   if (!accessToken.startsWith("Bearer")) {
