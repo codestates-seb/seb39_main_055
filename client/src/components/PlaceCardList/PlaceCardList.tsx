@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable consistent-return */
-import {
-  MouseEvent,
-  MutableRefObject,
-  Suspense,
-  useEffect,
-  useState,
-} from "react";
-import { BsFilter } from "react-icons/bs";
+import { MouseEvent, MutableRefObject, Suspense, useState } from "react";
+import { BsSortDown } from "react-icons/bs";
 
 import useListPlaces from "../../apis/place/useListPlaces";
 import { selectUserInfos, useAppSelector } from "../../redux";
@@ -20,7 +14,9 @@ import {
   NoSearchResult,
   SBottomBox,
   SButton,
+  SButtonBox,
   SFilterUList,
+  SLink,
   SList,
   SSection,
   SUList,
@@ -64,7 +60,7 @@ const renderPlaceCards = (
   userId = -1
 ) => {
   return data.map((e, i) => {
-    if (typeof e === "number") return <PlaceSkeleton key={i} />;
+    if (typeof e === "number") return <PlaceSkeleton key={`${i}th-Skeleton`} />;
 
     const {
       storeId,
@@ -77,20 +73,21 @@ const renderPlaceCards = (
     } = e;
     let { addressName } = e;
     if (!userLat || !userLon) return;
+
     const heartUserList = new Set(heartUserId);
     const avgRating = Number(averageStar(reviews));
     const distance = calculateDistance(
       [userLat, userLon],
       [latitude, longitude]
     );
-    const [province, district] = addressName.match(/(.*?)[시|구]/g)!;
+    const [province, district] = addressName.match(/(.*?)[시|구|군]/g)!;
 
     // 특별시, 광역시는 "구"까지 주소를 자름(ex. 서울시 중구, 대전시 대덕구)
     // 특별시, 광역시의 addressName은 OO시로 표현되므로 province 길이가 3 이하
     if (province.length <= 3) {
       addressName = `${province}${district}`;
     }
-    // 도 내의 일반 시는 "시"까지 주소를 자름(ex. 경기도 성남시)
+    // 도 내의 일반 시, 군은 "시/군"까지 주소를 자름(ex. 경기 성남시, 강원 고성군)
     if (province.length > 3) {
       addressName = province;
     }
@@ -141,7 +138,7 @@ function errorHandler(result: StoreList[], isError: boolean) {
     title = "알 수 없는 오류가 발생했습니다. (¯―¯٥)";
   }
   if (!isError && result) {
-    title = "검색 결과가 없습니다. (⚲_⚲)";
+    title = "결과가 없습니다. (⚲_⚲)";
   }
 
   return <NoSearchResult title={title} height="650px" />;
@@ -185,14 +182,17 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
   };
 
   const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
-  console.log("🟡 - PlaceList - places", places);
 
   return (
     <SSection>
-      <SButton type="button" onClick={toggleFilterList}>
-        <BsFilter />
-        필터
-      </SButton>
+      <SButtonBox>
+        <SLink to="/">업주 등록</SLink>
+        <SButton type="button" onClick={toggleFilterList}>
+          <BsSortDown />
+          필터
+        </SButton>
+      </SButtonBox>
+
       {filterMount && (
         <SFilterUList isOpen={filterOpen} onClick={handleSort}>
           <SList>거리순</SList>

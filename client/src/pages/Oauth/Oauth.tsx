@@ -8,14 +8,20 @@ import { initializeUserInfos, logInUser, useAppDispatch } from "../../redux";
 
 const Oauth = () => {
   const [searchParams] = useSearchParams();
-  const access_token = searchParams.get("access_token") as string;
-  const refresh_token = searchParams.get("refresh_token");
+  const access_token = searchParams.get("access_token") || "";
+  const refresh_token = searchParams.get("refresh_token") || "";
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { mutate } = useMutation(getUserInfos, {
     onSuccess: (data) => {
-      dispatch(logInUser({ token: access_token, keepLoggedIn: false }));
+      dispatch(
+        logInUser({
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          keepLoggedIn: false,
+        })
+      );
       dispatch(initializeUserInfos(data));
       navigate("/");
     },
