@@ -33,7 +33,7 @@ export const STitleContainer = styled.section`
 
   & > h1 {
     color: #161616;
-    font-size: 40px;
+    font-size: 32px;
   }
 `;
 
@@ -44,26 +44,19 @@ export const SButtonContainer = styled.section`
   margin-bottom: 45px;
 
   & > button {
-    width: 100px;
-    height: 50px;
-    border: 1px solid #a5a5a5;
+    padding: 10px 20px;
+    color: #161616;
+    background-color: inherit;
+    border: none;
     border-radius: 20px;
-    color: #000000;
-    background-color: #ffffff;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 16px;
     transition: all 0.4s;
+    box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
+      1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
     &:hover {
-      color: #ffffff;
       background-color: #ffc107;
       border-color: #ffc107;
-    }
-
-    @media screen and (max-width: 800px) {
-      width: 70px;
-      height: 45px;
-      font-size: 14px;
     }
   }
 `;
