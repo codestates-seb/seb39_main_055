@@ -6,6 +6,7 @@ import { BsSortDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 import useListPlaces from "../../apis/place/useListPlaces";
+import { useCloseElement } from "../../hooks";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { Review, UserInfos } from "../../types";
 import { averageStar, calculateDistance, isKeyOf } from "../../utils";
@@ -18,7 +19,6 @@ import {
   SButton,
   SButtonBox,
   SFilterUList,
-  SList,
   SSection,
   SUList,
 } from "./style";
@@ -144,8 +144,7 @@ interface ResultListProps {
   keyword?: string;
 }
 const PlaceList = ({ keyword, category }: ResultListProps) => {
-  const [filterMount, setFilterMount] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [isTabOpen, setIsTabOpen, tabRef] = useCloseElement();
   const [sort, setSort] = useState<"distance" | "createdAt">();
   const { longitude, latitude, userId } = useAppSelector(selectUserInfos) || {};
   const { items, allResult, isFetching, isError, bottomRef, itemsPerPage } =
@@ -162,13 +161,7 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
   };
 
   const toggleFilterList = () => {
-    if (!filterMount) {
-      setFilterMount(true);
-      setTimeout(() => setFilterOpen(true), 0);
-      return;
-    }
-    setFilterOpen(false);
-    setTimeout(() => setFilterMount(false), 400);
+    setIsTabOpen((prev) => !prev);
   };
 
   const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
@@ -207,12 +200,10 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
         </SButton>
       </SButtonBox>
 
-      {filterMount && (
-        <SFilterUList isOpen={filterOpen} onClick={handleSort}>
-          <SList>거리순</SList>
-          <SList>최신순</SList>
-        </SFilterUList>
-      )}
+      <SFilterUList isOpen={isTabOpen} onClick={handleSort} ref={tabRef}>
+        <li>거리순</li>
+        <li>최신순</li>
+      </SFilterUList>
       {places.length > 0 ? (
         <SUList>
           {renderPlaceCards(places, [latitude, longitude], userId)}

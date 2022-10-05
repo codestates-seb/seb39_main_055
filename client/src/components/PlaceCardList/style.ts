@@ -40,43 +40,59 @@ export const SButton = styled.button`
   ${defaultButton}
 `;
 
-export const SFilterUList = styled.ul<{ isOpen: boolean }>`
+export const SFilterUList = styled.div<{ isOpen: boolean }>`
   position: absolute;
-  right: 0px;
-  top: 43px;
-  width: 100px;
-  background-color: white;
-  border: 1px solid ${colors("black250")};
-  border-radius: 10px;
-  font-size: 16px;
-  color: ${colors("black250")};
-  transition: 400ms all;
-  overflow: hidden;
-  z-index: 1;
+  right: 0;
+  top: 50px;
 
-  ${({ isOpen }) => css`
-    opacity: ${isOpen ? 1 : 0};
-  `}
-`;
-
-export const SList = styled.li`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+  flex-direction: column;
   align-items: center;
-  width: 100%;
-  height: 33px;
-  padding: 5px;
-  border-bottom: 1px solid ${colors("black250")};
-  transition: 400ms all;
-  cursor: pointer;
 
-  &:last-child {
-    border-bottom: 0px;
+  width: 112px;
+  height: 87px;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #434343;
+  cursor: pointer;
+  z-index: 50;
+  font-family: "Noto Sans KR", sans-serif;
+
+  animation-name: dropdown;
+  animation-duration: 500ms;
+  animation-direction: normal;
+
+  & > li {
+    flex-basis: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      background-color: #efefef;
+    }
   }
 
-  &:hover {
-    background-color: ${colors("black050")};
+  & > li:first-child {
+    border-bottom: 1px solid #dbdbdb;
+    border-radius: 10px 10px 0 0;
+  }
+
+  & > li:last-child {
+    border-radius: 0 0 10px 10px;
+  }
+
+  @keyframes dropdown {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
 
