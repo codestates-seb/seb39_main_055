@@ -21,11 +21,10 @@ export const SContainer = styled.section<{ height: string }>`
 
   & > h1 {
     color: #161616;
-    font-size: 16px;
   }
 
   & > P {
-    margin-bottom: 10px;
+    margin-top: 10px;
   }
 `;
 
