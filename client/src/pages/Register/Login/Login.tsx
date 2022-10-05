@@ -53,8 +53,8 @@ const LoginForm = () => {
         id="username"
         value={email}
         placeholder="이메일을 입력하세요"
-        isError={isError && !emailValidation(email)}
-        errorMsg="유효하지 않은 이메일"
+        isError={isError || inputErrors.email}
+        errorMsg="유효하지 않은 이메일입니다."
         onChange={(e) => setEmail(e.target.value)}
       />
       <SPWBox>
@@ -63,11 +63,11 @@ const LoginForm = () => {
           type={isHidden ? "password" : "text"}
           value={password}
           placeholder="비밀번호를 입력하세요"
-          isError={isError && !passwordValidation(password)}
-          errorMsg={errMsg}
+          isError={isError || inputErrors.password}
+          errorMsg="유효하지 않은 비밀번호입니다."
           onChange={(e) => setPassword(e.target.value)}
         />
-        <SButton type="button" onClick={(e) => setIsHidden(!isHidden)}>
+        <SButton type="button" onClick={() => setIsHidden(!isHidden)}>
           {isHidden ? <HideSVG /> : <ShowSVG />}
         </SButton>
       </SPWBox>
