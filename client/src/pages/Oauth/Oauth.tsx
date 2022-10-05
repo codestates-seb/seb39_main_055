@@ -2,9 +2,19 @@
 import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import styled from "styled-components";
 
 import { getUserInfos } from "../../apis";
+import { LoadingSpinner } from "../../components";
 import { initializeUserInfos, logInUser, useAppDispatch } from "../../redux";
+
+export const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 380px);
+`;
 
 const Oauth = () => {
   const [searchParams] = useSearchParams();
@@ -31,7 +41,11 @@ const Oauth = () => {
     mutate(access_token);
   }, [access_token, mutate]);
 
-  return <div>loadinga</div>;
+  return (
+    <SLoadingContainer>
+      <LoadingSpinner />
+    </SLoadingContainer>
+  );
 };
 
 export default Oauth;
