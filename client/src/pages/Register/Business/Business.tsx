@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import { ButtonOrange, CustomCalendar, Input } from "../../../components";
@@ -74,28 +74,42 @@ const Business = () => {
     isError: false,
   });
 
-  useEffect(() => {
-    console.log(date.value);
-  }, [date]);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    checkName();
+    checkBusinessNumber();
+    if (!notBlank(date.value)) {
+      setDate((prev) => {
+        return { ...prev, isError: true };
+      });
+    }
+
+    if (
+      !notBlank(nameValue) ||
+      !businessNumberValidation(businessNumberValue) ||
+      !notBlank(date.value)
+    ) {
+      return;
+    }
+
+    console.log(nameValue, businessNumberValue, date.value);
+  };
 
   return (
     <SContainer>
       <h1>사업자 등록</h1>
-      <form onSubmit={() => console.log("asd")}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <Input
           label="대표자 성명"
           id="대표자 성명"
           value={nameValue}
           isError={nameError}
-          errorMsg="두 글자 이상 입력해주세요."
+          errorMsg="대표자 성명을 입력해주세요."
           placeholder="대표자 성명을 입력해주세요."
           onChange={(e) => handleName(e)}
         />
-        <CustomCalendar
-          value={date.value}
-          setValue={setDate}
-          isError={date.isError}
-        />
+        <CustomCalendar setValue={setDate} isError={date.isError} />
         <Input
           label="사업자 등록 번호"
           id="사업자 등록 번호"
