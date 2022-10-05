@@ -30,6 +30,7 @@ export const initialUser: User = {
 };
 
 type LogInPayload = Pick<User, "accessToken" | "refreshToken" | "keepLoggedIn">;
+type TokenPayload = Pick<Partial<User>, "accessToken" | "refreshToken">;
 
 const userSlice = createSlice({
   name: "user",
@@ -86,6 +87,16 @@ const userSlice = createSlice({
     changeLocationPermission: (state, { payload }: PayloadAction<boolean>) => {
       state.locationPermission = payload;
     },
+    renewUserTokens: (state, { payload }: PayloadAction<TokenPayload>) => {
+      const { accessToken, refreshToken } = payload;
+
+      if (accessToken) {
+        state.accessToken = accessToken;
+      }
+      if (refreshToken) {
+        state.refreshToken = refreshToken;
+      }
+    },
     logOutUser: () => {
       return initialUser;
     },
@@ -102,6 +113,7 @@ export const {
   changeUserImage,
   changeUserAddress,
   changeLocationPermission,
+  renewUserTokens,
   logOutUser,
 } = userSlice.actions;
 export const userReducer: Reducer<typeof initialUser> = userSlice.reducer;

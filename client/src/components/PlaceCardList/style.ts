@@ -32,7 +32,7 @@ const defaultButton = css`
   height: 30px;
   font-size: 15px;
   font-weight: bold;
-  margin: 10px 0px;
+  margin: 15px 0px;
   transition: 600ms all;
 
   &:hover {

@@ -6,7 +6,7 @@ import {
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import { userReducer } from "../reducers";
-import middlewares from "./middlewares";
+import middlewares from "./middleware";
 
 const rootReducer = combineReducers({
   user: userReducer,

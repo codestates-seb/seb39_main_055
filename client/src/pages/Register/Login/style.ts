@@ -50,7 +50,7 @@ export const SForm = styled.form`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  height: 240px;
+  height: 260px;
   width: 100%;
   row-gap: 35px;
 
@@ -78,6 +78,10 @@ export const SInput = styled(Input)`
       color: ${colors("black050")};
     }
   }
+
+  & p {
+    top: 47px;
+  }
 `;
 
 export const SPWBox = styled.div`
@@ -85,8 +89,6 @@ export const SPWBox = styled.div`
   width: 100%;
   height: 40px;
 `;
-
-export const SPWInput = styled(SInput)``;
 
 export const SButton = styled.button`
   width: 30px;
@@ -122,7 +124,7 @@ export const SMiscBox = styled.div`
   align-items: center;
   width: 100%;
   font-size: 14px;
-  margin-top: -20px;
+  margin-top: 0px;
 
   ${mobile(css`
     margin-top: -10px;

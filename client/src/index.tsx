@@ -11,21 +11,23 @@ import { GlobalStyle, theme } from "./assets";
 import { initialUser, initialUserInfos, RootState, setupStore } from "./redux";
 import { localStorageParser, queryClient } from "./utils";
 
-const currentUserToken = localStorageParser<string>("currentUser");
+const [accessToken, refreshToken] =
+  localStorageParser<string>("currentUser")?.split(" .") || [];
 const locationPermission = !!localStorageParser<boolean>("locationPermission");
 
-const preloadedState: PreloadedState<RootState> = currentUserToken
-  ? {
-      user: {
-        loginStatus: true,
-        keepLoggedIn: true,
-        userInfos: initialUserInfos,
-        accessToken: currentUserToken,
-        refreshToken: "",
-        locationPermission,
-      },
-    }
-  : { user: { ...initialUser, locationPermission } };
+const preloadedState: PreloadedState<RootState> =
+  accessToken && refreshToken
+    ? {
+        user: {
+          loginStatus: true,
+          keepLoggedIn: true,
+          userInfos: initialUserInfos,
+          accessToken,
+          refreshToken,
+          locationPermission,
+        },
+      }
+    : { user: { ...initialUser, locationPermission } };
 
 export const store = setupStore(preloadedState);
 

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import axios, {
   AxiosRequestConfig,
@@ -6,6 +7,8 @@ import axios, {
 } from "axios";
 
 import { store } from "..";
+import { renewAccessToken } from "../apis";
+import isTokenExpired from "./isTokenExpired";
 
 export type ReqTransformer = AxiosRequestTransformer[];
 export type ResTransformer = AxiosResponseTransformer[];
@@ -32,17 +35,20 @@ function defaultTransformerCheck(config: AxiosRequestConfig) {
 }
 
 // 요청 보내기 전에 token 설정 - "tokenNeeded: true" 헤더 이용
-function authorizationSetter(config: AxiosRequestConfig) {
+async function authorizationSetter(config: AxiosRequestConfig) {
   const header = config.headers!;
 
   if (!header?.tokenNeeded) return config;
 
-  let { accessToken } = store.getState().user;
+  let { accessToken, refreshToken } = store.getState().user;
 
   if (!accessToken) {
     throw new Error(
       "유저 인증 정보가 존재하지 않습니다. 토큰을 보내기 전에 로그인 상태를 확인하세요."
     );
+  }
+  if (isTokenExpired(accessToken)) {
+    accessToken = await renewAccessToken(refreshToken);
   }
   // Store에 accessToken을 "Bearer" 없이 저장했을 때
   if (!accessToken.startsWith("Bearer")) {
@@ -55,8 +61,10 @@ function authorizationSetter(config: AxiosRequestConfig) {
   return config;
 }
 
-axiosInstance.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use(async (config) => {
   defaultTransformerCheck(config);
 
-  return authorizationSetter(config);
+  const configWithToken = await authorizationSetter(config);
+
+  return configWithToken;
 });
