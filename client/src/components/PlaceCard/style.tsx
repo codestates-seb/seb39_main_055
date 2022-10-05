@@ -80,6 +80,7 @@ export const SH2 = styled.h2`
 export const SP = styled.p`
   display: flex;
   align-items: center;
+  margin-top: 4px;
   color: ${colors("black250")};
   font-size: 12px;
 `;
