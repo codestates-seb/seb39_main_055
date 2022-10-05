@@ -6,71 +6,14 @@ import {
   playground,
   restaurant,
 } from "../../../assets/images/hotplace";
-import dog from "../../../assets/images/RecommendPage/dog.png";
-import pension from "../../../assets/images/RecommendPage/pension.png";
-import river from "../../../assets/images/RecommendPage/river.png";
 
-export const DUMMY_DATA = [
-  {
-    id: 1,
-    img: dog,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 2,
-    img: river,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 3,
-    img: pension,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 4,
-    img: dog,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 5,
-    img: river,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 6,
-    img: pension,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 7,
-    img: dog,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 8,
-    img: river,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 9,
-    img: pension,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
-  {
-    id: 10,
-    img: pension,
-    location: "경남 고성군",
-    name: "고성 에세이더레지던스던펜션",
-  },
+export const DUMMY_CATEGORY_LIST = [
+  "숙소",
+  "미용",
+  "카페",
+  "맛집",
+  "운동장",
+  "동물병원",
 ];
 
 export const DUMMY_BUTTON = [

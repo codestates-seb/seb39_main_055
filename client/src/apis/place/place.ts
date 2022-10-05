@@ -24,6 +24,13 @@ export const getPlaceDetail = async (storeId: string): Promise<Store> => {
   return data.data;
 };
 
+export const getPlaceList = async (category: string): Promise<Store[]> => {
+  const { data } = await axiosInstance.get(
+    `v1/store?category=${category}&page=1&size=10&sort=score`
+  );
+  return data.data;
+};
+
 export const addPlace = async (payload: AddPlacePayload): Promise<Store> => {
   const { data } = await axiosInstance.post(
     "v1/owner/store/register",

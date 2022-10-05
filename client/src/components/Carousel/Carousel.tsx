@@ -69,7 +69,7 @@ const Carousel = ({ items, animationTime = 800 }: CarouselProps) => {
   );
 
   useEffect(() => {
-    const timer = setTimeout(() => mainIndexer("next"), 3000);
+    const timer = setTimeout(() => mainIndexer("next"), 3500);
 
     return () => clearTimeout(timer);
   }, [mainIndexer]);

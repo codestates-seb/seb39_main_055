@@ -125,7 +125,6 @@ export const SLocationContainer = styled.div`
       color: #161616;
       background-color: inherit;
       border: none;
-      /* border: 1px solid #161616; */
       border-radius: 20px;
       font-size: 16px;
       transition: all 0.4s;

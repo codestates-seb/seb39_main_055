@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { colors } from "../../../assets";
@@ -13,6 +12,7 @@ const NaverImg = styled.img.attrs({
   width: 40px;
   border: 1px solid ${colors("black050")};
   border-radius: 100%;
+  cursor: pointer;
 `;
 
 const KakaoImg = styled.img.attrs({
@@ -23,6 +23,7 @@ const KakaoImg = styled.img.attrs({
   padding: 8px 6px 6px 7px;
   border: 1px solid ${colors("black050")};
   border-radius: 100%;
+  cursor: pointer;
 `;
 
 const GoogleSVG = styled(Google)`
@@ -30,6 +31,7 @@ const GoogleSVG = styled(Google)`
   width: 40px;
   border: 1px solid ${colors("black050")};
   border-radius: 100%;
+  cursor: pointer;
 `;
 
 const SSection = styled.section`
@@ -52,20 +54,23 @@ const SSocialBox = styled.div`
   width: 80%;
 `;
 
+type Social = "google" | "naver" | "kakao";
+
 const SocialLogin = () => {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    window.location.href =
-      "https://soyoungp.shop/login/oauth2/code/google?redirect_url=http://localhost:3000/oauth/redirect";
+  const handleSocialLoginClick = (type: Social) => {
+    window.location.href = `https://soyoungp.shop/oauth2/authorization/${type}?redirect_uri=http://localhost:3000/login/oauth`;
   };
 
   return (
     <SSection>
       <SH3>SNS로 간편하게 시작하기</SH3>
       <SSocialBox>
-        <NaverImg />
-        <KakaoImg />
-        <GoogleSVG viewBox="4 4 38 38" onClick={handleClick} />
+        <NaverImg onClick={() => handleSocialLoginClick("naver")} />
+        <KakaoImg onClick={() => handleSocialLoginClick("kakao")} />
+        <GoogleSVG
+          viewBox="4 4 38 38"
+          onClick={() => handleSocialLoginClick("google")}
+        />
       </SSocialBox>
     </SSection>
   );

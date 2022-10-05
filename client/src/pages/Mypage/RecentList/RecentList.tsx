@@ -63,7 +63,7 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  width: 100%;
+  // width: 100%;
   height: auto;
 `;
 
@@ -162,7 +162,9 @@ const RecentList = () => {
                     />
                     <STextInfo>
                       <SCategory>{place.category}</SCategory>
-                      <SAddress>{place.addressName}</SAddress>
+                      <SAddress>
+                        {cutStringLength(place.addressName, 11)}
+                      </SAddress>
                       <SStoreName>
                         {cutStringLength(place.storeName, 13)}
                       </SStoreName>

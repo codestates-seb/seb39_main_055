@@ -3,8 +3,14 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
-import { initializeUserInfos, logInUser, useAppDispatch } from "../../redux";
-import { UserInfos } from "../../types";
+import { store } from "../..";
+import {
+  initializeUserInfos,
+  logInUser,
+  renewUserTokens,
+  useAppDispatch,
+} from "../../redux";
+import { ErrorResponse, UserInfos } from "../../types";
 import { axiosInstance, isKeyOf } from "../../utils";
 
 interface LoginForm {
@@ -17,18 +23,29 @@ interface UserInfosResponse {
   data: UserInfos;
 }
 
-interface ErrorResponse {
-  error: string;
-  path: string;
-  status: number;
-  timestamp: string;
+interface TokenRenewResponse {
+  data: { accessToken: string };
 }
+
+export const renewAccessToken = async (refreshToken: string) => {
+  const { dispatch } = store;
+  const {
+    data: { data },
+  } = await axiosInstance.post<TokenRenewResponse>("/v1/token-refresh", {
+    refreshToken,
+  });
+  const { accessToken } = data;
+
+  dispatch(renewUserTokens({ accessToken }));
+
+  return accessToken;
+};
 
 const handleLogin = async ({ email, password }: LoginForm) => {
   const { headers } = await axiosInstance.post("/login", { email, password });
-  const { authorization: token } = headers;
+  const { authorization: accessToken, refresh: refreshToken } = headers;
 
-  return token;
+  return { accessToken, refreshToken };
 };
 
 export const fetchUserInfos = async () => {
@@ -50,12 +67,12 @@ export default function useLogin() {
   const dispatch = useAppDispatch();
   const [errMsg, setErrMsg] = useState("");
   const { mutate, isLoading, isSuccess, isError } = useMutation<
-    string,
+    { accessToken: string; refreshToken: string },
     AxiosError<ErrorResponse>,
     LoginForm
   >((form) => handleLogin(form), {
-    onSuccess: async (token, { keepLoggedIn }) => {
-      dispatch(logInUser({ token, keepLoggedIn }));
+    onSuccess: async ({ accessToken, refreshToken }, { keepLoggedIn }) => {
+      dispatch(logInUser({ accessToken, refreshToken, keepLoggedIn }));
 
       const userInfos = await fetchUserInfos();
       dispatch(initializeUserInfos(userInfos));

@@ -1,11 +1,104 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
 import NoResult from "../NoResult/NoResult";
 
+export const SSection = styled.section`
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  width: calc(100% - 40px);
+  margin: 20px;
+`;
+
+export const SButtonBox = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: 10px;
+  margin-left: auto;
+  margin-bottom: 80px;
+`;
+
+const defaultButton = css`
+  padding: 10px 20px;
+  color: #161616;
+  background-color: inherit;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  transition: all 0.4s;
+  box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
+    1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
+
+  &:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+`;
+
+export const SButton = styled.button`
+  ${defaultButton}
+`;
+
+export const SFilterUList = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  right: 0;
+  top: 50px;
+
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+  flex-direction: column;
+  align-items: center;
+
+  width: 112px;
+  height: 87px;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #434343;
+  cursor: pointer;
+  z-index: 50;
+  font-family: "Noto Sans KR", sans-serif;
+
+  animation-name: dropdown;
+  animation-duration: 500ms;
+  animation-direction: normal;
+
+  & > li {
+    flex-basis: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      background-color: #efefef;
+    }
+  }
+
+  & > li:first-child {
+    border-bottom: 1px solid #dbdbdb;
+    border-radius: 10px 10px 0 0;
+  }
+
+  & > li:last-child {
+    border-radius: 0 0 10px 10px;
+  }
+
+  @keyframes dropdown {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
 export const SUList = styled.ul`
   display: grid;
-  width: calc(100% - 40px);
+  width: 100%;
   height: max-content;
   min-height: 600px;
   justify-items: center;
@@ -14,7 +107,6 @@ export const SUList = styled.ul`
   row-gap: 60px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-template-rows: repeat(auto-fill, 340px);
-  margin: 20px;
 `;
 
 export const SBottomBox = styled.div`

@@ -4,3 +4,8 @@ export interface ErrorResponse {
   status: number;
   timestamp: string;
 }
+
+export interface TokenErrorResponse {
+  status: number;
+  message: string;
+}

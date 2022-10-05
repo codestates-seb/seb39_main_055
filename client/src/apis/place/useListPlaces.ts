@@ -62,7 +62,7 @@ const useListPlaces = ({
   const allResult = useRef<StoreList[] | undefined>();
   const { data, fetchNextPage, hasNextPage, isFetching, isError } =
     useInfiniteQuery<SearchResponse, unknown, StoreList>(
-      ["placeList", keyword, category, longitude, latitude],
+      ["placeList", keyword, category, longitude, latitude, sort],
       async ({ pageParam = 1 }) => {
         if (!(category in mappedCategories)) return;
 

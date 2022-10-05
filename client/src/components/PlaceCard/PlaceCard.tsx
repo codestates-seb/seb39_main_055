@@ -1,8 +1,13 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
-import { memo } from "react";
+import axios from "axios";
+import { memo, useEffect, useLayoutEffect, useRef } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 import {
+  EmptyHeartSVG,
+  FillHeartSVG,
   SaLink,
   SBar,
   SFooter,
@@ -26,6 +31,7 @@ interface PlaceCardProps {
   averageRating: number;
   reviews: number;
   storeId: string;
+  isLiked: boolean;
 }
 
 const PlaceCard = memo(
@@ -38,14 +44,52 @@ const PlaceCard = memo(
     averageRating,
     reviews,
     storeId,
+    isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
+    const imageRef = useRef<HTMLImageElement>(null);
+    const { data } = useQuery(
+      ["place", "mainPicture", storeId],
+      async () => {
+        const { data } = await axios.get(
+          /* image, */
+          "https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg",
+          {
+            responseType: "blob",
+          }
+        );
+
+        const imageURL = URL.createObjectURL(data);
+
+        return imageURL;
+      },
+      { suspense: true }
+    );
+
+    useEffect(() => {
+      if (!imageRef.current) return;
+
+      const imageEl = imageRef.current;
+      const { naturalHeight, naturalWidth, offsetHeight } = imageEl || {
+        naturalHeight: 1,
+        naturalWidth: 0,
+      };
+      const ratio = naturalWidth / naturalHeight;
+      console.log(naturalHeight, offsetHeight);
+      // 사진 비율이 16:9가 아닐 때, max-width: 100%로 해줘야 부모 요소에 꽉참
+      if (ratio < 1.5) {
+        imageEl.style.maxWidth = "100%";
+        imageEl.style.maxHeight = "max-content";
+      }
+    }, []);
 
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={image} alt={alt} />
+          <SImg src={image} alt={alt} ref={imageRef} />
         </SaLink>
+        {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
+
         <SHeader>
           <STopBox>
             <SH2>{location}</SH2>
@@ -56,6 +100,7 @@ const PlaceCard = memo(
           </Link>
           <SBar />
         </SHeader>
+
         <SFooter>
           <SStarSVG />
           <SRatingP>

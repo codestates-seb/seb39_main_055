@@ -44,3 +44,9 @@ export const descriptionValidation = (value: string) => {
 
   return length > 19;
 };
+
+export const businessNumberValidation = (value: string) => {
+  const { length } = value.trim();
+
+  return length === 10;
+};

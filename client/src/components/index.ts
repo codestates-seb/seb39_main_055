@@ -1,6 +1,7 @@
 import { ProfileImage } from "../pages/Mypage/EditMyInfos/style";
 
 export { default as Category } from "./Category/Category";
+export { default as CustomCalendar } from "./CustomCalendar/CustomCalendat";
 export { default as Dots } from "./Dots/Dots";
 export { default as CustomEditor } from "./Editor/CustomEditor/CustomEditor";
 export * from "./Form";

@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { logOutUser, useAppDispatch } from "../../../redux";
+import { logOutUser, useAppDispatch, useAppSelector } from "../../../redux";
+import { ErrorModal, useModal } from "../../Modal";
 
 export const SUserContainer = styled.section`
   color: #434343;
@@ -52,14 +53,29 @@ export const DefaultTab = () => {
 export const UserTab = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { userInfos } = useAppSelector((state) => state.user);
+  const { openModal } = useModal();
+  const handleLogout = () => {
+    openModal(
+      <ErrorModal
+        body="정말로 로그아웃 하시겠습니까?"
+        callback={() => {
+          dispatch(logOutUser());
+          navigate("/");
+        }}
+      />
+    );
+  };
 
   return (
     <SUserContainer>
       <div onClick={() => navigate("/place/list")}>펫플레이스</div>
       <div onClick={() => navigate("/post/list")}>댕댕이숲</div>
       <div onClick={() => navigate("/mypage")}>마이페이지</div>
-      <div onClick={() => navigate("/place/new")}>매장 등록</div>
-      <div onClick={() => dispatch(logOutUser())}>로그아웃</div>
+      {userInfos?.userRole === "ROLE_USER" && (
+        <div onClick={() => navigate("/business")}>사업자 등록</div>
+      )}
+      <div onClick={handleLogout}>로그아웃</div>
     </SUserContainer>
   );
 };
