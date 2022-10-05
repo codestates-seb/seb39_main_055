@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
 import axios from "axios";
-import { memo } from "react";
+import { memo, useLayoutEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
@@ -43,10 +43,12 @@ const PlaceCard = memo(
     storeId,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
+    const imageRef = useRef<HTMLImageElement>(null);
     const { data } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
         const { data } = await axios.get(
+          /* image, */
           "https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg",
           {
             responseType: "blob",
@@ -60,16 +62,26 @@ const PlaceCard = memo(
       { suspense: true }
     );
 
-    /* useEffect(() => {
-      if (!data) return;
+    useLayoutEffect(() => {
+      if (!imageRef.current) return;
 
-      return () => URL.revokeObjectURL(data);
-    }, [data]); */
+      const { naturalHeight, naturalWidth } = imageRef.current || {
+        naturalHeight: 1,
+        naturalWidth: 0,
+      };
+      const ratio = naturalWidth / naturalHeight;
+
+      // 사진 비율이 16:9가 아닐 때, max-width: 100%로 해줘야 부모 요소에 꽉참
+      if (ratio < 1.5) {
+        imageRef.current.style.maxWidth = "100%";
+        imageRef.current.style.maxHeight = "max-content";
+      }
+    }, []);
 
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={image} alt={alt} />
+          <SImg src={image} alt={alt} ref={imageRef} />
         </SaLink>
         <SHeader>
           <STopBox>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
@@ -7,11 +8,18 @@ export const SSection = styled.section`
   position: relative;
   display: flex;
   flex-flow: column nowrap;
+  width: calc(100% - 40px);
   margin: 20px;
-  padding: 0px 20px;
 `;
 
-export const SButton = styled.button`
+export const SButtonBox = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: 5px;
+  margin-left: auto;
+`;
+
+const defaultButton = css`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -21,26 +29,46 @@ export const SButton = styled.button`
   color: ${colors("black250")};
   border: 1px solid ${colors("black250")};
   border-radius: 10px;
-  width: 65px;
-  height: 27px;
+  height: 30px;
   font-size: 15px;
   font-weight: bold;
   margin: 10px 0px;
-  margin-left: auto;
+  transition: 600ms all;
+
+  &:hover {
+    background-color: ${colors("black050")};
+  }
+`;
+
+export const SLink = styled(Link)`
+  ${defaultButton}
+
+  width: 80px;
+
+  &:hover {
+    color: ${colors("black250")};
+  }
+`;
+
+export const SButton = styled.button`
+  ${defaultButton}
+
+  width: 70px;
 `;
 
 export const SFilterUList = styled.ul<{ isOpen: boolean }>`
   position: absolute;
-  right: 20px;
-  top: 39px;
-  width: 70px;
+  right: 0px;
+  top: 43px;
+  width: 100px;
   background-color: white;
   border: 1px solid ${colors("black250")};
-  border-radius: 5px;
-  font-size: 15px;
+  border-radius: 10px;
+  font-size: 16px;
   color: ${colors("black250")};
   transition: 400ms all;
   overflow: hidden;
+  z-index: 1;
 
   ${({ isOpen }) => css`
     opacity: ${isOpen ? 1 : 0};
@@ -53,6 +81,7 @@ export const SList = styled.li`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 33px;
   padding: 5px;
   border-bottom: 1px solid ${colors("black250")};
   transition: 400ms all;
@@ -63,7 +92,7 @@ export const SList = styled.li`
   }
 
   &:hover {
-    background-color: ${colors("black010")};
+    background-color: ${colors("black050")};
   }
 `;
 

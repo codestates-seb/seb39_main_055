@@ -37,16 +37,20 @@ function authorizationSetter(config: AxiosRequestConfig) {
 
   if (!header?.tokenNeeded) return config;
 
-  const { user } = store.getState();
+  let { accessToken } = store.getState().user;
 
-  if (!user.accessToken) {
+  if (!accessToken) {
     throw new Error(
       "유저 인증 정보가 존재하지 않습니다. 토큰을 보내기 전에 로그인 상태를 확인하세요."
     );
   }
+  // Store에 accessToken을 "Bearer" 없이 저장했을 때
+  if (!accessToken.startsWith("Bearer")) {
+    accessToken = `Bearer ${accessToken}`;
+  }
 
   delete header.tokenNeeded;
-  header.Authorization = user.accessToken;
+  header.Authorization = accessToken;
 
   return config;
 }
