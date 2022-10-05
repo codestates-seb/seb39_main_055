@@ -6,7 +6,7 @@ import { BsSortDown } from "react-icons/bs";
 
 import useListPlaces from "../../apis/place/useListPlaces";
 import { selectUserInfos, useAppSelector } from "../../redux";
-import { UserInfos } from "../../types";
+import { Review, UserInfos } from "../../types";
 import { averageStar, calculateDistance, isKeyOf } from "../../utils";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
@@ -21,17 +21,6 @@ import {
   SSection,
   SUList,
 } from "./style";
-
-export interface Review {
-  reviewId: string;
-  createdAt: string;
-  updatedAt: string;
-  reviewStatus: string;
-  user: UserInfos;
-  storeId: string;
-  body: string;
-  score: number;
-}
 
 export interface StoreList {
   storeId: string;
@@ -75,6 +64,7 @@ const renderPlaceCards = (
     if (!userLat || !userLon) return;
 
     const heartUserList = new Set(heartUserId);
+    const isLiked = heartUserList.has(userId);
     const avgRating = Number(averageStar(reviews));
     const distance = calculateDistance(
       [userLat, userLon],
@@ -92,8 +82,6 @@ const renderPlaceCards = (
       addressName = province;
     }
 
-    const isLiked = heartUserList.has(userId);
-
     return (
       <Suspense fallback={<PlaceSkeleton />} key={storeId}>
         <PlaceCard
@@ -105,6 +93,7 @@ const renderPlaceCards = (
           reviews={reviews.length}
           distance={distance}
           storeId={storeId}
+          isLiked={isLiked}
           key={storeId}
         />
       </Suspense>

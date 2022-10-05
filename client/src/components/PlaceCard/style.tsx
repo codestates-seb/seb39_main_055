@@ -1,12 +1,13 @@
-import { AiFillStar } from "react-icons/ai";
+import { AiFillHeart, AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
 
 const LIST_BREAK_POINT = "580px";
 
 export const SList = styled.li`
+  position: relative;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 15px;
@@ -23,12 +24,35 @@ export const SaLink = styled(Link)`
 
 export const SImg = styled.img`
   max-height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 
   @media screen and (max-width: ${LIST_BREAK_POINT}) {
-    max-height: max-content;
-    max-width: 100%;
+    width: 100%;
+    /* max-height: max-content;
+    max-width: 100%; */
   }
+`;
+
+const heartDefault = css`
+  fill: #ff5050;
+  position: absolute;
+  width: 27px;
+  height: 27px;
+  padding: 5px;
+  background-color: #f1f1f163;
+  border-radius: 100%;
+  right: 10px;
+  top: 192px;
+`;
+
+export const EmptyHeartSVG = styled(AiOutlineHeart)`
+  ${heartDefault}
+
+  fill: #4b4b4b;
+`;
+
+export const FillHeartSVG = styled(AiFillHeart)`
+  ${heartDefault}
 `;
 
 export const SHeader = styled.header`
@@ -62,6 +86,9 @@ export const SP = styled.p`
 
 export const SH1 = styled.h1`
   font-size: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const SBar = styled.span`
