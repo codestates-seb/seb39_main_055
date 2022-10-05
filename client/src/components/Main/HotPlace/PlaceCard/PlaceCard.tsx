@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const SContainer = styled.li`
@@ -20,7 +22,7 @@ export const SContainer = styled.li`
   }
 
   & > div {
-    flex-grow: 1;
+    width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,6 +35,11 @@ export const SContainer = styled.li`
     }
 
     & > p {
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
       color: ${({ theme }) => theme.colors.black500};
       font-size: 18px;
     }
@@ -40,14 +47,25 @@ export const SContainer = styled.li`
 `;
 
 interface Prop {
+  storeId: string;
   img: string;
   location: string;
   name: string;
 }
 
-const PlaceCard = ({ img, location, name }: Prop) => {
+const PlaceCard = ({ img, location, name, storeId }: Prop) => {
+  const navigate = useNavigate();
+  const [province, district] = location.match(/(.*?)[시|구|군]/g)!;
+
+  if (province.length <= 3) {
+    location = `${province}${district}`;
+  }
+  if (province.length > 3) {
+    location = province;
+  }
+
   return (
-    <SContainer>
+    <SContainer onClick={() => navigate(`/place/${storeId}`)}>
       <img src={img} alt="place" />
       <div>
         <span>{location}</span>

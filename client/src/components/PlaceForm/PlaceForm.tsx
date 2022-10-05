@@ -63,12 +63,6 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     setAddressError,
   ] = useValidate(notBlank);
   const [
-    registrationValue,
-    registrationError,
-    handleRegistration,
-    checkRegistration,
-  ] = useValidate(notBlank);
-  const [
     phoneNumberValue,
     phoneNumberError,
     handlePhoneNumber,
@@ -104,7 +98,6 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
     }
 
     checkName();
-    checkRegistration();
     checkAddress();
     checkPhoneNumber();
     checkHomePage();
@@ -118,7 +111,6 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
       images.length < 5 ||
       !notBlank(nameValue) ||
       !notBlank(addressValue) ||
-      (!isEditPage && !notBlank(registrationValue)) ||
       !phoneNumberValidation(phoneNumberValue) ||
       !urlValidation(homePageValue) ||
       !descriptionValidation(descriptionValue)
@@ -217,25 +209,6 @@ const NewPlace = ({ isEditPage, state }: Prop) => {
               )}
             </section>
           </SCheckboxContainer>
-          {!isEditPage && (
-            <Input
-              label="사업자 등록증"
-              id="사업자 등록증"
-              value={registrationValue}
-              isError={registrationError}
-              errorMsg="사업자 등록증을 첨부해주세요."
-              placeholder="사업자 등록증을 첨부해주세요."
-              onChange={(e) => handleRegistration(e)}
-              readOnly
-              sideButton={
-                <FileInput
-                  id="사업자등록증"
-                  label="파일 첨부"
-                  onChange={(e) => handleRegistration(e)}
-                />
-              }
-            />
-          )}
           <Input
             label="주소"
             id="주소"
