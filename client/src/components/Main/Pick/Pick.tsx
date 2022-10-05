@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 
 import { mobile, tablet } from "../../../assets";
 import pickExample from "../../../assets/images/PickPage/pickExample.png";
-import { data, linkAdress1 } from "./PickData";
+import { data } from "./PickData";
 import SideText from "./SideText";
 
 const SContainer = styled.div`

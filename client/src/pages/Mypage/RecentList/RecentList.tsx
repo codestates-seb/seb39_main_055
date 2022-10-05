@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { useNavigate } from "react-router-dom";
@@ -7,7 +8,6 @@ import { mobile, tablet } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import NoImage from "./NoImage";
-import { recentPlace } from "./RecentDummyData";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
@@ -135,8 +135,6 @@ const RecentList = () => {
       body2="다양한 펫 플레이스를 확인하세요!"
     />
   );
-  // console.log(EmptyList);
-  // console.log(localstorageData);
   return (
     <SContainer>
       <SHeader>
@@ -148,30 +146,43 @@ const RecentList = () => {
           ? localstorageData
               .slice(0)
               .reverse()
-              .map((place: any) => (
-                <SCardContainer key={place.storeId}>
-                  <SCard onClick={() => navigate("/place/{storeId}")}>
-                    <img
-                      src={
-                        place.storeImages.length >= 1
-                          ? place.storeImages[0].storeImage
-                          : defaultImg
-                      }
-                      alt="장소이미지"
-                      key={place.storeId}
-                    />
-                    <STextInfo>
-                      <SCategory>{place.category}</SCategory>
-                      <SAddress>
-                        {cutStringLength(place.addressName, 11)}
-                      </SAddress>
-                      <SStoreName>
-                        {cutStringLength(place.storeName, 13)}
-                      </SStoreName>
-                    </STextInfo>
-                  </SCard>
-                </SCardContainer>
-              ))
+              .map((place: any) => {
+                const [province, district] =
+                  place.addressName.match(/(.*?)[시|구|군]/g)!;
+                // 특별시, 광역시는 "구"까지 주소를 자름(ex. 서울시 중구, 대전시 대덕구)
+                // 특별시, 광역시의 addressName은 OO시로 표현되므로 province 길이가 3 이하
+                if (province.length <= 3) {
+                  place.addressName = `${province}${district}`;
+                }
+                // 도 내의 일반 시, 군은 "시/군"까지 주소를 자름(ex. 경기 성남시, 강원 고성군)
+                if (province.length > 3) {
+                  place.addressName = province;
+                }
+                return (
+                  <SCardContainer key={place.storeId}>
+                    <SCard onClick={() => navigate("/place/{storeId}")}>
+                      <img
+                        src={
+                          place.storeImages.length >= 1
+                            ? place.storeImages[0].storeImage
+                            : defaultImg
+                        }
+                        alt="장소이미지"
+                        key={place.storeId}
+                      />
+                      <STextInfo>
+                        <SCategory>{place.category}</SCategory>
+                        <SAddress>
+                          {cutStringLength(place.addressName, 11)}
+                        </SAddress>
+                        <SStoreName>
+                          {cutStringLength(place.storeName, 13)}
+                        </SStoreName>
+                      </STextInfo>
+                    </SCard>
+                  </SCardContainer>
+                );
+              })
           : localstorageData}
       </SItemContainer>
     </SContainer>
