@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import {
+  Business,
   EditMyInfos,
   EditPlace,
   EditPost,
@@ -21,6 +22,7 @@ export const UserRouter = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/business" element={<Business />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/mypage/edit" element={<EditMyInfos />} />
     </Routes>
