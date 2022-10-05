@@ -3,11 +3,13 @@
 /* eslint-disable consistent-return */
 import { MouseEvent, MutableRefObject, Suspense, useState } from "react";
 import { BsSortDown } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import useListPlaces from "../../apis/place/useListPlaces";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { Review, UserInfos } from "../../types";
 import { averageStar, calculateDistance, isKeyOf } from "../../utils";
+import { ErrorModal, LoginModal, useModal } from "../Modal";
 import PlaceCard from "../PlaceCard/PlaceCard";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
 import {
@@ -172,10 +174,34 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
 
   const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
 
+  const navigate = useNavigate();
+  const { openModal } = useModal();
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
+
+  const handleNewPlaceClick = () => {
+    if (!loginStatus) {
+      openModal(<LoginModal />);
+      return;
+    }
+
+    if (userInfos?.userRole === "ROLE_USER") {
+      openModal(
+        <ErrorModal
+          body="매장을 등록하려면 사업자 등록이 필요합니다."
+          buttonText="사업자 등록하기"
+          callback={() => navigate("/business")}
+        />
+      );
+      return;
+    }
+
+    navigate("/place/new");
+  };
+
   return (
     <SSection>
       <SButtonBox>
-        <SLink to="/">업주 등록</SLink>
+        <SLink onClick={handleNewPlaceClick}>매장 등록</SLink>
         <SButton type="button" onClick={toggleFilterList}>
           <BsSortDown />
           필터

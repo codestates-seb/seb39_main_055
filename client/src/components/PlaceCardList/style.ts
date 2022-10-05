@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
@@ -40,7 +39,7 @@ const defaultButton = css`
   }
 `;
 
-export const SLink = styled(Link)`
+export const SLink = styled.button`
   ${defaultButton}
 
   width: 80px;
