@@ -31,14 +31,14 @@ export const SSection = styled.section`
 
   ${tablet(
     css`
-      padding-left: 30px;
+      padding-left: 18px;
       font-size: 35px;
     `
   )}
 
   ${mobile(
     css`
-      padding-left: 12px;
+      padding-left: 10px;
       font-size: 23px;
     `
   )}
