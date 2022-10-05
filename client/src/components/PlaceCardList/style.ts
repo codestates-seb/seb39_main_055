@@ -14,45 +14,30 @@ export const SSection = styled.section`
 export const SButtonBox = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  column-gap: 5px;
+  column-gap: 10px;
   margin-left: auto;
+  margin-bottom: 80px;
 `;
 
 const defaultButton = css`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  column-gap: 3px;
-  background-color: white;
-  color: ${colors("black250")};
-  border: 1px solid ${colors("black250")};
-  border-radius: 10px;
-  height: 30px;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 15px 0px;
-  transition: 600ms all;
+  padding: 10px 20px;
+  color: #161616;
+  background-color: inherit;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  transition: all 0.4s;
+  box-shadow: 1px 3px 10px hsla(0, 0%, 0%, 0.05),
+    1px 2px 4px hsla(0, 0%, 0%, 0.05), 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
   &:hover {
-    background-color: ${colors("black050")};
-  }
-`;
-
-export const SLink = styled.button`
-  ${defaultButton}
-
-  width: 80px;
-
-  &:hover {
-    color: ${colors("black250")};
+    background-color: #ffc107;
+    border-color: #ffc107;
   }
 `;
 
 export const SButton = styled.button`
   ${defaultButton}
-
-  width: 70px;
 `;
 
 export const SFilterUList = styled.ul<{ isOpen: boolean }>`

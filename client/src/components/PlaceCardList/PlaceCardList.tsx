@@ -18,7 +18,6 @@ import {
   SButton,
   SButtonBox,
   SFilterUList,
-  SLink,
   SList,
   SSection,
   SUList,
@@ -201,7 +200,7 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
   return (
     <SSection>
       <SButtonBox>
-        <SLink onClick={handleNewPlaceClick}>매장 등록</SLink>
+        <SButton onClick={handleNewPlaceClick}>매장 등록</SButton>
         <SButton type="button" onClick={toggleFilterList}>
           <BsSortDown />
           필터
