@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-return-assign */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable consistent-return */
-import { Editor } from "@toast-ui/react-editor";
 import {
   ChangeEvent,
   Dispatch,
-  RefObject,
   SetStateAction,
   useCallback,
   useEffect,
   useRef,
 } from "react";
+import { toast } from "react-toastify";
 
 import { ThreadImages } from "../../../types";
+import { throttle } from "../../../utils";
 import { InteractiveImage, useModal } from "../..";
 import DefaultImgSelect from "../DefaultImgSelect/DefaultImgSelect";
 import {
@@ -21,7 +22,6 @@ import {
   SaButton,
   SaLabel,
   SbBox,
-  SCanvas,
   SError,
   SFileInput,
   SImageAside,
@@ -40,6 +40,13 @@ export interface PostImagesProps {
   setIsError?: Dispatch<SetStateAction<boolean>>;
 }
 
+interface WorkerMessage {
+  images: ThreadImages[];
+  error: string;
+}
+
+const MAX_IMAGES = 15;
+
 const PreviewImages = ({
   images,
   setImages,
@@ -53,28 +60,39 @@ const PreviewImages = ({
 
   const handleSelectImages = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
-      const images = e.target.files;
+      const selectedImages = e.target.files;
       const workerInst = workers.current.length;
-      const L = Math.ceil((images || []).length / workerInst);
+      const L = Math.ceil((selectedImages || []).length / workerInst);
 
-      if (!images?.length) return;
+      if (!selectedImages?.length) return;
 
       workers.current.forEach((wk, i) => {
         const startI = L * i + i;
         let endI = startI + L + 1;
-        if (endI > images.length) {
-          endI = images.length;
+        if (endI > selectedImages.length) {
+          endI = selectedImages.length;
         }
-        const imagePacking = [...images].slice(startI, endI);
-        const canvas: any = document.createElement("canvas");
+        const imagePacking = [...selectedImages].slice(startI, endI);
+        const canvas = document.createElement("canvas");
+        // @ts-ignore
         const offscreen = canvas?.transferControlToOffscreen();
 
-        wk.addEventListener("message", function callee({ data }) {
-          if (data.length) {
-            setImages((prev) => [...prev, ...data]);
+        wk.addEventListener(
+          "message",
+          function callee({ data }: MessageEvent<WorkerMessage>) {
+            const { images, error } = data;
+
+            if (images.length) {
+              setImages((prev) => [...prev, ...images]);
+            }
+            if (error) {
+              // 한번에 둘 이상의 Toast가 뜨지 않도록 throttling
+              throttle(() => toast.error(error), 100);
+            }
+
+            wk.removeEventListener("message", callee);
           }
-          wk.removeEventListener("message", callee);
-        });
+        );
 
         wk.postMessage({ images: imagePacking, canvas: offscreen }, [
           offscreen,
