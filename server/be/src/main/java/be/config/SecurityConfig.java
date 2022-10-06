@@ -73,6 +73,7 @@ import be.config.auth.filter.JwtVerificationFilter;
 import be.user.repository.UserRepository;
 import be.user.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -89,6 +90,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private final JwtTokenizer jwtTokenizer;
@@ -127,6 +129,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> {
                     oauth2.userInfoEndpoint().userService(customOAuth2UserService);
+                    log.info("customOAuth2UserService 완료하고 다시 filterChain 진입");
                     oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, userService,userRepository));
                 })
                 .build();
