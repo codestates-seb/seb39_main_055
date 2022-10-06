@@ -42,13 +42,33 @@ interface SearchResponse {
   pageInfo: PageInfo;
 }
 
+type TypeOfKeys<T> = {
+  [P in keyof T]: T[P];
+}[keyof T];
+
+export type SortTypes = TypeOfKeys<SortOptions>;
+
 interface UseListPlacesParams {
   category: string;
   longitude?: number;
   latitude?: number;
   keyword?: string;
-  sort?: "distance" | "createdAt";
+  sort?: SortTypes;
 }
+
+interface SortOptions {
+  거리순: "distance";
+  최신순: "createdAt";
+  리뷰수순: "reviewCount";
+  별점순: "score";
+}
+
+export const sortOptions: SortOptions = {
+  거리순: "distance",
+  최신순: "createdAt",
+  리뷰수순: "reviewCount",
+  별점순: "score",
+};
 
 const useListPlaces = ({
   category,
