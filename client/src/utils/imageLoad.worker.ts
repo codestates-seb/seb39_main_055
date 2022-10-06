@@ -27,9 +27,9 @@ self.addEventListener("message", async ({ data }: MessageEvent<WorkerData>) => {
         return true;
       })
       .map(async (img) => {
-        // createImageBitmap() 미지원 포맷 - SVG, GIF
-        const extension = img.type.split("/")[1];
-        if (incompatible.includes(extension)) return img;
+        const size = img.size / (1000 * 1000);
+        const extension = img.type.split("/")[1]; // createImageBitmap() 미지원 포맷 - SVG, GIF
+        if (incompatible.includes(extension) || size < 1) return img;
 
         const image = await createImageBitmap(img);
         const { width, height } = image;
