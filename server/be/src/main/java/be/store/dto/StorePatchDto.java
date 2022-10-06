@@ -28,7 +28,8 @@ public class StorePatchDto {
 
     private String body;
 
-    @Pattern(regexp = "^(010|011)[-\\s]?\\d{3,4}[-\\s]?\\d{4}$",message = "전화번호 형식에 맞춰 입력해주세요.")
+    @Pattern(regexp = "^(010|011|02|031|032|033|041|042|043|044|" +
+            "051|052|053|054|055|061|062|063|064|070|050|040)[-\\s]?\\d{3,4}[-\\s]?\\d{4}$",message = "전화번호 형식에 맞춰 입력해주세요.")
     private String phone;
 
     private List<StoreImageDto> storeImages;
