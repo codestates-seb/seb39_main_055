@@ -44,7 +44,7 @@ export interface Status {
 export const businessValidate = async (payload: Payload): Promise<Business> => {
   const { owner, openDate, businessNumber } = payload;
   const { data } = await axiosInstance.post(
-    `http://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=${BUSINESS_KEY}`,
+    `https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=${BUSINESS_KEY}`,
     {
       businesses: [
         {
