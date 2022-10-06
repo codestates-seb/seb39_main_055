@@ -5,6 +5,7 @@ import cafe from "../assets/images/main-menu/3.png";
 import restaurant from "../assets/images/main-menu/4.png";
 import playground from "../assets/images/main-menu/5.png";
 import hospital from "../assets/images/main-menu/6.png";
+import { CategoryList } from "../components/Category/Category";
 
 // 클라이언트 카테고리명과 서버 API 카테고리면 매칭
 export const mappedCategories = {
@@ -17,7 +18,7 @@ export const mappedCategories = {
   hospital: "동물병원",
 };
 
-export const searchCategories = [
+export const searchCategories: CategoryList[] = [
   {
     img: all,
     alt: "전체",
