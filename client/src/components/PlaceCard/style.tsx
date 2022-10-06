@@ -13,7 +13,7 @@ export const SList = styled.li`
   row-gap: 15px;
   height: 340px;
   width: 100%;
-  min-width: 200px;
+  min-width: 280px;
 `;
 
 export const SaLink = styled(Link)`
@@ -25,6 +25,7 @@ export const SaLink = styled(Link)`
 export const SImg = styled.img`
   max-height: 100%;
   min-height: 230px;
+  width: 100%;
   object-fit: cover;
 
   @media screen and (max-width: ${LIST_BREAK_POINT}) {
