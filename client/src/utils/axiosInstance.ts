@@ -14,7 +14,7 @@ export type ReqTransformer = AxiosRequestTransformer[];
 export type ResTransformer = AxiosResponseTransformer[];
 
 export const axiosInstance = axios.create({
-  baseURL: "https://soyoungp.shop", // 서버 url
+  baseURL: "https://soyoungpp.shop", // 서버 url
   timeout: 5000,
   transformResponse: [...(axios.defaults.transformResponse as ResTransformer)],
 });

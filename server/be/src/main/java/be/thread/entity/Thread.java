@@ -1,7 +1,7 @@
 package be.thread.entity;
 
 import be.audit.BaseEntity;
-import be.heart.entity.Heart;
+import be.likes.entity.Likes;
 import be.reply.entity.Reply;
 import be.user.entity.User;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -30,16 +29,16 @@ public class Thread extends BaseEntity {
     @Column(nullable = false,columnDefinition = "TEXT")
     private String body;
 
-    @Column(nullable = false)
-    private int likes;
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<ThreadImage> threadImages;
 
-    @OneToMany(mappedBy = "thread",cascade = CascadeType.PERSIST)
-    private List<ThreadImage> threadImages = new ArrayList<>();
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Reply> replies;
 
-    @OneToMany(mappedBy = "thread",cascade = CascadeType.PERSIST)
-    private List<Reply> replies = new ArrayList<>();
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Likes> likes;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 

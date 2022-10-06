@@ -3,6 +3,8 @@ package be.config;
 import be.config.jwt.JwtAuthenticationFilter;
 import be.config.jwt.JwtAuthorizationFilter;
 import be.user.repository.UserRepository;
+import be.user.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,9 @@ public class SecurityConfig{
 
     @Autowired
     private CorsConfig corsConfig; //@CroosOrigin(인증 X) 시큐리티 필터에 등록(인증 O)
+
+    @Autowired
+    private UserService userService;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
@@ -43,13 +48,15 @@ public class SecurityConfig{
 
 
     }
+
     public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                     .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager,userService))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }
