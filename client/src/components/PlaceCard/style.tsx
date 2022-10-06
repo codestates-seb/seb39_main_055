@@ -14,6 +14,12 @@ export const SList = styled.li`
   height: 340px;
   width: 100%;
   min-width: 280px;
+  transition: all 0.4s;
+
+  &:hover {
+    /* scale: 1.05; */
+    opacity: 0.5;
+  }
 `;
 
 export const SaLink = styled(Link)`
