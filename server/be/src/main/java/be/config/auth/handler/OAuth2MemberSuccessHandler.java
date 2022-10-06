@@ -32,24 +32,52 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        var oAuth2User = (OAuth2User)authentication.getPrincipal();
-        String email = String.valueOf(oAuth2User.getAttributes().get("email")); // (3)
 
+        log.info("onAuthenticationSuccess 진입");
+
+        var oAuth2User = (OAuth2User)authentication.getPrincipal();
         String registrationId =response.getHeader("registrationId"); //response 헤더에 registrationId 등록
 
+        String email;
+
+        log.info("authentication.getPrincipal():"+oAuth2User);
+        if(registrationId.equals("kakao")){
+            // kakao는 kakao_account에 유저정보가 있다. (email)
+            Map<String, Object> kakaoAccount = (Map<String, Object>)oAuth2User.getAttributes().get("kakao_account");
+            email = String.valueOf(kakaoAccount.get("email")); // (3)
+        }else{
+            email = String.valueOf(oAuth2User.getAttributes().get("email")); // (3)
+        }
+
+
+
+        log.info("현재 email:"+email);
         log.info("현재 registrationId:"+registrationId);
 
         //앞에서 소셜 로그인 된 유저-> 신규 회원일때 회원가입/ 기존 회원일때 회원 업데이트 시켜줌 -> 무조건 Optional 객체안은 null이 아님!
         User user = userRepository.findByEmailAndUserStatusAndSocialLogin(email, User.UserStatus.USER_EXIST,registrationId).get();
 
+        log.info("user="+user);
+
         String accessToken = delegateAccessToken(user);   // (4-2)delegateAccessToken(user) 메서드를 이용해 Access Token을 생성
+
+        log.info("accessToken 생성");
+
         String refreshToken = delegateRefreshToken(user); // (4-3)delegateRefreshToken(user) 메서드를 이용해 Refresh Token을 생성
 
+        log.info("refreshToken 생성");
+
         String uri = createURI(accessToken,refreshToken).toString();//uri 생성성
+
+        log.info("uri 생성");
+
+
 
 //       response.setHeader("Authorization", "Bearer " + accessToken);
 //        response.setHeader("Refresh", refreshToken);
         getRedirectStrategy().sendRedirect(request,response,uri);
+
+        log.info("onAuthenticationSuccess 실행 완료\nuri="+uri);
     }
 
     private URI createURI(String accessToken, String refreshToken) {
@@ -57,11 +85,21 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         queryParams.add("access_token", "Bearer "+accessToken);
         queryParams.add("refresh_token", refreshToken);
 
+//        return UriComponentsBuilder
+//                .newInstance()
+//                .scheme("http")
+//                .host("localhost")
+//                .port(3000)
+//                .path("/login/oauth")
+//                .queryParams(queryParams)
+//                .build()
+//                .toUri();
+
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
+                .scheme("https")
+                .host("withpet-two.vercel.app")
+                .port(443)
                 .path("/login/oauth")
                 .queryParams(queryParams)
                 .build()
