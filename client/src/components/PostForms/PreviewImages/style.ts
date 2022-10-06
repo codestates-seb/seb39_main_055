@@ -50,6 +50,7 @@ export const SaLabel = styled.label.attrs({
   height: 100%;
   background-color: rgba(0, 0, 0, 0);
   color: rgba(0, 0, 0, 0);
+  cursor: pointer;
   transition: 600ms all;
 
   &:hover {
@@ -146,8 +147,4 @@ export const SError = styled.div<{ isError: boolean | undefined }>`
   margin-top: 15px;
   color: #f53a3a;
   font-size: 12px;
-`;
-
-export const SCanvas = styled.canvas`
-  display: none;
 `;

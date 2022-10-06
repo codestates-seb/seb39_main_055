@@ -9,6 +9,7 @@ export const SbLabel = styled.label`
   display: flex;
   width: 100%;
   height: 100%;
+  cursor: pointer;
   overflow: hidden;
 `;
 
@@ -25,6 +26,8 @@ export const SP = styled.p<LabelProps>`
   font-size: 13px;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0);
+  text-align: center;
+  font-weight: bold;
   transition: 600ms all;
 
   &:hover {
