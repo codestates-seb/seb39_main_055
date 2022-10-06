@@ -24,6 +24,7 @@ export const SaLink = styled(Link)`
 
 export const SImg = styled.img`
   max-height: 100%;
+  min-height: 230px;
   object-fit: cover;
 
   @media screen and (max-width: ${LIST_BREAK_POINT}) {

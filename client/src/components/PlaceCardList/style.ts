@@ -8,7 +8,7 @@ export const SSection = styled.section`
   display: flex;
   flex-flow: column nowrap;
   width: calc(100% - 40px);
-  margin: 20px;
+  margin: 20px 20px 100px 20px;
 `;
 
 export const SButtonBox = styled.div`
