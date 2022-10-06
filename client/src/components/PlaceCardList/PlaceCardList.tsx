@@ -71,7 +71,7 @@ const renderPlaceCards = (
       [userLat, userLon],
       [latitude, longitude]
     );
-    const [province, district] = addressName.match(/(.*?)[시|구|군]/g)!;
+    const [province, district] = addressName.match(/(.*?)[시|구|군](?=\s)/g)!;
 
     // 특별시, 광역시는 "구"까지 주소를 자름(ex. 서울시 중구, 대전시 대덕구)
     // 특별시, 광역시의 addressName은 OO시로 표현되므로 province 길이가 3 이하
