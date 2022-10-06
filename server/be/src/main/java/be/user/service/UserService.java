@@ -255,10 +255,7 @@ public class UserService {
             System.out.println(claims);
             Long userId = Long.parseLong(claims.get("userId").toString());
             user= userRepository.findById(userId).get();
-
-            if(!refreshToken.equals(user.getRefreshToken())){//DB에 있는 리프레시 토큰을 비교
-                throw new SignatureException("사용자 인증 실패");
-            }
+            
 
         }catch(SignatureException se){
             throw new JwtException("사용자 인증 실패");

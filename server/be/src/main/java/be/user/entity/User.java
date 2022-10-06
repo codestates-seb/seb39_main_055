@@ -53,9 +53,6 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String socialLogin;
 
-    @Column(nullable = true)
-    private String refreshToken;
-
     @Column(nullable = false,columnDefinition = "TEXT")
     private String image;
 

@@ -36,8 +36,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     @Autowired
     private HttpServletResponse response;
 
-
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -53,7 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         // OAuth2UserService
-        Map<String, Object> attribute = oAuth2User.getAttributes(); // 리프레시 토큰, 어세스 토큰 추가 전 속성들
+        Map<String, Object> attribute = oAuth2User.getAttributes();
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, attribute);
         User user = saveOrUpdate(attributes); // 새로 소셜로그인 시도하는 유저면 회원가입 시켜주고
                                                 //기존 유저라면 그냥 DB에 저장된 값 반환

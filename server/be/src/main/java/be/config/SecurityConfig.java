@@ -143,6 +143,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true); //내 서버 응답 할때 제이슨을 자바스크립트에서 처리할 수 있게 할지 결정
         configuration.addAllowedOriginPattern("*");// 모든 ip 응답 허용
         configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Refresh");
         configuration.addAllowedHeader("*");// 모든 헤더에 응답 허용
         configuration.addAllowedMethod("*");// 모든 http 메소드 응답 허용
 

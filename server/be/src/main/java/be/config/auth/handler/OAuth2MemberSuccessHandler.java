@@ -9,11 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,11 +45,27 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String accessToken = delegateAccessToken(user);   // (4-2)delegateAccessToken(user) 메서드를 이용해 Access Token을 생성
         String refreshToken = delegateRefreshToken(user); // (4-3)delegateRefreshToken(user) 메서드를 이용해 Refresh Token을 생성
 
-        user.setRefreshToken(refreshToken);
-        userRepository.save(user); //리프레시 토큰 디비 저장
+        String uri = createURI(accessToken,refreshToken).toString();//uri 생성성
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh", refreshToken);
+//       response.setHeader("Authorization", "Bearer " + accessToken);
+//        response.setHeader("Refresh", refreshToken);
+        getRedirectStrategy().sendRedirect(request,response,uri);
+    }
+
+    private URI createURI(String accessToken, String refreshToken) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("access_token", "Bearer "+accessToken);
+        queryParams.add("refresh_token", refreshToken);
+
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(3000)
+                .path("/login/oauth")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
     }
 
 
