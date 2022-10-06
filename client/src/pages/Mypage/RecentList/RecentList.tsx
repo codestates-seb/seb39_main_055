@@ -63,7 +63,6 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  // width: 100%;
   height: auto;
 `;
 
