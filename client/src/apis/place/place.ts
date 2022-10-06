@@ -45,7 +45,7 @@ export const addPlace = async (payload: AddPlacePayload): Promise<Store> => {
 export const editPlace = async (payload: EditPlacePayload): Promise<Store> => {
   const { data } = await axiosInstance.patch(
     `v1/owner/store/update/${payload.storeId}`,
-    payload,
+    { ...payload },
     {
       headers: { tokenNeeded: true },
     }

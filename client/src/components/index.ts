@@ -1,5 +1,4 @@
-import { ProfileImage } from "../pages/Mypage/EditMyInfos/style";
-
+export { default as Banner } from "./Banner/Banner";
 export { default as Category } from "./Category/Category";
 export { default as CustomCalendar } from "./CustomCalendar/CustomCalendat";
 export { default as Dots } from "./Dots/Dots";

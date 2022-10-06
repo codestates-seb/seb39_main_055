@@ -1,9 +1,11 @@
+import { IoMdClose } from "react-icons/io";
 import { MdOutlineError } from "react-icons/md";
 import styled from "styled-components";
 
 import useModal from "../useModal";
 
 export const Scontainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,12 +35,22 @@ export const Scontainer = styled.div`
   }
 `;
 
+export const CloseButton = styled(IoMdClose)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px !important;
+  fill: #161616 !important;
+  cursor: pointer;
+`;
+
 interface Prop {
   body: string;
+  buttonText?: string;
   callback?: () => void;
 }
 
-const ErrorModal = ({ body, callback }: Prop) => {
+const ErrorModal = ({ body, callback, buttonText }: Prop) => {
   const { closeModal } = useModal();
 
   const handleConfirm = () => {
@@ -53,8 +65,9 @@ const ErrorModal = ({ body, callback }: Prop) => {
       <MdOutlineError />
       <p>{body}</p>
       <button type="button" onClick={handleConfirm}>
-        확인
+        {buttonText || "확인"}
       </button>
+      <CloseButton onClick={closeModal} />
     </Scontainer>
   );
 };

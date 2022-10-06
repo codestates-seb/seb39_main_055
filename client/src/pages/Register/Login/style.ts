@@ -24,8 +24,9 @@ export const SBox = styled.div`
 `;
 
 export const SH1 = styled.h1`
-  font-size: 42px;
-  padding: 20px;
+  color: #161616;
+  font-size: 32px;
+  padding: 32px;
 `;
 
 export const SLoginSection = styled.section`

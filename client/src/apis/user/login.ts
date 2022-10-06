@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { useMutation } from "react-query";
@@ -7,6 +8,7 @@ import { store } from "../..";
 import {
   initializeUserInfos,
   logInUser,
+  logOutUser,
   renewUserTokens,
   useAppDispatch,
 } from "../../redux";
@@ -29,16 +31,22 @@ interface TokenRenewResponse {
 
 export const renewAccessToken = async (refreshToken: string) => {
   const { dispatch } = store;
-  const {
-    data: { data },
-  } = await axiosInstance.post<TokenRenewResponse>("/v1/token-refresh", {
-    refreshToken,
-  });
-  const { accessToken } = data;
 
-  dispatch(renewUserTokens({ accessToken }));
+  try {
+    const {
+      data: { data },
+    } = await axiosInstance.post<TokenRenewResponse>("/v1/token-refresh", {
+      refreshToken,
+    });
+    const { accessToken } = data;
 
-  return accessToken;
+    dispatch(renewUserTokens({ accessToken }));
+
+    return accessToken;
+  } catch (err) {
+    toast.error("로그인 세션이 만료되었습니다. 다시 로그인 해주세요.");
+    dispatch(logOutUser());
+  }
 };
 
 const handleLogin = async ({ email, password }: LoginForm) => {

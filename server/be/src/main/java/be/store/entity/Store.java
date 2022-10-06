@@ -2,6 +2,7 @@ package be.store.entity;
 
 import be.audit.BaseEntity;
 import be.heart.entity.Heart;
+import be.review.entity.Review;
 import be.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,14 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST)
-    private List<StoreImage> storeImages = new ArrayList<>();
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<StoreImage> storeImages;
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST)
-    private List<Heart> hearts = new ArrayList<>();
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<Heart> hearts;
+
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
 
     @Enumerated(EnumType.STRING)
@@ -37,10 +41,10 @@ public class Store extends BaseEntity {
     private String category;
 
     @Column(nullable = false)
-    private double longitude;
+    private Double longitude;
 
     @Column(nullable = false)
-    private double latitude;
+    private Double latitude;
 
     @Column(nullable = false)
     private String name;
@@ -54,10 +58,10 @@ public class Store extends BaseEntity {
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String homepage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
@@ -71,5 +75,20 @@ public class Store extends BaseEntity {
         StoreStatus(String status) {
             this.status = status;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Store store = (Store) o;
+
+        return storeId.equals(store.storeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return storeId.hashCode();
     }
 }

@@ -58,7 +58,7 @@ export const UserTab = () => {
   const handleLogout = () => {
     openModal(
       <ErrorModal
-        body="정말로 로그아웃 하시겠습니까?"
+        body="로그아웃 하시겠습니까?"
         callback={() => {
           dispatch(logOutUser());
           navigate("/");
@@ -72,9 +72,6 @@ export const UserTab = () => {
       <div onClick={() => navigate("/place/list")}>펫플레이스</div>
       <div onClick={() => navigate("/post/list")}>댕댕이숲</div>
       <div onClick={() => navigate("/mypage")}>마이페이지</div>
-      {userInfos?.userRole === "ROLE_USER" && (
-        <div onClick={() => navigate("/business")}>사업자 등록</div>
-      )}
       <div onClick={handleLogout}>로그아웃</div>
     </SUserContainer>
   );

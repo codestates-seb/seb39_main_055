@@ -13,7 +13,13 @@ export const SList = styled.li`
   row-gap: 15px;
   height: 340px;
   width: 100%;
-  min-width: 200px;
+  min-width: 280px;
+  transition: all 0.4s;
+
+  &:hover {
+    /* scale: 1.05; */
+    opacity: 0.5;
+  }
 `;
 
 export const SaLink = styled(Link)`
@@ -24,6 +30,8 @@ export const SaLink = styled(Link)`
 
 export const SImg = styled.img`
   max-height: 100%;
+  min-height: 230px;
+  width: 100%;
   object-fit: cover;
 
   @media screen and (max-width: ${LIST_BREAK_POINT}) {
@@ -80,6 +88,7 @@ export const SH2 = styled.h2`
 export const SP = styled.p`
   display: flex;
   align-items: center;
+  margin-top: 4px;
   color: ${colors("black250")};
   font-size: 12px;
 `;

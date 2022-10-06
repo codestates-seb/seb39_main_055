@@ -37,6 +37,12 @@ export const SImgContainer = styled.section`
     object-fit: cover;
   }
 
+  & > section {
+    width: 260px;
+    height: 100%;
+    border-radius: 17px;
+  }
+
   @media screen and (max-width: 800px) {
     width: 100%;
     height: 60%;

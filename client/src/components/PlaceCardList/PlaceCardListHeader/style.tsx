@@ -9,10 +9,16 @@ export const SHeader = styled.header`
   align-items: center;
   row-gap: 20px;
   margin-bottom: 40px;
+  padding-top: 300px;
+
+  @media screen and (max-width: 1650px) {
+    padding-top: 0;
+  }
 `;
 
 export const SearchBar = styled(Search)`
   margin-top: 65px;
+  max-width: 800px;
 `;
 
 export const SWarningBox = styled.div<{ showWarning: boolean }>`

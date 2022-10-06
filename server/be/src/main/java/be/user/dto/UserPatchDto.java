@@ -1,5 +1,6 @@
 package be.user.dto;
 
+import be.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,5 +22,8 @@ public class UserPatchDto {
     private Double latitude;
 
     private String image;
+
+    //회원 탈퇴
+    private User.UserStatus userStatus;
 
 }
