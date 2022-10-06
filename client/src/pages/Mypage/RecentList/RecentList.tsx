@@ -4,7 +4,7 @@
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { mobile, tablet } from "../../../assets";
+import { mobile } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import NoImage from "./NoImage";
@@ -162,7 +162,7 @@ const RecentList = () => {
                   <SCardContainer key={place.storeId}>
                     <SCard
                       onClick={() => {
-                        navigate(`/place/${storeId}`);
+                        navigate(`/place/${place.store.storeId}`);
                       }}
                     >
                       <img

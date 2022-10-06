@@ -4,14 +4,12 @@ import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { getThreadList } from "../../../apis/user/threadList";
-import { mobile, tablet } from "../../../assets";
+import { mobile } from "../../../assets";
 import photoShoot from "../../../assets/icons/photoShoot.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { LoadingSpinner } from "../../../components";
-import useAppContext from "../../../components/Modal/useAppContext";
 import { useAppSelector } from "../../../redux";
 import NoImage from "../RecentList/NoImage";
-import { post } from "./PostDummyData";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";

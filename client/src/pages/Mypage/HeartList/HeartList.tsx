@@ -1,17 +1,14 @@
-import { CgFontSpacing } from "react-icons/cg";
 import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { getHeartList } from "../../../apis/user/heartList";
-import { mobile, tablet } from "../../../assets";
+import { mobile } from "../../../assets";
 import like from "../../../assets/icons/like.png";
 import likeRed from "../../../assets/icons/likeRed.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { LoadingSpinner } from "../../../components";
 import { useAppSelector } from "../../../redux";
-import { Store } from "../../../types";
-import { axiosInstance } from "../../../utils";
 import NoImage from "../RecentList/NoImage";
 import { heartDummyData } from "./HeartDummyData";
 
