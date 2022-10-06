@@ -59,7 +59,10 @@ const PlaceCard = memo(
 
         return imageURL;
       },
-      { suspense: true }
+      {
+        suspense: true,
+        staleTime: 1 * 60 * 60 * 1000, // 1시간
+      }
     );
 
     /* useEffect(() => {
