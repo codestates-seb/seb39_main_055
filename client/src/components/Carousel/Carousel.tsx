@@ -2,6 +2,7 @@
 /* eslint-disable consistent-return */
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
+import { throttle } from "../../utils";
 import { SCarouselBox, SItemList, SNext, SPrev } from "./style";
 
 function classNameMatcher(itemId: number, indexArr: number[]) {
@@ -24,20 +25,6 @@ interface CarouselProps {
   items: CarouselItem[];
   animationTime?: number;
 }
-
-const throttle = (() => {
-  let throttled = false;
-
-  return <T,>(fn: (...args: T[]) => void, timeout: number, ...args: T[]) => {
-    if (!throttled) {
-      throttled = true;
-      fn(...args);
-      setTimeout(() => {
-        throttled = false;
-      }, timeout);
-    }
-  };
-})();
 
 const Carousel = ({ items, animationTime = 800 }: CarouselProps) => {
   if (items.length < 3) {

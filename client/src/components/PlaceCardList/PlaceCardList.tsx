@@ -5,7 +5,10 @@ import { MouseEvent, MutableRefObject, Suspense, useState } from "react";
 import { BsSortDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-import useListPlaces from "../../apis/place/useListPlaces";
+import useListPlaces, {
+  sortOptions,
+  SortTypes,
+} from "../../apis/place/useListPlaces";
 import { useCloseElement } from "../../hooks";
 import { selectUserInfos, useAppSelector } from "../../redux";
 import { Review, UserInfos } from "../../types";
@@ -19,6 +22,7 @@ import {
   SButton,
   SButtonBox,
   SFilterUList,
+  SList,
   SSection,
   SUList,
 } from "./style";
@@ -134,10 +138,7 @@ function errorHandler(result: StoreList[], isError: boolean) {
   return <NoSearchResult title={title} height="650px" />;
 }
 
-const sortOptions = {
-  거리순: "distance",
-  최신순: "createdAt",
-};
+const sortKeys = Object.keys(sortOptions) as (keyof typeof sortOptions)[];
 
 interface ResultListProps {
   category: string;
@@ -145,7 +146,7 @@ interface ResultListProps {
 }
 const PlaceList = ({ keyword, category }: ResultListProps) => {
   const [isTabOpen, setIsTabOpen, tabRef] = useCloseElement();
-  const [sort, setSort] = useState<"distance" | "createdAt">();
+  const [sort, setSort] = useState<SortTypes>("distance");
   const { longitude, latitude, userId } = useAppSelector(selectUserInfos) || {};
   const { items, allResult, isFetching, isError, bottomRef, itemsPerPage } =
     useListPlaces({ category, longitude, latitude, keyword, sort });
@@ -196,13 +197,16 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
         <SButton onClick={handleNewPlaceClick}>매장 등록</SButton>
         <SButton type="button" onClick={toggleFilterList}>
           <BsSortDown />
-          필터
+          정렬
         </SButton>
       </SButtonBox>
 
       <SFilterUList isOpen={isTabOpen} onClick={handleSort} ref={tabRef}>
-        <li>거리순</li>
-        <li>최신순</li>
+        {sortKeys.map((sortName) => (
+          <SList selected={sortOptions[sortName] === sort} key={sortName}>
+            {sortName}
+          </SList>
+        ))}
       </SFilterUList>
       {places.length > 0 ? (
         <SUList>

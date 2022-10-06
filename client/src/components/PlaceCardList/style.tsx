@@ -50,40 +50,19 @@ export const SFilterUList = styled.div<{ isOpen: boolean }>`
   align-items: center;
 
   width: 112px;
-  height: 87px;
+  height: 130px;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
   background-color: #ffffff;
   color: #434343;
   cursor: pointer;
   z-index: 50;
+  overflow: hidden;
   font-family: "Noto Sans KR", sans-serif;
 
   animation-name: dropdown;
   animation-duration: 500ms;
   animation-direction: normal;
-
-  & > li {
-    flex-basis: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    transition: all 0.1s ease-in-out;
-
-    &:hover {
-      background-color: #efefef;
-    }
-  }
-
-  & > li:first-child {
-    border-bottom: 1px solid #dbdbdb;
-    border-radius: 10px 10px 0 0;
-  }
-
-  & > li:last-child {
-    border-radius: 0 0 10px 10px;
-  }
 
   @keyframes dropdown {
     from {
@@ -93,6 +72,26 @@ export const SFilterUList = styled.div<{ isOpen: boolean }>`
     to {
       opacity: 1;
     }
+  }
+`;
+
+export const SList = styled.li<{ selected: boolean }>`
+  flex-basis: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: all 0.1s ease-in-out;
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      font-weight: bold;
+      background-color: #e6e6e6;
+    `}
+
+  &:hover {
+    background-color: #efefef;
   }
 `;
 

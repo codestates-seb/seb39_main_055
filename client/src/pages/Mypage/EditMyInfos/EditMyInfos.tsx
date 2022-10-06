@@ -62,12 +62,12 @@ const EditMyInfos = () => {
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
 
+    dispatch(changeUserNickname(newName));
     if (!nickNameValidation(newName)) {
       setNicknameErr(true);
       return;
     }
     setNicknameErr(false);
-    dispatch(changeUserNickname(newName));
   };
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
