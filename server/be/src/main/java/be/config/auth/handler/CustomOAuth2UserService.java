@@ -42,6 +42,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
+        log.info("loader 에서의 oAuth2User"+oAuth2User);
+
         // OAuth2 서비스 id (구글, 카카오, 네이버)
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
@@ -59,7 +61,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2User printUser = new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getUserRole())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
-        log.info(printUser.toString());
+
+        log.info("loadUser 실행 완료");
 
         return printUser;
     }
