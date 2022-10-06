@@ -160,7 +160,11 @@ const RecentList = () => {
                 }
                 return (
                   <SCardContainer key={place.storeId}>
-                    <SCard onClick={() => navigate("/place/{storeId}")}>
+                    <SCard
+                      onClick={() => {
+                        navigate(`/place/${storeId}`);
+                      }}
+                    >
                       <img
                         src={
                           place.storeImages.length >= 1

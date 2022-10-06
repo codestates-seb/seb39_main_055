@@ -166,8 +166,6 @@ const HeartList = () => {
       </SLoadingContainer>
     );
   }
-  //
-  // console.log(data);
   return (
     <SContainer>
       <SHeader>
@@ -178,7 +176,11 @@ const HeartList = () => {
         {(data?.length as number) > 0 ? (
           data?.map((heart) => (
             <SCardContainer key={heart.store.storeId}>
-              <SCard onClick={() => navigate("/place/{storeId}")}>
+              <SCard
+                onClick={() => {
+                  navigate(`/place/${heart.store.storeId}`);
+                }}
+              >
                 <CardImage>
                   <img
                     src={
@@ -198,7 +200,6 @@ const HeartList = () => {
                     {heart.store.addressName.length >= 1
                       ? heart.store.addressName.slice(0, 11)
                       : null}
-                    {/* splice(" ").slice(0, 4).join(" ")..? 시,구,군까지 출력 */}
                   </SArea>
                   <SText>{cutStringLength(heart.store.storeName, 13)}</SText>
                 </STextInfo>

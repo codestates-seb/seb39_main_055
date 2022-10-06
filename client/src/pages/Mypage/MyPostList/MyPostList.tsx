@@ -158,7 +158,11 @@ const MyPostList = () => {
         {(data?.length as number) > 0 ? (
           data?.map((post: any) => (
             <SCardContainer key={post.threadId}>
-              <SCard onClick={() => navigate("/post/{threadId}")}>
+              <SCard
+                onClick={() => {
+                  navigate(`/post/${post.threadId}`);
+                }}
+              >
                 <img
                   src={
                     post.threadImages.length >= 1
