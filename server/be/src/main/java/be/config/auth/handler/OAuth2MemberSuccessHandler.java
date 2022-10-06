@@ -45,9 +45,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String accessToken = delegateAccessToken(user);   // (4-2)delegateAccessToken(user) 메서드를 이용해 Access Token을 생성
         String refreshToken = delegateRefreshToken(user); // (4-3)delegateRefreshToken(user) 메서드를 이용해 Refresh Token을 생성
 
-        user.setRefreshToken(refreshToken);
-        userRepository.save(user); //리프레시 토큰 디비 저장
-
         String uri = createURI(accessToken,refreshToken).toString();//uri 생성성
 
 //       response.setHeader("Authorization", "Bearer " + accessToken);
@@ -57,7 +54,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private URI createURI(String accessToken, String refreshToken) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token", accessToken);
+        queryParams.add("access_token", "Bearer "+accessToken);
         queryParams.add("refresh_token", refreshToken);
 
         return UriComponentsBuilder
