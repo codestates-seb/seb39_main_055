@@ -168,7 +168,9 @@ const MyPostList = () => {
                   alt={post.threadId}
                 />
                 <STextInfo>
-                  <STitle>{parse(post.body as string)}</STitle>
+                  <STitle>
+                    {parse(cutStringLength(post.body as string, 13))}
+                  </STitle>
                   <SCreatedAt>{post.createdAt.substring(0, 10)}</SCreatedAt>
                   <SNickname>{post.user.nickname}</SNickname>
                 </STextInfo>
