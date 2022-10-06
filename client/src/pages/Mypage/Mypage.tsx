@@ -18,7 +18,7 @@ const SContainer = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  padding-top: 100px;
+  margin: 100px 0px 100px 0px;
   align-items: center;
   gap: 24px;
   min-height: calc(100vh - 380px);
@@ -26,16 +26,17 @@ const SContainer = styled.div`
 
   ${mobile(css`
     padding-top: 40px;
+    margin: 10px 0px 0px 0px;
     justify-content: flex-start;
     gap: 10px;
   `)}
   &
     > h1 {
-    font-size: 42px;
+    font-size: 32px;
     font-weight: bold;
     ${mobile(css`
       font-weight: 400;
-      font-size: 38px;
+      font-size: 30px;
       padding-top: 0px;
       // justify-content: flex-start;
     `)}
