@@ -2,13 +2,16 @@ package be.thread.service;
 
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
-import be.store.entity.StoreImage;
 import be.thread.entity.Thread;
 import be.thread.entity.ThreadImage;
 import be.thread.repository.ThreadRepository;
 import be.user.entity.User;
+import be.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -101,8 +104,16 @@ public class ThreadService {
      */
     public Thread findVerifiedThread(long threadId) {
         Optional<Thread> optionalThread = threadRepository.findById(threadId);
+
+        // DB에 저장된 thread 정보 없으면 예외 발생
         Thread findThread = optionalThread.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.THREAD_NOT_FOUND));
+
+        // 만일 삭제된 thread라면 예외발생
+        if(findThread.getThreadStatus() == Thread.ThreadStatus.THREAD_NOT_EXIST) {
+            throw new BusinessLogicException(ExceptionCode.THREAD_NOT_FOUND);
+        }
+
         return findThread;
     }
 
@@ -127,6 +138,33 @@ public class ThreadService {
         findThread.setThreadStatus(Thread.ThreadStatus.THREAD_NOT_EXIST);
 
         return findThread;
+    }
+
+    public Page<Thread> findThreads(UserService userService,int page,int size){//해당 유저가 쓴 글에 pagination 과 최신순 sort 구현
+        User user = userService.getLoginUser(); //해당 토근의 유저 가져오기
+        Page<Thread> threads = threadRepository.findByUserAndThreadStatus(//삭제된 글 빼고 해당 유저가 쓴 전체 글 가져옴
+                PageRequest.of(page,size, Sort.by("createdAt").descending()),
+                user,
+                Thread.ThreadStatus.THREAD_EXIST);
+
+        return threads;
+    }
+
+    public Page<Thread> findAllThreads(int page, int size, String sort) {
+
+        if(sort.equals("createdAt")) { // 최신순 정렬
+            Page<Thread> threads = threadRepository.findByThreadStatus(
+                    PageRequest.of(page, size, Sort.by(sort).descending()),
+                    Thread.ThreadStatus.THREAD_EXIST); // 삭제된 댕댕이숲 글을 제외한 전체 게시글을 최신순으로
+
+            System.out.println(threads.getTotalElements());
+            System.out.println(sort);
+
+            return threads;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
+        }
+
     }
 
 }

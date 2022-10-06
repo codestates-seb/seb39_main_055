@@ -19,6 +19,7 @@ public class UserResponseDto {
     private Double longitude;
     private Double latitude;
     private String userRole;
+    private String socialLogin;
 
 }
 

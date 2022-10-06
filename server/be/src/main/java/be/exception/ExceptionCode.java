@@ -23,6 +23,8 @@ public enum ExceptionCode {
     HEART_NOT_FOUND(404,"Heart not found"),
     ACCESS_DENIED_REVIEWER(403,"Access Denied Reviewer"),
     SORT_NOT_FOUND(404,"Sort not found"),
+    LIKES_EXISTS(409, "Likes exists"),
+    LIKES_NOT_FOUND(404, "Likes not found"),
 
 
     NOT_IMPLEMENTATION(501, "Not Implementation"),

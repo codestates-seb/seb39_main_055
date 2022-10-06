@@ -1,5 +1,10 @@
 package be.thread.controller;
 
+import be.heart.entity.Heart;
+import be.likes.service.LikesService;
+import be.reply.mapper.ReplyMapper;
+import be.reply.service.ReplyService;
+import be.response.MultiResponseDto;
 import be.response.SingleResponseDto;
 import be.thread.dto.ThreadLikeDto;
 import be.thread.dto.ThreadPatchDto;
@@ -12,6 +17,7 @@ import be.user.mapper.UserMapper;
 import be.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
@@ -32,6 +39,9 @@ public class ThreadController {
     private final ThreadMapper threadMapper;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final ReplyService replyService;
+    private final ReplyMapper replyMapper;
+    private final LikesService likesService;
     private final ThreadImageService threadImageService;
 
     /**
@@ -45,7 +55,10 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,threadImageService,thread)), HttpStatus.CREATED);
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread)),
+                HttpStatus.CREATED);
     }
 
     /**
@@ -60,7 +73,9 @@ public class ThreadController {
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper,threadImageService, updatedThread)),
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, updatedThread)),
                 HttpStatus.OK);
     }
 
@@ -87,12 +102,68 @@ public class ThreadController {
                                        @Valid @RequestBody ThreadPatchDto threadPatchDto) {
         // Request를 처리하기 위한 객체 생성. / 객체를 생성하는 메서드는 threadService에서 정의, 생성 메서드의 매개변수 생성은 mapper에서 만든다.
         // 실제로 삭제하는 것이 아니라 threadStatus를 THREAD_NOT_EXIST로 변경하는 것.
-        Thread thread = threadMapper.threadPatchDtoToThread(threadService, userService, threadId, threadPatchDto);
+        Thread thread = threadMapper.threadPatchDtoToThread(
+                threadService, userService, threadId, threadPatchDto);
         Thread deletedThread = threadService.deleteThread(thread);
 
         // 생성된 객체를 처리하여 Response 반환
         return new ResponseEntity<>(
-                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(userMapper, threadImageService, deletedThread)),
+                new SingleResponseDto<>(threadMapper.threadToThreadResponseDto(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, deletedThread)),
+                HttpStatus.OK);
+    }
+
+    /**
+     * 유저 자신이 쓴 댕댕이의 숲 글 리스트 가져오기 API
+     * **/
+    @GetMapping("user/thread/list")
+    public ResponseEntity getThreads(@Positive @RequestParam("page") int page,
+                                     @Positive @RequestParam("size") int size){
+
+        Page<Thread> pageThreads = threadService.findThreads(userService,page-1,size);
+
+        List<Thread> threads = pageThreads.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                threadMapper.threadsTothreadResponseDtos(
+                        replyService, likesService, replyMapper,
+                        userMapper, threadImageService, threads),
+                pageThreads),HttpStatus.OK);
+    }
+
+    /**
+     * 댕댕이숲 - 모든 글 리스트 가져오기 API
+     **/
+    @GetMapping("/thread")
+    public ResponseEntity getAllThreads(@Positive @RequestParam("page") int page,
+                                        @Positive @RequestParam("size") int size,
+                                        @RequestParam("sort") String sort) {
+
+        Page<Thread> pageThreads = threadService.findAllThreads(page-1, size, sort);
+        List<Thread> threads = pageThreads.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                threadMapper.threadsTothreadResponseDtos(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, threads),
+                pageThreads), HttpStatus.OK);
+    }
+
+    /**
+     * 댕댕이숲 - 선택한 게시글의 상세페이지 이동 API
+     */
+    @GetMapping("/thread/{thread-id}")
+    public ResponseEntity getThread(@PathVariable("thread-id") @Positive @NotNull Long threadId,
+                                    @Positive @RequestParam("page") Integer replyPage,
+                                    @Positive @RequestParam("size") Integer replySize,
+                                    @RequestParam("sort") String replySort) {
+        Thread thread = threadService.findVerifiedThread(threadId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(
+                threadMapper.threadToThreadAndReplyResponseDto(
+                        replyService, likesService, replyMapper, userMapper,
+                        threadImageService, thread, replyPage, replySize, replySort)),
                 HttpStatus.OK);
     }
 
