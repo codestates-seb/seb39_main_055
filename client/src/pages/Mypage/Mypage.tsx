@@ -296,23 +296,23 @@ const SResignation = styled.div`
 
 const Mypage = () => {
   const navigate = useNavigate();
-  const { userInfos } = useAppSelector((state) => state.user);
+  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
   const { openModal } = useModal();
-  //
+
   // useEffect(() => {
   //   localStorage.setItem("recentPlace", JSON.stringify(recentPlace));
   // }, []);
 
-  // useEffect(() => {
-  //   if (loginStatus(false)) {
-  //     return navigate("/");
-  //   }
-  // }, [logInUser]);
+  useEffect(() => {
+    if (!loginStatus) {
+      navigate("/");
+    }
+  }, [loginStatus, navigate]);
 
   const localstorageData = JSON.parse(
     localStorage.getItem("recentPlace") as string
   );
-  // console.log(localstorageData);
+
   return (
     <SContainer>
       <h1>마이페이지</h1>
@@ -321,19 +321,30 @@ const Mypage = () => {
           <SMyInfo>
             <SUserImg>
               {/* 사진 등록 여부에 따라 디폴트사진/유저사진변경 */}
-              <img alt="유저사진" src={userInfos?.image} />
-              <div>{userInfos?.nickname} 님</div>
+              {(userInfos?.image.length as number) > 0 ? (
+                <img alt="유저사진" src={userInfos?.image} />
+              ) : (
+                <img alt="기본사진" src={user} />
+              )}
+              {(userInfos?.nickname.length as number) > 0 ? (
+                <div>{userInfos?.nickname} 님</div>
+              ) : (
+                <div>로그인해주세요</div>
+              )}
             </SUserImg>
             <SLinkContainer>
-              <SWritePost onClick={() => navigate("/post/new")}>
-                글 작성하기
-                <MdArrowForwardIos />
-              </SWritePost>
-              {/* 롤에따라 매장등록하기/업주등록하기로 바뀔것 */}
-              <SRegistCompany onClick={() => navigate("/place/new")}>
-                업주등록하기
-                <MdArrowForwardIos />
-              </SRegistCompany>
+              {userInfos?.userRole === "ROLE_OWNER" ? (
+                <SRegistCompany onClick={() => navigate("/place/new")}>
+                  매장등록
+                  <MdArrowForwardIos />
+                </SRegistCompany>
+              ) : (
+                <SRegistCompany onClick={() => navigate("/business")}>
+                  사업자등록
+                  <MdArrowForwardIos />
+                </SRegistCompany>
+              )}
+              {/* 유저가 로그인 상태가 아닐경우 숨기기 */}
               <SEditUserInfo onClick={() => navigate("/mypage/edit")}>
                 회원정보수정
                 <MdArrowForwardIos />

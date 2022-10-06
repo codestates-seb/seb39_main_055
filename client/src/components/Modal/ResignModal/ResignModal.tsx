@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -47,21 +47,30 @@ export const SContainer = styled.div`
   }
 `;
 
+const SLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 33%;
+`;
+
 const ResignModal = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();
-  const { userInfos } = useAppSelector((state) => state.user);
-
-  // const { data, isLoading } = useQuery(
-  //   ["resign", userInfos?.userId],
-  //   resignUser,
-  //   { retry: false, cacheTime: 30000 }
-  // );
 
   useEffect(() => {
     return () => closeModal();
   });
+
+  const { mutate } = useMutation(resignUser, {
+    onSuccess: (data) => {
+      dispatch(logOutUser());
+      navigate("/");
+    },
+  });
+
   return (
     <SContainer>
       <img src={logo} alt="logo" />
@@ -69,11 +78,10 @@ const ResignModal = () => {
       <span>마이페이지 내역이 사라져요!</span>
       <div
         onClick={() => {
-          dispatch(logOutUser());
           navigate("/");
         }}
       >
-        <ButtonOrange>확인</ButtonOrange>
+        <ButtonOrange onClick={() => mutate()}>확인</ButtonOrange>
       </div>
       <ButtonWhite onClick={() => navigate("/mypage")}>취소</ButtonWhite>
       <IoMdClose onClick={closeModal} />

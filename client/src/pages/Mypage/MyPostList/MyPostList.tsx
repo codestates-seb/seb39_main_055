@@ -148,7 +148,6 @@ const MyPostList = () => {
       </SLoadingContainer>
     );
   }
-
   return (
     <SContainer>
       <SHeader>
@@ -163,7 +162,7 @@ const MyPostList = () => {
                 <img
                   src={
                     post.threadImages.length >= 1
-                      ? post.threadImages[0].image
+                      ? post.threadImages[0].threadImage
                       : defaultImg
                   }
                   alt={post.threadId}
