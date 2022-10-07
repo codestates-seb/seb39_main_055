@@ -63,7 +63,7 @@
 ### Architecture
 
 <p>
-  <img alt="main055_백엔드기술스택" src="https://user-images.githubusercontent.com/101033614/194440505-17447aee-d247-4b86-818d-a52ba01fabd2.png">
+  <img src="https://user-images.githubusercontent.com/101033614/194440505-17447aee-d247-4b86-818d-a52ba01fabd2.png" width=90%>
 </p>
 
 <br />
