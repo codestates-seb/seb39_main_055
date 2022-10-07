@@ -45,8 +45,8 @@ export const SbButton = styled.button`
 `;
 
 export const SImg = styled.img`
-  object-fit: contain;
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   clip-path: inset(1px round 5px);
 `;
