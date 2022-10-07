@@ -10,7 +10,7 @@ import useListPlaces, {
   SortTypes,
 } from "../../apis/place/useListPlaces";
 import { useCloseElement } from "../../hooks";
-import { selectUserInfos, useAppSelector } from "../../redux";
+import { selectUser, selectUserInfos, useAppSelector } from "../../redux";
 import { Review, UserInfos } from "../../types";
 import { averageStar, calculateDistance, isKeyOf } from "../../utils";
 import { ErrorModal, LoginModal, useModal } from "../Modal";
@@ -147,6 +147,9 @@ interface ResultListProps {
 const PlaceList = ({ keyword, category }: ResultListProps) => {
   const [isTabOpen, setIsTabOpen, tabRef] = useCloseElement();
   const [sort, setSort] = useState<SortTypes>("distance");
+  const navigate = useNavigate();
+  const { openModal } = useModal();
+  const { loginStatus, userInfos } = useAppSelector(selectUser);
   const { longitude, latitude, userId } = useAppSelector(selectUserInfos) || {};
   const { items, allResult, isFetching, isError, bottomRef, itemsPerPage } =
     useListPlaces({ category, longitude, latitude, keyword, sort });
@@ -164,12 +167,6 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
   const toggleFilterList = () => {
     setIsTabOpen((prev) => !prev);
   };
-
-  const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
-
-  const navigate = useNavigate();
-  const { openModal } = useModal();
-  const { loginStatus, userInfos } = useAppSelector((state) => state.user);
 
   const handleNewPlaceClick = () => {
     if (!loginStatus) {
@@ -190,6 +187,8 @@ const PlaceList = ({ keyword, category }: ResultListProps) => {
 
     navigate("/place/new");
   };
+
+  const places = matchDataToStatus(isFetching, items, allResult, itemsPerPage);
 
   return (
     <SSection>
