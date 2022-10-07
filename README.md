@@ -63,7 +63,7 @@
 ### Architecture
 
 <p>
-  <img src="https://user-images.githubusercontent.com/101033614/194440505-17447aee-d247-4b86-818d-a52ba01fabd2.png" width=90%>
+  <img src="https://user-images.githubusercontent.com/101033614/194441092-7f64c60b-9432-4b8b-a4e4-3bed9759e50b.png" width=90%>
 </p>
 
 <br />
