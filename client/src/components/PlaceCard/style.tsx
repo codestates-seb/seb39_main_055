@@ -4,8 +4,6 @@ import styled, { css } from "styled-components";
 
 import { colors } from "../../assets";
 
-const LIST_BREAK_POINT = "580px";
-
 export const SList = styled.li`
   position: relative;
   display: flex;
@@ -13,32 +11,24 @@ export const SList = styled.li`
   row-gap: 15px;
   height: 340px;
   width: 100%;
-  min-width: 280px;
   transition: all 0.4s;
 
   &:hover {
-    /* scale: 1.05; */
-    opacity: 0.5;
+    opacity: 0.7;
   }
 `;
 
 export const SaLink = styled(Link)`
   flex: 1 1 240px;
+  /* height: 240px; */
   width: 100%;
   overflow: hidden;
 `;
 
 export const SImg = styled.img`
-  max-height: 100%;
-  min-height: 230px;
   width: 100%;
+  height: 100%;
   object-fit: cover;
-
-  @media screen and (max-width: ${LIST_BREAK_POINT}) {
-    width: 100%;
-    /* max-height: max-content;
-    max-width: 100%; */
-  }
 `;
 
 const heartDefault = css`
