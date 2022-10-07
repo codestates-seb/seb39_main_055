@@ -20,7 +20,6 @@ export const SList = styled.li`
 
 export const SaLink = styled(Link)`
   flex: 1 1 240px;
-  /* height: 240px; */
   width: 100%;
   overflow: hidden;
 `;
