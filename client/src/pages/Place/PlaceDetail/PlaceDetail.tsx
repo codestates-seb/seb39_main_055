@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { usePlaceDetail } from "../../../apis";
@@ -19,12 +19,22 @@ import {
   SP,
   SReviewContainer,
   SReviewListContainer,
+  SSortButton,
+  SSortButtonContainer,
   SStrong,
 } from "./style";
 
 const PlaceDetail = () => {
   const params = useParams();
   const reviewRef = useRef<HTMLUListElement>(null);
+  const [buttonIdx, setButtonIdx] = useState(0);
+  const [sortOption, setSortOption] = useState("createdAt");
+
+  const handleSortBtnClick = (option: string, index: number) => {
+    setButtonIdx(index);
+    if (option === "최신순") setSortOption("createdAt");
+    if (option === "별점높은순") setSortOption("score");
+  };
 
   const {
     detailData,
@@ -34,7 +44,15 @@ const PlaceDetail = () => {
     isLoading,
     isSuccess,
     reviewData,
-  } = usePlaceDetail(params.id as string);
+  } = usePlaceDetail(params.id as string, sortOption);
+
+  const reviewList = useMemo(
+    () =>
+      reviewData
+        ? reviewData.pages.flatMap(({ data }) => data.reviews.data)
+        : [],
+    [reviewData]
+  );
 
   useEffect(() => {
     if (isSuccess && detailData) {
@@ -74,18 +92,33 @@ const PlaceDetail = () => {
         </SH2>
         <ReviewForm isEdit={false} data={detailData} />
         <SReviewListContainer ref={reviewRef}>
-          {reviewData?.pages.map((page) => {
-            return page?.data.reviews.data.map((data) => (
-              <ReviewCard
-                key={data.reviewId}
-                reviewId={data.reviewId}
-                user={data.user}
-                updatedAt={data.updatedAt}
-                body={data.body}
-                score={data.score}
-              />
-            ));
-          })}
+          <SSortButtonContainer>
+            {["최신순", "별점높은순"].map((el, index) => (
+              <SSortButton
+                key={el}
+                value={el}
+                isClicked={index === buttonIdx}
+                onClick={(e) =>
+                  handleSortBtnClick(
+                    (e.target as HTMLButtonElement).value,
+                    index
+                  )
+                }
+              >
+                {el}
+              </SSortButton>
+            ))}
+          </SSortButtonContainer>
+          {reviewList.map((data) => (
+            <ReviewCard
+              key={data.reviewId}
+              reviewId={data.reviewId}
+              user={data.user}
+              updatedAt={data.updatedAt}
+              body={data.body}
+              score={data.score}
+            />
+          ))}
         </SReviewListContainer>
         {hasNextPage && (
           <SButtonContainer>
