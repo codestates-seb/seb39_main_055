@@ -1,17 +1,14 @@
-import { CgFontSpacing } from "react-icons/cg";
 import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { getHeartList } from "../../../apis/user/heartList";
-import { mobile, tablet } from "../../../assets";
+import { mobile } from "../../../assets";
 import like from "../../../assets/icons/like.png";
 import likeRed from "../../../assets/icons/likeRed.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { LoadingSpinner } from "../../../components";
 import { useAppSelector } from "../../../redux";
-import { Store } from "../../../types";
-import { axiosInstance } from "../../../utils";
 import NoImage from "../RecentList/NoImage";
 import { heartDummyData } from "./HeartDummyData";
 
@@ -69,7 +66,6 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  // width: 100%;
   height: auto;
 `;
 
@@ -166,8 +162,6 @@ const HeartList = () => {
       </SLoadingContainer>
     );
   }
-  //
-  // console.log(data);
   return (
     <SContainer>
       <SHeader>
@@ -178,7 +172,11 @@ const HeartList = () => {
         {(data?.length as number) > 0 ? (
           data?.map((heart) => (
             <SCardContainer key={heart.store.storeId}>
-              <SCard onClick={() => navigate("/place/{storeId}")}>
+              <SCard
+                onClick={() => {
+                  navigate(`/place/${heart.store.storeId}`);
+                }}
+              >
                 <CardImage>
                   <img
                     src={
@@ -198,7 +196,6 @@ const HeartList = () => {
                     {heart.store.addressName.length >= 1
                       ? heart.store.addressName.slice(0, 11)
                       : null}
-                    {/* splice(" ").slice(0, 4).join(" ")..? 시,구,군까지 출력 */}
                   </SArea>
                   <SText>{cutStringLength(heart.store.storeName, 13)}</SText>
                 </STextInfo>

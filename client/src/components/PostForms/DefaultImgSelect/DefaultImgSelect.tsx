@@ -28,7 +28,7 @@ const DefaultImgSelect = ({
           <SMImgList selected={defaultId ? defaultId === id : i === 0} key={id}>
             <InteractiveImage
               label="대표 이미지로 설정"
-              hoverColor="#eece1c"
+              hoverColor="#ffe033c3"
               imageURL={uri}
               alt={`${i}-th image to upload`}
               onClick={() => handleClick(id)}

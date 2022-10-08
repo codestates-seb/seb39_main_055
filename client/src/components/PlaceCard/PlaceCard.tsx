@@ -1,7 +1,6 @@
-/* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
 import axios from "axios";
-import { memo, useEffect, useLayoutEffect, useRef } from "react";
+import { memo, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
@@ -51,42 +50,24 @@ const PlaceCard = memo(
     const { data } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        const { data } = await axios.get(
-          /* image, */
-          "https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg",
-          {
-            responseType: "blob",
-          }
-        );
+        const { data } = await axios.get(image, {
+          responseType: "blob",
+        });
 
         const imageURL = URL.createObjectURL(data);
 
         return imageURL;
       },
-      { suspense: true }
-    );
-
-    useEffect(() => {
-      if (!imageRef.current) return;
-
-      const imageEl = imageRef.current;
-      const { naturalHeight, naturalWidth, offsetHeight } = imageEl || {
-        naturalHeight: 1,
-        naturalWidth: 0,
-      };
-      const ratio = naturalWidth / naturalHeight;
-      console.log(naturalHeight, offsetHeight);
-      // 사진 비율이 16:9가 아닐 때, max-width: 100%로 해줘야 부모 요소에 꽉참
-      if (ratio < 1.5) {
-        imageEl.style.maxWidth = "100%";
-        imageEl.style.maxHeight = "max-content";
+      {
+        suspense: true,
+        staleTime: 1 * 60 * 60 * 1000, // 1시간
       }
-    }, []);
+    );
 
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={image} alt={alt} ref={imageRef} />
+          <SImg src={data} alt={alt} ref={imageRef} />
         </SaLink>
         {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
 

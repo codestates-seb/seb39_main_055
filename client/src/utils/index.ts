@@ -9,5 +9,6 @@ export { default as isTokenExpired } from "./isTokenExpired";
 export { default as localStorageParser } from "./localStorageParser";
 export * from "./placeLocalStorage";
 export * from "./queryClient";
+export { throttle } from "./throttle";
 export { isArrayOfString, isKeyOf } from "./type-guards";
 export * from "./validation";

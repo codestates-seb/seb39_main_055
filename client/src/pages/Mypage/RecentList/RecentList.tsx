@@ -4,7 +4,7 @@
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { mobile, tablet } from "../../../assets";
+import { mobile } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import NoImage from "./NoImage";
@@ -63,7 +63,6 @@ const SCardContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  // width: 100%;
   height: auto;
 `;
 
@@ -160,7 +159,11 @@ const RecentList = () => {
                 }
                 return (
                   <SCardContainer key={place.storeId}>
-                    <SCard onClick={() => navigate("/place/{storeId}")}>
+                    <SCard
+                      onClick={() => {
+                        navigate(`/place/${place.store.storeId}`);
+                      }}
+                    >
                       <img
                         src={
                           place.storeImages.length >= 1
