@@ -32,13 +32,11 @@ public class AwsS3Controller {
     @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
 
-    @PostMapping("user/upload")
+    @PostMapping("/upload")
     public ResponseEntity uploadFile(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
 
-        long userId = userService.getLoginUser().getUserId();
-        System.out.printf("upload userId: {}\n", userId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(awsS3Service.uploadFile(userId,multipartFiles)), HttpStatus.CREATED
+                new SingleResponseDto<>(awsS3Service.uploadFile(multipartFiles)), HttpStatus.CREATED
         );
     }
 }

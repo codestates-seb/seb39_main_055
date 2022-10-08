@@ -90,6 +90,8 @@ public interface ReviewMapper {
 
         review.setReviewId(reviewId);
         review.setReviewStatus(reviewPatchDto.getReviewStatus());
+        review.setBody(reviewPatchDto.getBody());
+        review.setScore(reviewPatchDto.getScore());
 
         return review;
     }

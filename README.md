@@ -60,6 +60,12 @@
   <img src="https://user-images.githubusercontent.com/101033614/191642062-849e6c1a-62fc-4d34-9199-7b9234101316.png" width=15%>
 </p>
 
+### Architecture
+
+<p>
+  <img src="https://user-images.githubusercontent.com/101033614/194441092-7f64c60b-9432-4b8b-a4e4-3bed9759e50b.png" width=90%>
+</p>
+
 <br />
 
 ## 📝 팀 깃 커밋 컨벤션

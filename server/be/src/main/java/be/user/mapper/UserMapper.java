@@ -17,9 +17,11 @@ public interface UserMapper {
         user.setEmail(userPostDto.getEmail());
         user.setNickname(userPostDto.getNickname());
         user.setPassword(userPostDto.getPassword());
-        user.setLongitude(userPostDto.getLongitude());
-        user.setLatitude(userPostDto.getLatitude());
-        user.setUserRole(userPostDto.getUserRole());
+//        user.setLongitude(userPostDto.getLongitude());
+//        user.setLatitude(userPostDto.getLatitude());
+        user.setUserRole("ROLE_USER");//회원가입 시에는 무조건 일반 회원
+        user.setImage(userPostDto.getImage());
+        user.setSocialLogin("original"); //소셜 회원가입이 아닐때는 무조건 오리지날
 
         return user;
     }
@@ -37,6 +39,8 @@ public interface UserMapper {
         userResponseDto.setLongitude(user.getLongitude());
         userResponseDto.setLatitude(user.getLatitude());
         userResponseDto.setUserRole(user.getUserRole());
+        userResponseDto.setSocialLogin(user.getSocialLogin());
+
 
         return userResponseDto;
     }
@@ -52,6 +56,7 @@ public interface UserMapper {
         user.setLongitude(userPatchDto.getLongitude());
         user.setNickname(userPatchDto.getNickname());
         user.setUserStatus(userPatchDto.getUserStatus());
+        user.setUserRole(userPatchDto.getUserRole());
 
         return user;
     }

@@ -1,37 +1,30 @@
-package be.config.auth;
+package be.config.auth.userdetails;
 
 import be.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * 시큐리티가 로그인 주소요청 오면 낚아채서 로그인 진행
- * 로그인 진행이 완료가 되면 시큐리티 세션을 만들어줍니다.
- * Security ContextHolder 라는 곳에 키값으 저장
- *세션에 들어갈 수 있는 정보 정해져 있음 -> Authentication 타입 객체
- * Authentication 안에 User 정보(UserDetails) 있어야 함
- *
- * **/
-
-public class PrincipalDetails implements UserDetails {
+@Getter
+@Setter
+@AllArgsConstructor
+@Slf4j
+public class MemberDetails implements UserDetails {
 
     private User user;
 
-    public PrincipalDetails(User user){
-        this.user = user;
-    }
-
-    public User getUser(){
-        return user;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(()->user.getUserRole());
+        log.info(user.getUserRole());
         return authorities;
     }
 

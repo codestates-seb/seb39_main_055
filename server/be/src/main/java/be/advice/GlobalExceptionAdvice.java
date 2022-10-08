@@ -3,6 +3,7 @@ package be.advice;
 import be.exception.BusinessLogicException;
 import be.exception.ExceptionCode;
 import be.response.ErrorResponse;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,15 @@ public class GlobalExceptionAdvice {
     public ErrorResponse handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e) {
         final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
+
+        return response;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMethodArgumentNotValidException(
+            JwtException e) {
+        final ErrorResponse response = ErrorResponse.of(HttpStatus.UNAUTHORIZED,e.getMessage());
 
         return response;
     }
