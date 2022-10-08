@@ -7,7 +7,7 @@ import 서원안길6 from "../../../assets/images/RecommendPage/서원안길6.we
 
 export const scrollDummyImg = [
   {
-    id: 1,
+    id: 24,
     image: hotel,
     category: "숙소",
     title: "hotel",
@@ -19,7 +19,7 @@ export const scrollDummyImg = [
     link: "https://withpet-two.vercel.app/place/24",
   },
   {
-    id: 2,
+    id: 39,
     image: 서원안길6,
     category: "카페",
     title: "서원안길",
@@ -31,7 +31,7 @@ export const scrollDummyImg = [
     link: "https://withpet-two.vercel.app/place/39",
   },
   {
-    id: 3,
+    id: 38,
     image: 강아지미용실사진,
     category: "미용실",
     title: "barber",
@@ -43,7 +43,7 @@ export const scrollDummyImg = [
     link: "https://withpet-two.vercel.app/place/38",
   },
   {
-    id: 4,
+    id: 45,
     image: 김포DOG힐링파크,
     category: "운동장",
     title: "park",
@@ -55,7 +55,7 @@ export const scrollDummyImg = [
     link: "https://withpet-two.vercel.app/place/45",
   },
   {
-    id: 5,
+    id: 71,
     image: 비숑포차,
     category: "맛집",
     title: "pub",
@@ -67,7 +67,7 @@ export const scrollDummyImg = [
     link: "https://withpet-two.vercel.app/place/71",
   },
   {
-    id: 6,
+    id: 56,
     image: 병원,
     category: "동물병원",
     title: "hospital",

@@ -1,4 +1,5 @@
 import { AiOutlineLine } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { mobile } from "../../../assets";
@@ -14,6 +15,7 @@ interface RecommendProps {
   textLine1: string;
   textLine2: string;
   link: string;
+  isEven: boolean;
 }
 // const SContainer = styled.div
 //   display: flex;
@@ -57,9 +59,11 @@ const SContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Image = styled.img<{ isEven: boolean }>`
   width: 342px;
-  height: 445px;
+  height: ${({ isEven }) => (isEven ? "338px" : "445px")};
+  object-fit: cover;
+
   ${mobile(css`
     width: 400px;
     flex-wrap: wrap;
@@ -116,12 +120,14 @@ const ScrollContents = ({
   textLine1,
   textLine2,
   link,
+  isEven,
 }: RecommendProps) => {
+  const navigate = useNavigate();
   return (
-    <SContainer onClick={() => window.open(link, "_blank")}>
+    <SContainer onClick={() => navigate(`/place/${id}`)}>
       <section>
         <div>
-          <Image src={image} alt={alt} />
+          <Image src={image} alt={alt} isEven={isEven} />
         </div>
         <div>
           <Category>{category}</Category>

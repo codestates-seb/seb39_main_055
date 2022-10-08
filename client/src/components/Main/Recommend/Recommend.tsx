@@ -47,8 +47,9 @@ const Recommend = () => {
         <BsFillArrowRightCircleFill size={35} />
       </ArrowIcon>
       <SContainer>
-        {scrollDummyImg.map((recommend) => (
+        {scrollDummyImg.map((recommend, index) => (
           <ScrollContents
+            isEven={index % 2 !== 0}
             id={recommend.id}
             image={recommend.image}
             category={recommend.category}
