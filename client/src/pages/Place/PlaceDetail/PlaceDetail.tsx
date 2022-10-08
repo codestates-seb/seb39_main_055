@@ -93,21 +93,22 @@ const PlaceDetail = () => {
         <ReviewForm isEdit={false} data={detailData} />
         <SReviewListContainer ref={reviewRef}>
           <SSortButtonContainer>
-            {["최신순", "별점높은순"].map((el, index) => (
-              <SSortButton
-                key={el}
-                value={el}
-                isClicked={index === buttonIdx}
-                onClick={(e) =>
-                  handleSortBtnClick(
-                    (e.target as HTMLButtonElement).value,
-                    index
-                  )
-                }
-              >
-                {el}
-              </SSortButton>
-            ))}
+            {reviewList.length > 0 &&
+              ["최신순", "별점높은순"].map((el, index) => (
+                <SSortButton
+                  key={el}
+                  value={el}
+                  isClicked={index === buttonIdx}
+                  onClick={(e) =>
+                    handleSortBtnClick(
+                      (e.target as HTMLButtonElement).value,
+                      index
+                    )
+                  }
+                >
+                  {el}
+                </SSortButton>
+              ))}
           </SSortButtonContainer>
           {reviewList.map((data) => (
             <ReviewCard
