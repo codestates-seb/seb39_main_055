@@ -15,14 +15,51 @@ interface RecommendProps {
   textLine2: string;
   link: string;
 }
+// const SContainer = styled.div
+//   display: flex;
+//   gap: 10px;
+//   flex-wrap: no-wrap;
+//   overflow-x: scroll;
+//   overflow-y: hidden;
+//   height: 500px;
+//   border: 1px solid black;
 
-const Container = styled.div``;
+//   & > section {
+//     flex: 0 0 auto;
+//     width: 300px;
+//     height: 100%;
+//     border: 1px solid red;
+//   }
 
-const Image = styled.img`
+//   & > section:nth-child(2n) {
+//     height: 80%;
+//   }
+
+//   & > section > div:first-child {
+//     border: 1px solid blue;
+//     height: 70%;
+//   }
+
+//   & > section > div:last-child {
+//     border: 1px solid blue;
+//     height: 30%;
+//   }
+// ;
+
+const SContainer = styled.div`
   :hover {
     opacity: 0.7;
+    transition: 0.3s ease-out;
   }
 
+  :not(:hover) {
+    transition: 0.3s ease-out;
+  }
+`;
+
+const Image = styled.img`
+  width: 342px;
+  height: 445px;
   ${mobile(css`
     width: 400px;
     flex-wrap: wrap;
@@ -81,14 +118,10 @@ const ScrollContents = ({
   link,
 }: RecommendProps) => {
   return (
-    <Container>
+    <SContainer onClick={() => window.open(link, "_blank")}>
       <section>
         <div>
-          <Image
-            onClick={() => window.open(link, "_blank")}
-            src={image}
-            alt={alt}
-          />
+          <Image src={image} alt={alt} />
         </div>
         <div>
           <Category>{category}</Category>
@@ -99,7 +132,7 @@ const ScrollContents = ({
           <Date>{date}</Date>
         </div>
       </section>
-    </Container>
+    </SContainer>
   );
 };
 
