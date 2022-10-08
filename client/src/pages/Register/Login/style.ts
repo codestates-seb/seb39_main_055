@@ -57,7 +57,7 @@ export const SForm = styled.form`
 
   ${mobile(css`
     row-gap: 25px;
-    height: 260px;
+    height: 280px;
   `)}
 `;
 
@@ -128,7 +128,7 @@ export const SMiscBox = styled.div`
   margin-top: 0px;
 
   ${mobile(css`
-    margin-top: -10px;
+    margin-top: 10px;
     flex-flow: column wrap;
     row-gap: 15px;
   `)}

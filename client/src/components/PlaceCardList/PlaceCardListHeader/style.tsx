@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 
 import { SearchBar as Search } from "../../Main";
 
+const WARNING_BREAKPOINT = "580px";
+
 export const SHeader = styled.header`
   display: flex;
   flex-flow: column nowrap;
@@ -29,6 +31,8 @@ export const SWarningBox = styled.div<{ showWarning: boolean }>`
   row-gap: 8px;
   height: 0px;
   overflow: hidden;
+  margin: 3px 0px;
+  line-height: 1.3rem;
   transition: 400ms all;
 
   ${({ showWarning }) =>
@@ -36,6 +40,10 @@ export const SWarningBox = styled.div<{ showWarning: boolean }>`
     css`
       height: 50px;
     `}
+
+  @media screen and (max-width: ${WARNING_BREAKPOINT}) {
+    height: 90px;
+  }
 `;
 
 export const SaBox = styled.div`
@@ -43,6 +51,7 @@ export const SaBox = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  overflow: hidden;
 `;
 
 export const SaP = styled.p`
@@ -50,6 +59,7 @@ export const SaP = styled.p`
   align-items: center;
   color: #f86b6b;
   font-weight: bold;
+  margin: 3px 0px;
 `;
 
 export const SbP = styled.p`
@@ -60,6 +70,7 @@ export const SbP = styled.p`
 `;
 
 export const SLocSVG = styled(IoLocationOutline)`
+  flex: 0 0 auto;
   position: relative;
   transform: translateY(-7%);
   width: 20px;

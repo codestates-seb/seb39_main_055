@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 
 import useLogin from "../../../apis/user/login";
 import { useRedirect } from "../../../hooks";
-import { emailValidation, notBlank, passwordValidation } from "../../../utils";
+import { emailValidation, notBlank } from "../../../utils";
 import SocialLogin from "./SocialLogin";
 import {
   HideSVG,
@@ -30,7 +30,7 @@ const LoginForm = () => {
     email: false,
     password: false,
   });
-  const { mutate, isLoading, isSuccess, isError, errMsg } = useLogin();
+  const { mutate, isLoading, isSuccess, isError } = useLogin();
 
   useRedirect({ redirect: isSuccess, replace: true });
 
