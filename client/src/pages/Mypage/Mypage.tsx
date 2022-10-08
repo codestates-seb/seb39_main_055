@@ -9,7 +9,6 @@ import { useAppSelector } from "../../redux";
 import HeartList from "./HeartList/HeartList";
 import MyPostList from "./MyPostList/MyPostList";
 import RecentList from "./RecentList/RecentList";
-
 import {
   SBorderLine,
   SContainer,
