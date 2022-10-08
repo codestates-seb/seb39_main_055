@@ -3,10 +3,11 @@ import { axiosInstance } from "../../utils";
 
 export const getInfiniteReview = async (
   storeId: string,
+  sortOption: string,
   pageParams: number
 ): Promise<{ data: Store; nextPage: number }> => {
   const { data } = await axiosInstance.get(
-    `v1/store/${storeId}?page=${pageParams}&size=3&sort=createdAt`
+    `v1/store/${storeId}?page=${pageParams}&size=3&sort=${sortOption}`
   );
 
   return { data: data.data, nextPage: pageParams + 1 };
