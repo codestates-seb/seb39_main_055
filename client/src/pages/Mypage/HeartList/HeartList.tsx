@@ -42,6 +42,10 @@ const SItemContainer = styled.div`
   width: 690px;
   display: flex;
   overflow-x: auto;
+
+  ${mobile(css`
+    width: 100%;
+  `)}
 `;
 
 const SHeader = styled.div`
@@ -205,7 +209,7 @@ const HeartList = () => {
         ) : (
           <NoImage
             title="찜을 한 펫플레이스가 없습니다."
-            body1="관심있는 펫플레이스를 하트 아이콘을 눌러 '짬'하시면,"
+            body1="관심있는 펫플레이스를 하트 아이콘을 눌러 '찜'하시면,"
             body2="더욱 편리하게 이용하실 수 있어요!"
           />
         )}

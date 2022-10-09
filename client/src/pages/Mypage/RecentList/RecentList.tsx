@@ -39,6 +39,10 @@ const SItemContainer = styled.div`
   width: 690px;
   display: flex;
   overflow-x: auto;
+
+  ${mobile(css`
+    width: 100%;
+  `)}
 `;
 
 const SHeader = styled.div`

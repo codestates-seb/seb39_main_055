@@ -40,6 +40,10 @@ const SItemContainer = styled.div`
   width: 690px;
   display: flex;
   overflow-x: auto;
+
+  ${mobile(css`
+    width: 100%;
+  `)}
 `;
 
 const SHeader = styled.div`
@@ -84,6 +88,10 @@ const SCard = styled.div`
     width: 100%;
     height: 68%;
     flex-direction: column;
+
+    ${mobile(css`
+      width: 100%;
+    `)}
   }
 `;
 
@@ -137,7 +145,7 @@ const MyPostList = () => {
     getThreadList,
     { retry: false, cacheTime: 3000 }
   );
-  console.log(data);
+
   if (isLoading) {
     return (
       <SLoadingContainer>
