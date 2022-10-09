@@ -98,14 +98,15 @@ export const SMyInfo = styled.div`
   ${mobile(css`
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
+    margin-top: 10px;
   `)}
 `;
 
 export const SUserImg = styled.div`
   gap: 40px;
-  width: 160px;
+  width: 56%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -113,8 +114,8 @@ export const SUserImg = styled.div`
   justify-content: center;
 
   & > img {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: auto;
     border-radius: 50%;
 
     ${mobile(css`
@@ -137,6 +138,7 @@ export const SUserImg = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 0px 0px 30px 0px;
   `)}
 `;
 
@@ -147,20 +149,21 @@ export const SLinkContainer = styled.div`
   font-weight: 200;
   width: 140px;
   gap: 10px;
+  margin: 0px 10px 0px 10px;
 
   & > svg {
     align-items: flex-end;
   }
 
   ${mobile(css`
-    padding-top: 20px;
+    padding-bottom: 30px;
     flex-direction: column;
     width: auto;
-    gap: 0px;
+    gap: 10px;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
-    margin-left: 15px;
+    margin-left: 30px;
   `)}
 `;
 
@@ -193,30 +196,6 @@ export const SBorderLine = styled.span`
   `)}
 `;
 
-export const SWritePost = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 0px 0px 10px 0px;
-  font-size: 20px;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  color: ${({ theme }) => theme.colors.black500};
-
-  :hover {
-    color: ${({ theme }) => theme.colors.black200};
-  }
-
-  ${mobile(css`
-    font-size: 16px;
-    flex-direction: row;
-    width: auto;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-  `)}
-`;
-
 export const SEditUserInfo = styled.div`
   display: flex;
   justify-content: space-between;
@@ -230,7 +209,8 @@ export const SEditUserInfo = styled.div`
   }
 
   ${mobile(css`
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 200;
     flex-direction: row;
     width: auto;
     align-items: center;
@@ -252,7 +232,8 @@ export const SRegistCompany = styled.div`
   }
 
   ${mobile(css`
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 200;
     flex-direction: row;
     width: auto;
     align-items: center;
@@ -274,7 +255,8 @@ export const SResignation = styled.div`
   }
 
   ${mobile(css`
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 200;
     flex-direction: row;
     width: auto;
     align-items: center;
