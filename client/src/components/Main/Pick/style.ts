@@ -135,6 +135,7 @@ export const SContentsInfo = styled.div`
   position: absolute;
   top: 78%;
   left: 8%;
+  color: #ffff;
 
   ${mobile(css`
     top: 46%;
@@ -144,8 +145,7 @@ export const SContentsInfo = styled.div`
   `)}
 `;
 
-export const SecondTextLine = styled.a`
-  color: #ffff;
+export const SecondTextLine = styled.div`
   display: flex;
   align-items: center;
 `;
