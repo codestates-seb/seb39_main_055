@@ -15,7 +15,7 @@ export const SContainer = styled.div`
 
   ${mobile(css`
     padding-top: 40px;
-    margin: 10px 0px 0px 0px;
+    margin: 10px 0px 100px 0px;
     justify-content: flex-start;
     gap: 10px;
   `)}
@@ -178,7 +178,7 @@ export const SMyContents = styled.div`
 
   ${mobile(css`
     flex-direction: row;
-    width: auto;
+    width: 100%;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
