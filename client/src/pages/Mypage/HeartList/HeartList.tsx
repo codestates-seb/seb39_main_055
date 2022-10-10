@@ -145,8 +145,12 @@ const SText = styled.div`
 
 const SRedLikeIcon = styled.span`
   position: absolute;
-  top: 57%;
-  right: 7%;
+  top: 85%;
+  right: 6%;
+  ${mobile(css`
+    top: 90%;
+    right: 6%;
+  `)}
 `;
 
 const SLoadingContainer = styled.div`

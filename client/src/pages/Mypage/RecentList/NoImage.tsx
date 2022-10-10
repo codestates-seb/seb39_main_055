@@ -44,7 +44,7 @@ const SContainer = styled.div`
     justify-content: center;
     align-items: center;
     height: 315px;
-    width: 100%;
+    width: 98%;
     flex-wrap: wrap;
     margin: 5px 0px 0px 0px;
   `)}
@@ -79,8 +79,8 @@ const STitle = styled.div`
   }
 
   ${mobile(css`
-    font-size: 16px;
-    width: 80%;
+    font-size: 1.1em;
+    width: 50%;
     line-height: 25px;
     justify-content: center;
     align-items: center;
@@ -125,6 +125,7 @@ const SBody2 = styled.div`
     width: 60%;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   `)}
 `;
 
