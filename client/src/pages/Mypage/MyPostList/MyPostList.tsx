@@ -17,6 +17,7 @@ const SContainer = styled.div`
   overflow-x: hidden;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 40px;
   cursor: pointer;
 
   height: auto;
@@ -30,9 +31,9 @@ const SContainer = styled.div`
 
   ${mobile(css`
     justify-content: center;
-    width: 250px;
+    width: 100%;
     height: auto;
-    padding: 40px 0px 0px 25px;
+    padding: 40px 0px 0px 10px;
   `)}
 `;
 
@@ -69,6 +70,9 @@ const SCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   height: auto;
+  ${mobile(css`
+    width: 100%;
+  `)}
 `;
 
 const SCard = styled.div`
@@ -88,11 +92,11 @@ const SCard = styled.div`
     width: 100%;
     height: 68%;
     flex-direction: column;
-
-    ${mobile(css`
-      width: 100%;
-    `)}
   }
+  ${mobile(css`
+    width: 380px;
+    height: 90%;
+  `)}
 `;
 
 const STextInfo = styled.div`
@@ -105,17 +109,28 @@ const STextInfo = styled.div`
 
 const STitle = styled.div`
   font-size: 16px;
+  ${mobile(css`
+    font-size: 22px;
+    margin-bottom: 8px;
+  `)}
 `;
 
 const SCreatedAt = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black400};
+  ${mobile(css`
+    font-size: 22px;
+  `)}
 `;
 
 const SNickname = styled.div`
   font-size: 14px;
   line-height: 23px;
   color: ${({ theme }) => theme.colors.orange500};
+  ${mobile(css`
+    font-size: 20px;
+    margin-top: 20px;
+  `)}
 `;
 
 const SLoadingContainer = styled.div`
