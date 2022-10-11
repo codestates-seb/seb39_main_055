@@ -87,7 +87,9 @@ const PlaceCard = memo(
     useEffect(() => {
       if (src) return;
       (async () => {
-        const { data } = await refetch();
+        const { data } = await axios.get(`${image}`, {
+          responseType: "blob",
+        });
         console.log(data);
       })();
     }, [src]);
