@@ -24,7 +24,7 @@ export const SContainer = styled.div`
     font-size: 32px;
     font-weight: bold;
     ${mobile(css`
-      font-weight: 400;
+      font-weight: 800;
       font-size: 30px;
       padding-top: 0px;
     `)}
@@ -38,12 +38,12 @@ export const SUserContainer = styled.div`
   display: flex;
   justify-content: center;
 
-  ${mobile(css`
+  @media (max-width: 580px) {
     flex-direction: column;
     border: none;
     justify-content: center;
     align-items: center;
-  `)}
+  }
 `;
 
 export const SMyInfoContainer = styled.div`
@@ -163,7 +163,8 @@ export const SLinkContainer = styled.div`
     align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
-    margin-left: 30px;
+    margin-left: 10px;
+    margin-top: 30px;
   `)}
 `;
 
@@ -191,9 +192,9 @@ export const SBorderLine = styled.span`
   border-left: 1px solid ${({ theme }) => theme.colors.black050};
   height: 1230px;
 
-  ${mobile(css`
+  @media (max-width: 580px) {
     display: none;
-  `)}
+  }
 `;
 
 export const SEditUserInfo = styled.div`
