@@ -1,10 +1,12 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { memo } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 import { queryClient } from "../../utils";
+import { Rectangle } from "../Skeleton/Skeleton";
 import {
   EmptyHeartSVG,
   FillHeartSVG,
@@ -34,6 +36,18 @@ export interface PlaceCardProps {
   isLiked: boolean;
 }
 
+async function invalidateImageCache(image: string, storeId: string) {
+  const { data } = await axios.get<Blob>(image, {
+    responseType: "blob",
+    headers: {
+      "Cache-Control": "no-cache",
+    },
+  });
+
+  queryClient.invalidateQueries(["place", "mainPicture", storeId]);
+  return data;
+}
+
 const PlaceCard = memo(
   ({
     image,
@@ -50,21 +64,24 @@ const PlaceCard = memo(
     const { data: src } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        const { data } = await axios.get(`${image}`, {
-          responseType: "blob",
-        });
+        let imageBlob: Blob;
 
-        const imageURL = URL.createObjectURL(data);
+        try {
+          const { data } = await axios.get<Blob>(image, {
+            responseType: "blob",
+          });
 
-        return imageURL;
+          imageBlob = data;
+        } catch (err) {
+          // AWS CORS 에러 발생 시, 이미지 캐시 무효화
+          const data = await invalidateImageCache(image, storeId);
+
+          imageBlob = data;
+        }
+
+        return URL.createObjectURL(imageBlob);
       },
       {
-        onError: (err) => {
-          if (!(err instanceof AxiosError)) return;
-          console.log(err.response?.status);
-          // 캐시된 이미지 CORS 오류 발생 시 캐시 무효화
-          queryClient.invalidateQueries(["place", "mainPicture", storeId]);
-        },
         suspense: true,
         retry: 1,
         staleTime: 1 * 60 * 60 * 1000,
@@ -74,7 +91,11 @@ const PlaceCard = memo(
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={src} alt={alt} crossOrigin="anonymous" />
+          {src ? (
+            <SImg src={src} alt={alt} crossOrigin="anonymous" />
+          ) : (
+            <Rectangle width="100%" height="235px" />
+          )}
         </SaLink>
         {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
 
