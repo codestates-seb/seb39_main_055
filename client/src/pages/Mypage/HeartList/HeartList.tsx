@@ -122,6 +122,7 @@ const STitle = styled.div`
   color: ${({ theme }) => theme.colors.orange500};
   ${mobile(css`
     font-size: 20px;
+    margin-top: 20px;
     margin-bottom: 20px;
   `)}
 `;
