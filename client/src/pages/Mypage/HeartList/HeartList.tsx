@@ -10,7 +10,7 @@ import likeRed from "../../../assets/icons/likeRed.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { LoadingSpinner } from "../../../components";
 import { useAppSelector } from "../../../redux";
-import NoImage from "../RecentList/NoImage";
+import NoImage from "../NoImage";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
@@ -28,13 +28,14 @@ const SContainer = styled.div`
     justify-content: center;
     height: auto;
     width: 500px;
+    padding: 50px 40px 20px 40px;
   }
 
   ${mobile(css`
     justify-content: center;
     width: 100%;
     height: auto;
-    padding: 40px 0px 0px 10px;
+    padding: 50px 0px 0px 10px;
   `)}
 `;
 
@@ -121,6 +122,7 @@ const STitle = styled.div`
   color: ${({ theme }) => theme.colors.orange500};
   ${mobile(css`
     font-size: 20px;
+    margin-top: 20px;
     margin-bottom: 20px;
   `)}
 `;

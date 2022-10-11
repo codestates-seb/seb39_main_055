@@ -9,7 +9,7 @@ import photoShoot from "../../../assets/icons/photoShoot.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
 import { LoadingSpinner } from "../../../components";
 import { useAppSelector } from "../../../redux";
-import NoImage from "../RecentList/NoImage";
+import NoImage from "../NoImage";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
@@ -111,6 +111,7 @@ const STitle = styled.div`
   font-size: 16px;
   ${mobile(css`
     font-size: 22px;
+    margin-top: 20px;
     margin-bottom: 8px;
   `)}
 `;

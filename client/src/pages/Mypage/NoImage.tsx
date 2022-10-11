@@ -1,8 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { mobile, tablet } from "../../../assets";
-import mascot from "../../../assets/icons/mascot.png";
+import { mobile } from "../../assets";
+import mascot from "../../assets/icons/mascot.png";
 
 interface EmptyProps {
   title: string;
