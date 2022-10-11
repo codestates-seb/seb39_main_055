@@ -75,11 +75,11 @@ const PlaceCard = memo(
         return imageURL;
       },
       {
-        onSuccess: (data) => {
-          if (!data) {
-            refetch();
-          }
-          console.log("onSuccess", data);
+        onSuccess: async (data) => {
+          if (data) return;
+          const { data: refreshed } = await refetch();
+
+          console.log("onSuccess", refreshed);
           // CORS 에러 발생 시 onSuccess 콜백 실행 but. data === undefined
         },
         suspense: true,
