@@ -47,7 +47,7 @@ const PlaceCard = memo(
     isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
-    const { data: src } = useQuery(
+    const { data: src, error } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
         const { data } = await axios.get(`${image}`, {
@@ -60,7 +60,10 @@ const PlaceCard = memo(
       },
       {
         onError: (err) => {
-          if (!(err instanceof AxiosError)) return;
+          if (!(err instanceof AxiosError)) {
+            console.log("AxiosError 인스턴스가 아님", err);
+            return;
+          }
           console.log(err.response?.status);
           // 캐시된 이미지 CORS 오류 발생 시 캐시 무효화
           queryClient.invalidateQueries(["place", "mainPicture", storeId]);
@@ -70,7 +73,7 @@ const PlaceCard = memo(
         staleTime: 1 * 60 * 60 * 1000,
       }
     );
-
+    console.log("src", src, "Error", error);
     return (
       <SList>
         <SaLink to={storeLink}>
