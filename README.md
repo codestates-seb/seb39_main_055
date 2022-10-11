@@ -31,6 +31,30 @@
 |<img src="https://velog.velcdn.com/images/sangbin2/post/40523b88-00ae-4280-a486-5fdfb9383965/image.png" width=150>|<img src="https://user-images.githubusercontent.com/104320234/188778037-50ae88a3-b1a4-45a6-bb26-e156978e8e6f.jpeg" width=150>|<img src="https://user-images.githubusercontent.com/6335046/188773314-b7b00c99-52bb-4a5b-94b3-0ed6f26bdcfd.png" width=150 >|<img src="https://user-images.githubusercontent.com/95295766/188778526-6a6175c7-ee3a-4f37-a269-3c64c53cf310.png" width=150>|<img src="https://user-images.githubusercontent.com/61177857/188779028-ed413724-de9b-4731-aa15-2aa02ee11bbe.jpg" width=150>|
 |[@Topbin2](https://github.com/Topbin2)|[@so191925](https://github.com/so191925)|[@ksheer506](https://github.com/ksheer506)|[@upqnu](https://github.com/upqnu)|[@soyoung96](https://github.com/soyoung96)|
 
+<br />  
+
+## 🚀 서비스 소개   
+- 일반 로그인과 카카오, 네이버, 구글 로그인을 통해 빠른 회원가입을 제공합니다.
+- 사용자의 현위치를 기반으로 근처에 위치한 반려동물 동반장소(펫플레이스)가 안내됩니다.
+  - 펫플레이스 카테고리 : 숙소/미용/카페/맛집/운동장/동물병원
+- 생생한 리뷰와 별점으로 찾고 싶은 반려동물 동반장소를 쉽고 빠르게 찾을 수 있습니다.
+- 커뮤니티 게시판(댕댕이숲)을 통해 사용자들끼리 반려동물 자랑도 하고 정보를 공유할 수 있습니다.
+- 사업자 등록을 통해 운영하는 스토어를 펫플레이스에 등록해서 손쉽게 홍보할 수 있습니다.
+- 내가 찜한 펫플레이스, 최근 방문한 펫플레이스, 내가 쓴 모든 글을 마이페이지에서 한 눈에 확인할 수 있습니다.
+    
+## 🖥 Demo
+
+|회원가입|로그인(일반/소셜)|로그아웃|---|
+|------|---|---|---|
+|<img src="https://user-images.githubusercontent.com/95295766/188601034-738f28e0-1f5e-43ef-ab7a-e3d12cfad2cb.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188601297-158c66a0-5bd9-4809-ac11-a19eb907ba05.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602243-d2c9cabd-3852-4542-b4fd-a75969586844.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602243-d2c9cabd-3852-4542-b4fd-a75969586844.png" width="300px" height="300px">|
+|질문페이지|상세페이지|검색페이지|---|
+|<img src="https://user-images.githubusercontent.com/95295766/188596816-3c859867-7a6b-45aa-a0f2-230c871fa164.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602712-b384ba54-a1b9-4131-bc52-b3e8130a46ed.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188603263-11332147-0dcb-4c18-9dd4-ec176d4463a2.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602243-d2c9cabd-3852-4542-b4fd-a75969586844.png" width="300px" height="300px">|
+|질문작성|질문수정|답변수정|---|
+|<img src="https://user-images.githubusercontent.com/95295766/188603851-f3007df6-9d8d-4883-9051-970411c01183.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188606814-ad1d4144-6f5d-444d-b3bf-0d4a46f93f30.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188606954-72997a0e-b16b-4efd-b4cd-4dcf790d4cf7.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602243-d2c9cabd-3852-4542-b4fd-a75969586844.png" width="300px" height="300px">|
+|태그|유저|---|
+|<img src="https://user-images.githubusercontent.com/95295766/188604450-b684f868-aa98-42f2-8a37-d1ef7ee15120.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188604624-00f133f1-834e-4a2b-a95f-5b396ffa1bd6.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602243-d2c9cabd-3852-4542-b4fd-a75969586844.png" width="300px" height="300px">|
+
+
 <br />
 
 ## ⚡️ Skills
@@ -68,10 +92,27 @@
 
 <br />
 
-## 📝 팀 깃 커밋 컨벤션
+
+## 📚 팀 규칙
+- [📗 그라운드 룰](https://github.com/codestates-seb/seb39_pre_055/wiki/%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
+- [📕 깃 커밋 컨벤션](https://github.com/codestates-seb/seb39_pre_055/wiki/%EA%B9%83-%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98)
+- [📘 깃 브랜치 전략](https://github.com/codestates-seb/seb39_pre_055/wiki/%EA%B9%83-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EC%A0%84%EB%9E%B5)
+<br />
+
+
+
+## ⚡️ 팀 문서
+
+- [🚀 기능 리스트](https://congruous-mallow-6ce.notion.site/82739e6c86b94f4f9a92b8e4eac75621?v=2cde9141f87d46148c3f93269cb1cfb4)
+- [🚀 기술 스택](https://github.com/codestates-seb/seb39_main_055/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
+- [🚀 API](https://docs.google.com/spreadsheets/d/1KFGGUyEz0oTWMWdVZERsFSLub0E16ENUgsxyJg4p714/edit#gid=0)
+
+<br />
+
+##  📝 팀 깃 커밋 컨벤션
 
 - `feat`: 새로운 기능을 추가
-- `fix`: 버그 수정
+- `fix`: 버그 수정
 - `refactor`: 코드 리팩토링
 - `style`: css
 - `test`: 테스트 추가, 테스트 리팩토링
