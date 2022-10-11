@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable consistent-return */
 import { MouseEvent, MutableRefObject, Suspense, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { BsSortDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +16,7 @@ import { Review, UserInfos } from "../../types";
 import { averageStar, calculateDistance, isKeyOf } from "../../utils";
 import { ErrorModal, LoginModal, useModal } from "../Modal";
 import PlaceCard from "../PlaceCard/PlaceCard";
+import PlaceCardError from "../PlaceCard/PlaceCardError";
 import PlaceSkeleton from "../Skeleton/PlaceCardSkeleton";
 import {
   NoSearchResult,
@@ -89,18 +91,31 @@ const renderPlaceCards = (
 
     return (
       <Suspense fallback={<PlaceSkeleton />} key={storeId}>
-        <PlaceCard
-          image={storeImages[0]?.storeImage}
-          alt={`${storeName}의 대표 이미지`}
-          location={addressName}
-          storeName={storeName}
-          averageRating={avgRating}
-          reviews={reviews.length}
-          distance={distance}
-          storeId={storeId}
-          isLiked={isLiked}
-          key={storeId}
-        />
+        <ErrorBoundary
+          fallback={
+            <PlaceCardError
+              location={addressName}
+              storeName={storeName}
+              averageRating={avgRating}
+              reviews={reviews.length}
+              distance={distance}
+              storeId={storeId}
+              isLiked={isLiked}
+            />
+          }
+        >
+          <PlaceCard
+            image={storeImages[0]?.storeImage}
+            alt={`${storeName}의 대표 이미지`}
+            location={addressName}
+            storeName={storeName}
+            averageRating={avgRating}
+            reviews={reviews.length}
+            distance={distance}
+            storeId={storeId}
+            isLiked={isLiked}
+          />
+        </ErrorBoundary>
       </Suspense>
     );
   });
