@@ -31,6 +31,10 @@ const SContainer = styled.div`
     padding: 50px 40px 20px 40px;
   }
 
+  @media (max-width: 680px) {
+    padding: 20px 40px 80px 0px;
+  }
+
   ${mobile(css`
     justify-content: center;
     width: 100%;
