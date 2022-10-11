@@ -111,6 +111,7 @@ const STitle = styled.div`
   font-size: 16px;
   ${mobile(css`
     font-size: 22px;
+    margin-top: 20px;
     margin-bottom: 8px;
   `)}
 `;
