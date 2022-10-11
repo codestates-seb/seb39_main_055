@@ -52,7 +52,7 @@
 |펫플레이스 (등록, 수정)|댕댕이숲 (리스트)|댕댕이숲 (상세)|
 |<img src="https://user-images.githubusercontent.com/95295766/195016408-366f6f98-8af7-4cce-8d7d-0e6ea3966594.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016076-b100d496-510b-4beb-aed5-7f8dd1c0a207.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016313-e14f37d5-ca90-40d2-b13e-9857095b54d1.png" width="300px" height="300px">|
 |댕댕이숲 (등록, 수정)|마이페이지|
-|<img src="https://user-images.githubusercontent.com/95295766/188604450-b684f868-aa98-42f2-8a37-d1ef7ee15120.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/104320234/195132805-98bc6ea3-39fc-4616-a9b8-3928c1ba11b8.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/188604450-b684f868-aa98-42f2-8a37-d1ef7ee15120.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/104320234/195133213-9b76351a-49a6-423b-a895-bcd8f32fc20d.png" width="300px" height="300px">|
 
 
 <br />
