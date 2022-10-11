@@ -29,9 +29,9 @@ const SContainer = styled.div`
 
   ${mobile(css`
     justify-content: center;
-    width: 250px;
+    width: 100%;
     height: auto;
-    padding: 40px 0px 0px 25px;
+    padding: 40px 0px 0px 10px;
   `)}
 `;
 
@@ -39,6 +39,10 @@ const SItemContainer = styled.div`
   width: 690px;
   display: flex;
   overflow-x: auto;
+
+  ${mobile(css`
+    width: 100%;
+  `)}
 `;
 
 const SHeader = styled.div`
@@ -64,6 +68,9 @@ const SCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   height: auto;
+  ${mobile(css`
+    width: 100%;
+  `)}
 `;
 
 const SCard = styled.div`
@@ -84,6 +91,10 @@ const SCard = styled.div`
     height: 68%;
     flex-direction: column;
   }
+  ${mobile(css`
+    width: 380px;
+    height: 90%;
+  `)}
 `;
 
 const STextInfo = styled.div`
@@ -98,16 +109,27 @@ const SCategory = styled.div`
   font-weight: bold;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.orange500};
+  ${mobile(css`
+    font-size: 20px;
+    margin-bottom: 20px;
+  `)}
 `;
 
 const SAddress = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.black400};
+  ${mobile(css`
+    font-size: 22px;
+    margin-bottom: 8px;
+  `)}
 `;
 
 const SStoreName = styled.div`
   font-size: 16px;
   line-height: 23px;
+  ${mobile(css`
+    font-size: 22px;
+  `)}
 `;
 
 const RecentList = () => {
@@ -175,9 +197,7 @@ const RecentList = () => {
                       />
                       <STextInfo>
                         <SCategory>{place.category}</SCategory>
-                        <SAddress>
-                          {cutStringLength(place.addressName, 11)}
-                        </SAddress>
+                        <SAddress>{place.addressName}</SAddress>
                         <SStoreName>
                           {cutStringLength(place.storeName, 13)}
                         </SStoreName>

@@ -28,6 +28,7 @@ const SContainer = styled.div`
   margin: 5px 0px 0px 10px;
 
   @media screen and (max-width: 900px) {
+    object-fit: cover;
     border-right: 1px solid ${({ theme }) => theme.colors.black050};
     flex-direction: column;
     justify-content: center;
@@ -35,15 +36,15 @@ const SContainer = styled.div`
     height: 315px;
     width: 450px;
     flex-wrap: wrap;
-    object-fit: contain;
   }
 
   ${mobile(css`
+    object-fit: cover;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 315px;
-    // width: 220px;
+    width: 100%;
     flex-wrap: wrap;
     margin: 5px 0px 0px 0px;
   `)}
@@ -68,6 +69,7 @@ const SIcon = styled.img`
 const STitle = styled.div`
   font-size: 16px;
   margin-bottom: 6px;
+  display-flex;
 
   @media screen and (max-width: 900px) {
     flex-direction: column;
@@ -77,7 +79,9 @@ const STitle = styled.div`
   }
 
   ${mobile(css`
-    width: 90%;
+    font-size: 16px;
+    width: 80%;
+    line-height: 25px;
     justify-content: center;
     align-items: center;
     margin-top: 10px;

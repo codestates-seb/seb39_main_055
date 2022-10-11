@@ -14,7 +14,7 @@ import {
 } from "./style";
 
 const Pick = () => {
-  const [crrImg, setCrrImg] = useState(data[1]); // 바뀔 사진의데이터
+  const [crrImg, setCrrImg] = useState(data[1]);
 
   const handleOnChange = (e: any) => {
     setCrrImg(e.target.value);
@@ -45,13 +45,17 @@ const Pick = () => {
           />
         </SSideContents>
         <SUserPickContents>
-          {/* {crrImg} */}
-          <img alt="" src={data[imgIdx].image} onChange={handleOnChange} />
+          <img
+            alt=""
+            src={data[imgIdx].image}
+            onChange={handleOnChange}
+            onClick={() => {
+              window.open(`${data[imgIdx].link}`, "_blank");
+            }}
+          />
           <SContentsInfo>
-            <a onChange={handleOnChange} href={data[imgIdx].link}>
-              {data[imgIdx].textLine1}
-            </a>
-            <SecondTextLine onChange={handleOnChange} href={data[imgIdx].link}>
+            <div onChange={handleOnChange}>{data[imgIdx].textLine1}</div>
+            <SecondTextLine onChange={handleOnChange}>
               {data[imgIdx].textLine2}
               <CgChevronRight size={40} />
             </SecondTextLine>

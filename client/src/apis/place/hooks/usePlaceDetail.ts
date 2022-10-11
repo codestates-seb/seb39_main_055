@@ -3,7 +3,7 @@ import { useInfiniteQuery, useQuery } from "react-query";
 import { getPlaceDetail } from "../place";
 import { getInfiniteReview } from "../review";
 
-export const usePlaceDetail = (storeId: string) => {
+export const usePlaceDetail = (storeId: string, sortOption: string) => {
   const {
     data: detailData,
     isLoading,
@@ -16,8 +16,8 @@ export const usePlaceDetail = (storeId: string) => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["review", storeId],
-    ({ pageParam = 1 }) => getInfiniteReview(storeId, pageParam),
+    ["review", storeId, sortOption],
+    ({ pageParam = 1 }) => getInfiniteReview(storeId, sortOption, pageParam),
     {
       getNextPageParam: (lastPage) => {
         const { totalPages } = lastPage.data.reviews.pageInfo;

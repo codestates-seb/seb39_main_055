@@ -15,6 +15,7 @@ const Container = styled.div`
     width: 100%;
     height: auto;
     overflow-x: hidden;
+    margin-left: 6px;
   `)}
 `;
 

@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { resignUser } from "../../../apis/user/resignup";
 import logo from "../../../assets/images/logo/logo.png";
-import { logOutUser, useAppDispatch, useAppSelector } from "../../../redux";
+import { logOutUser, useAppDispatch } from "../../../redux";
 import { ButtonOrange, ButtonWhite } from "../../Form";
-import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import useModal from "../useModal";
 
 export const SContainer = styled.div`
@@ -45,14 +44,6 @@ export const SContainer = styled.div`
     font-size: 24px;
     cursor: pointer;
   }
-`;
-
-const SLoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 33%;
 `;
 
 const ResignModal = () => {

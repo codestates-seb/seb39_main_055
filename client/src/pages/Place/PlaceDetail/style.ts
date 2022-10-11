@@ -53,8 +53,25 @@ export const SStrong = styled.strong`
 export const SReviewListContainer = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 40px;
   margin-top: 100px;
+
+  & > li {
+    margin-bottom: 40px;
+  }
+`;
+
+export const SSortButtonContainer = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  margin-bottom: 15px;
+`;
+
+export const SSortButton = styled.button<{ isClicked: boolean }>`
+  color: ${({ isClicked }) => (isClicked ? "ffffff" : "#707070")};
+  background-color: inherit;
+  border: none;
+  transition: all 0.4s;
 `;
 
 export const SButtonContainer = styled.div`
