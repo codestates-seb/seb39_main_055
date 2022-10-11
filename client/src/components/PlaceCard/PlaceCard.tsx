@@ -35,6 +35,16 @@ export interface PlaceCardProps {
   isLiked: boolean;
 }
 
+async function invalidateImageCache(image: string, storeId: string) {
+  const { data } = await axios.get<Blob>(image, {
+    responseType: "blob",
+    headers: { "Cache-Control": "no-cache" },
+  });
+
+  queryClient.invalidateQueries(["place", "mainPicture", storeId]);
+  return data;
+}
+
 const PlaceCard = memo(
   ({
     image,
@@ -48,51 +58,33 @@ const PlaceCard = memo(
     isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
-    const { data: src, refetch } = useQuery(
+    const { data: src } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        let imageURL: string | undefined;
+        let imageBlob: Blob;
 
         try {
-          const { data } = await axios.get(`${image}`, {
+          const { data } = await axios.get<Blob>(image, {
             responseType: "blob",
           });
 
-          imageURL = URL.createObjectURL(data);
+          imageBlob = data;
         } catch (err) {
-          console.log(err);
-          if (!(err instanceof AxiosError)) return;
-          const { response } = err;
+          const data = await invalidateImageCache(image, storeId);
 
+          imageBlob = data;
           // AWS CORS 에러 발생 시: HTTP 응답 코드(status)가 0
           /* if (response?.status === 0) {} */
         }
-        console.log(
-          queryClient.getQueryData(["place", "mainPicture", storeId])
-        );
-        return imageURL;
+
+        return URL.createObjectURL(imageBlob);
       },
       {
-        onSuccess: (data) => {
-          // CORS 에러 발생 시 onSuccess 콜백 실행 but. data === undefined
-        },
         suspense: true,
         retry: 1,
         staleTime: 1 * 60 * 60 * 1000,
       }
     );
-
-    useEffect(() => {
-      if (src) return;
-      (async () => {
-        await axios.get(`${image}`, {
-          responseType: "blob",
-          headers: { "Cache-Control": "no-cache" },
-        });
-        console.log("캐시 무효화");
-        queryClient.invalidateQueries(["place", "mainPicture", storeId]);
-      })();
-    }, [src]);
 
     return (
       <SList>
