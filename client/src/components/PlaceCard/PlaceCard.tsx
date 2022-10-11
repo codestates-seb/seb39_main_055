@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
-import axios, { AxiosError } from "axios";
-import { memo, useEffect } from "react";
+import axios from "axios";
+import { memo } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 import { queryClient } from "../../utils";
+import { Rectangle } from "../Skeleton/Skeleton";
 import {
   EmptyHeartSVG,
   FillHeartSVG,
@@ -38,7 +39,9 @@ export interface PlaceCardProps {
 async function invalidateImageCache(image: string, storeId: string) {
   const { data } = await axios.get<Blob>(image, {
     responseType: "blob",
-    headers: { "Cache-Control": "no-cache" },
+    headers: {
+      "Cache-Control": "no-cache",
+    },
   });
 
   queryClient.invalidateQueries(["place", "mainPicture", storeId]);
@@ -70,11 +73,10 @@ const PlaceCard = memo(
 
           imageBlob = data;
         } catch (err) {
+          // AWS CORS 에러 발생 시, 이미지 캐시 무효화
           const data = await invalidateImageCache(image, storeId);
 
           imageBlob = data;
-          // AWS CORS 에러 발생 시: HTTP 응답 코드(status)가 0
-          /* if (response?.status === 0) {} */
         }
 
         return URL.createObjectURL(imageBlob);
@@ -89,7 +91,11 @@ const PlaceCard = memo(
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={src} alt={alt} crossOrigin="anonymous" />
+          {src ? (
+            <SImg src={src} alt={alt} crossOrigin="anonymous" />
+          ) : (
+            <Rectangle width="100%" height="235px" />
+          )}
         </SaLink>
         {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
 
