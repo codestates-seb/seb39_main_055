@@ -132,7 +132,7 @@ public class StoreService {
             comparator = new Comparator<Store>() {
                 @Override
                 public int compare(Store o1, Store o2) {
-                    return o1.getCreatedAt().isBefore(o2.getCreatedAt())?1:-1;
+                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
                 }
             };
         }else if(sort.equals("distance")){ //거리순 정렬
@@ -144,7 +144,7 @@ public class StoreService {
 
                     double distance2 = 6371*acos(cos(toRadians(latitude))*cos(toRadians(o2.getLatitude()))
                             *cos(toRadians(o2.getLongitude()) -toRadians(longitude))+sin(toRadians(latitude))*sin(toRadians(o2.getLatitude())));
-                    return (distance1>distance2)?1:-1;
+                    return Double.compare(distance2,distance1);
                 }
             };
         }
@@ -174,7 +174,7 @@ public class StoreService {
                     }
 
 
-                    return (mean1<mean2)?1:-1;
+                    return Double.compare(mean1,mean2);
                 }
             };
 
@@ -188,13 +188,13 @@ public class StoreService {
                     Integer count2 = o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
                             collect(Collectors.toList()).size();
 
-                    return (count1<count2)?1:-1;
+                    return count1-count2;
                 }
             };
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
-        Collections.sort(stores,comparator);
+        Collections.sort(stores,comparator.reversed());
 
 
         PageRequest pageRequest =PageRequest.of(page,size);
@@ -235,7 +235,7 @@ public class StoreService {
                 ); // 그리고 가져온 List를 searchStoreResult에 합쳐줌
             }
         }
-        searchStoreResult.stream().distinct().collect(Collectors.toList()); // 키워드 검색 결과의 중복 제거
+        searchStoreResult=searchStoreResult.stream().distinct().collect(Collectors.toList()); // 키워드 검색 결과의 중복 제거
 
 
 
@@ -244,7 +244,7 @@ public class StoreService {
             comparator = new Comparator<Store>() {
                 @Override
                 public int compare(Store o1, Store o2) {
-                    return o1.getCreatedAt().isBefore(o2.getCreatedAt())?1:-1;
+                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
                 }
             };
         }else if(sort.equals("distance")){ //거리순 정렬
@@ -256,7 +256,7 @@ public class StoreService {
 
                     double distance2 = 6371*acos(cos(toRadians(latitude))*cos(toRadians(o2.getLatitude()))
                             *cos(toRadians(o2.getLongitude()) -toRadians(longitude))+sin(toRadians(latitude))*sin(toRadians(o2.getLatitude())));
-                    return (distance1>distance2)?1:-1;
+                    return Double.compare(distance2,distance1);
                 }
             };
         }else if(sort.equals("score")){//평균 별점 순
@@ -285,7 +285,7 @@ public class StoreService {
                     }
 
 
-                    return (mean1<mean2)?1:-1;
+                    return Double.compare(mean1,mean2);
                 }
             };
 
@@ -299,13 +299,13 @@ public class StoreService {
                     Integer count2 = o2.getReviews().stream().filter(review -> review.getReviewStatus()== Review.ReviewStatus.REVIEW_EXIST).
                             collect(Collectors.toList()).size();
 
-                    return (count1<count2)?1:-1;
+                    return count1-count2;
                 }
             };
         }else{ //sort의 쿼리스트링 파라미터가 올바른 값이 아님
             throw new BusinessLogicException(ExceptionCode.SORT_NOT_FOUND);
         }
-        Collections.sort(searchStoreResult,comparator);
+        Collections.sort(searchStoreResult,comparator.reversed());
 
 
         PageRequest pageRequest =PageRequest.of(page,size);
