@@ -19,8 +19,8 @@ export const SContainer = styled.div`
     justify-content: flex-start;
     gap: 10px;
   `)}
-  &
-    > h1 {
+
+  & > h1 {
     font-size: 32px;
     font-weight: bold;
     ${mobile(css`
@@ -38,7 +38,7 @@ export const SUserContainer = styled.div`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 580px) {
+  @media (max-width: 680px) {
     flex-direction: column;
     border: none;
     justify-content: center;
@@ -55,6 +55,10 @@ export const SMyInfoContainer = styled.div`
   justify-content: flex-start;
   padding-top: 82px;
 
+  @media (max-width: 680px) {
+    padding-top: 40px;
+  }
+
   ${mobile(css`
     width: 100%;
     height: auto;
@@ -62,6 +66,10 @@ export const SMyInfoContainer = styled.div`
     align-items: center;
     padding: 0px;
   `)}
+
+  @media (max-width: 393px) {
+    flex-direction: column;
+  }
 
   & > div {
     width: 100%;
@@ -83,6 +91,9 @@ export const SMyInfoContainer = styled.div`
       flex-wrap: wrap;
       gap: 10px;
     `)}
+    @media (max-width: 393px) {
+      flex-direction: column;
+    }
   }
 `;
 
@@ -100,7 +111,7 @@ export const SMyInfo = styled.div`
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 10px;
+    margin-top: 30px;
   `)}
 `;
 
@@ -114,31 +125,35 @@ export const SUserImg = styled.div`
   justify-content: center;
 
   & > img {
-    width: 100%;
-    height: auto;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
 
     ${mobile(css`
       width: 80px;
       height: 80px;
-      margin-left: 25px;
     `)}
   }
 
   & > div {
+    width: 160px;
+    justify-content: center;
+
+    @media (max-width: 393px) {
+      flex-wrap: wrap;
+    }
     ${mobile(css`
-      width: auto;
-      margin-left: 25px;
+      width: 160px;
     `)}
   }
 
   ${mobile(css`
     gap: 15px;
-    width: auto;
+    width: 50%;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    margin: 0px 0px 30px 0px;
+    margin: 0px 0px 30px 45px;
   `)}
 `;
 
@@ -155,16 +170,17 @@ export const SLinkContainer = styled.div`
     align-items: flex-end;
   }
 
+  @media (max-width: 393px) {
+    flex-wrap: wrap;
+  }
+
   ${mobile(css`
-    padding-bottom: 30px;
     flex-direction: column;
     width: auto;
     gap: 10px;
     align-items: flex-start;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-left: 10px;
-    margin-top: 30px;
+    margin: 23px 10px 30px 0px;
   `)}
 `;
 
@@ -182,7 +198,6 @@ export const SMyContents = styled.div`
     width: 100%;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
   `)}
 `;
 
@@ -192,7 +207,7 @@ export const SBorderLine = styled.span`
   border-left: 1px solid ${({ theme }) => theme.colors.black050};
   height: 1230px;
 
-  @media (max-width: 580px) {
+  @media (max-width: 680px) {
     display: none;
   }
 `;
@@ -218,6 +233,7 @@ export const SEditUserInfo = styled.div`
     justify-content: center;
     flex-wrap: wrap;
   `)}
+  }
 `;
 
 export const SRegistCompany = styled.div`

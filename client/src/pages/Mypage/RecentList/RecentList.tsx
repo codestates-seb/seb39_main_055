@@ -7,7 +7,7 @@ import styled, { css } from "styled-components";
 import { mobile } from "../../../assets";
 import love from "../../../assets/icons/love.png";
 import defaultImg from "../../../assets/images/mypage/defaultImg.jpg";
-import NoImage from "./NoImage";
+import NoImage from "../NoImage";
 
 const SContainer = styled.div`
   font-family: "ONE-Mobile-Regular";
