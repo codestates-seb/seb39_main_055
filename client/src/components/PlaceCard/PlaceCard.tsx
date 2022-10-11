@@ -48,7 +48,7 @@ const PlaceCard = memo(
     isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
-    const { data: src } = useQuery(
+    const { data: src, refetch } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
         let imageURL;
@@ -76,6 +76,9 @@ const PlaceCard = memo(
       },
       {
         onSuccess: (data) => {
+          if (!data) {
+            refetch();
+          }
           console.log("onSuccess", data);
           // CORS 에러 발생 시 onSuccess 콜백 실행 but. data === undefined
         },
