@@ -46,13 +46,13 @@
 
 |회원가입|로그인 (일반,소셜)|사업자등록|
 |------|---|---|
-|<img src="https://user-images.githubusercontent.com/95295766/188601034-738f28e0-1f5e-43ef-ab7a-e3d12cfad2cb.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188601297-158c66a0-5bd9-4809-ac11-a19eb907ba05.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188602243-d2c9cabd-3852-4542-b4fd-a75969586844.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/195015933-b0fe5a40-d16c-4c7d-9eab-6a59e0ec675e.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015855-29c2d460-a087-4c93-b5ac-2549bc5f1acc.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195017099-549f052c-ae0f-4fee-a81b-92f57e466820.png" width="300px" height="300px">|
 |펫플레이스 (리스트)|펫플레이스 (검색)|펫플레이스 (상세)|
-|<img src="https://user-images.githubusercontent.com/95295766/195014700-da17328d-2e66-416d-bfe2-c6e1cba57a48.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015380-0574ba16-56f6-4cff-917c-dd9e9a2c0336.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015066-a8522d87-2633-4bdf-8277-ebe1d367bf41.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/195014700-da17328d-2e66-416d-bfe2-c6e1cba57a48.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015231-37bf2515-1b4c-4c95-b048-d5547825222e.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015380-0574ba16-56f6-4cff-917c-dd9e9a2c0336.png" width="300px" height="300px">|
 |펫플레이스 (등록, 수정)|댕댕이숲 (리스트)|댕댕이숲 (상세)|
-|<img src="https://user-images.githubusercontent.com/95295766/188603851-f3007df6-9d8d-4883-9051-970411c01183.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188606814-ad1d4144-6f5d-444d-b3bf-0d4a46f93f30.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188606954-72997a0e-b16b-4efd-b4cd-4dcf790d4cf7.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/195016408-366f6f98-8af7-4cce-8d7d-0e6ea3966594.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016076-b100d496-510b-4beb-aed5-7f8dd1c0a207.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016313-e14f37d5-ca90-40d2-b13e-9857095b54d1.png" width="300px" height="300px">|
 |댕댕이숲 (등록, 수정)|마이페이지|
-|<img src="https://user-images.githubusercontent.com/95295766/188604450-b684f868-aa98-42f2-8a37-d1ef7ee15120.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/188604624-00f133f1-834e-4a2b-a95f-5b396ffa1bd6.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/188604450-b684f868-aa98-42f2-8a37-d1ef7ee15120.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015691-d849ad08-e707-47d5-a354-ea3b96887159.png" width="300px" height="300px">|
 
 
 <br />
