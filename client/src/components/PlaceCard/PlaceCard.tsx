@@ -86,7 +86,8 @@ const PlaceCard = memo(
 
     useEffect(() => {
       if (!src) {
-        refetch();
+        const { data } = refetch();
+        console.log(data);
       }
     }, [src]);
 
