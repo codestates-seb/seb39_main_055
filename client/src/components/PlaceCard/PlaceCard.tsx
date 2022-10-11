@@ -47,26 +47,29 @@ const PlaceCard = memo(
     isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
-    const { data: src, error } = useQuery(
+    const { data: src } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        const { data } = await axios.get(`${image}`, {
-          responseType: "blob",
-        });
+        let imageURL;
 
-        console.log(data);
+        try {
+          const { data } = await axios.get(`${image}`, {
+            responseType: "blob",
+          });
 
-        const imageURL = URL.createObjectURL(data);
+          imageURL = URL.createObjectURL(data);
+        } catch (err) {
+          console.log(err);
+        }
 
         return imageURL;
       },
       {
+        onSuccess: (data) => {
+          console.log("onSuccess", data);
+        },
         onError: (err) => {
-          if (!(err instanceof AxiosError)) {
-            console.log("AxiosError 인스턴스가 아님", err);
-            return;
-          }
-          console.log(err.response?.status);
+          if (!(err instanceof AxiosError)) return;
           // 캐시된 이미지 CORS 오류 발생 시 캐시 무효화
           queryClient.invalidateQueries(["place", "mainPicture", storeId]);
         },
@@ -75,7 +78,7 @@ const PlaceCard = memo(
         staleTime: 1 * 60 * 60 * 1000,
       }
     );
-    console.log("src", src, "Error", error);
+
     return (
       <SList>
         <SaLink to={storeLink}>
