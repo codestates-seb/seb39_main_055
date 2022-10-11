@@ -73,7 +73,7 @@ const PreviewImages = ({
 
       if (!selectedImages?.length) return;
       // offscreenCanvas 미지원 브라우저: State 분할 업데이트
-      if (isOffscreenCanvasAvailable(canvas.current)) {
+      if (!isOffscreenCanvasAvailable(canvas.current)) {
         const imgInfos = await extractImageInfos([...selectedImages]);
 
         for await (const imagePacking of imgInfos) {
