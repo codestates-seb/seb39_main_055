@@ -123,6 +123,7 @@ export const SUserImg = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 
   & > img {
     width: 160px;
@@ -139,11 +140,17 @@ export const SUserImg = styled.div`
     width: 160px;
     justify-content: center;
 
+    @media (max-width: 680px) {
+      text-align: center;
+    }
+
     @media (max-width: 393px) {
       flex-wrap: wrap;
+      text-align: left;
     }
     ${mobile(css`
       width: 160px;
+      text-align: left;
     `)}
   }
 
@@ -168,6 +175,12 @@ export const SLinkContainer = styled.div`
 
   & > svg {
     align-items: flex-end;
+  }
+
+  @media (max-width: 680px) {
+    flex-direction: row;
+    justify-content: center;
+    width: 480px;
   }
 
   @media (max-width: 393px) {
@@ -224,6 +237,12 @@ export const SEditUserInfo = styled.div`
     color: ${({ theme }) => theme.colors.black200};
   }
 
+  @media (max-width: 680px) {
+    flex-direction: row;
+    justify-content: center;
+    width: 33%;
+  }
+
   ${mobile(css`
     font-size: 20px;
     font-weight: 200;
@@ -248,6 +267,12 @@ export const SRegistCompany = styled.div`
     color: ${({ theme }) => theme.colors.black200};
   }
 
+  @media (max-width: 680px) {
+    flex-direction: row;
+    justify-content: center;
+    width: 20%;
+  }
+
   ${mobile(css`
     font-size: 20px;
     font-weight: 200;
@@ -269,6 +294,12 @@ export const SResignation = styled.div`
 
   :hover {
     color: ${({ theme }) => theme.colors.black200};
+  }
+
+  @media (max-width: 680px) {
+    flex-direction: row;
+    justify-content: center;
+    width: 20%;
   }
 
   ${mobile(css`
