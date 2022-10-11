@@ -29,6 +29,7 @@ self.addEventListener("message", async ({ data }: MessageEvent<WorkerData>) => {
       .map(async (img) => {
         const size = img.size / (1000 * 1000);
         const extension = img.type.split("/")[1]; // createImageBitmap() 미지원 포맷 - SVG, GIF
+
         if (incompatible.includes(extension) || size < 1) return img;
 
         const image = await createImageBitmap(img);
@@ -41,6 +42,7 @@ self.addEventListener("message", async ({ data }: MessageEvent<WorkerData>) => {
         canvas.width = W;
         canvas.height = H;
         ctx.drawImage(image, 0, 0, W, H);
+
         return canvas.convertToBlob({ quality: 0.8 });
       })
   );

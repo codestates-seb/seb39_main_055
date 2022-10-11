@@ -1,9 +1,10 @@
 /* eslint-disable react/display-name */
-import axios from "axios";
-import { memo, useRef } from "react";
+import axios, { AxiosError } from "axios";
+import { memo } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
+import { queryClient } from "../../utils";
 import {
   EmptyHeartSVG,
   FillHeartSVG,
@@ -21,7 +22,7 @@ import {
   STopBox,
 } from "./style";
 
-interface PlaceCardProps {
+export interface PlaceCardProps {
   image: string;
   alt: string;
   location: string;
@@ -46,11 +47,10 @@ const PlaceCard = memo(
     isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
-    const imageRef = useRef<HTMLImageElement>(null);
-    const { data } = useQuery(
+    const { data: src } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        const { data } = await axios.get(image, {
+        const { data } = await axios.get(`${image}`, {
           responseType: "blob",
         });
 
@@ -59,15 +59,22 @@ const PlaceCard = memo(
         return imageURL;
       },
       {
+        onError: (err) => {
+          if (!(err instanceof AxiosError)) return;
+          console.log(err.response?.status);
+          // 캐시된 이미지 CORS 오류 발생 시 캐시 무효화
+          queryClient.invalidateQueries(["place", "mainPicture", storeId]);
+        },
         suspense: true,
-        staleTime: 1 * 60 * 60 * 1000, // 1시간
+        retry: 1,
+        staleTime: 1 * 60 * 60 * 1000,
       }
     );
 
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={data} alt={alt} ref={imageRef} />
+          <SImg src={src} alt={alt} crossOrigin="anonymous" />
         </SaLink>
         {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
 

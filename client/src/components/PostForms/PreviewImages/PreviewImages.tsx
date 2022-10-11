@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-return-assign */
 /* eslint-disable react/no-array-index-key */
@@ -14,7 +15,7 @@ import {
 import { toast } from "react-toastify";
 
 import { ThreadImages } from "../../../types";
-import { throttle } from "../../../utils";
+import { extractImageInfos, throttle } from "../../../utils";
 import { InteractiveImage, useModal } from "../..";
 import DefaultImgSelect from "../DefaultImgSelect/DefaultImgSelect";
 import {
@@ -22,6 +23,7 @@ import {
   SaButton,
   SaLabel,
   SbBox,
+  SCanvas,
   SError,
   SFileInput,
   SImageAside,
@@ -47,6 +49,10 @@ interface WorkerMessage {
 
 const MAX_IMAGES = 15;
 
+function isOffscreenCanvasAvailable(canvas: any) {
+  return !!canvas?.transferControlToOffscreen;
+}
+
 const PreviewImages = ({
   images,
   setImages,
@@ -56,6 +62,7 @@ const PreviewImages = ({
   setIsError,
 }: PostImagesProps) => {
   const workers = useRef<Worker[]>([]);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const { openModal, closeModal } = useModal();
 
   const handleSelectImages = useCallback(
@@ -65,6 +72,18 @@ const PreviewImages = ({
       const L = Math.ceil((selectedImages || []).length / workerInst);
 
       if (!selectedImages?.length) return;
+      // offscreenCanvas 미지원 브라우저: State 분할 업데이트
+      if (isOffscreenCanvasAvailable(canvas.current)) {
+        const imgInfos = await extractImageInfos([...selectedImages]);
+
+        for await (const imagePacking of imgInfos) {
+          setImages((prev) => [...prev, imagePacking]);
+
+          await new Promise((resolve) => {
+            setTimeout(resolve, 0);
+          });
+        }
+      }
 
       workers.current.forEach((wk, i) => {
         const startI = L * i + i;
@@ -178,6 +197,7 @@ const PreviewImages = ({
           </SList>
         ))}
       </SThumbnailUList>
+      <SCanvas ref={canvas} />
     </SImageAside>
   );
 };
