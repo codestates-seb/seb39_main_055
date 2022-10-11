@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
 import axios, { AxiosError } from "axios";
 import { memo } from "react";
@@ -60,6 +61,14 @@ const PlaceCard = memo(
           imageURL = URL.createObjectURL(data);
         } catch (err) {
           console.log(err);
+          if (!(err instanceof AxiosError)) return;
+          const { response } = err;
+
+          // AWS CORS 에러 발생 시: HTTP 응답 코드(status)가 0
+          if (response?.status === 0) {
+            // 캐시된 이미지 CORS 에러 발생 시 캐시 무효화
+            queryClient.invalidateQueries(["place", "mainPicture", storeId]);
+          }
         }
 
         return imageURL;
@@ -67,11 +76,7 @@ const PlaceCard = memo(
       {
         onSuccess: (data) => {
           console.log("onSuccess", data);
-        },
-        onError: (err) => {
-          if (!(err instanceof AxiosError)) return;
-          // 캐시된 이미지 CORS 오류 발생 시 캐시 무효화
-          queryClient.invalidateQueries(["place", "mainPicture", storeId]);
+          // CORS 에러 발생 시 onSuccess 콜백 실행 but. data === undefined
         },
         suspense: true,
         retry: 1,
