@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
 import axios, { AxiosError } from "axios";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
@@ -75,11 +75,7 @@ const PlaceCard = memo(
         return imageURL;
       },
       {
-        onSuccess: async (data) => {
-          if (data) return;
-          const { data: refreshed } = await refetch();
-
-          console.log("onSuccess", refreshed);
+        onSuccess: (data) => {
           // CORS 에러 발생 시 onSuccess 콜백 실행 but. data === undefined
         },
         suspense: true,
@@ -87,6 +83,12 @@ const PlaceCard = memo(
         staleTime: 1 * 60 * 60 * 1000,
       }
     );
+
+    useEffect(() => {
+      if (!src) {
+        refetch();
+      }
+    }, [src]);
 
     return (
       <SList>
