@@ -67,6 +67,7 @@ const PlaceCard = memo(
           // AWS CORS 에러 발생 시: HTTP 응답 코드(status)가 0
           if (response?.status === 0) {
             // 캐시된 이미지 CORS 에러 발생 시 캐시 무효화
+            console.log("캐시 무효화");
             queryClient.invalidateQueries(["place", "mainPicture", storeId]);
           }
         }
