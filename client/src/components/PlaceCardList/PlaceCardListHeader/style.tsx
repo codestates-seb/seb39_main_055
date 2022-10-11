@@ -9,7 +9,6 @@ export const SHeader = styled.header`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  row-gap: 20px;
   margin-bottom: 40px;
   padding-top: 300px;
 
@@ -39,6 +38,7 @@ export const SWarningBox = styled.div<{ showWarning: boolean }>`
     showWarning &&
     css`
       height: 50px;
+      margin: 20px 0px;
     `}
 
   @media screen and (max-width: ${WARNING_BREAKPOINT}) {
