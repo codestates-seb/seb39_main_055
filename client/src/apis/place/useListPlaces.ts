@@ -42,9 +42,7 @@ interface SearchResponse {
   pageInfo: PageInfo;
 }
 
-type TypeOfKeys<T> = {
-  [P in keyof T]: T[P];
-}[keyof T];
+type TypeOfKeys<T> = T[keyof T];
 
 export type SortTypes = TypeOfKeys<SortOptions>;
 

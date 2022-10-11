@@ -1,9 +1,12 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/display-name */
 import axios from "axios";
-import { memo, useRef } from "react";
+import { memo } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
+import { queryClient } from "../../utils";
+import { Rectangle } from "../Skeleton/Skeleton";
 import {
   EmptyHeartSVG,
   FillHeartSVG,
@@ -21,7 +24,7 @@ import {
   STopBox,
 } from "./style";
 
-interface PlaceCardProps {
+export interface PlaceCardProps {
   image: string;
   alt: string;
   location: string;
@@ -31,6 +34,18 @@ interface PlaceCardProps {
   reviews: number;
   storeId: string;
   isLiked: boolean;
+}
+
+async function invalidateImageCache(image: string, storeId: string) {
+  const { data } = await axios.get<Blob>(image, {
+    responseType: "blob",
+    headers: {
+      "Cache-Control": "no-cache",
+    },
+  });
+
+  queryClient.invalidateQueries(["place", "mainPicture", storeId]);
+  return data;
 }
 
 const PlaceCard = memo(
@@ -46,28 +61,41 @@ const PlaceCard = memo(
     isLiked,
   }: PlaceCardProps) => {
     const storeLink = `/place/${storeId}`;
-    const imageRef = useRef<HTMLImageElement>(null);
-    const { data } = useQuery(
+    const { data: src } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        const { data } = await axios.get(image, {
-          responseType: "blob",
-        });
+        let imageBlob: Blob;
 
-        const imageURL = URL.createObjectURL(data);
+        try {
+          const { data } = await axios.get<Blob>(image, {
+            responseType: "blob",
+          });
 
-        return imageURL;
+          imageBlob = data;
+        } catch (err) {
+          // AWS CORS 에러 발생 시, 이미지 캐시 무효화
+          const data = await invalidateImageCache(image, storeId);
+
+          imageBlob = data;
+        }
+
+        return URL.createObjectURL(imageBlob);
       },
       {
         suspense: true,
-        staleTime: 1 * 60 * 60 * 1000, // 1시간
+        retry: 1,
+        staleTime: 1 * 60 * 60 * 1000,
       }
     );
 
     return (
       <SList>
         <SaLink to={storeLink}>
-          <SImg src={data} alt={alt} ref={imageRef} />
+          {src ? (
+            <SImg src={src} alt={alt} crossOrigin="anonymous" />
+          ) : (
+            <Rectangle width="100%" height="235px" />
+          )}
         </SaLink>
         {isLiked ? <FillHeartSVG /> : <EmptyHeartSVG />}
 
