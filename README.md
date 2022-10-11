@@ -104,7 +104,6 @@
 ## ⚡️ 팀 문서
 
 - [🚀 기능 리스트](https://congruous-mallow-6ce.notion.site/82739e6c86b94f4f9a92b8e4eac75621?v=2cde9141f87d46148c3f93269cb1cfb4)
-- [🚀 기술 스택](https://github.com/codestates-seb/seb39_main_055/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
 - [🚀 API](https://docs.google.com/spreadsheets/d/1l6ei2woahjQa9vhu7PVF4UweVAJmt1R6bvugwV5ATOM/edit#gid=0)
 
 <br />
