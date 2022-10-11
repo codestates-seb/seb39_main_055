@@ -53,6 +53,8 @@ const PlaceCard = memo(
         const { data } = await axios.get(`${image}`, {
           responseType: "blob",
         });
+        
+        console.log(data);
 
         const imageURL = URL.createObjectURL(data);
 
