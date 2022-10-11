@@ -51,7 +51,7 @@ const PlaceCard = memo(
     const { data: src, refetch } = useQuery(
       ["place", "mainPicture", storeId],
       async () => {
-        let imageURL;
+        let imageURL: string | undefined;
 
         try {
           const { data } = await axios.get(`${image}`, {
@@ -65,13 +65,11 @@ const PlaceCard = memo(
           const { response } = err;
 
           // AWS CORS 에러 발생 시: HTTP 응답 코드(status)가 0
-          if (response?.status === 0) {
-            // 캐시된 이미지 CORS 에러 발생 시 캐시 무효화
-            console.log("캐시 무효화");
-            queryClient.invalidateQueries(["place", "mainPicture", storeId]);
-          }
+          /* if (response?.status === 0) {} */
         }
-
+        console.log(
+          queryClient.getQueryData(["place", "mainPicture", storeId])
+        );
         return imageURL;
       },
       {
@@ -87,10 +85,12 @@ const PlaceCard = memo(
     useEffect(() => {
       if (src) return;
       (async () => {
-        const { data } = await axios.get(`${image}`, {
+        await axios.get(`${image}`, {
           responseType: "blob",
+          headers: { "Cache-Control": "no-cache" },
         });
-        console.log(data);
+        console.log("캐시 무효화");
+        queryClient.invalidateQueries(["place", "mainPicture", storeId]);
       })();
     }, [src]);
 
