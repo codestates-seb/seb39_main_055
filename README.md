@@ -52,9 +52,9 @@
 |펫플레이스 (리스트)|펫플레이스 (검색)|펫플레이스 (상세)|
 |<img src="https://user-images.githubusercontent.com/95295766/195014700-da17328d-2e66-416d-bfe2-c6e1cba57a48.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015231-37bf2515-1b4c-4c95-b048-d5547825222e.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195015380-0574ba16-56f6-4cff-917c-dd9e9a2c0336.png" width="300px" height="300px">|
 |펫플레이스 (등록, 수정)|댕댕이숲 (리스트)|댕댕이숲 (상세)|
-|<img src="https://user-images.githubusercontent.com/95295766/195016408-366f6f98-8af7-4cce-8d7d-0e6ea3966594.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016076-b100d496-510b-4beb-aed5-7f8dd1c0a207.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016313-e14f37d5-ca90-40d2-b13e-9857095b54d1.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/195306597-3c82b72a-ab90-4ee1-945a-10749d3b7d79.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016076-b100d496-510b-4beb-aed5-7f8dd1c0a207.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/95295766/195016313-e14f37d5-ca90-40d2-b13e-9857095b54d1.png" width="300px" height="300px">|
 |댕댕이숲 (등록, 수정)|마이페이지|
-|<img src="https://user-images.githubusercontent.com/95295766/188604450-b684f868-aa98-42f2-8a37-d1ef7ee15120.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/104320234/195133213-9b76351a-49a6-423b-a895-bcd8f32fc20d.png" width="300px" height="300px">|
+|<img src="https://user-images.githubusercontent.com/95295766/195016408-366f6f98-8af7-4cce-8d7d-0e6ea3966594.png" width="300px" height="300px">|<img src="https://user-images.githubusercontent.com/104320234/195133213-9b76351a-49a6-423b-a895-bcd8f32fc20d.png" width="300px" height="300px">|
 
 
 <br />
