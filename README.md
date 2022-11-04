@@ -99,17 +99,6 @@
   <img src="https://user-images.githubusercontent.com/101033614/191642062-849e6c1a-62fc-4d34-9199-7b9234101316.png" width=15%>
 </p>
 
-### Architecture
-
-<p>
-  <img src="https://user-images.githubusercontent.com/101033614/194441092-7f64c60b-9432-4b8b-a4e4-3bed9759e50b.png" width=90%>
-</p>
-
-### DB ERD
-
-<p>
-  <img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/1a71387e-e78e-4669-a59a-731799c8fdfe/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221104%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221104T091646Z&X-Amz-Expires=86400&X-Amz-Signature=26478e7f7d8404c12c831046f50b87ba6c2d9fcff32b67e311d151dc335b6cf7&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject" width=90%>
-</p>
 
 <br />
 
