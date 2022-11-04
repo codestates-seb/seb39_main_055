@@ -92,6 +92,12 @@
   <img src="https://user-images.githubusercontent.com/101033614/194441092-7f64c60b-9432-4b8b-a4e4-3bed9759e50b.png" width=90%>
 </p>
 
+### DB ERD
+
+<p>
+  <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1a71387e-e78e-4669-a59a-731799c8fdfe/Untitled.png" width=90%>
+</p>
+
 <br />
 
 
