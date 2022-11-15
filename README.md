@@ -59,7 +59,7 @@
 ## ⚒️ Architecture
 
 <p>
-  <img src="https://user-images.githubusercontent.com/101033614/194441092-7f64c60b-9432-4b8b-a4e4-3bed9759e50b.png" width=90%>
+  <img src="https://user-images.githubusercontent.com/61177857/202000333-7d43aa9e-d2ec-4bc4-91e2-536ffc023341.png" width=90%>
 </p>
 
 ## 📜 DB ERD
