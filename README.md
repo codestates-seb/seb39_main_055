@@ -113,7 +113,7 @@
 
 ## ⚡️ 팀 문서
 
-- [🚀 기능 리스트](https://congruous-mallow-6ce.notion.site/82739e6c86b94f4f9a92b8e4eac75621?v=2cde9141f87d46148c3f93269cb1cfb4)
+- [🚀 사용자 요구사항 정의서](https://www.notion.so/8fefd7bcab474f19aeb6dfc62335bb4f)
 - [🚀 API](https://docs.google.com/spreadsheets/d/1l6ei2woahjQa9vhu7PVF4UweVAJmt1R6bvugwV5ATOM/edit#gid=0)
 
 <br />
