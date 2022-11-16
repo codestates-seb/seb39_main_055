@@ -15,28 +15,21 @@ public class ErrorResponse {
     private int status;
     private String message;
     private List<FieldError> fieldErrors;
-    private List<ConstraintViolationError> violationErrors;
 
     private ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    private ErrorResponse(final List<FieldError> fieldErrors,
-                          final List<ConstraintViolationError> violationErrors) {
+    private ErrorResponse(final List<FieldError> fieldErrors) {
         this.fieldErrors = fieldErrors;
-        this.violationErrors = violationErrors;
     }
 
-    public static ErrorResponse of(BindingResult bindingResult) {
-        return new ErrorResponse(FieldError.of(bindingResult), null);
+    public static ErrorResponse of(BindingResult bindingResult) { //DTO 에러
+        return new ErrorResponse(FieldError.of(bindingResult));
     }
 
-    public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
-        return new ErrorResponse(null, ConstraintViolationError.of(violations));
-    }
-
-    public static ErrorResponse of(ExceptionCode exceptionCode) {
+    public static ErrorResponse of(ExceptionCode exceptionCode) { //비지니스 에러
         return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
     }
 
@@ -73,27 +66,4 @@ public class ErrorResponse {
         }
     }
 
-    @Getter
-    public static class ConstraintViolationError {
-        private String propertyPath;
-        private Object rejectedValue;
-        private String reason;
-
-        private ConstraintViolationError(String propertyPath, Object rejectedValue,
-                                         String reason) {
-            this.propertyPath = propertyPath;
-            this.rejectedValue = rejectedValue;
-            this.reason = reason;
-        }
-
-        public static List<ConstraintViolationError> of(
-                Set<ConstraintViolation<?>> constraintViolations) {
-            return constraintViolations.stream()
-                    .map(constraintViolation -> new ConstraintViolationError(
-                            constraintViolation.getPropertyPath().toString(),
-                            constraintViolation.getInvalidValue().toString(),
-                            constraintViolation.getMessage()
-                    )).collect(Collectors.toList());
-        }
-    }
 }
