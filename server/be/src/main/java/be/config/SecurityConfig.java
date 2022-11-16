@@ -66,7 +66,7 @@ package be.config;
 
 
 import be.config.auth.filter.JwtAuthenticationFilter;
-import be.config.auth.filter.JwtExceptionFilter;
+//import be.config.auth.filter.JwtExceptionFilter;
 import be.config.auth.handler.*;
 import be.utils.jwt.JwtTokenizer;
 import be.config.auth.filter.JwtVerificationFilter;
@@ -114,11 +114,6 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()   // (4) JSON 포맷으로 Username과 Password를 전송하는 방식을 사용할 것이므로 (4)와 같이 폼 로그인 방식을 비활성화
                 .httpBasic().disable()   // (5)HTTP Basic 인증은 request를 전송할 때 마다 Username/Password 정보를 HTTP Header에 실어서 인증을 하는 방식
-                // 우리 코스에서는 사용하지 않으므로 비활성화
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
-//                .accessDeniedHandler(new MemberAccessDeniedHandler())
-//                .and()
                 .apply(new CustomFilterConfigurer()) //(1)apply() 메서드에 Custom Configurer를 추가해 커스터마이징(customizations)된 Configuration을 추가할 수 있습니다.
                 .and()
                 .authorizeRequests(authroize -> authroize
@@ -162,16 +157,16 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);  // (2-3)getSharedObject(AuthenticationManager.class)를 통해 AuthenticationManager의 객체를 얻을 수 있습니다.
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, userService,jwtTokenizer,userRepository);  // (2-4)JwtAuthenticationFilter를 생성하면서 JwtAuthenticationFilter에서 사용되는 AuthenticationManager와 userService,JwtTokenizer를 DI 해줍니다.
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+//            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+//            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, userRepository);  // (2) JwtVerificationFilter의 인스턴스를 생성하면서 JwtVerificationFilter에서 사용되는 객체들을 생성자로 DI
 
-            JwtExceptionFilter jwtExceptionFilter = new JwtExceptionFilter();
+//            JwtExceptionFilter jwtExceptionFilter = new JwtExceptionFilter();
 
             builder.addFilter(jwtAuthenticationFilter) // (2-6)addFilter() 메서드를 통해 JwtAuthenticationFilter를 Spring Security Filter Chain에 추가
-                    .addFilterAfter(jwtVerificationFilter,JwtAuthenticationFilter.class) //(3) JwtVerificationFilter가 JwtAuthenticationFilter가 수행된 바로 다음에 동작하도록 JwtAuthenticationFilter 뒤에 추가
-                    .addFilterBefore(jwtExceptionFilter,JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter,JwtAuthenticationFilter.class); //(3) JwtVerificationFilter가 JwtAuthenticationFilter가 수행된 바로 다음에 동작하도록 JwtAuthenticationFilter 뒤에 추가
+//                    .addFilterBefore(jwtExceptionFilter,JwtAuthenticationFilter.class);
         }
     }
 }
